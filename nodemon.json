@@ -1,0 +1,11 @@
+{
+    "verbose": false,
+    "ignore": [
+        "uploads/*",
+        "node_modules/*",
+        ".github/*",
+        "logs/*",
+        "backups/*"
+    ],
+    "delay": 500
+}
