@@ -55,10 +55,8 @@ if (config.app.views) {
 }
 
 loaders.load({ app, rootDir: '/components', urlPrefix: '/api/', fileSuffix: '.controller.js' }) //load api
-loaders.load({ app, rootDir: '/components/index', urlPrefix: '/', fileSuffix: '.controller.js',hasSubDir:false }) //load "/"
-loaders.load({ app, rootDir: '/core/auth', urlPrefix: '/api/', fileSuffix: '.controller.js',hasSubDir:false }) //load auth
-
-
+loaders.load({ app, rootDir: '/components/index', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load "/"
+loaders.load({ app, rootDir: '/core/auth', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
 
 //when no api route matched
 app.use((req, res, next) => {

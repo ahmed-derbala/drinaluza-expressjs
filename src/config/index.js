@@ -1,7 +1,8 @@
 const fs = require('fs')
 
 //loading envirment config file if exists
-let config, configFileName = "config/default.config.js"
+let config,
+	configFileName = 'config/default.config.js'
 if (process.env.NODE_ENV) {
 	const envFilePath = `${process.cwd()}/src/config/${process.env.NODE_ENV}.config.js`
 	if (fs.existsSync(envFilePath)) {
@@ -14,5 +15,5 @@ if (process.env.NODE_ENV) {
 	config = require('./default.config')
 }
 
-console.log({ level: 'startup', label: "config", message: `${configFileName} loaded` })
+console.log({ level: 'info', label: 'config', message: `${configFileName} loaded` })
 module.exports = { ...config }

@@ -84,14 +84,14 @@ let db = {
 /**
  * log
  */
-const {  format, transports } = require('winston')
+const { format, transports } = require('winston')
 const { prettyPrint, colorize } = format
 require('winston-mongodb')
 
 const transportsOptions = {
 	file: {
 		handleExceptions: false,
-		level: 'startup', //the level to start logging to file
+		level: 'error', //the level to start logging to file
 		filename: `${process.cwd()}/logs/${app.name}-${app.version}.log`,
 		maxsize: 250_000, //1 million = 1 mb
 		maxFiles: 2,
@@ -100,12 +100,12 @@ const transportsOptions = {
 		format: format.combine(
 			format.timestamp({
 				format: 'YYYY-MM-DD--HH:mm:ss.SSS'
-			}),
+			})
 		)
 	},
 	console: {
 		handleExceptions: false,
-		level: 'startup', //the level to start logging to console
+		level: 'silly', //the level to start logging to console
 		json: true,
 		format: format.combine(
 			format.timestamp({
@@ -118,7 +118,7 @@ const transportsOptions = {
 	},
 	mongo: {
 		handleExceptions: false,
-		level: 'startup', //the level to start logging to mongodb
+		level: 'warn', //the level to start logging to mongodb
 		db: db.mongodb.uri,
 		options: {},
 		decolorize: true,
@@ -131,23 +131,19 @@ const transportsOptions = {
 const levelsPriority = {
 	error: 0,
 	warn: 1,
-	verbose: 2,
-	socket: 3,
+	info: 2,
+	verbose: 3,
 	debug: 4,
-	success: 5,
-	startup: 6,
-	shutdown: 7
+	silly: 5
 }
 
 const levelsNames = {
 	error: 'error',
 	warn: 'warn',
+	info: 'info',
 	verbose: 'verbose',
-	socketio: 'socketio',
 	debug: 'debug',
-	success: 'success',
-	startup: 'startup',
-	shutdown: 'shutdown'
+	silly: 'silly'
 }
 
 const defaultConfig = {
@@ -192,14 +188,13 @@ const defaultConfig = {
 			colors: {
 				error: 'black redBG',
 				warn: 'black yellowBG',
+				info: 'info',
 				verbose: 'black greenBG',
-				socket: 'magenta',
 				debug: 'white',
-				success: 'green',
-				startup: 'white blueBG'
+				silly: 'green'
 			},
 			names: levelsNames,
-			allowed: [levelsNames.error, levelsNames.warn, levelsNames.verbose, levelsNames.socketio, levelsNames.debug, levelsNames.success, levelsNames.startup, levelsNames.shutdown]
+			allowed: [levelsNames.error, levelsNames.warn, levelsNames.info, levelsNames.verbose, levelsNames.debug, levelsNames.silly]
 		},
 		label: {
 			isActive: true
@@ -258,6 +253,5 @@ const defaultConfig = {
 		types: ['type1', 'type2']
 	}
 }
-
 
 module.exports = { ...defaultConfig }

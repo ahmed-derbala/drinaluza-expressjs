@@ -1,4 +1,3 @@
-
 module.exports.makeAuthKeyQuery = ({ key, kind }) => {
 	let authKeyQuery = {}
 

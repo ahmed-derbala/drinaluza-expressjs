@@ -79,8 +79,6 @@ module.exports.createUserSrvc = async ({ email, username, phone, password }) => 
 		*/
 }
 
-
-
 const findOneUserSrvc = (module.exports.findOneUserSrvc = async ({ match, select }) => {
 	try {
 		//log({ level: 'debug', data: { match, select } })

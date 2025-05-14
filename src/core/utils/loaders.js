@@ -1,6 +1,6 @@
 const fs = require('fs')
 const { log } = require(`../log`)
-const path = require('path');
+const path = require('path')
 
 /**
  *
@@ -9,7 +9,9 @@ const path = require('path');
  * @param {string} filesSuffix starts with . and ends with .extension
  */
 module.exports.load = ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }) => {
-	let endpoint_root, files, loadedFilesCount = 0
+	let endpoint_root,
+		files,
+		loadedFilesCount = 0
 
 	if (hasSubDir === false) {
 		files = fs.readdirSync(`${process.cwd()}/src${rootDir}`)
@@ -19,20 +21,20 @@ module.exports.load = ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }
 					loadedFilesCount++
 					endpoint_root = file.substring(0, file.indexOf(fileSuffix))
 					app.use(`${urlPrefix}${endpoint_root}`, require(`${process.cwd()}/src${rootDir}/${file}`))
-					if (endpoint_root === "index") {
+					if (endpoint_root === 'index') {
 						app.use(`${urlPrefix}`, require(`${process.cwd()}/src${rootDir}/${file}`))
 					}
 				}
 			}
 		}
-		log({ label:"loader",level: 'success', message: `${loadedFilesCount} ${fileSuffix} routes loaded from ${rootDir}` })
+		log({ label: 'loader', level: 'info', message: `${loadedFilesCount} ${fileSuffix} routes loaded from ${rootDir}` })
 		return
 	}
-	const baseDir = path.join(process.cwd(), 'src', rootDir);
-	const directories = fs.readdirSync(baseDir).filter(name => {
-		const fullPath = path.join(baseDir, name);
-		return fs.statSync(fullPath).isDirectory();
-	});
+	const baseDir = path.join(process.cwd(), 'src', rootDir)
+	const directories = fs.readdirSync(baseDir).filter((name) => {
+		const fullPath = path.join(baseDir, name)
+		return fs.statSync(fullPath).isDirectory()
+	})
 
 	for (const dir of directories) {
 		files = fs.readdirSync(`${process.cwd()}/src${rootDir}/${dir}`)
@@ -46,7 +48,7 @@ module.exports.load = ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }
 			}
 		}
 	}
-	log({ label:"loader",level: 'success', message: `${loadedFilesCount} ${fileSuffix} routes loaded from ${rootDir}` })
+	log({ label: 'loader', level: 'info', message: `${loadedFilesCount} ${fileSuffix} routes loaded from ${rootDir}` })
 }
 
 /**
@@ -73,10 +75,5 @@ module.exports.batchRequire = ({ fileSuffix, rootDir, params, message }) => {
 	}
 
 	if (!message) message = `${loadedFilesCount} ${fileSuffix} files loaded`
-	log({ label:"loader",level: 'success', message })
+	log({ label: 'loader', level: 'info', message })
 }
-
-
-
-
-

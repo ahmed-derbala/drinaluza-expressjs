@@ -12,12 +12,12 @@ const socketio = ({ server }) => {
 	})
 
 	io.on('disconnect', (reason) => {
-		log({ level: 'socket', message: reason })
+		log({ level: 'warn', message: reason })
 	})
 
 	io.on('connection', (socket) => {
 		log({
-			level: config.log.levels.names.socketio,
+			level: 'info',
 			message: `socketId=${socket.id} | ip=${socket.handshake.address} | userAgent=${socket.handshake.headers['user-agent']}`
 		})
 

@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const usersSrvc = require(`./users.service`)
-const { authenticate,  } = require(`../../core/auth`)
+const { authenticate } = require(`../../core/auth`)
 const { errorHandler } = require('../../core/utils/error')
 const { log } = require('../../core/log')
 const { resp } = require('../../core/helpers/resp')
 const { validate } = require('../../core/validation')
-const { findOneUserSrvc,  } = require('./users.service')
+const { findOneUserSrvc } = require('./users.service')
 
 router.get('/:username', authenticate(), async (req, res) => {
 	const { username } = req.params
@@ -23,6 +23,5 @@ router.get('/profile', authenticate(), async (req, res) => {
 		errorHandler({ err, req, res })
 	}
 })
-
 
 module.exports = router

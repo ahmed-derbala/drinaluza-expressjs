@@ -1,18 +1,18 @@
 const clc = require('cli-color')
-
-
+const config = require(`../../config`)
 
 const simplelogger = ({ level, label, error, message, req, data }) => {
-	const levelWidth = 10; // Fixed width for level
-	const labelWidth = 10; // Fixed width for label
-	const messageWidth = 80; // Fixed width for error
-	const errorWidth = 50; // Fixed width for error
+	if (!config.log.isActive || !config.log.levels.allowed.includes(level)) return null
 
-	const formattedLevel = level.padEnd(levelWidth);
-	const formattedLabel = label.padEnd(labelWidth);
-	const formattedMessage = message.padEnd(messageWidth);
-	const formattedError = (error || '').padEnd(errorWidth);
+	const levelWidth = 8 // Fixed width for level
+	const labelWidth = 10 // Fixed width for label
+	const messageWidth = 80 // Fixed width for error
+	const errorWidth = 50 // Fixed width for error
 
+	const formattedLevel = level.padEnd(levelWidth)
+	const formattedLabel = label.padEnd(labelWidth)
+	const formattedMessage = message.padEnd(messageWidth)
+	const formattedError = (error || '').padEnd(errorWidth)
 
 	switch (level) {
 		case 'error':
@@ -23,22 +23,25 @@ const simplelogger = ({ level, label, error, message, req, data }) => {
 			console.warn(clc.yellow(level, label, error, JSON.stringify(message), JSON.stringify(req), JSON.stringify(data)))
 			break
 
-		case 'verbose':
-			console.info(clc.green(level, label, error, JSON.stringify(message), JSON.stringify(req), JSON.stringify(data)))
+		case 'info':
+			console.log(clc.blue(level, label, error, JSON.stringify(message), JSON.stringify(req), JSON.stringify(data)))
 			break
 
-		case 'socket':
-			console.log(clc.blue(level, label, error, JSON.stringify(message), JSON.stringify(req), JSON.stringify(data)))
+		case 'verbose':
+			console.info(clc.green(level, label, error, JSON.stringify(message), JSON.stringify(req), JSON.stringify(data)))
 			break
 
 		case 'debug':
 			console.log(clc.white(level, label, error, JSON.stringify(message), JSON.stringify(req), JSON.stringify(data)))
 			break
 
+		case 'silly':
+			console.log(clc.white(level, label, error, JSON.stringify(message), JSON.stringify(req), JSON.stringify(data)))
+			break
+
 		default:
-			console.log(clc.blue(formattedLevel, formattedLabel, formattedMessage, JSON.stringify(req), JSON.stringify(data),formattedError))
+			console.log(clc.blue(formattedLevel, formattedLabel, formattedMessage, JSON.stringify(req), JSON.stringify(data), formattedError))
 	}
 }
 
 module.exports = { simplelogger }
-

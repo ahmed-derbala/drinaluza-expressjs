@@ -1,8 +1,6 @@
 const { errorHandler } = require('../utils/error')
-const {findOneUserSrvc} =require ('../../components/users/users.service')
+const { findOneUserSrvc } = require('../../components/users/users.service')
 const bcrypt = require('bcrypt')
-
-
 
 module.exports.signinSrvc = async ({ filter, password }) => {
 	try {

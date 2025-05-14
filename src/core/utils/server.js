@@ -25,7 +25,8 @@ if (config.app.cluster > 0) {
 	if (cluster.isMaster) {
 		log({
 			message: `cluster is enabled. ${config.app.cluster} cpus are in use`,
-			level: 'success',label:"server"
+			level: 'info',
+			label: 'server'
 		})
 		// Create a worker for each CPU
 		for (let c = 1; c <= config.app.cluster; c++) {
@@ -43,7 +44,8 @@ if (config.app.cluster > 0) {
 			config.backend.port,
 			log({
 				message: `${config.app.name} ${config.app.version} ${config.backend.url} NODE_ENV=${config.NODE_ENV} fork ${cluster.worker.id} pid ${cluster.worker.process.pid}`,
-				level: 'startup',label:"server"
+				level: 'info',
+				label: 'server'
 			})
 		)
 		server.on('error', onError)
@@ -55,7 +57,8 @@ if (config.app.cluster > 0) {
 		config.backend.port,
 		log({
 			message: `${config.app.name} ${config.app.version} ${config.backend.url} NODE_ENV=${config.NODE_ENV}`,
-			level: 'startup',label:"server"
+			level: 'info',
+			label: 'server'
 		})
 	)
 	server.on('error', onError)
@@ -65,10 +68,10 @@ if (config.app.cluster > 0) {
 server.setTimeout(0) //make sure timeout is disabled , wait forever
 
 process.on('SIGINT', () => {
-	log({ level: 'shutdown', message: 'Received SIGINT signal. Gracefully shutting down...',label:"server" })
+	log({ level: 'error', message: 'Received SIGINT signal. Gracefully shutting down...', label: 'server' })
 	// Close server connections
 	server.close(() => {
-		log({ level: 'shutdown', message: 'Server closed. Exiting...' ,label:"server"})
+		log({ level: 'error', message: 'Server closed. Exiting...', label: 'server' })
 		process.exit(0)
 	})
 })
@@ -87,13 +90,14 @@ function onError(error) {
 	// handle specific listen errors with friendly messages
 	switch (error.code) {
 		case 'EACCES':
-			log({ level: 'error', message: `${bind} requires elevated privileges` ,label:"server"})
+			log({ level: 'error', message: `${bind} requires elevated privileges`, label: 'server' })
 			process.exit(1)
 			break
 		case 'EADDRINUSE':
 			log({
 				level: 'error',
-				message: `${bind} is already in use. If you used pm2, try npm run delete`,label:"server"
+				message: `${bind} is already in use. If you used pm2, try npm run delete`,
+				label: 'server'
 			})
 			process.exit(1)
 			break
@@ -109,7 +113,6 @@ function onError(error) {
 function onListening() {
 	const addr = server.address()
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port
-	//log({ level: 'success', message: `Listening on ${bind}` });
 }
 
 module.exports = server
