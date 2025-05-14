@@ -5,7 +5,8 @@
         "node_modules/*",
         ".github/*",
         "logs/*",
-        "backups/*"
+        "backups/*",
+        "docs/*"
     ],
-    "delay": 500
+    "delay": 5000
 }

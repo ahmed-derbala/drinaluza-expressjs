@@ -1,12 +1,12 @@
 # drinaluza
-Backend of drinaluza. A mobile-first app for online reputation
+Backend of drinaluza. Small businesses management application
 # features
-- javascript node.js 20 with express 5
+- javascript node.js 22 with express 5
 - everything is configurable in src/config
 - clean architecture
 - pm2 
 - socketio
-- logs: custom json requests logs with morgan and winston (file, console, mongo) with memory (in GB) 
+- logs: custom json requests logs with morgan and winston (file, console, mongo) with memory (in GB) . a simple log module is available too
 - mongoose
 - cluster: configurable in config
 - api limiter, helmet, compression

@@ -15,5 +15,4 @@ if (process.env.NODE_ENV) {
 	config = require('./default.config')
 }
 
-console.log({ level: 'info', label: 'config', message: `${configFileName} loaded` })
 module.exports = { ...config }
