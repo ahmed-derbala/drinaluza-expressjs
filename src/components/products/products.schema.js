@@ -1,73 +1,75 @@
 const mongoose = require('mongoose')
-const config = require(`../../config`)
-const enums = require('../../core/enums')
+const { usersCollection } = require('../users/users.schema')
+const { defaultProductsCollection } = require('../default-products/default-products.schema')
 
 const schema = new mongoose.Schema(
 	{
-		username: {
-			type: String,
-			required: false
+		defaultProduct: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: defaultProductsCollection,
+			required: true
 		},
-		email: {
-			type: String,
-			required: false
-			//unique: true // return error if email is null duplicated
+		name: {
+			en: {
+				type: String,
+				required: true
+			},
+			tn: {
+				type: String,
+				required: true
+			},
+			tn_ar: {
+				type: String,
+				required: true
+			}
 		},
-		phone: {
-			type: phoneSchema,
-			select: false,
-			required: false
+		price: {
+			tnd: {
+				type: String,
+				required: true,
+				default: 0,
+				min: 0
+			},
+			eur: {
+				type: String,
+				required: false,
+				default: 0,
+				min: 0
+			}
 		},
-		password: {
-			type: String,
-			required: true,
-			select: false
+		unit: {
+			name: {
+				type: String,
+				enum: ['KG', 'L'],
+				default: 'KG'
+			},
+			min: {
+				type: Number,
+				default: 1,
+				min: 1
+			}
 		},
-		profile: {
-			type: profileSchema,
-			select: false
-		},
-		role: {
-			type: Object,
-			enum: config.users.roles,
-			default: config.users.roles[0]
-		},
-		type: {
-			type: Object,
-			enum: config.users.types,
-			default: config.users.types[0]
-		},
+		searchTerms: [String],
 		isActive: {
 			type: Boolean,
 			default: true
 		},
-		jobs: [
-			{
-				name: {
-					type: String,
-					enum: enums.jobs.names
-				},
-				shopId: {
-					type: mongoose.Schema.Types.ObjectId,
-					ref: 'shops'
-				}
-			}
-		],
-		address: {
-			type: addressSchema,
-			select: false
+		availability: {
+			startDate: { type: Date, required: true, default: Date.now },
+			endDate: { type: Date, required: false, default: null }
 		},
-		settings: {
-			type: settingsSchema,
-			select: false
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: usersCollection,
+			required: true
 		}
 	},
 	{ timestamps: true }
 )
 
-const usersCollection = 'products'
+const productsCollection = 'products'
 
 module.exports = {
-	UsersModel: mongoose.model(usersCollection, schema),
-	usersCollection
+	ProductsModel: mongoose.model(productsCollection, schema),
+	productsCollection
 }

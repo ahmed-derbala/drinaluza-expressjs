@@ -147,7 +147,6 @@ const levelsNames = {
 }
 
 const defaultConfig = {
-	NODE_ENV: process.env.NODE_ENV || 'default',
 	app,
 	backend,
 	frontend: {
@@ -188,7 +187,7 @@ const defaultConfig = {
 			colors: {
 				error: 'black redBG',
 				warn: 'black yellowBG',
-				info: 'info',
+				info: 'black blueBG',
 				verbose: 'black greenBG',
 				debug: 'white',
 				silly: 'green'
@@ -219,7 +218,7 @@ const defaultConfig = {
 			isActive: true
 		},
 		caller: {
-			isActive: true
+			isActive: false
 		},
 		data: {
 			isActive: true

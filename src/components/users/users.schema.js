@@ -1,11 +1,9 @@
 const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
 const config = require(`../../config`)
 const phoneSchema = require('../../core/schemas/phone.schema')
 const addressSchema = require('../../core/schemas/address.schema')
 const settingsSchema = require('../../core/schemas/settings.schema')
 const profileSchema = require('../../core/schemas/profile.schema')
-
 const enums = require('../../core/enums')
 
 const schema = new mongoose.Schema(
@@ -71,7 +69,6 @@ const schema = new mongoose.Schema(
 	{ timestamps: true }
 )
 
-//schema.plugin(uniqueValidator)
 const usersCollection = 'users'
 
 module.exports = {

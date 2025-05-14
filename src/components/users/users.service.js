@@ -5,6 +5,7 @@ const { log } = require('../../core/log')
 const { createUserRepo, findOneUserRepo, updateUserRepo } = require('./users.repository')
 const config = require(`../../config`)
 const { makeAuthKeyQuery } = require('../../core/helpers/filters')
+const bcrypt = require('bcrypt')
 
 module.exports.getUsers = async (params) => {
 	return paginate({ model: UsersModel })

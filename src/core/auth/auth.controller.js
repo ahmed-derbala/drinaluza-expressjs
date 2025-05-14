@@ -6,8 +6,9 @@ const { signinVld, signupVld } = require('./auth.validator')
 const { authenticate, createNewSession } = require(`./index`)
 const { errorHandler } = require('../utils/error')
 const { pickOneFilter } = require('../helpers/filters')
-const { findOneUserSrvc, signinSrvc, createUserSrvc } = require('./auth.service')
+const { signinSrvc } = require('./auth.service')
 const { resp } = require('../../core/helpers/resp')
+const { findOneUserSrvc, createUserSrvc } = require('../../components/users/users.service')
 
 router.post('/signup', validate(signupVld), async (req, res) => {
 	const { email, username, phone, password } = req.body
