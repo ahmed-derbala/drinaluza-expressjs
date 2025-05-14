@@ -147,6 +147,7 @@ const levelsNames = {
 }
 
 const defaultConfig = {
+	NODE_ENV: 'local',
 	app,
 	backend,
 	frontend: {
@@ -166,21 +167,23 @@ const defaultConfig = {
 	},
 	db,
 	log: {
-		kind: 'simple', //winston, simple
+		kind: 'winston', //winston, simple
 		reqDefaultLog: 'morgan_log',
 		isActive: true,
-		createLoggerOptions: {
-			transports: [
-				//comment or delete transports you dont want to use
-				new transports.File(transportsOptions.file),
-				new transports.Console(transportsOptions.console),
-				new transports.MongoDB(transportsOptions.mongo)
-			],
-			levels: levelsPriority,
-			exitOnError: false,
-			silent: false //silent all transports
+		winston: {
+			createLoggerOptions: {
+				transports: [
+					//comment transports you dont want to use
+					//new transports.File(transportsOptions.file),
+					new transports.Console(transportsOptions.console)
+					//new transports.MongoDB(transportsOptions.mongo)
+				],
+				levels: levelsPriority,
+				exitOnError: false,
+				silent: false //silent all transports
+			},
+			transportsOptions
 		},
-		transportsOptions,
 		levels: {
 			isActive: true, //level item
 			priority: levelsPriority,

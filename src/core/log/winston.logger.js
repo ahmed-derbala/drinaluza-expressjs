@@ -4,7 +4,7 @@ const { removeEmptyKeys } = require('../helpers/removeEmptyKeys')
 const { sanitizeReq } = require('./sanitize-req')
 
 winston.addColors(config.log.levels.colors)
-const logger = winston.createLogger(config.log.createLoggerOptions)
+const logger = winston.createLogger(config.log.winston.createLoggerOptions)
 
 const winstonLogger = ({ level, label, error, message, req, data }) => {
 	let logObject = {}

@@ -1,21 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 console.clear()
-const fs = require('fs')
 const { log } = require(`./core/log`)
-
-const defaultConfigFilePath = `${process.cwd()}/src/config/index.js`
-if (!fs.existsSync(defaultConfigFilePath)) {
-	log({ level: 'error', message: `${defaultConfigFilePath} is required.` })
-	if (process.env.NODE_ENV) {
-		const envConfigFilePath = `${process.cwd()}/src/config/${process.env.NODE_ENV}.config.js`
-		if (fs.existsSync(envConfigFilePath)) {
-			log({ level: 'debug', message: `${envConfigFilePath} is optionnal.` })
-		}
-	}
-	process.exit(1)
-}
-
 const config = require('./config')
 
 /**

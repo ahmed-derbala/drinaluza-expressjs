@@ -34,7 +34,7 @@ app.use(morganLogger())
 //save logs to db
 app.use(
 	expressWinston.logger({
-		transports: [new winston.transports.MongoDB(config.log.transportsOptions.mongo)],
+		transports: [new winston.transports.MongoDB(config.log.winston.transportsOptions.mongo)],
 		expressFormat: true
 	})
 )
