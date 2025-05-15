@@ -13,10 +13,9 @@ module.exports.signinSrvc = async ({ match, password }) => {
 			return { message: 'no user found with that loginId', data: null, status: 409 }
 		}
 		//user found, check password
-		console.log(fecthedAuth)
 		const passwordCompare = bcrypt.compareSync(password, fecthedAuth.password)
-
 		delete fecthedAuth.password //we dont need password anymore
+
 		if (passwordCompare == false) {
 			if (config.NODE_ENV === 'production') return { message: 'loginId or password is not correct', data: null, status: 409 }
 			return { message: 'password incorrect', data: null, status: 409 }

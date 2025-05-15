@@ -32,6 +32,7 @@ router.post('/signin', validate(signinVld), async (req, res) => {
 		const { email, username, phone, password } = req.body
 		const filter = pickOneFilter({ filters: { email, username, phone } })
 		const authData = await signinSrvc({ match: { user: { username } }, password })
+		console.log(authData)
 		if (!authData) return resp({ status: 400, data: null, message: `no user found with ${filter}`, req, res })
 
 		const token = createNewSession({ user: authData.user, req })

@@ -8,5 +8,5 @@
         "backups/*",
         "docs/*"
     ],
-    "delay": 800
+    "delay": 1000
 }

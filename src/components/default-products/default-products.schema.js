@@ -39,11 +39,6 @@ const schema = new mongoose.Schema(
 	{ timestamps: true, collection: defaultProductsCollection }
 )
 
-// Optional: Add indexes explicitly to handle unique constraint errors gracefully
-schema.index({ 'name.en': 1 }, { unique: true })
-schema.index({ 'name.tn': 1 }, { unique: true })
-schema.index({ 'name.tn_ar': 1 }, { unique: true })
-
 module.exports = {
 	DefaultProductModel: mongoose.model(defaultProductsCollection, schema),
 	defaultProductsCollection

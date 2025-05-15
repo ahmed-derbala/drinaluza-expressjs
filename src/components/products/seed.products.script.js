@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const { ProductsModel, productsCollection } = require('./products.schema') // Adjust path to your products model file
-const { DefaultProductsModel, defaultProductsCollection } = require('../default-products/default-products.schema') // Adjust path to your default-products model file
-const { UsersModel, usersCollection } = require('../users/users.schema') // Adjust path to your users model file
+const { ProductModel, productsCollection } = require('./products.schema') // Adjust path to your products model file
+const { DefaultProductModel, defaultProductsCollection } = require('../default-products/default-products.schema') // Adjust path to your default-products model file
+const { UserModel, usersCollection } = require('../users/users.schema') // Adjust path to your users model file
 
 // MongoDB connection URI (replace with your MongoDB URI)
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/drinaluza'
@@ -188,14 +188,14 @@ async function seedDatabase() {
 		console.log('Connected to MongoDB')
 
 		// Fetch default product _ids
-		const defaultProducts = await DefaultProductsModel.find().limit(10)
+		const defaultProducts = await DefaultProductModel.find().limit(10)
 		console.log(`Found ${defaultProducts.length} default products`)
 		if (defaultProducts.length === 0) {
 			throw new Error('No default products found. Please seed default-products first.')
 		}
 
 		// Fetch user _ids
-		const users = await UsersModel.find().limit(10)
+		const users = await UserModel.find().limit(10)
 		console.log(`Found ${users.length} users`)
 		if (users.length === 0) {
 			throw new Error('No users found. Please seed users first.')
@@ -215,11 +215,11 @@ async function seedDatabase() {
 		console.log(`Attempting to seed ${productsToInsert.length} products`)
 
 		// Insert products without clearing existing data
-		await ProductsModel.insertMany(productsToInsert, { ordered: false })
+		await ProductModel.insertMany(productsToInsert, { ordered: false })
 		console.log(`Successfully seeded ${productsToInsert.length} products`)
 
 		// Verify inserted data
-		const count = await ProductsModel.countDocuments()
+		const count = await ProductModel.countDocuments()
 		console.log(`Total documents in ${productsCollection}: ${count}`)
 	} catch (error) {
 		console.error('Error seeding database:', error)
