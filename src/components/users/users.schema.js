@@ -26,11 +26,11 @@ const schema = new mongoose.Schema(
 			type: profileSchema,
 			select: false
 		},
-		role: {
+		/*role: {
 			type: Object,
 			enum: config.users.roles,
 			default: config.users.roles[0]
-		},
+		},*/
 		type: {
 			type: Object,
 			enum: config.users.types,

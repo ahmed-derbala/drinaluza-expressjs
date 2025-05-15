@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const { ProductModel, productsCollection } = require('./products.schema') // Adjust path to your products model file
 const { DefaultProductModel, defaultProductsCollection } = require('../default-products/default-products.schema') // Adjust path to your default-products model file
 const { UserModel, usersCollection } = require('../users/users.schema') // Adjust path to your users model file
+const config = require(`../../config`)
 
 // MongoDB connection URI (replace with your MongoDB URI)
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/drinaluza'
@@ -183,6 +184,11 @@ const productsData = [
 // Function to seed the database
 async function seedDatabase() {
 	try {
+		console.log(config.NODE_ENV)
+		if (config.NODE_ENV === 'production') {
+			console.log('cannot seed in production')
+			process.exit(1)
+		}
 		// Connect to MongoDB
 		await mongoose.connect(MONGODB_URI, {})
 		console.log('Connected to MongoDB')
