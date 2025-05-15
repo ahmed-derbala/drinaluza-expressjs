@@ -45,6 +45,6 @@ schema.index({ 'name.tn': 1 }, { unique: true })
 schema.index({ 'name.tn_ar': 1 }, { unique: true })
 
 module.exports = {
-	DefaultProductsModel: mongoose.model(defaultProductsCollection, schema),
+	DefaultProductModel: mongoose.model(defaultProductsCollection, schema),
 	defaultProductsCollection
 }

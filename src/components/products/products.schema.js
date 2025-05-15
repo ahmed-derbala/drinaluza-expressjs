@@ -70,6 +70,6 @@ const schema = new mongoose.Schema(
 const productsCollection = 'products'
 
 module.exports = {
-	ProductsModel: mongoose.model(productsCollection, schema),
+	ProductModel: mongoose.model(productsCollection, schema),
 	productsCollection
 }

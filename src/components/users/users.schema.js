@@ -22,11 +22,6 @@ const schema = new mongoose.Schema(
 			select: false,
 			required: false
 		},
-		password: {
-			type: String,
-			required: true,
-			select: false
-		},
 		profile: {
 			type: profileSchema,
 			select: false
@@ -45,18 +40,6 @@ const schema = new mongoose.Schema(
 			type: Boolean,
 			default: true
 		},
-		jobs: [
-			{
-				name: {
-					type: String,
-					enum: enums.jobs.names
-				},
-				shopId: {
-					type: mongoose.Schema.Types.ObjectId,
-					ref: 'shops'
-				}
-			}
-		],
 		address: {
 			type: addressSchema,
 			select: false
@@ -72,6 +55,6 @@ const schema = new mongoose.Schema(
 const usersCollection = 'users'
 
 module.exports = {
-	UsersModel: mongoose.model(usersCollection, schema),
+	UserModel: mongoose.model(usersCollection, schema),
 	usersCollection
 }

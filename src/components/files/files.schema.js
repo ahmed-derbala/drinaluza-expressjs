@@ -34,6 +34,6 @@ const schema = new mongoose.Schema(
 const filesCollection = 'files'
 
 module.exports = {
-	FilesModel: mongoose.model(filesCollection, schema),
+	FileModel: mongoose.model(filesCollection, schema),
 	filesCollection
 }

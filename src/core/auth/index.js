@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const { SessionsModel } = require(`./sessions.schema`)
-const { errorHandler } = require('../utils/error')
+const { errorHandler } = require('../error')
 const config = require(`../../config`)
 const { resp } = require('../helpers/resp')
 

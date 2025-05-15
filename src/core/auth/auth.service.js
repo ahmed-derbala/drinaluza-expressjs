@@ -1,25 +1,49 @@
-const { errorHandler } = require('../utils/error')
-const { findOneUserSrvc } = require('../../components/users/users.service')
+const { errorHandler } = require('../error')
 const bcrypt = require('bcrypt')
+const { createAuthRepo, findOneAuthRepo } = require(`./auth.repository`)
+const config = require(`../../config`)
 
-module.exports.signinSrvc = async ({ filter, password }) => {
+module.exports.signinSrvc = async ({ match, password }) => {
 	try {
-		let user = await findOneUserSrvc({ filter, select: { _id: 1, password: 1 } })
-		if (!user) {
+		console.log(match, password)
+		const fecthedAuth = await findOneAuthSrvc({ match, select: '+password' })
+
+		if (!fecthedAuth) {
 			if (config.NODE_ENV === 'production') return { message: 'loginId or password is not correct', data: null, status: 409 }
 			return { message: 'no user found with that loginId', data: null, status: 409 }
 		}
 		//user found, check password
-		const passwordCompare = bcrypt.compareSync(password, user.password)
+		console.log(fecthedAuth)
+		const passwordCompare = bcrypt.compareSync(password, fecthedAuth.password)
 
-		delete user.password //we dont need password anymore
+		delete fecthedAuth.password //we dont need password anymore
 		if (passwordCompare == false) {
 			if (config.NODE_ENV === 'production') return { message: 'loginId or password is not correct', data: null, status: 409 }
 			return { message: 'password incorrect', data: null, status: 409 }
 		}
 
-		return user
+		return fecthedAuth
 	} catch (err) {
 		errorHandler({ err })
 	}
 }
+
+module.exports.createAuthSrvc = async ({ user, password }) => {
+	try {
+		const salt = bcrypt.genSaltSync(config.auth.saltRounds)
+		password = bcrypt.hashSync(password, salt)
+		const createdAuth = await createAuthRepo({ user, password })
+		return createdAuth
+	} catch (err) {
+		errorHandler({ err })
+	}
+}
+
+const findOneAuthSrvc = (module.exports.findOneAuthSrvc = async ({ match, select }) => {
+	try {
+		const fetchedAuth = await findOneAuthRepo({ match, select })
+		return fetchedAuth
+	} catch (err) {
+		errorHandler({ err })
+	}
+})

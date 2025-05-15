@@ -1,14 +1,12 @@
-const { UsersModel } = require(`./users.schema`)
-const { errorHandler } = require('../../core/utils/error')
+const { UserModel } = require(`./users.schema`)
+const { errorHandler } = require('../../core/error')
 const mongoose = require('mongoose')
 const { log } = require('../../core/log')
 const { createUserRepo, findOneUserRepo, updateUserRepo } = require('./users.repository')
 const config = require(`../../config`)
-const { makeAuthKeyQuery } = require('../../core/helpers/filters')
-const bcrypt = require('bcrypt')
 
 module.exports.getUsers = async (params) => {
-	return paginate({ model: UsersModel })
+	return paginate({ model: UserModel })
 		.then((users) => {
 			return users
 		})
@@ -22,7 +20,7 @@ module.exports.getProfile = async ({ loginId, userId, req }) => {
 		let $or = [{ email: loginId }, { username: loginId }, { 'phone.shortNumber': loginId }]
 		if (mongoose.isValidObjectId(loginId)) $or.push({ _id: loginId })
 
-		return UsersModel.findOne({ $or }).select('+profile').lean()
+		return UserModel.findOne({ $or }).select('+profile').lean()
 	} catch (err) {
 		errorHandler({ err })
 	}
@@ -46,11 +44,8 @@ module.exports.findOneUserSrvc = async ({ filter, select }) => {
 	}
 }
 
-module.exports.createUserSrvc = async ({ email, username, phone, password }) => {
-	const salt = bcrypt.genSaltSync(config.auth.saltRounds)
-	password = bcrypt.hashSync(password, salt)
-
-	const signedupUser = await createUserRepo({ email, username, phone, password })
+module.exports.createUserSrvc = async ({ email, username, phone }) => {
+	const signedupUser = await createUserRepo({ email, username, phone })
 	if (!signedupUser) return null
 	return signedupUser
 
@@ -62,10 +57,9 @@ module.exports.createUserSrvc = async ({ email, username, phone, password }) => 
 	}
 
 	
-	return createUserSrvc({ email, password })
+	return createUserSrvc({ email,  })
 		.then((createdUser) => {
 			createdUser = createdUser.toJSON()
-			delete createdUser.password
 			if (createdUser.username == null) {
 				return updateUserSrvc({ identity: { _id: createdUser._id }, newData: { username: createdUser._id } })
 					.then((updatedUser) => {

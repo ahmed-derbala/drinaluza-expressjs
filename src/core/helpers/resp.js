@@ -1,4 +1,4 @@
-const { errorHandler } = require('../../core/utils/error')
+const { errorHandler } = require('../../core/error')
 
 /**
  *

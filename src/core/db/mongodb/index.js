@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const config = require(`../../../config`)
 const { log } = require(`../../log`)
-const { errorHandler } = require('../../utils/error')
+const { errorHandler } = require('../../error')
 
 const connectMongodb = async () => {
 	try {
