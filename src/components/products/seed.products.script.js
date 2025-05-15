@@ -184,7 +184,6 @@ const productsData = [
 // Function to seed the database
 async function seedDatabase() {
 	try {
-		console.log(config.NODE_ENV)
 		if (config.NODE_ENV === 'production') {
 			console.log('cannot seed in production')
 			process.exit(1)

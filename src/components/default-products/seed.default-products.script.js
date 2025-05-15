@@ -101,6 +101,10 @@ const seafoodProducts = [
 // Function to seed the database
 async function seedDatabase() {
 	try {
+		if (config.NODE_ENV === 'production') {
+			console.log('cannot seed in production')
+			process.exit(1)
+		}
 		// Connect to MongoDB
 		await mongoose.connect(MONGODB_URI, {
 			useNewUrlParser: true,

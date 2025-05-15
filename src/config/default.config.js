@@ -147,7 +147,7 @@ const levelsNames = {
 }
 
 const defaultConfig = {
-	NODE_ENV: 'production',
+	NODE_ENV: process.env.NODE_ENV || 'local',
 	app,
 	backend,
 	frontend: {
