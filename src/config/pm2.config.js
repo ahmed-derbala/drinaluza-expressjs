@@ -1,5 +1,4 @@
 const packagejson = require('../../package.json')
-const config = require('.')
 const os = require('os')
 
 module.exports = {
@@ -11,8 +10,8 @@ module.exports = {
 			exec_mode: 'cluster', // Run in cluster mode for better performance
 			autorestart: true,
 			watch: true,
-			ignore_watch: ['node_modules', 'logs'], // Ignore specific directories during watch
-			max_memory_restart: '1G',
+			ignore_watch: ['node_modules', 'logs', 'backups', 'uploads', 'docs'], // Ignore specific directories during watch
+			max_memory_restart: '8G',
 			env: {
 				NODE_ENV: 'production'
 			},

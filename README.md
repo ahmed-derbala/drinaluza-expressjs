@@ -10,7 +10,6 @@ Backend of drinaluza. Small businesses management application
 - mongoose
 - cluster: configurable in config
 - api limiter, helmet, compression
-- --max-old-space-size=32000
 - prettier before commit and push (npm run push -- "commit message")
 - postman collection
 

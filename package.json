@@ -18,17 +18,17 @@
   "scripts": {
     "first-time:local": "cp src/config/index.js src/config/local.config.js && npm run i && npm run start:local",
     "first-time:prod": "cp src/config/index.js src/config/production.config.js && npm run i && npm run start:prod-pm2-monit",
-    "i": "npm i -f",
+    "i": "npm i",
     "i:prod": "NODE_ENV=production npm ci -f --omit=dev",
     "format": "prettier --write \"src/**/*.js\"",
-    "start": "node --watch --max-old-space-size=32000 src/main.js",
-    "start:prod": "NODE_ENV=production node --max-old-space-size=32000 src/main.js",
-    "start:prod-pm2": "npm run i:prod && NODE_ENV=production pm2 start --name drinaluza src/main.js -i max --node-args='--max-old-space-size=32000' -f",
+    "start": "node --max-old-space-size=8192 src/main.js",
+    "start:prod": "NODE_ENV=production node --max-old-space-size=8192 src/main.js",
+    "start:prod-pm2": "npm run i:prod && NODE_ENV=production pm2 start --name drinaluza src/main.js -i max --node-args='--max-old-space-size=8192' -f",
     "start:prod-pm2-monit": "npm run start:prod-pm2 && pm2 monit",
     "start:code": "code . && npm run start:local",
-    "start:local": "NODE_ENV=local nodemon --max-old-space-size=8000 src/main.js",
+    "start:local": "NODE_ENV=local node --watch --max-old-space-size=8000 src/main.js",
     "start:local-pm2": "pm2 start src/config/pm2.config.js --env local && pm2 monit",
-    "start:dev": "NODE_ENV=development nodemon --max-old-space-size=32000 src/main.js",
+    "start:dev": "NODE_ENV=development node --watch --max-old-space-size=8192 src/main.js",
     "reload": "pm2 reload drinaluza",
     "stop": "pm2 stop all",
     "delete": "pm2 delete all",
@@ -58,7 +58,7 @@
     "helmet": "^8.1.0",
     "ip": "^2.0.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.14.2",
+    "mongoose": "^8.14.3",
     "mongoose-unique-validator": "^5.0.1",
     "morgan": "^1.10.0",
     "socket.io": "^4.8.1",
@@ -67,9 +67,8 @@
     "winston-mongodb": "^6.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10",
     "npm-check-updates": "^18.0.1",
-    "pm2": "^6.0.5",
+    "pm2": "^6.0.6",
     "prettier": "^3.5.3"
   }
 }

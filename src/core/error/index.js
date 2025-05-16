@@ -65,3 +65,11 @@ exports.errorHandler = ({ err, req, res, next }) => {
 	}
 	return errObject
 }
+
+exports.ERROR_TYPES = {
+	validation: {
+		code: 409,
+		name: 'validation error',
+		message: 'validation error'
+	}
+}
