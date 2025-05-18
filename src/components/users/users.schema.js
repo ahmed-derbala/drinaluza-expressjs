@@ -10,7 +10,10 @@ const schema = new mongoose.Schema(
 	{
 		username: {
 			type: String,
-			required: false
+			required: true,
+			default: function () {
+				return this._id
+			}
 		},
 		email: {
 			type: String,
@@ -22,6 +25,13 @@ const schema = new mongoose.Schema(
 			select: false,
 			required: false
 		},
+		name: {
+			type: String, //firstName+lastName or username
+			required: true,
+			default: function () {
+				return this.username
+			}
+		},
 		profile: {
 			type: profileSchema,
 			select: false
@@ -31,11 +41,11 @@ const schema = new mongoose.Schema(
 			enum: config.users.roles,
 			default: config.users.roles[0]
 		},*/
-		type: {
+		/*type: {
 			type: Object,
 			enum: config.users.types,
 			default: config.users.types[0]
-		},
+		},*/
 		isActive: {
 			type: Boolean,
 			default: true

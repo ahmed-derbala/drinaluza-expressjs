@@ -10,11 +10,6 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/drinal
 // Sample products data (without defaultProduct and user, which will be assigned dynamically)
 const productsData = [
 	{
-		name: {
-			en: 'Premium Atlantic Salmon',
-			tn: 'Salmon Atlantique Premium',
-			tn_ar: 'سلمون الأطلسي الممتاز'
-		},
 		price: {
 			tnd: '45.00',
 			eur: '13.50'
@@ -27,11 +22,6 @@ const productsData = [
 		}
 	},
 	{
-		name: {
-			en: 'Fresh Tunisian Shrimp',
-			tn: 'Crevette Tunisienne Fraîche',
-			tn_ar: 'جمبري تونسي طازج'
-		},
 		price: {
 			tnd: '30.00',
 			eur: '9.00'
@@ -44,11 +34,6 @@ const productsData = [
 		}
 	},
 	{
-		name: {
-			en: 'Mediterranean Tuna Fillet',
-			tn: 'Filet de Thon Méditerranéen',
-			tn_ar: 'شريحة تونة البحر الأبيض'
-		},
 		price: {
 			tnd: '50.00',
 			eur: '15.00'
@@ -61,11 +46,6 @@ const productsData = [
 		}
 	},
 	{
-		name: {
-			en: 'Red Mullet Whole',
-			tn: 'Rouget Entier',
-			tn_ar: 'بربوني كامل'
-		},
 		price: {
 			tnd: '25.00',
 			eur: '7.50'
@@ -78,11 +58,6 @@ const productsData = [
 		}
 	},
 	{
-		name: {
-			en: 'Canned Sardines',
-			tn: 'Sardines en Conserve',
-			tn_ar: 'سردين معلب'
-		},
 		price: {
 			tnd: '10.00',
 			eur: '3.00'
@@ -95,11 +70,6 @@ const productsData = [
 		}
 	},
 	{
-		name: {
-			en: 'Grilled Octopus',
-			tn: 'Poulpe Grillé',
-			tn_ar: 'أخطبوط مشوي'
-		},
 		price: {
 			tnd: '35.00',
 			eur: '10.50'
@@ -112,11 +82,6 @@ const productsData = [
 		}
 	},
 	{
-		name: {
-			en: 'Sea Bream Fillet',
-			tn: 'Filet de Dorade',
-			tn_ar: 'شريحة دوراد'
-		},
 		price: {
 			tnd: '40.00',
 			eur: '12.00'
@@ -129,11 +94,6 @@ const productsData = [
 		}
 	},
 	{
-		name: {
-			en: 'Steamed Mussels',
-			tn: 'Moules Cuites à la Vapeur',
-			tn_ar: 'بلح البحر المطهو بالبخار'
-		},
 		price: {
 			tnd: '20.00',
 			eur: '6.00'
@@ -146,11 +106,6 @@ const productsData = [
 		}
 	},
 	{
-		name: {
-			en: 'Cuttlefish Ink Pasta',
-			tn: 'Pâtes à l’Encre de Seiche',
-			tn_ar: 'معكرونة بحبر الحبار'
-		},
 		price: {
 			tnd: '28.00',
 			eur: '8.40'
@@ -163,11 +118,6 @@ const productsData = [
 		}
 	},
 	{
-		name: {
-			en: 'Salted Anchovies',
-			tn: 'Anchois Salés',
-			tn_ar: 'أنشوجة مملحة'
-		},
 		price: {
 			tnd: '15.00',
 			eur: '4.50'
@@ -210,17 +160,24 @@ async function seedDatabase() {
 		const productsToInsert = productsData.slice(0, defaultProducts.length).map((product, index) => {
 			// Randomly select a user _id
 			const user = users[Math.floor(Math.random() * users.length)]
+			/*console.log({
+				...product,
+				defaultProduct: defaultProducts[index],
+				user: user
+			})*/
 			return {
 				...product,
-				defaultProduct: defaultProducts[index]._id,
-				user: user._id
+				defaultProduct: defaultProducts[index],
+				user: user
 			}
 		})
 
 		console.log(`Attempting to seed ${productsToInsert.length} products`)
 
 		// Insert products without clearing existing data
-		await ProductModel.insertMany(productsToInsert, { ordered: false })
+		await ProductModel.insertMany(productsToInsert, { ordered: false }).catch((err) => {
+			console.error(err)
+		})
 		console.log(`Successfully seeded ${productsToInsert.length} products`)
 
 		// Verify inserted data

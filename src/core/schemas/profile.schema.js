@@ -21,10 +21,6 @@ exports.profile = new mongoose.Schema(
 			type: String,
 			required: true
 		},
-		displayName: {
-			type: String,
-			required: true
-		},
 		birthDate: {
 			type: Date,
 			required: false

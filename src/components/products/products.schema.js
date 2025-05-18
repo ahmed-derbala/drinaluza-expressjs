@@ -5,23 +5,45 @@ const { defaultProductsCollection } = require('../default-products/default-produ
 const schema = new mongoose.Schema(
 	{
 		defaultProduct: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: defaultProductsCollection,
-			required: true
+			_id: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: defaultProductsCollection,
+				required: true
+			},
+			name: {
+				en: {
+					type: String,
+					required: true,
+					unique: true // Ensures uniqueness for the 'en' field
+				},
+				tn: {
+					type: String,
+					required: true,
+					unique: true // Ensures uniqueness for the 'tn' field
+				},
+				tn_ar: {
+					type: String,
+					required: true,
+					unique: true // Ensures uniqueness for the 'tn_ar' field
+				}
+			}
+		},
+		user: {
+			_id: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: usersCollection,
+				required: true
+			},
+			profile: {
+				displayName: {
+					type: String,
+					required: [false, 'displayName required']
+				}
+			}
 		},
 		name: {
-			en: {
-				type: String,
-				required: true
-			},
-			tn: {
-				type: String,
-				required: true
-			},
-			tn_ar: {
-				type: String,
-				required: true
-			}
+			type: String, //by default the name of defaultProduct
+			required: true
 		},
 		price: {
 			tnd: {
@@ -57,11 +79,6 @@ const schema = new mongoose.Schema(
 		availability: {
 			startDate: { type: Date, required: true, default: Date.now },
 			endDate: { type: Date, required: false, default: null }
-		},
-		user: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: usersCollection,
-			required: true
 		}
 	},
 	{ timestamps: true }

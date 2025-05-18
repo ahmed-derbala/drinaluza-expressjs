@@ -2,9 +2,22 @@ const mongoose = require('mongoose')
 
 let location = (exports.location = new mongoose.Schema(
 	{
-		lat: { type: String, required: false },
-		lon: { type: String, required: false },
-		alt: { type: String, required: false }
+		current: {
+			lat: { type: String, required: false },
+			lon: { type: String, required: false },
+			alt: { type: String, required: false }
+		},
+		last: {
+			lat: { type: String, required: false },
+			lon: { type: String, required: false },
+			alt: { type: String, required: false }
+		},
+		point: {
+			//a fixed location
+			lat: { type: String, required: false },
+			lon: { type: String, required: false },
+			alt: { type: String, required: false }
+		}
 	},
 	{ _id: false, timestamps: true }
 ))

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const { DefaultProductModel, defaultProductsCollection } = require('./default-products.schema') // Adjust path to your model file
+const config = require(`../../config`)
 
 // MongoDB connection URI (replace with your MongoDB URI)
 const MONGODB_URI = 'mongodb://localhost:27017/drinaluza'
@@ -106,10 +107,7 @@ async function seedDatabase() {
 			process.exit(1)
 		}
 		// Connect to MongoDB
-		await mongoose.connect(MONGODB_URI, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		})
+		await mongoose.connect(MONGODB_URI, {})
 		console.log('Connected to MongoDB')
 
 		// Insert seafood products without clearing existing data
