@@ -1,14 +1,15 @@
 const mongoose = require('mongoose')
-const { usersCollection } = require('../users/users.schema')
-const { businessesCollection } = require('../businesses/businesses.schema')
+const { businessRefSchema } = require('../../core/schemas/businessRef.schema')
 const addressSchema = require('../../core/schemas/address.schema')
+const { createdByUserSchema } = require('../../core/schemas/createdByUser.schema')
 
 const shopsCollection = 'shops'
 
 const schema = new mongoose.Schema(
 	{
+		createdByUser: createdByUserSchema,
+		business: { type: businessRefSchema, required: true },
 		name: String,
-		business: { _id: { type: Schema.Types.ObjectId, ref: businessesCollection, required: true }, name: String },
 		location: {
 			type: { type: String, enum: ['Point'], default: 'Point' },
 			coordinates: [Number]
@@ -17,7 +18,7 @@ const schema = new mongoose.Schema(
 			type: addressSchema,
 			select: false
 		},
-		operatingHours: Schema.Types.Mixed,
+		operatingHours: mongoose.Schema.Types.Mixed,
 		deliveryRadiusKm: Number,
 		isActive: { type: Boolean, default: true }
 	},

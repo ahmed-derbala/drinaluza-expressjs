@@ -1,20 +1,13 @@
 const mongoose = require('mongoose')
-const { shopsCollection } = require('../shops/shops.schema')
-const ownerSchema = require('../../core/schemas/owner.schema')
-
+const { shopRefSchema } = require('../../core/schemas/shopRef.schema')
+const { createdByUserSchema } = require('../../core/schemas/createdByUser.schema')
 const businessesCollection = 'businesses'
 
 const schema = new mongoose.Schema(
 	{
 		name: String,
-		owner: ownerSchema,
-		shops: [
-			{
-				_id: { type: Schema.Types.ObjectId, ref: shopsCollection },
-				name: String,
-				isActive: Boolean
-			}
-		]
+		createdByUser: createdByUserSchema,
+		shops: [{ type: shopRefSchema, required: [false, 'eeee'] }]
 	},
 	{ timestamps: true, collection: businessesCollection }
 )

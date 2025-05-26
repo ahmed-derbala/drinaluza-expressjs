@@ -25,3 +25,13 @@ module.exports.findManyProductRepo = async ({ match, select, page, limit }) => {
 		errorHandler({ err })
 	}
 }
+
+module.exports.createdProductRepo = async ({ data }) => {
+	try {
+		const createdProduct = await ProductModel.create({ ...data })
+		console.log(createdProduct)
+		return createdProduct
+	} catch (err) {
+		throw errorHandler({ err })
+	}
+}

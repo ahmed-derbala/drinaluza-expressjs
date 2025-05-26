@@ -65,6 +65,9 @@ app.use((req, res, next) => {
 
 //when error occurs
 app.use((err, req, res, next) => {
+	if (res.headersSent) {
+		return next(err) // Avoid sending response if one was already sent
+	}
 	return errorHandler({ err, req, res })
 })
 
