@@ -1,68 +1,25 @@
 const mongoose = require('mongoose')
-const { usersCollection } = require('../users/users.schema')
-const { defaultProductsCollection } = require('../default-products/default-products.schema')
+const { createdBySchema } = require('../../core/schemas/createdBy.schema')
+const { businessRefSchema } = require('../../core/schemas/businessRef.schema')
+const { shopRefSchema } = require('../../core/schemas/shopRef.schema')
+const { defaultProductRefSchema } = require('../../core/schemas/defaultProductRef.schema')
+const { priceSchema } = require('../../core/schemas/price.schema')
 
 const schema = new mongoose.Schema(
 	{
-		defaultProduct: {
-			_id: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: defaultProductsCollection,
-				required: true
-			},
-			name: {
-				en: {
-					type: String,
-					required: true,
-					unique: true // Ensures uniqueness for the 'en' field
-				},
-				tn: {
-					type: String,
-					required: true,
-					unique: true // Ensures uniqueness for the 'tn' field
-				},
-				tn_ar: {
-					type: String,
-					required: true,
-					unique: true // Ensures uniqueness for the 'tn_ar' field
-				}
-			}
-		},
-		user: {
-			_id: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: usersCollection,
-				required: true
-			},
-			profile: {
-				displayName: {
-					type: String,
-					required: [false, 'displayName required']
-				}
-			}
-		},
+		createdBy: createdBySchema,
+		business: businessRefSchema,
+		shops: [shopRefSchema],
+		defaultProduct: defaultProductRefSchema,
 		name: {
-			type: String, //by default the name of defaultProduct
+			type: String, //by default the name of defaultProduct[lang]
 			required: true
 		},
-		price: {
-			tnd: {
-				type: String,
-				required: true,
-				default: 0,
-				min: 0
-			},
-			eur: {
-				type: String,
-				required: false,
-				default: 0,
-				min: 0
-			}
-		},
+		price: priceSchema,
 		unit: {
 			name: {
 				type: String,
-				enum: ['KG', 'L'],
+				enum: ['KG', 'L', 'piece'],
 				default: 'KG'
 			},
 			min: {

@@ -15,6 +15,13 @@ const schema = new mongoose.Schema(
 				return this._id
 			}
 		},
+		name: {
+			type: String, //firstName+lastName or username
+			required: true,
+			default: function () {
+				return this.username
+			}
+		},
 		email: {
 			type: String,
 			required: false
@@ -25,13 +32,7 @@ const schema = new mongoose.Schema(
 			select: false,
 			required: false
 		},
-		name: {
-			type: String, //firstName+lastName or username
-			required: true,
-			default: function () {
-				return this.username
-			}
-		},
+
 		profile: {
 			type: profileSchema,
 			select: false

@@ -1,10 +1,25 @@
 const mongoose = require('mongoose')
 
-exports.price = new mongoose.Schema(
+exports.priceSchema = new mongoose.Schema(
 	{
-		tnd: { type: Number, required: false },
-		eur: { type: Number, required: false },
-		usd: { type: Number, required: false }
+		tnd: {
+			type: Number,
+			required: false,
+			default: 0,
+			min: 0
+		},
+		eur: {
+			type: Number,
+			required: false,
+			default: 0,
+			min: 0
+		},
+		usd: {
+			type: Number,
+			required: false,
+			default: 0,
+			min: 0
+		}
 	},
 	{ _id: false, timestamps: true }
 )

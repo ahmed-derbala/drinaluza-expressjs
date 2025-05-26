@@ -8,12 +8,12 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package.json ./
 
-RUN npm run clean:ai
+RUN npm run i:prod
 #RUN npm ci --only=production
 
 
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
+EXPOSE 5001
 CMD [ "npm", "run","start:prod" ]

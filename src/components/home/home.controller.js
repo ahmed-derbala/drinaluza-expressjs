@@ -12,9 +12,9 @@ router
 			let { page = 1, limit = 10 } = req.query
 
 			const products = await findManyProductSrvc({ match, select, page, limit })
-			const homeCards = makeHomeCards({ products: products.data })
+			//const homeCards = makeHomeCards({ products: products.data })
 			//return res.send(homeCards)
-			return resp({ status: 200, data: homeCards, req, res })
+			return resp({ status: 200, data: products, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}
