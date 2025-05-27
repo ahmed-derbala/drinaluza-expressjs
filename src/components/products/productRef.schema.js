@@ -1,16 +1,12 @@
 const mongoose = require('mongoose')
-const { CreatedByUserSchema } = require('../users/users.schema')
-const { businessRefSchema } = require('../businesses/businessRef.schema')
-const { shopRefSchema } = require('../shops/shopRef.schema')
-const { defaultProductRefSchema } = require('../default-products/defaultProductRef.schema')
 const { PriceSchema } = require('./price.schema')
 
-const schema = new mongoose.Schema(
+exports.ProductRefSchema = new mongoose.Schema(
 	{
-		createdByUser: CreatedByUserSchema,
+		/*createdByUser: createdByUserSchema,
 		business: { type: businessRefSchema, required: true },
 		shops: [{ type: shopRefSchema, required: [false, 'eeee'] }],
-		defaultProduct: { type: defaultProductRefSchema, required: [false, 'eee'] },
+		defaultProduct: { type: defaultProductRefSchema, required: [false, 'eee'] },*/
 		name: {
 			type: String, //by default the name of defaultProduct[lang]
 			required: true
@@ -27,8 +23,8 @@ const schema = new mongoose.Schema(
 				default: 1,
 				min: 1
 			}
-		},
-		searchTerms: [String],
+		}
+		/*	searchTerms: [String],
 		isActive: {
 			type: Boolean,
 			default: true
@@ -36,14 +32,7 @@ const schema = new mongoose.Schema(
 		availability: {
 			startDate: { type: Date, required: true, default: Date.now },
 			endDate: { type: Date, required: false, default: null }
-		}
+		}*/
 	},
-	{ timestamps: true }
+	{ _id: false, timestamps: true }
 )
-
-const productsCollection = 'products'
-
-module.exports = {
-	ProductModel: mongoose.model(productsCollection, schema),
-	productsCollection
-}

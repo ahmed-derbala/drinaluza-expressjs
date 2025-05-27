@@ -1,11 +1,38 @@
 const mongoose = require('mongoose')
-const config = require(`../../config`)
 const phoneSchema = require('../../core/schemas/phone.schema')
 const addressSchema = require('../../core/schemas/address.schema')
-const settingsSchema = require('../../core/schemas/settings.schema')
-const profileSchema = require('../../core/schemas/profile.schema')
-const enums = require('../../core/enums')
+const { UserSettingsSchema } = require('./userSettings.schema')
 
+const usersCollection = 'users'
+let photo = (exports.photo = new mongoose.Schema(
+	{
+		url: { type: String, required: false }
+	},
+	{ _id: false, timestamps: true }
+))
+
+const UserProfileSchema = new mongoose.Schema(
+	{
+		firstName: {
+			type: String,
+			required: true
+		},
+		middleName: {
+			type: String,
+			required: false
+		},
+		lastName: {
+			type: String,
+			required: true
+		},
+		birthDate: {
+			type: Date,
+			required: false
+		},
+		photo
+	},
+	{ _id: false, timestamps: true }
+)
 const schema = new mongoose.Schema(
 	{
 		username: {
@@ -33,10 +60,7 @@ const schema = new mongoose.Schema(
 			required: false
 		},
 
-		profile: {
-			type: profileSchema,
-			select: false
-		},
+		profile: UserProfileSchema,
 		/*role: {
 			type: Object,
 			enum: config.users.roles,
@@ -55,17 +79,41 @@ const schema = new mongoose.Schema(
 			type: addressSchema,
 			select: false
 		},
-		settings: {
-			type: settingsSchema,
-			select: false
-		}
+		settings: UserSettingsSchema
 	},
 	{ timestamps: true }
 )
 
-const usersCollection = 'users'
+const CreatedByUserSchema = new mongoose.Schema(
+	{
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: usersCollection,
+			required: true
+		},
+		username: { type: String, required: true }
+	},
+	{ _id: false, timestamps: true }
+)
+
+const OrderedByUserSchema = new mongoose.Schema(
+	{
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: usersCollection,
+			required: true
+		},
+		name: { type: String, required: true },
+		phone: { type: String, required: false },
+		address: { type: String, required: false }
+	},
+	{ _id: false, timestamps: true, required: true }
+)
 
 module.exports = {
 	UserModel: mongoose.model(usersCollection, schema),
-	usersCollection
+	usersCollection,
+	UserProfileSchema,
+	CreatedByUserSchema,
+	OrderedByUserSchema
 }

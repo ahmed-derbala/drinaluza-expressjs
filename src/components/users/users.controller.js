@@ -8,7 +8,7 @@ const { resp } = require('../../core/helpers/resp')
 const { validate } = require('../../core/validation')
 const { findOneUserSrvc } = require('./users.service')
 
-router.get('/:username', authenticate(), async (req, res) => {
+router.get('/:username', async (req, res) => {
 	const { username } = req.params
 	const user = await findOneUserSrvc({ match: { username } })
 	if (!user) return resp({ status: 202, message: 'user not found', data: null, req, res })

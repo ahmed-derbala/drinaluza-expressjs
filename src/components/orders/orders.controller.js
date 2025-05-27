@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { resp } = require('../../core/helpers/resp')
-const { findManyProductsrvc, createProductsrvc } = require('./products.service')
+const { findManyOrdersSrvc, createOrderSrvc } = require('./orders.service')
 const { errorHandler } = require('../../core/error')
 const { authenticate } = require(`../../core/auth`)
 
@@ -12,7 +12,7 @@ router
 			const { match, select } = req.body || {}
 			let { page = 1, limit = 10 } = req.query
 
-			const fetchedManyOrders = await findManyOrders({ match, select, page, limit })
+			const fetchedManyOrders = await findManyOrdersSrvc({ match, select, page, limit })
 			return resp({ status: 200, data: fetchedManyOrders, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
@@ -20,12 +20,12 @@ router
 	})
 	.post(authenticate(), async (req, res) => {
 		try {
-			const createdByUser = req.user
-			const { business, shops, name } = req.body
-			const data = { business, shops, createdByUser, name }
-			const createdProduct = await createproductsrvc({ data })
-			//console.log(createdProduct)
-			return resp({ status: 201, data: createdProduct, req, res })
+			const orderedByUser = req.user
+			const { products } = req.body
+			const data = { products, orderedByUser }
+			const createdOrder = await createOrderSrvc({ data })
+			//console.log(createdOrder)
+			return resp({ status: 201, data: createdOrder, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}

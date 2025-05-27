@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-exports.priceSchema = new mongoose.Schema(
+exports.PriceSchema = new mongoose.Schema(
 	{
 		tnd: {
 			type: Number,

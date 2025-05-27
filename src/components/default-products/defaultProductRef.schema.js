@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { defaultProductsCollection } = require('../../components/default-products/default-products.schema')
+const { defaultProductsCollection } = require('./default-products.schema')
 
 exports.defaultProductRefSchema = new mongoose.Schema(
 	{

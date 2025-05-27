@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { usersCollection } = require('../../components/users/users.schema')
+const { usersCollection } = require('../users/users.schema')
 
 exports.businessRefSchema = new mongoose.Schema(
 	{
