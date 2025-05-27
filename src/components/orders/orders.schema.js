@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const { OrderedByUserSchema } = require('../users/users.schema')
-const { ProductRefSchema } = require('../products/productRef.schema')
+const { ProductRefSchema } = require('../products/products.schema')
 
 const ordersCollection = 'orders'
 

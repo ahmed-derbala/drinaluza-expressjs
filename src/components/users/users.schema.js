@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const phoneSchema = require('../../core/schemas/phone.schema')
 const addressSchema = require('../../core/schemas/address.schema')
-const { UserSettingsSchema } = require('./userSettings.schema')
 
 const usersCollection = 'users'
 let photo = (exports.photo = new mongoose.Schema(
@@ -33,6 +32,15 @@ const UserProfileSchema = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: true }
 )
+
+const UserSettingsSchema = new mongoose.Schema(
+	{
+		lang: { type: String, required: true, default: 'tn_ar', enum: ['tn_ar', 'tn', 'en'] }, //en, tn, tn_ar
+		currency: { type: String, required: true, default: 'tnd', enum: ['tnd', 'eur', 'usd'] } //tnd,eur,usd
+	},
+	{ _id: false, timestamps: true, select: false }
+)
+
 const schema = new mongoose.Schema(
 	{
 		username: {

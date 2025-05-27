@@ -1,14 +1,24 @@
 const mongoose = require('mongoose')
-const { businessRefSchema } = require('../businesses/businessRef.schema')
+const { BusinessRefSchema } = require('../businesses/businessRef.schema')
 const addressSchema = require('../../core/schemas/address.schema')
-const { createdByUserSchema } = require('../users/createdByUser.schema')
+const { CreatedByUserSchema, usersCollection } = require('../users/users.schema')
 
 const shopsCollection = 'shops'
-
+const ShopRefSchema = new mongoose.Schema(
+	{
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: usersCollection,
+			required: true
+		},
+		name: { type: String, required: true }
+	},
+	{ _id: false, timestamps: true }
+)
 const schema = new mongoose.Schema(
 	{
-		createdByUser: createdByUserSchema,
-		business: { type: businessRefSchema, required: true },
+		createdByUser: CreatedByUserSchema,
+		//business: { type: BusinessRefSchema, required: true },
 		name: String,
 		location: {
 			type: { type: String, enum: ['Point'], default: 'Point' },
@@ -27,5 +37,6 @@ const schema = new mongoose.Schema(
 
 module.exports = {
 	ShopModel: mongoose.model(shopsCollection, schema),
-	shopsCollection
+	shopsCollection,
+	ShopRefSchema
 }

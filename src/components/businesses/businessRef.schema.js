@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { usersCollection } = require('../users/users.schema')
 
-exports.businessRefSchema = new mongoose.Schema(
+const BusinessRefSchema = new mongoose.Schema(
 	{
 		_id: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -12,3 +12,7 @@ exports.businessRefSchema = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: true }
 )
+
+module.exports = {
+	BusinessRefSchema
+}

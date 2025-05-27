@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
-const { shopRefSchema } = require('../shops/shopRef.schema')
-const { createdByUserSchema } = require('../users/createdByUser.schema')
+const { ShopRefSchema } = require('../shops/shops.schema')
+const { CreatedByUserSchema, usersCollection } = require('../users/users.schema')
 const businessesCollection = 'businesses'
 
 const schema = new mongoose.Schema(
 	{
 		name: String,
-		createdByUser: createdByUserSchema,
-		shops: [{ type: shopRefSchema, required: [false, 'eeee'] }]
+		createdByUser: CreatedByUserSchema,
+		shops: [{ type: ShopRefSchema, required: [false, 'eeee'] }]
 	},
 	{ timestamps: true, collection: businessesCollection }
 )
