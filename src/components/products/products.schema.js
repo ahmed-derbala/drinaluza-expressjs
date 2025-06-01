@@ -51,7 +51,7 @@ const ProductRefSchema = new mongoose.Schema(
 	{ _id: false, timestamps: true }
 )
 
-const schema = new mongoose.Schema(
+const ProductSchema = new mongoose.Schema(
 	{
 		createdByUser: CreatedByUserSchema,
 		business: { type: BusinessRefSchema, required: true },
@@ -90,7 +90,7 @@ const schema = new mongoose.Schema(
 const productsCollection = 'products'
 
 module.exports = {
-	ProductModel: mongoose.model(productsCollection, schema),
+	ProductModel: mongoose.model(productsCollection, ProductSchema),
 	productsCollection,
 	PriceSchema,
 	ProductRefSchema

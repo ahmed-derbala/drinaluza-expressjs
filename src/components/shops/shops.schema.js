@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const { BusinessRefSchema } = require('../businesses/businessRef.schema')
-const addressSchema = require('../../core/schemas/address.schema')
+const addressSchema = require('../../core/shared-schemas/address.schema')
 const { CreatedByUserSchema, usersCollection } = require('../users/users.schema')
 
 const shopsCollection = 'shops'

@@ -229,7 +229,7 @@ const defaultConfig = {
 		morgan: {
 			//more infos: https://www.npmjs.com/package/morgan
 			tokenString: `{"status"::status,"method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip","headers"::headers ,"responseTime"::response-time}`,
-			//tokenString: `{"status"::status,"method":":method", "originalUrl":":originalUrl", "user": :user ,"body": :body, "ip": :ip, "headers": :headers ,"responseTime"::response-time,"browser":":browser", "os":":os", "platform":":platform" ,"origin":":origin", "isBot":":isBot", "referrer":":referrer"}`,
+			//tokenString: `{"status"::status,"method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip", "headers"::headers ,"responseTime"::response-time,"browser":":browser", "os":":os", "platform":":platform" ,"origin":":origin", "isBot":":isBot", "referrer":":referrer"}`,
 			hiddenBodyFields: ['password', 'user.password'] //[] for none, display these keys as *** in terminal
 		}
 	},

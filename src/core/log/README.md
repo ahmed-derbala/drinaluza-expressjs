@@ -1,0 +1,1 @@
+simpleLogger works best with black background terminal

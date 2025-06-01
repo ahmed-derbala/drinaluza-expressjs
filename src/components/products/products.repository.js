@@ -16,7 +16,7 @@ module.exports.findOneProductRepo = async ({ match, select }) => {
 	}
 }
 
-module.exports.findManyProductRepo = async ({ match, select, page, limit }) => {
+module.exports.findManyProductsRepo = async ({ match, select, page, limit }) => {
 	try {
 		const flattenedMatch = flattenObject({ obj: match })
 		const fetchedManyProduct = paginateMongodb({ model: ProductModel, match: { ...flattenedMatch }, select, page, limit })

@@ -4,6 +4,8 @@ const { resp } = require('../../core/helpers/resp')
 const { findManyOrdersSrvc, createOrderSrvc } = require('./orders.service')
 const { errorHandler } = require('../../core/error')
 const { authenticate } = require(`../../core/auth`)
+const { createOrderVld } = require('./orders.validator')
+const { validate } = require('../../core/validation')
 
 router
 	.route('/')
@@ -18,7 +20,7 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
-	.post(authenticate(), async (req, res) => {
+	.post(authenticate(), validate(createOrderVld), async (req, res) => {
 		try {
 			const orderedByUser = req.user
 			const { products } = req.body

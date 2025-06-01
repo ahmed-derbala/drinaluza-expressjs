@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const phoneSchema = require('../../core/schemas/phone.schema')
-const addressSchema = require('../../core/schemas/address.schema')
+const phoneSchema = require('../../core/shared-schemas/phone.schema')
+const addressSchema = require('../../core/shared-schemas/address.schema')
 
 const usersCollection = 'users'
 let photo = (exports.photo = new mongoose.Schema(

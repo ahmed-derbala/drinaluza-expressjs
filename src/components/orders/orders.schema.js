@@ -17,11 +17,11 @@ const OrderSchema = new mongoose.Schema(
 				}
 			}
 		],
-		totalAmount: {
+		/*totalAmount: {
 			type: Number,
 			required: true,
 			min: [0, 'Total amount cannot be negative']
-		},
+		},*/
 		status: {
 			type: String,
 			enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],

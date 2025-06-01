@@ -12,7 +12,8 @@ const noLogStatuses = [401]
  */
 exports.errorHandler = ({ err, req, res, next }) => {
 	let status = 500,
-		errObject = {}
+		errObject = {},
+		label = 'internal_error'
 	if (err.status) status = err.status
 	const stack = new Error().stack
 	let caller = null
@@ -29,6 +30,7 @@ exports.errorHandler = ({ err, req, res, next }) => {
 				status = 422
 				errObject.message = 'validation error'
 				errObject.level = 'warn'
+				label = 'validation_error'
 			}
 			if (err.message) {
 				errObject.message = err.message
@@ -40,6 +42,7 @@ exports.errorHandler = ({ err, req, res, next }) => {
 			if (err.name) {
 				if (err.name == 'ValidationError' || err.code == 11000) {
 					status = 409
+					label = 'validation_error_db'
 				}
 				if (['JsonWebTokenError', 'TokenExpiredError'].includes(err.name)) {
 					status = 401
@@ -54,6 +57,8 @@ exports.errorHandler = ({ err, req, res, next }) => {
 	}
 
 	errObject.status = status
+	errObject.label = label
+
 	if (!errObject.message) errObject.message = 'error'
 
 	if (req) {
@@ -66,10 +71,12 @@ exports.errorHandler = ({ err, req, res, next }) => {
 	return errObject
 }
 
+/*
 exports.ERROR_TYPES = {
 	validation: {
 		code: 409,
 		name: 'validation error',
-		message: 'validation error'
+		message: 'validation error',
+		label: "validation"
 	}
-}
+}*/

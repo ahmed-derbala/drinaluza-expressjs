@@ -28,9 +28,9 @@ const simplelogger = ({ level, label, error, message, req, data }) => {
 	const formattedTime = processTime().padEnd(timeWidth)
 
 	const formattedLevel = level.padEnd(levelWidth)
-	const formattedLabel = label.padEnd(labelWidth)
+	const formattedLabel = label?.padEnd(labelWidth)
 	const formattedMessage = message.padEnd(messageWidth)
-	const formattedError = (error || '').padEnd(errorWidth)
+	const formattedError = (JSON.stringify(error) || '').padEnd(errorWidth)
 
 	switch (level) {
 		case 'error':
@@ -38,7 +38,7 @@ const simplelogger = ({ level, label, error, message, req, data }) => {
 			break
 
 		case 'warn':
-			console.warn(clc.yellow(formattedTime, level, label, error, JSON.stringify(message), JSON.stringify(req), JSON.stringify(data)))
+			console.warn(clc.yellow(formattedTime, level, label, JSON.stringify(error), JSON.stringify(message), JSON.stringify(req), JSON.stringify(data)))
 			break
 
 		case 'info':
