@@ -20,7 +20,6 @@ module.exports.findOneAuthRepo = async ({ match, select }) => {
 		else if (phone) match.phone = phone
 		if (Object.keys(match).length === 0) return null*/
 		const fetchedAuth = await AuthModel.findOne({ 'user.username': match.user.username }).select(select).lean()
-		console.log(fetchedAuth, match, select)
 		return fetchedAuth
 	} catch (err) {
 		errorHandler({ err })

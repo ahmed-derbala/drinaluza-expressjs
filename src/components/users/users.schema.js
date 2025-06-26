@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const phoneSchema = require('../../core/shared-schemas/phone.schema')
-const addressSchema = require('../../core/shared-schemas/address.schema')
+const phoneSchema = require('../../core/shared/schemas/phone.schema')
+const addressSchema = require('../../core/shared/schemas/address.schema')
 
 const usersCollection = 'users'
 let photo = (exports.photo = new mongoose.Schema(
@@ -35,15 +35,16 @@ const UserProfileSchema = new mongoose.Schema(
 
 const UserSettingsSchema = new mongoose.Schema(
 	{
-		lang: { type: String, required: true, default: 'tn_ar', enum: ['tn_ar', 'tn', 'en'] }, //en, tn, tn_ar
+		lang: { type: String, required: true, default: 'en', enum: ['tn_ar', 'tn', 'en'] }, //en, tn, tn_ar
 		currency: { type: String, required: true, default: 'tnd', enum: ['tnd', 'eur', 'usd'] } //tnd,eur,usd
 	},
-	{ _id: false, timestamps: true, select: false }
+	{ _id: false, timestamps: { createdAt: false }, select: false }
 )
 
-const schema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
 	{
 		username: {
+			//by default username is the _id, it can be changed later (once) by the user
 			type: String,
 			required: true,
 			default: function () {
@@ -51,7 +52,8 @@ const schema = new mongoose.Schema(
 			}
 		},
 		name: {
-			type: String, //firstName+lastName or username
+			//defaults to firstName+lastName or username. Its displayed name, it can be changed many times by the user
+			type: String,
 			required: true,
 			default: function () {
 				return this.username
@@ -67,7 +69,6 @@ const schema = new mongoose.Schema(
 			select: false,
 			required: false
 		},
-
 		profile: UserProfileSchema,
 		/*role: {
 			type: Object,
@@ -115,13 +116,15 @@ const OrderedByUserSchema = new mongoose.Schema(
 		phone: { type: String, required: false },
 		address: { type: String, required: false }
 	},
-	{ _id: false, timestamps: true, required: true }
+	{ timestamps: false, required: true }
 )
 
 module.exports = {
-	UserModel: mongoose.model(usersCollection, schema),
+	UserModel: mongoose.model(usersCollection, UserSchema),
 	usersCollection,
 	UserProfileSchema,
 	CreatedByUserSchema,
-	OrderedByUserSchema
+	OrderedByUserSchema,
+	UserSchema,
+	UserSettingsSchema
 }

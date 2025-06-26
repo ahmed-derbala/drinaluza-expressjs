@@ -1,4 +1,3 @@
-const { objectIdValidator } = require('../validation')
 const { checkSchema, body, query, oneOf } = require('express-validator')
 
 module.exports.signinVld = [oneOf([body('email').trim().isEmail(), body('username').trim().notEmpty().isString()]), body('password').trim().isString().notEmpty()]

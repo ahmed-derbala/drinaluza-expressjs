@@ -16,11 +16,8 @@
     "drinaluza"
   ],
   "scripts": {
-    "first-time:local": "cp src/config/index.js src/config/local.config.js && npm run i && npm run start:local",
-    "first-time:prod": "cp src/config/index.js src/config/production.config.js && npm run i && npm run start:prod-pm2-monit",
-    "i": "npm i",
-    "i:prod": "NODE_ENV=production npm ci --omit=dev",
-    "format": "prettier --write \"src/**/*.js\"",
+    "first-time:local": "cp src/config/default.config.js src/config/local.config.js && npm run i && npm run start:local",
+    "first-time:prod": "cp src/config/default.config.js src/config/production.config.js && npm run i && npm run start:prod-pm2-monit",
     "start": "node src/main.js",
     "start:prod": "NODE_ENV=production node src/main.js",
     "start:prod-pm2": "npm run i:prod && NODE_ENV=production pm2 start --name drinaluza src/main.js -i max --node-args='--max-old-space-size=8192' -f",
@@ -32,10 +29,13 @@
     "stop": "pm2 stop all",
     "delete": "pm2 delete all",
     "monit": "pm2 monit",
+    "code": "code . && npm run start:local",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "push": "npm run format && git add . && git commit -m",
     "postpush": "git push && npm run start:local",
     "pull": "git pull origin main && npm run i && npm run start:local",
-    "code": "code . && npm run start:local",
+    "i": "npm i",
+    "i:prod": "NODE_ENV=production npm ci --omit=dev",
     "clean": "npm run clean:only && npm run i && npm run start:local",
     "clean:prod": "rm -r -f node_modules  && npm run i:prod",
     "clean:only": "rm -f package-lock.json && rm -r -f node_modules ",
@@ -51,24 +51,24 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "express-rate-limit": "^7.5.0",
+    "express-rate-limit": "^7.5.1",
     "express-useragent": "^1.0.15",
     "express-validator": "^7.2.1",
     "express-winston": "^4.2.0",
     "helmet": "^8.1.0",
     "ip": "^2.0.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.15.1",
+    "mongoose": "^8.16.0",
     "mongoose-unique-validator": "^5.0.1",
     "morgan": "^1.10.0",
     "socket.io": "^4.8.1",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.17.0",
-    "winston-mongodb": "^6.0.0"
+    "winston-mongodb": "^7.0.0"
   },
   "devDependencies": {
     "npm-check-updates": "^18.0.1",
-    "pm2": "^6.0.6",
-    "prettier": "^3.5.3"
+    "pm2": "^6.0.8",
+    "prettier": "^3.6.1"
   }
 }

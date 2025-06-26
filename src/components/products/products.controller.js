@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { resp } = require('../../core/helpers/resp')
-const { findManyProductsSrvc, createProductsrvc } = require('./products.service')
+const { findManyProductsSrvc, createProductSrvc } = require('./products.service')
 const { errorHandler } = require('../../core/error')
 const { authenticate } = require(`../../core/auth`)
 
@@ -21,9 +21,9 @@ router
 	.post(authenticate(), async (req, res) => {
 		try {
 			const createdByUser = req.user
-			const { business, shops, name } = req.body
-			const data = { business, shops, createdByUser, name }
-			const createdProduct = await createProductsrvc({ data })
+			const { business, shops, name, defaultProduct, price } = req.body
+			const data = { business, shops, createdByUser, name, defaultProduct, price }
+			const createdProduct = await createProductSrvc({ data })
 			//console.log(createdProduct)
 			return resp({ status: 201, data: createdProduct, req, res })
 		} catch (err) {

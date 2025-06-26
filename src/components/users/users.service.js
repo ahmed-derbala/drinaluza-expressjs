@@ -44,8 +44,8 @@ module.exports.findOneUserSrvc = async ({ filter, select }) => {
 	}
 }
 
-module.exports.createUserSrvc = async ({ email, username, phone }) => {
-	const signedupUser = await createUserRepo({ email, username, phone })
+module.exports.createUserSrvc = async ({ email, username, phone, settings }) => {
+	const signedupUser = await createUserRepo({ email, username, phone, settings })
 	if (!signedupUser) return null
 	return signedupUser
 

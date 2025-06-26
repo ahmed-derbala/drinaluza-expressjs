@@ -10,17 +10,19 @@ const { signinSrvc } = require('./auth.service')
 const { resp } = require('../../core/helpers/resp')
 const { findOneUserSrvc, createUserSrvc } = require('../../components/users/users.service')
 const { createAuthSrvc } = require('./auth.service')
+const { SessionsModel } = require('./sessions.schema')
 
 router.post('/signup', validate(signupVld), async (req, res) => {
 	const { username, password } = req.body
+	let { settings } = req.body
 	const existedUser = await findOneUserSrvc({ match: { username }, select: '_id' })
 	if (existedUser) {
 		return resp({ status: 409, message: 'user already exist', data: null, req, res })
 	}
 
-	const user = await createUserSrvc({ username })
+	if (!settings) settings = { lang: config.users.defaults.settings.lang, currency: config.users.defaults.settings.currency }
+	const user = await createUserSrvc({ username, settings })
 	if (!user) return resp({ status: 400, data: null, message: 'no user was created', req, res })
-	//console.log(user)
 	const createdAuth = await createAuthSrvc({ user, password })
 	const token = createNewSession({ user, req })
 
@@ -43,7 +45,7 @@ router.post('/signin', validate(signinVld), async (req, res) => {
 })
 
 router.post('/signout', authenticate(), async (req, res) => {
-	return Sessions.deleteOne({ token: req.headers.token })
+	return SessionsModel.deleteOne({ token: req.headers.token })
 		.then((deletedSession) => {
 			return res.status(200).json({ message: 'singedout', data: deletedSession })
 		})

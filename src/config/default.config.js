@@ -252,7 +252,13 @@ const defaultConfig = {
 	},
 	users: {
 		roles: ['admin', 'user'],
-		types: ['type1', 'type2']
+		types: ['type1', 'type2'],
+		defaults: {
+			settings: {
+				lang: 'en',
+				currency: 'tnd'
+			}
+		}
 	}
 }
 

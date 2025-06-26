@@ -64,6 +64,8 @@ exports.authenticate = (params) => {
 }
 
 exports.createNewSession = ({ user, req }) => {
+	console.log(user)
+
 	const token = jwt.sign({ user, req: { ip: req.ip, headers: { 'user-agent': req.headers['user-agent'] } } }, config.auth.jwt.privateKey, { expiresIn: config.auth.jwt.expiresIn })
 
 	SessionsModel.create({

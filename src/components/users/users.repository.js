@@ -22,23 +22,23 @@ module.exports.findOneUserRepo = async ({ match, select }) => {
 	}
 }
 
-module.exports.createUserRepo = async ({ email, username, phone, password, profile }) => {
+module.exports.createUserRepo = async ({ email, username, name, phone, password, profile, settings }) => {
 	try {
-		let singedupUser = await UserModel.create({ email, username, phone, password })
+		let singedupUser = await UserModel.create({ email, username, phone, password, settings })
 		let updateData = {}
 		if (!username) {
 			username = singedupUser._id
 			updateData.username = username
 		}
-		if (!profile) {
-			profile = {}
-			profile.displayName = username
-			updateData.profile = profile
+		if (!name) {
+			name = username
+			updateData.name = name
 		}
 		if (updateData) await UserModel.updateOne({ _id: singedupUser._id }, updateData)
 
 		singedupUser = singedupUser.toJSON()
 		delete singedupUser.password
+		//console.log(singedupUser)
 		return singedupUser
 	} catch (err) {
 		errorHandler({ err })

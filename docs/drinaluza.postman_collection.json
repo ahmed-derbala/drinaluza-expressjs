@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "4d820403-14d4-4960-b178-308a0abdf0e9",
+		"name": "drinaluza",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32889223"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "{{drinaluza_url}}/api/auth/signup",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    //\"email\":\"derbala.ahmed531992@gmail.com\",\n    \"username\":\"ahmed16\",\n    \"password\":\"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{drinaluza_url}}/api/auth/signup",
+							"host": [
+								"{{drinaluza_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{drinaluza_url}}/api/auth/signin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    //\"email\":\"derbala.ahmed531992@gmail.com\",\n    \"username\": \"ahmed13\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{drinaluza_url}}/api/auth/signin",
+							"host": [
+								"{{drinaluza_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "{{drinaluza_url}}/api/users/ahmed",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY4MjVmYWMzZTY1MGNjMDY5ODY5OGQ4NSIsInVzZXJuYW1lIjoiYWhtZWQifSwicmVxIjp7ImlwIjoiOjpmZmZmOjEyNy4wLjAuMSIsImhlYWRlcnMiOnsidXNlci1hZ2VudCI6IlBvc3RtYW5SdW50aW1lLzcuNDMuNCJ9fSwiaWF0IjoxNzQ3MzIxNDc1LCJleHAiOjE3NTUwOTc0NzV9.PcRmmO7VoLoGZ6ykwUwPT-zkiU17i3IxLz5qrjCfW9I",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{drinaluza_url}}/api/users/ahmed",
+							"host": [
+								"{{drinaluza_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"ahmed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{drinaluza_url}}/api/default-products?page=",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{drinaluza_url}}/api/default-products?page=",
+							"host": [
+								"{{drinaluza_url}}"
+							],
+							"path": [
+								"api",
+								"default-products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "{{drinaluza_url}}/api/products?page=1",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{drinaluza_url}}/api/products?page=1",
+							"host": [
+								"{{drinaluza_url}}"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{drinaluza_url}}/api/products",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY4MjcyN2U0MWE5ZTIwZTIwNTU0NjEzNSIsInVzZXJuYW1lIjoiYWhtZWQifSwicmVxIjp7ImlwIjoiOjpmZmZmOjEyNy4wLjAuMSIsImhlYWRlcnMiOnsidXNlci1hZ2VudCI6IlBvc3RtYW5SdW50aW1lLzcuNDMuNCJ9fSwiaWF0IjoxNzQ4MjQ5NjUyLCJleHAiOjE3NTYwMjU2NTJ9.cKhi3EiWcRxYdMLyQKxV86dgtyJoWaqT-ighOA-419Y",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"p1\",\n    \"business\":{\"_id\":\"683438797279d217541d5975\",\"name\":\"b1\"},\n    \"shops\":[{\"_id\":\"6834399c00115f6ea2e489e2\",\"name\":\"s1\"}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{drinaluza_url}}/api/products",
+							"host": [
+								"{{drinaluza_url}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "default-products",
+			"item": []
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "{{drinaluza_url}}/api/orders",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{drinaluza_url}}/api/orders",
+							"host": [
+								"{{drinaluza_url}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{drinaluza_url}}/api/orders",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY4MjcyN2U0MWE5ZTIwZTIwNTU0NjEzNSIsInVzZXJuYW1lIjoiYWhtZWQiLCJuYW1lIjoiYWhtZWQifSwicmVxIjp7ImlwIjoiOjpmZmZmOjEyNy4wLjAuMSIsImhlYWRlcnMiOnsidXNlci1hZ2VudCI6IlBvc3RtYW5SdW50aW1lLzcuNDQuMCJ9fSwiaWF0IjoxNzQ4Nzc0ODk0LCJleHAiOjE3NTY1NTA4OTR9.PcJTr8JqtqH4y4pVAdcRUU2TytLxNdBqk_iS3_H9z8E",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"products\": [\n        {\n            \"_id\": \"682727e41a9e20e205546135\",\n            \"quantity\": 1\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{drinaluza_url}}/api/orders",
+							"host": [
+								"{{drinaluza_url}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "{{drinaluza_url}}/api/feed",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{drinaluza_url}}/api/feed",
+					"host": [
+						"{{drinaluza_url}}"
+					],
+					"path": [
+						"api",
+						"feed"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

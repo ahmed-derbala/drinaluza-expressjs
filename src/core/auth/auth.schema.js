@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const { usersCollection } = require('../../components/users/users.schema')
-
+const { UserSettingsSchema } = require('../../components/users/users.schema')
 const authCollection = 'auth'
 
 const AuthSchema = new mongoose.Schema(
@@ -9,7 +9,9 @@ const AuthSchema = new mongoose.Schema(
 			_id: { type: mongoose.Schema.Types.ObjectId, ref: usersCollection, required: true, unique: true },
 			email: { type: String /*unique: true*/ },
 			username: { type: String, required: true /*unique: true*/ },
-			name: { type: String, required: true }
+			name: { type: String, required: true },
+			settings: UserSettingsSchema,
+			updatedAt: { type: Date, required: true }
 		},
 		password: {
 			type: String,

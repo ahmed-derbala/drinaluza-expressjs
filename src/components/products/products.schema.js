@@ -3,26 +3,44 @@ const { CreatedByUserSchema } = require('../users/users.schema')
 const { BusinessRefSchema } = require('../businesses/businessRef.schema')
 const { ShopRefSchema } = require('../shops/shops.schema')
 const { defaultProductRefSchema } = require('../default-products/defaultProductRef.schema')
+const { priceUnitEnum } = require('./products.enum')
 
 const PriceSchema = new mongoose.Schema(
 	{
-		tnd: {
-			type: Number,
-			required: false,
-			default: 0,
-			min: 0
+		value: {
+			tnd: {
+				type: Number,
+				required: true,
+				default: 0,
+				min: 0
+			},
+			eur: {
+				type: Number,
+				required: false,
+				//default: 0,
+				min: 0
+			},
+			usd: {
+				type: Number,
+				required: false,
+				//default: 0,
+				min: 0
+			}
 		},
-		eur: {
-			type: Number,
-			required: false,
-			default: 0,
-			min: 0
-		},
-		usd: {
-			type: Number,
-			required: false,
-			default: 0,
-			min: 0
+		unit: {
+			name: {
+				type: String,
+				required: true,
+				enum: priceUnitEnum.all,
+				default: priceUnitEnum.KG
+			},
+			min: {
+				//when the seller wants a minimum quantity to sell
+				type: Number,
+				required: true,
+				default: 1,
+				min: 1
+			}
 		}
 	},
 	{ _id: false, timestamps: true }
@@ -34,46 +52,22 @@ const ProductRefSchema = new mongoose.Schema(
 			type: String, //by default the name of defaultProduct[lang]
 			required: true
 		},
-		price: PriceSchema,
-		unit: {
-			name: {
-				type: String,
-				enum: ['KG', 'L', 'piece'],
-				default: 'KG'
-			},
-			min: {
-				type: Number,
-				default: 1,
-				min: 1
-			}
-		}
+		price: PriceSchema
 	},
-	{ _id: false, timestamps: true }
+	{ timestamps: true }
 )
 
 const ProductSchema = new mongoose.Schema(
 	{
 		createdByUser: CreatedByUserSchema,
-		business: { type: BusinessRefSchema, required: true },
-		shops: [{ type: ShopRefSchema, required: [false, 'eeee'] }],
-		defaultProduct: { type: defaultProductRefSchema, required: [false, 'eee'] },
+		business: { type: BusinessRefSchema, required: false },
+		shops: [{ type: ShopRefSchema, required: false }],
+		defaultProduct: { type: defaultProductRefSchema, required: false },
 		name: {
 			type: String, //by default the name of defaultProduct[lang]
 			required: true
 		},
-		price: PriceSchema,
-		unit: {
-			name: {
-				type: String,
-				enum: ['KG', 'L', 'piece'],
-				default: 'KG'
-			},
-			min: {
-				type: Number,
-				default: 1,
-				min: 1
-			}
-		},
+		price: { type: PriceSchema, required: true },
 		searchTerms: [String],
 		isActive: {
 			type: Boolean,
@@ -82,6 +76,28 @@ const ProductSchema = new mongoose.Schema(
 		availability: {
 			startDate: { type: Date, required: true, default: Date.now },
 			endDate: { type: Date, required: false, default: null }
+		},
+		stock: {
+			quantity: {
+				type: Number,
+				required: true,
+				default: 0,
+				min: 0,
+				validate: {
+					validator: Number.isInteger,
+					message: 'Stock quantity must be an integer'
+				}
+			},
+			minThreshold: {
+				type: Number,
+				required: true,
+				default: 10,
+				min: 0,
+				validate: {
+					validator: Number.isInteger,
+					message: 'Minimum stock threshold must be an integer'
+				}
+			}
 		}
 	},
 	{ timestamps: true }

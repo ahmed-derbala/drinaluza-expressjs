@@ -1,0 +1,310 @@
+{
+  "Afghanistan": {
+    "en": "Afghanistan",
+    "fr": "Afghanistan",
+    "ar": "أفغانستان",
+    "code": "AF",
+    "phone": "+93"
+  },
+  "Albania": {
+    "en": "Albania",
+    "fr": "Albanie",
+    "ar": "ألبانيا",
+    "code": "AL",
+    "phone": "+355"
+  },
+  "Algeria": {
+    "en": "Algeria",
+    "fr": "Algérie",
+    "ar": "الجزائر",
+    "code": "DZ",
+    "phone": "+213"
+  },
+  "Argentina": {
+    "en": "Argentina",
+    "fr": "Argentine",
+    "ar": "الأرجنتين",
+    "code": "AR",
+    "phone": "+54"
+  },
+  "Australia": {
+    "en": "Australia",
+    "fr": "Australie",
+    "ar": "أستراليا",
+    "code": "AU",
+    "phone": "+61"
+  },
+  "Austria": {
+    "en": "Austria",
+    "fr": "Autriche",
+    "ar": "النمسا",
+    "code": "AT",
+    "phone": "+43"
+  },
+  "Bahrain": {
+    "en": "Bahrain",
+    "fr": "Bahreïn",
+    "ar": "البحرين",
+    "code": "BH",
+    "phone": "+973"
+  },
+  "Bangladesh": {
+    "en": "Bangladesh",
+    "fr": "Bangladesh",
+    "ar": "بنغلاديش",
+    "code": "BD",
+    "phone": "+880"
+  },
+  "Belgium": {
+    "en": "Belgium",
+    "fr": "Belgique",
+    "ar": "بلجيكا",
+    "code": "BE",
+    "phone": "+32"
+  },
+  "Brazil": {
+    "en": "Brazil",
+    "fr": "Brésil",
+    "ar": "البرازيل",
+    "code": "BR",
+    "phone": "+55"
+  },
+  "Canada": {
+    "en": "Canada",
+    "fr": "Canada",
+    "ar": "كندا",
+    "code": "CA",
+    "phone": "+1"
+  },
+  "China": {
+    "en": "China",
+    "fr": "Chine",
+    "ar": "الصين",
+    "code": "CN",
+    "phone": "+86"
+  },
+  "Egypt": {
+    "en": "Egypt",
+    "fr": "Égypte",
+    "ar": "مصر",
+    "code": "EG",
+    "phone": "+20"
+  },
+  "France": {
+    "en": "France",
+    "fr": "France",
+    "ar": "فرنسا",
+    "code": "FR",
+    "phone": "+33"
+  },
+  "Germany": {
+    "en": "Germany",
+    "fr": "Allemagne",
+    "ar": "ألمانيا",
+    "code": "DE",
+    "phone": "+49"
+  },
+  "India": {
+    "en": "India",
+    "fr": "Inde",
+    "ar": "الهند",
+    "code": "IN",
+    "phone": "+91"
+  },
+  "Indonesia": {
+    "en": "Indonesia",
+    "fr": "Indonésie",
+    "ar": "إندونيسيا",
+    "code": "ID",
+    "phone": "+62"
+  },
+  "Iraq": {
+    "en": "Iraq",
+    "fr": "Irak",
+    "ar": "العراق",
+    "code": "IQ",
+    "phone": "+964"
+  },
+  "Italy": {
+    "en": "Italy",
+    "fr": "Italie",
+    "ar": "إيطاليا",
+    "code": "IT",
+    "phone": "+39"
+  },
+  "Japan": {
+    "en": "Japan",
+    "fr": "Japon",
+    "ar": "اليابان",
+    "code": "JP",
+    "phone": "+81"
+  },
+  "Jordan": {
+    "en": "Jordan",
+    "fr": "Jordanie",
+    "ar": "الأردن",
+    "code": "JO",
+    "phone": "+962"
+  },
+  "Kuwait": {
+    "en": "Kuwait",
+    "fr": "Koweït",
+    "ar": "الكويت",
+    "code": "KW",
+    "phone": "+965"
+  },
+  "Lebanon": {
+    "en": "Lebanon",
+    "fr": "Liban",
+    "ar": "لبنان",
+    "code": "LB",
+    "phone": "+961"
+  },
+  "Mexico": {
+    "en": "Mexico",
+    "fr": "Mexique",
+    "ar": "المكسيك",
+    "code": "MX",
+    "phone": "+52"
+  },
+  "Morocco": {
+    "en": "Morocco",
+    "fr": "Maroc",
+    "ar": "المغرب",
+    "code": "MA",
+    "phone": "+212"
+  },
+  "Netherlands": {
+    "en": "Netherlands",
+    "fr": "Pays-Bas",
+    "ar": "هولندا",
+    "code": "NL",
+    "phone": "+31"
+  },
+  "Nigeria": {
+    "en": "Nigeria",
+    "fr": "Nigéria",
+    "ar": "نيجيريا",
+    "code": "NG",
+    "phone": "+234"
+  },
+  "Pakistan": {
+    "en": "Pakistan",
+    "fr": "Pakistan",
+    "ar": "باكستان",
+    "code": "PK",
+    "phone": "+92"
+  },
+  "Qatar": {
+    "en": "Qatar",
+    "fr": "Qatar",
+    "ar": "قطر",
+    "code": "QA",
+    "phone": "+974"
+  },
+  "Russia": {
+    "en": "Russia",
+    "fr": "Russie",
+    "ar": "روسيا",
+    "code": "RU",
+    "phone": "+7"
+  },
+  "Saudi Arabia": {
+    "en": "Saudi Arabia",
+    "fr": "Arabie Saoudite",
+    "ar": "السعودية",
+    "code": "SA",
+    "phone": "+966"
+  },
+  "South Africa": {
+    "en": "South Africa",
+    "fr": "Afrique du Sud",
+    "ar": "جنوب أفريقيا",
+    "code": "ZA",
+    "phone": "+27"
+  },
+  "South Korea": {
+    "en": "South Korea",
+    "fr": "Corée du Sud",
+    "ar": "كوريا الجنوبية",
+    "code": "KR",
+    "phone": "+82"
+  },
+  "Spain": {
+    "en": "Spain",
+    "fr": "Espagne",
+    "ar": "إسبانيا",
+    "code": "ES",
+    "phone": "+34"
+  },
+  "Sudan": {
+    "en": "Sudan",
+    "fr": "Soudan",
+    "ar": "السودان",
+    "code": "SD",
+    "phone": "+249"
+  },
+  "Sweden": {
+    "en": "Sweden",
+    "fr": "Suède",
+    "ar": "السويد",
+    "code": "SE",
+    "phone": "+46"
+  },
+  "Switzerland": {
+    "en": "Switzerland",
+    "fr": "Suisse",
+    "ar": "سويسرا",
+    "code": "CH",
+    "phone": "+41"
+  },
+  "Syria": {
+    "en": "Syria",
+    "fr": "Syrie",
+    "ar": "سوريا",
+    "code": "SY",
+    "phone": "+963"
+  },
+  "Tunisia": {
+    "en": "Tunisia",
+    "fr": "Tunisie",
+    "ar": "تونس",
+    "code": "TN",
+    "phone": "+216"
+  },
+  "Turkey": {
+    "en": "Turkey",
+    "fr": "Turquie",
+    "ar": "تركيا",
+    "code": "TR",
+    "phone": "+90"
+  },
+  "United Arab Emirates": {
+    "en": "United Arab Emirates",
+    "fr": "Émirats Arabes Unis",
+    "ar": "الإمارات العربية المتحدة",
+    "code": "AE",
+    "phone": "+971"
+  },
+  "United Kingdom": {
+    "en": "United Kingdom",
+    "fr": "Royaume-Uni",
+    "ar": "المملكة المتحدة",
+    "code": "GB",
+    "phone": "+44"
+  },
+  "United States": {
+    "en": "United States",
+    "fr": "États-Unis",
+    "ar": "الولايات المتحدة",
+    "code": "US",
+    "phone": "+1"
+  },
+  "Yemen": {
+    "en": "Yemen",
+    "fr": "Yémen",
+    "ar": "اليمن",
+    "code": "YE",
+    "phone": "+967"
+  }
+}

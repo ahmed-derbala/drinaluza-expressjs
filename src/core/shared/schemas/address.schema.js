@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const COUNTRIES = require('../json/countries.json')
 
 let location = (exports.location = new mongoose.Schema(
 	{
@@ -25,7 +26,7 @@ let location = (exports.location = new mongoose.Schema(
 exports.address = new mongoose.Schema(
 	{
 		text: { type: String, required: false },
-		country: { type: String, required: false },
+		country: { type: String, required: true, default: COUNTRIES.Tunisia.en },
 		city: { type: String, required: false },
 		street: { type: String, required: false },
 		location

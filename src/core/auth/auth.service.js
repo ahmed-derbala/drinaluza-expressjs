@@ -5,7 +5,6 @@ const config = require(`../../config`)
 
 module.exports.signinSrvc = async ({ match, password }) => {
 	try {
-		//console.log(match, password)
 		const fecthedAuth = await findOneAuthSrvc({ match, select: '+password' })
 
 		if (!fecthedAuth) {

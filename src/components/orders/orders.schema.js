@@ -1,12 +1,16 @@
 const mongoose = require('mongoose')
 const { OrderedByUserSchema } = require('../users/users.schema')
 const { ProductRefSchema } = require('../products/products.schema')
+const { ShopRefSchema } = require('../shops/shops.schema')
+const { BusinessRefSchema } = require('../businesses/businessRef.schema')
 
 const ordersCollection = 'orders'
 
 const OrderSchema = new mongoose.Schema(
 	{
-		orderedByUser: OrderedByUserSchema,
+		business: { type: BusinessRefSchema, required: true },
+		shop: { type: ShopRefSchema, required: true },
+		orderedByUser: { type: OrderedByUserSchema, required: true },
 		products: [
 			{
 				product: ProductRefSchema,
@@ -17,11 +21,6 @@ const OrderSchema = new mongoose.Schema(
 				}
 			}
 		],
-		/*totalAmount: {
-			type: Number,
-			required: true,
-			min: [0, 'Total amount cannot be negative']
-		},*/
 		status: {
 			type: String,
 			enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],

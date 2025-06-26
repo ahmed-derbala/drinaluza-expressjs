@@ -11,18 +11,15 @@ exports.defaultProductRefSchema = new mongoose.Schema(
 		name: {
 			en: {
 				type: String,
-				required: true,
-				unique: true // Ensures uniqueness for the 'en' field
+				required: true
 			},
 			tn: {
 				type: String,
-				required: true,
-				unique: true // Ensures uniqueness for the 'tn' field
+				required: false
 			},
 			tn_ar: {
 				type: String,
-				required: true,
-				unique: true // Ensures uniqueness for the 'tn_ar' field
+				required: false
 			}
 		}
 	},
