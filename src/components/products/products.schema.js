@@ -52,9 +52,9 @@ const ProductRefSchema = new mongoose.Schema(
 			type: String, //by default the name of defaultProduct[lang]
 			required: true
 		},
-		price: PriceSchema
+		price: { type: PriceSchema, required: true }
 	},
-	{ timestamps: true }
+	{ timestamps: { createdAt: false, updatedAt: true } }
 )
 
 const ProductSchema = new mongoose.Schema(

@@ -7,6 +7,8 @@ const { flattenObject } = require('../../core/helpers/filters')
 module.exports.findOneProductRepo = async ({ match, select }) => {
 	try {
 		const flattenedMatch = flattenObject({ obj: match })
+		console.log('....')
+		console.log(flattenedMatch)
 		const fetchedProduct = await ProductModel.findOne({ ...flattenedMatch })
 			.select(select)
 			.lean()

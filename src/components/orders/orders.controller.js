@@ -22,11 +22,12 @@ router
 	})
 	.post(authenticate(), validate(createOrderVld), async (req, res) => {
 		try {
-			const orderedByUser = req.body?.orderedByUser || req.user
+			const createdByUser = req.body?.createdByUser || req.user
 			const { shop, products } = req.body
+
 			let { business } = req.body
 
-			const data = { orderedByUser, business, shop, products }
+			const data = { createdByUser, business, shop, products }
 			const createdOrder = await createOrderSrvc({ data })
 			//console.log(createdOrder)
 			return resp({ status: 201, data: createdOrder, req, res })

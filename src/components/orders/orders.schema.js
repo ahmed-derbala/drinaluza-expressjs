@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { OrderedByUserSchema } = require('../users/users.schema')
+const { CreatedByUserSchema } = require('../users/users.schema')
 const { ProductRefSchema } = require('../products/products.schema')
 const { ShopRefSchema } = require('../shops/shops.schema')
 const { BusinessRefSchema } = require('../businesses/businessRef.schema')
@@ -10,7 +10,7 @@ const OrderSchema = new mongoose.Schema(
 	{
 		business: { type: BusinessRefSchema, required: true },
 		shop: { type: ShopRefSchema, required: true },
-		orderedByUser: { type: OrderedByUserSchema, required: true },
+		createdByUser: { type: CreatedByUserSchema, required: true },
 		products: [
 			{
 				product: ProductRefSchema,

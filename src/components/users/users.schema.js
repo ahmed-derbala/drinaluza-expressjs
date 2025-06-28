@@ -100,23 +100,9 @@ const CreatedByUserSchema = new mongoose.Schema(
 			ref: usersCollection,
 			required: true
 		},
-		username: { type: String, required: true }
+		name: { type: String, required: true }
 	},
-	{ _id: false, timestamps: true }
-)
-
-const OrderedByUserSchema = new mongoose.Schema(
-	{
-		_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: usersCollection,
-			required: true
-		},
-		name: { type: String, required: true },
-		phone: { type: String, required: false },
-		address: { type: String, required: false }
-	},
-	{ timestamps: false, required: true }
+	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }
 )
 
 module.exports = {
@@ -124,7 +110,6 @@ module.exports = {
 	usersCollection,
 	UserProfileSchema,
 	CreatedByUserSchema,
-	OrderedByUserSchema,
 	UserSchema,
 	UserSettingsSchema
 }

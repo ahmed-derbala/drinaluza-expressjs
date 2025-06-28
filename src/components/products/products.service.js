@@ -4,6 +4,7 @@ const { findOneProductRepo, findManyProductsRepo, createdProductRepo } = require
 
 module.exports.findOneProductSrvc = async ({ match, select }) => {
 	const fetchedProduct = await findOneProductRepo({ match, select })
+	return fetchedProduct
 }
 
 module.exports.findManyProductsSrvc = async ({ match, select, page, limit }) => {
