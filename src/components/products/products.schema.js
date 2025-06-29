@@ -59,9 +59,9 @@ const ProductRefSchema = new mongoose.Schema(
 
 const ProductSchema = new mongoose.Schema(
 	{
-		createdByUser: CreatedByUserSchema,
-		business: { type: BusinessRefSchema, required: false },
-		shops: [{ type: ShopRefSchema, required: false }],
+		createdByUser: { type: CreatedByUserSchema, required: true },
+		business: { type: BusinessRefSchema, required: true },
+		shop: { type: ShopRefSchema, required: true },
 		defaultProduct: { type: defaultProductRefSchema, required: false },
 		name: {
 			type: String, //by default the name of defaultProduct[lang]

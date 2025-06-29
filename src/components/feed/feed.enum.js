@@ -1,0 +1,3 @@
+exports.cardTypeEnum = {
+	product: 'product'
+}
