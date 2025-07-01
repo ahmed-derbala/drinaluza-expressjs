@@ -22,7 +22,7 @@ export const getAllFiles = async function (dirPath, arrayOfFiles = {}, discrimin
 		if (stat.isDirectory() && !ignoreFolders.includes(file)) {
 			arrayOfFiles = await getAllFiles(fullPath, arrayOfFiles, discriminator)
 		} else if (file.includes(discriminator)) {
-			const module = await import(pathToFileURL(fullPath).href)
+			const module = (await import(pathToFileURL(fullPath).href)).default
 			const newElem = module.default || module
 			arrayOfFiles = { ...arrayOfFiles, ...newElem }
 		}
@@ -30,8 +30,9 @@ export const getAllFiles = async function (dirPath, arrayOfFiles = {}, discrimin
 
 	return arrayOfFiles
 }
-let paths = getAllFiles(process.cwd(), [], '.path.swagger.js')
-let tags = getAllFiles(process.cwd(), [], '.tag.swagger.js')
+let paths = await getAllFiles(process.cwd(), [], '.path.swagger.js')
+let tags = await getAllFiles(process.cwd(), [], '.tag.swagger.js')
+
 export const mainDef = {
 	swagger: '2.0',
 	info: {

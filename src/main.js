@@ -4,7 +4,6 @@ import { connectMongodb } from './core/db/index.js'
 import server from './core/utils/server.js'
 import { socketio } from './core/socketio/index.js'
 ;('use strict')
-console.clear()
 /**
  * connect dbs
  */
