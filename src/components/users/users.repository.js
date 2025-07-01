@@ -1,9 +1,8 @@
-const { UserModel } = require(`./users.schema`)
-const { errorHandler } = require('../../core/error')
-const { paginateMongodb } = require('../../core/db/mongodb/pagination')
-const { log } = require(`../../core/log`)
-
-module.exports.updateUserRepo = async ({ identity, newData }) => {
+import { UserModel } from './users.schema.js'
+import { errorHandler } from '../../core/error/index.js'
+import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
+import { log } from '../../core/log/index.js'
+export const updateUserRepo = async ({ identity, newData }) => {
 	try {
 		const updatedUser = await UserModel.updateOne(identity, newData)
 		return updatedUser
@@ -11,8 +10,7 @@ module.exports.updateUserRepo = async ({ identity, newData }) => {
 		errorHandler({ err })
 	}
 }
-
-module.exports.findOneUserRepo = async ({ match, select }) => {
+export const findOneUserRepo = async ({ match, select }) => {
 	try {
 		const user = await UserModel.findOne(match).select(select).lean()
 		//console.log(user,match)
@@ -21,8 +19,7 @@ module.exports.findOneUserRepo = async ({ match, select }) => {
 		return errorHandler({ err })
 	}
 }
-
-module.exports.createUserRepo = async ({ email, username, name, phone, password, profile, settings }) => {
+export const createUserRepo = async ({ email, username, name, phone, password, profile, settings }) => {
 	try {
 		let singedupUser = await UserModel.create({ email, username, phone, password, settings })
 		let updateData = {}
@@ -35,7 +32,6 @@ module.exports.createUserRepo = async ({ email, username, name, phone, password,
 			updateData.name = name
 		}
 		if (updateData) await UserModel.updateOne({ _id: singedupUser._id }, updateData)
-
 		singedupUser = singedupUser.toJSON()
 		delete singedupUser.password
 		//console.log(singedupUser)

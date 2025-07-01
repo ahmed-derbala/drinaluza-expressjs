@@ -1,8 +1,7 @@
-const mongoose = require('mongoose')
-const { usersCollection } = require('../../components/users/users.schema')
-const { UserSettingsSchema } = require('../../components/users/users.schema')
+import mongoose from 'mongoose'
+import { usersCollection } from '../../components/users/users.schema.js'
+import { UserSettingsSchema } from '../../components/users/users.schema.js'
 const authCollection = 'auth'
-
 const AuthSchema = new mongoose.Schema(
 	{
 		user: {
@@ -27,8 +26,9 @@ const AuthSchema = new mongoose.Schema(
 	},
 	{ timestamps: true, collection: authCollection }
 )
-
-module.exports = {
-	AuthModel: mongoose.model(authCollection, AuthSchema),
+export const AuthModel = mongoose.model(authCollection, AuthSchema)
+export { authCollection }
+export default {
+	AuthModel,
 	authCollection
 }

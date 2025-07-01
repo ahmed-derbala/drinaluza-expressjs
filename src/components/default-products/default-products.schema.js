@@ -1,7 +1,5 @@
-const mongoose = require('mongoose')
-
+import mongoose from 'mongoose'
 const defaultProductsCollection = 'default-products'
-
 const schema = new mongoose.Schema(
 	{
 		name: {
@@ -38,8 +36,9 @@ const schema = new mongoose.Schema(
 	},
 	{ timestamps: true, collection: defaultProductsCollection }
 )
-
-module.exports = {
-	DefaultProductModel: mongoose.model(defaultProductsCollection, schema),
+export const DefaultProductModel = mongoose.model(defaultProductsCollection, schema)
+export { defaultProductsCollection }
+export default {
+	DefaultProductModel,
 	defaultProductsCollection
 }

@@ -1,27 +1,20 @@
-const config = require(`../../config`)
-const { log } = require(`../log`)
-
-/**
- * Module dependencies.
- */
-const app = require('./app')
-const http = require('http')
-
+import config from '../../config/index.js'
+import { log } from '../log/index.js'
+import app from './app.js'
+import http from 'http'
+import cluster from 'cluster'
 /**
  * Get port from environment
  */
 app.set('port', config.backend.port)
-
 /**
  * Create HTTP server.
  */
 const server = http.createServer(app)
-
 /**
  * Listen on provided port, on all network interfaces.
  */
 if (config.app.cluster > 0) {
-	let cluster = require('cluster')
 	if (cluster.isMaster) {
 		log({
 			message: `cluster is enabled. ${config.app.cluster} cpus are in use`,
@@ -32,7 +25,6 @@ if (config.app.cluster > 0) {
 		for (let c = 1; c <= config.app.cluster; c++) {
 			cluster.fork()
 		}
-
 		// Listen for dying workers
 		cluster.on('exit', function () {
 			console.log(`cluster exited`)
@@ -64,9 +56,7 @@ if (config.app.cluster > 0) {
 	server.on('error', onError)
 	server.on('listening', onListening)
 }
-
 server.setTimeout(0) //make sure timeout is disabled , wait forever
-
 process.on('SIGINT', () => {
 	log({ level: 'error', message: 'Received SIGINT signal. Gracefully shutting down...', label: 'server' })
 	// Close server connections
@@ -75,18 +65,14 @@ process.on('SIGINT', () => {
 		process.exit(0)
 	})
 })
-
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
 	if (error.syscall !== 'listen') {
 		throw error
 	}
-
 	const bind = typeof config.backend.port === 'string' ? 'Pipe ' + config.backend.port : 'Port ' + config.backend.port
-
 	// handle specific listen errors with friendly messages
 	switch (error.code) {
 		case 'EACCES':
@@ -105,14 +91,11 @@ function onError(error) {
 			throw error
 	}
 }
-
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
 	const addr = server.address()
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port
 }
-
-module.exports = server
+export default server

@@ -1,7 +1,6 @@
-const mongoose = require('mongoose')
-const { defaultProductsCollection } = require('./default-products.schema')
-
-exports.defaultProductRefSchema = new mongoose.Schema(
+import mongoose from 'mongoose'
+import { defaultProductsCollection } from './default-products.schema.js'
+export const defaultProductRefSchema = new mongoose.Schema(
 	{
 		_id: {
 			type: mongoose.Schema.Types.ObjectId,

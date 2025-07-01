@@ -1,10 +1,9 @@
-const jwt = require('jsonwebtoken')
-const { SessionsModel } = require(`./sessions.schema`)
-const { errorHandler } = require('../error')
-const config = require(`../../config`)
-const { resp } = require('../helpers/resp')
-
-exports.authenticate = (params) => {
+import jwt from 'jsonwebtoken'
+import { SessionsModel } from './sessions.schema.js'
+import { errorHandler } from '../error/index.js'
+import config from '../../config/index.js'
+import { resp } from '../helpers/resp.js'
+export const authenticate = (params) => {
 	return function (req, res, next) {
 		try {
 			//check params
@@ -17,13 +16,11 @@ exports.authenticate = (params) => {
 				else if (req.headers['authorization'] != null) req.headers.token = req.headers['authorization']
 				else if (req.query.token != null) req.headers.token = req.query.token
 			}
-
 			if (req.headers.token == null && params.tokenRequired == true) {
 				if (config.NODE_ENV === 'production') return res.status(403).json({ message: 'Please signin' })
 				return resp({ message: 'No token found on headers, cookies or query', status: 403, data: null, req, res })
 			}
 			req.headers.token = req.headers.token.replace('Bearer ', '')
-
 			//verify token
 			return jwt.verify(req.headers.token, config.auth.jwt.privateKey, async (err, decoded) => {
 				if (err) {
@@ -62,12 +59,9 @@ exports.authenticate = (params) => {
 		}
 	}
 }
-
-exports.createNewSession = ({ user, req }) => {
+export const createNewSession = ({ user, req }) => {
 	console.log(user)
-
 	const token = jwt.sign({ user, req: { ip: req.ip, headers: { 'user-agent': req.headers['user-agent'] } } }, config.auth.jwt.privateKey, { expiresIn: config.auth.jwt.expiresIn })
-
 	SessionsModel.create({
 		token,
 		user,
@@ -76,6 +70,5 @@ exports.createNewSession = ({ user, req }) => {
 			ip: req.ip
 		}
 	})
-
 	return token
 }

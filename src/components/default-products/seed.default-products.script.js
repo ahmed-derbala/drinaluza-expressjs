@@ -1,10 +1,8 @@
-const mongoose = require('mongoose')
-const { DefaultProductModel, defaultProductsCollection } = require('./default-products.schema') // Adjust path to your model file
-const config = require(`../../config`)
-
+import mongoose from 'mongoose'
+import { DefaultProductModel, defaultProductsCollection } from './default-products.schema.js'
+import config from '../../config/index.js'
 // MongoDB connection URI (replace with your MongoDB URI)
 const MONGODB_URI = 'mongodb://localhost:27017/drinaluza'
-
 // Sample seafood products data
 const seafoodProducts = [
 	{
@@ -98,7 +96,6 @@ const seafoodProducts = [
 		isActive: true
 	}
 ]
-
 // Function to seed the database
 async function seedDatabase() {
 	try {
@@ -109,11 +106,9 @@ async function seedDatabase() {
 		// Connect to MongoDB
 		await mongoose.connect(MONGODB_URI, {})
 		console.log('Connected to MongoDB')
-
 		// Insert seafood products without clearing existing data
 		await DefaultProductModel.insertMany(seafoodProducts, { ordered: false })
 		console.log(`Successfully seeded ${seafoodProducts.length} seafood products`)
-
 		// Verify inserted data
 		const count = await DefaultProductModel.countDocuments()
 		console.log(`Total documents in ${defaultProductsCollection}: ${count}`)
@@ -125,6 +120,5 @@ async function seedDatabase() {
 		console.log('MongoDB connection closed')
 	}
 }
-
 // Run the seed function
 seedDatabase()

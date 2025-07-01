@@ -1,10 +1,9 @@
-const { DefaultProductModel } = require(`./default-products.schema`)
-const { errorHandler } = require('../../core/error')
-const { paginateMongodb } = require('../../core/db/mongodb/pagination')
-const { log } = require(`../../core/log`)
-const { flattenObject } = require('../../core/helpers/filters')
-
-module.exports.findOneDefaultProductRepo = async ({ match, select }) => {
+import { DefaultProductModel } from './default-products.schema.js'
+import { errorHandler } from '../../core/error/index.js'
+import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
+import { log } from '../../core/log/index.js'
+import { flattenObject } from '../../core/helpers/filters.js'
+export const findOneDefaultProductRepo = async ({ match, select }) => {
 	try {
 		const flattenedMatch = flattenObject({ obj: match })
 		const fetchedDefaultProduct = await DefaultProductModel.findOne({ ...flattenedMatch })
@@ -15,8 +14,7 @@ module.exports.findOneDefaultProductRepo = async ({ match, select }) => {
 		errorHandler({ err })
 	}
 }
-
-module.exports.findManyDefaultProductRepo = async ({ match, select, page, limit }) => {
+export const findManyDefaultProductRepo = async ({ match, select, page, limit }) => {
 	try {
 		const flattenedMatch = flattenObject({ obj: match })
 		const fetchedManyDefaultProduct = paginateMongodb({ model: DefaultProductModel, match: { ...flattenedMatch }, select, page, limit })

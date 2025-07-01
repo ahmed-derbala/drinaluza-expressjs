@@ -1,11 +1,5 @@
-const { errorHandler } = require('../../core/error')
-
-/**
- *
- * @param {*} param0
- * @returns
- */
-exports.resp = ({ status, label, message, req, data, pagination, res }) => {
+import { errorHandler } from '../error/index.js'
+export const resp = ({ status, label, message, req, data, pagination, res }) => {
 	if (!res) return errorHandler({ label: 'res_object_null', req, res, err: 'res is required' })
 	if (data) {
 		delete data.password //just for safety

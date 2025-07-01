@@ -1,21 +1,17 @@
-const winston = require('winston')
-const config = require(`../../config`)
-const { removeEmptyKeys } = require('../helpers/removeEmptyKeys')
-const { sanitizeReq } = require('./sanitize-req')
-
+import * as winston from 'winston'
+import config from '../../config/index.js'
+import { removeEmptyKeys } from '../helpers/removeEmptyKeys.js'
+import { sanitizeReq } from './sanitize-req.js'
 winston.addColors(config.log.levels.colors)
 const logger = winston.createLogger(config.log.winston.createLoggerOptions)
-
 const winstonLogger = ({ level, label, error, message, req, data }) => {
 	let logObject = {}
 	level = level ? level : 'debug'
 	if (!config.log.isActive || !config.log.levels.allowed.includes(level)) return null
-
 	if (config.log.levels.isActive) logObject.level = level
 	if (config.log.label.isActive) logObject.label = label ? label : null
 	if (config.log.error.isActive) logObject.error = error ? error : null
 	if (config.log.data.isActive) logObject.data = data ? data : null
-
 	logObject.message = message ? message : 'no_message'
 	if (config.log.req.isActive) {
 		if (message === config.log.reqDefaultLog) {
@@ -34,7 +30,9 @@ const winstonLogger = ({ level, label, error, message, req, data }) => {
 		logObject.caller = caller
 	}
 	logObject = removeEmptyKeys(logObject)
-
 	logger[level](logObject)
 }
-module.exports = { winstonLogger }
+export { winstonLogger }
+export default {
+	winstonLogger
+}

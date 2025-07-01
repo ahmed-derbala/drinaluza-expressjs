@@ -1,8 +1,7 @@
-exports.categories = {
+export const categories = {
 	shops: ['restaurant', 'cafe', 'fish', 'agro'],
 	products: ['IT', 'electronics']
 }
-
-exports.jobs = {
+export const jobs = {
 	names: ['waiter', 'worker']
 }

@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-
-exports.phone = new mongoose.Schema(
+import mongoose from 'mongoose'
+export const phone = new mongoose.Schema(
 	{
 		fullNumber: { type: String, required: false },
 		countryCode: { type: String, required: false },

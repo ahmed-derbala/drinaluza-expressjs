@@ -1,152 +1,152 @@
-const { usersTag } = require('./users.tag.swagger.js')
-
-module.exports = {
-	'/users/{pathName}': {
-		post: {
-			//get, delete, put
-			tags: [usersTag.name],
-			summary: 'test summary',
-			description: 'test description',
-			operationId: 'testOperationId',
-			consumes: ['application/json'],
-			produces: ['application/json'],
-			parameters: [
-				{
-					in: 'body',
-					description: 'body description',
-					name: 'bodyName',
-					schema: {
-						type: 'object',
-						properties: {
-							email: {
-								type: 'string',
-								default: 'ahmed.derbala@esprit.tn',
-								required: false,
-								description: 'email description'
-							},
-							arrayOfString: {
-								type: 'array',
-								default: `["12345678","ahmed"]`,
-								required: false,
-								description: 'test description',
-								items: {
-									type: 'string'
+import { usersTag } from './users.tag.swagger.js'
+const usersPathName = {
+	post: {
+		//get, delete, put
+		tags: [usersTag.name],
+		summary: 'test summary',
+		description: 'test description',
+		operationId: 'testOperationId',
+		consumes: ['application/json'],
+		produces: ['application/json'],
+		parameters: [
+			{
+				in: 'body',
+				description: 'body description',
+				name: 'bodyName',
+				schema: {
+					type: 'object',
+					properties: {
+						email: {
+							type: 'string',
+							default: 'ahmed.derbala@esprit.tn',
+							required: false,
+							description: 'email description'
+						},
+						arrayOfString: {
+							type: 'array',
+							default: `["12345678","ahmed"]`,
+							required: false,
+							description: 'test description',
+							items: {
+								type: 'string'
+							}
+						},
+						arrayOfObject: {
+							type: 'array',
+							required: false,
+							description: 'test description',
+							items: {
+								type: 'object',
+								properties: {
+									email: {
+										type: 'string',
+										default: 'ahmed.derbala@esprit.tn',
+										required: false,
+										description: 'user email'
+									},
+									password: {
+										type: 'string',
+										default: '12345678',
+										required: false
+									}
 								}
 							},
-							arrayOfObject: {
+							default: [
+								{ id: 1, name: 'ahmed' },
+								{ id: 2, name: 'mahdi' }
+							]
+						},
+						arrayOfArrays: {
+							type: 'array',
+							required: false,
+							description: 'test description',
+							items: {
 								type: 'array',
-								required: false,
-								description: 'test description',
 								items: {
 									type: 'object',
 									properties: {
-										email: {
-											type: 'string',
+										id: {
+											type: 'integer',
 											default: 'ahmed.derbala@esprit.tn',
 											required: false,
-											description: 'user email'
+											description: 'user id'
 										},
-										password: {
+										name: {
 											type: 'string',
 											default: '12345678',
-											required: false
+											required: false,
+											description: 'user name'
 										}
 									}
-								},
-								default: [
+								}
+							},
+							default: [
+								[
 									{ id: 1, name: 'ahmed' },
 									{ id: 2, name: 'mahdi' }
+								],
+								[
+									{ id: 1, name: 'ali' },
+									{ id: 2, name: 'salah' }
 								]
-							},
-							arrayOfArrays: {
-								type: 'array',
-								required: false,
-								description: 'test description',
-								items: {
-									type: 'array',
-									items: {
-										type: 'object',
-										properties: {
-											id: {
-												type: 'integer',
-												default: 'ahmed.derbala@esprit.tn',
-												required: false,
-												description: 'user id'
-											},
-											name: {
-												type: 'string',
-												default: '12345678',
-												required: false,
-												description: 'user name'
-											}
-										}
-									}
-								},
-								default: [
-									[
-										{ id: 1, name: 'ahmed' },
-										{ id: 2, name: 'mahdi' }
-									],
-									[
-										{ id: 1, name: 'ali' },
-										{ id: 2, name: 'salah' }
-									]
-								]
-							}
+							]
 						}
-					}
-				},
-				{
-					in: 'path',
-					description: 'path description',
-					name: 'pathName'
-				},
-				{
-					in: 'query',
-					description: 'query param 1',
-					name: 'param1'
-				},
-				{
-					in: 'query',
-					description: 'query param 2',
-					name: 'param2'
-				}
-			],
-			components: {
-				securitySchemes: {
-					bearerAuth: {
-						type: 'http',
-						scheme: 'bearer',
-						bearerFormat: 'JWT'
 					}
 				}
 			},
-			security: [{ bearerAuth: [] }], //components.securitySchemes and security are a must to send JWT
-			responses: {
-				200: {
-					description: 'responses is a must to execute the request'
-				},
-				'resp-example': {
-					description: 'example description',
-					schema: {
-						type: 'object',
-						properties: {
-							id: {
-								type: 'integer',
-								default: 'ahmed.derbala@esprit.tn',
-								required: false,
-								description: 'user id'
-							},
-							name: {
-								type: 'string',
-								default: '12345678',
-								required: false,
-								description: 'user name'
-							}
+			{
+				in: 'path',
+				description: 'path description',
+				name: 'pathName'
+			},
+			{
+				in: 'query',
+				description: 'query param 1',
+				name: 'param1'
+			},
+			{
+				in: 'query',
+				description: 'query param 2',
+				name: 'param2'
+			}
+		],
+		components: {
+			securitySchemes: {
+				bearerAuth: {
+					type: 'http',
+					scheme: 'bearer',
+					bearerFormat: 'JWT'
+				}
+			}
+		},
+		security: [{ bearerAuth: [] }], //components.securitySchemes and security are a must to send JWT
+		responses: {
+			200: {
+				description: 'responses is a must to execute the request'
+			},
+			'resp-example': {
+				description: 'example description',
+				schema: {
+					type: 'object',
+					properties: {
+						id: {
+							type: 'integer',
+							default: 'ahmed.derbala@esprit.tn',
+							required: false,
+							description: 'user id'
+						},
+						name: {
+							type: 'string',
+							default: '12345678',
+							required: false,
+							description: 'user name'
 						}
 					}
 				}
-			} //responses is a must to execute the request
-		}
+			}
+		} //responses is a must to execute the request
 	}
+}
+export default {
+	usersPathName
 }

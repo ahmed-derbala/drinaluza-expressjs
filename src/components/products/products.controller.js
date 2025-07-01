@@ -1,17 +1,15 @@
-const express = require('express')
+import express from 'express'
+import { resp } from '../../core/helpers/resp.js'
+import { findManyProductsSrvc, createProductSrvc } from './products.service.js'
+import { errorHandler } from '../../core/error/index.js'
+import { authenticate } from '../../core/auth/index.js'
 const router = express.Router()
-const { resp } = require('../../core/helpers/resp')
-const { findManyProductsSrvc, createProductSrvc } = require('./products.service')
-const { errorHandler } = require('../../core/error')
-const { authenticate } = require(`../../core/auth`)
-
 router
 	.route('/')
 	.get(async (req, res) => {
 		try {
 			const { match, select } = req.body || {}
 			let { page = 1, limit = 10 } = req.query
-
 			const fetchedManyProducts = await findManyProductsSrvc({ match, select, page, limit })
 			return resp({ status: 200, data: fetchedManyProducts, req, res })
 		} catch (err) {
@@ -30,5 +28,4 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
-
-module.exports = router
+export default router

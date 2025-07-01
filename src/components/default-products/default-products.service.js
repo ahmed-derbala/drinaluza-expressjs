@@ -1,14 +1,9 @@
-const { errorHandler } = require('../../core/error')
-const mongoose = require('mongoose')
-const { log } = require('../../core/log')
-const config = require(`../../config`)
-const { findOneDefaultProductRepo, findManyDefaultProductRepo } = require('./default-products.repository')
-
-module.exports.findOneDefaultProductSrvc = async ({ match, select }) => {
+import { errorHandler } from '../../core/error/index.js'
+import { findOneDefaultProductRepo, findManyDefaultProductRepo } from './default-products.repository.js'
+export const findOneDefaultProductSrvc = async ({ match, select }) => {
 	const fetchedDefaultProduct = await findOneDefaultProductRepo({ match, select })
 }
-
-module.exports.findManyDefaultProductSrvc = async ({ match, select, page, limit }) => {
+export const findManyDefaultProductSrvc = async ({ match, select, page, limit }) => {
 	try {
 		page = parseInt(page, 10)
 		limit = parseInt(limit, 10)

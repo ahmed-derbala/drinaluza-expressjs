@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const { CreatedByUserSchema } = require('../users/users.schema')
-const { ProductRefSchema } = require('../products/products.schema')
-const { ShopRefSchema } = require('../shops/shops.schema')
-const { BusinessRefSchema } = require('../businesses/businessRef.schema')
-
+import mongoose from 'mongoose'
+import { CreatedByUserSchema } from '../users/users.schema.js'
+import { ProductRefSchema } from '../products/products.schema.js'
+import { ShopRefSchema } from '../shops/shops.schema.js'
+import { BusinessRefSchema } from '../businesses/businessRef.schema.js'
+import { orderStatusEnum } from './orders.enum.js'
 const ordersCollection = 'orders'
 const orderProducts = [
 	{
@@ -23,14 +23,16 @@ const OrderSchema = new mongoose.Schema(
 		products: { type: orderProducts, required: true, _id: false },
 		status: {
 			type: String,
-			enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
-			default: 'pending'
+			enum: orderStatusEnum,
+			default: orderStatusEnum.PENDING_SHOP_CONFIRMATION,
+			required: true
 		}
 	},
 	{ timestamps: true, collection: ordersCollection }
 )
-
-module.exports = {
-	OrderModel: mongoose.model(ordersCollection, OrderSchema),
+export const OrderModel = mongoose.model(ordersCollection, OrderSchema)
+export { ordersCollection }
+export default {
+	OrderModel,
 	ordersCollection
 }

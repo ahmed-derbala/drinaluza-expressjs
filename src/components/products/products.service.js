@@ -1,13 +1,10 @@
-const { errorHandler } = require('../../core/error')
-const { log } = require('../../core/log')
-const { findOneProductRepo, findManyProductsRepo, createdProductRepo } = require('./products.repository')
-
-module.exports.findOneProductSrvc = async ({ match, select }) => {
+import { errorHandler } from '../../core/error/index.js'
+import { findOneProductRepo, findManyProductsRepo, createdProductRepo } from './products.repository.js'
+export const findOneProductSrvc = async ({ match, select }) => {
 	const fetchedProduct = await findOneProductRepo({ match, select })
 	return fetchedProduct
 }
-
-module.exports.findManyProductsSrvc = async ({ match, select, page, limit }) => {
+export const findManyProductsSrvc = async ({ match, select, page, limit }) => {
 	try {
 		page = parseInt(page, 10)
 		limit = parseInt(limit, 10)
@@ -17,8 +14,7 @@ module.exports.findManyProductsSrvc = async ({ match, select, page, limit }) => 
 		errorHandler({ err })
 	}
 }
-
-module.exports.createProductSrvc = async ({ data }) => {
+export const createProductSrvc = async ({ data }) => {
 	try {
 		const createdProduct = await createdProductRepo({ data })
 		return createdProduct

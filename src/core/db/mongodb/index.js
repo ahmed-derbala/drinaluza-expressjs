@@ -1,8 +1,7 @@
-const mongoose = require('mongoose')
-const config = require(`../../../config`)
-const { log } = require(`../../log`)
-const { errorHandler } = require('../../error')
-
+import mongoose from 'mongoose'
+import config from '../../../config/index.js'
+import { log } from '../../log/index.js'
+import { errorHandler } from '../../error/index.js'
 const connectMongodb = async () => {
 	try {
 		await mongoose.connect(config.db.mongodb.uri, config.db.mongodb.options)
@@ -14,7 +13,6 @@ const connectMongodb = async () => {
 	} catch (err) {
 		errorHandler({ err })
 	}
-
 	mongoose.connection
 		.on('error', () => {
 			log({
@@ -58,7 +56,7 @@ const connectMongodb = async () => {
 			log({ message: 'db-conn-all', level: config.log.levelNames.verbose, label: 'db-mongo' })
 		})
 }
-
-module.exports = {
+export { connectMongodb }
+export default {
 	connectMongodb
 }

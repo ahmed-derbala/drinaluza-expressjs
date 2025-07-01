@@ -1,12 +1,13 @@
 {
   "name": "drinaluza",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "main": "src/main.js",
   "description": "Backend of drinaluza. A mobile first app to manage small businesses",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
-  "main": "src/main.js",
   "private": true,
+  "type": "module",
   "engines": {
-    "node": "22"
+    "node": "24"
   },
   "repository": {
     "type": "git",
@@ -23,8 +24,9 @@
     "start:prod-pm2": "npm run i:prod && NODE_ENV=production pm2 start --name drinaluza src/main.js -i max --node-args='--max-old-space-size=8192' -f",
     "start:prod-pm2-monit": "npm run start:prod-pm2 && pm2 monit",
     "start:local": "NODE_ENV=local node --watch-path=./src src/main.js",
+    "debug": "NODE_ENV=local NODE_DEBUG=module node --trace-warnings --stack-trace-limit=100 --watch-path=./src src/main.js",
     "start:local-pm2": "pm2 start src/config/pm2.config.js --env local && pm2 monit",
-    "start:dev": "NODE_ENV=development node --watch --max-old-space-size=8192 src/main.js",
+    "start:dev": "NODE_ENV=development node --watch-path=./src --max-old-space-size=8192 src/main.js",
     "reload": "pm2 reload drinaluza",
     "stop": "pm2 stop all",
     "delete": "pm2 delete all",
@@ -51,6 +53,7 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
     "express-rate-limit": "^7.5.1",
     "express-useragent": "^1.0.15",
     "express-validator": "^7.2.1",
@@ -58,7 +61,8 @@
     "helmet": "^8.1.0",
     "ip": "^2.0.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.0",
+    "lodash-es": "^4.17.21",
+    "mongoose": "^8.16.1",
     "mongoose-unique-validator": "^5.0.1",
     "morgan": "^1.10.0",
     "socket.io": "^4.8.1",
@@ -67,8 +71,11 @@
     "winston-mongodb": "^7.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "eslint": "^9.30.0",
+    "globals": "^16.3.0",
     "npm-check-updates": "^18.0.1",
     "pm2": "^6.0.8",
-    "prettier": "^3.6.1"
+    "prettier": "^3.6.2"
   }
 }

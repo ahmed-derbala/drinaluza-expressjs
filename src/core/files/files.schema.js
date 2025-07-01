@@ -1,5 +1,4 @@
-const mongoose = require('mongoose')
-
+import mongoose from 'mongoose'
 const schema = new mongoose.Schema(
 	{
 		name: { type: String, required: true }, // name without extension
@@ -30,10 +29,10 @@ const schema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 )
-
 const filesCollection = 'files'
-
-module.exports = {
-	FileModel: mongoose.model(filesCollection, schema),
+export const FileModel = mongoose.model(filesCollection, schema)
+export { filesCollection }
+export default {
+	FileModel,
 	filesCollection
 }

@@ -1,1 +1,1 @@
-exports.langEnum = ['en', 'ar', 'fr', 'tn']
+export const langEnum = ['en', 'ar', 'fr', 'tn']

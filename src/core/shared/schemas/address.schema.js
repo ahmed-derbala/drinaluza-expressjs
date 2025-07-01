@@ -1,7 +1,6 @@
-const mongoose = require('mongoose')
-const COUNTRIES = require('../json/countries.json')
-
-let location = (exports.location = new mongoose.Schema(
+import mongoose from 'mongoose'
+import COUNTRIES from '../json/countries.json' with { type: 'json' }
+let location = new mongoose.Schema(
 	{
 		current: {
 			lat: { type: String, required: false },
@@ -21,9 +20,8 @@ let location = (exports.location = new mongoose.Schema(
 		}
 	},
 	{ _id: false, timestamps: true }
-))
-
-exports.address = new mongoose.Schema(
+)
+export const address = new mongoose.Schema(
 	{
 		text: { type: String, required: false },
 		country: { type: String, required: true, default: COUNTRIES.Tunisia.en },
@@ -33,3 +31,4 @@ exports.address = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: true }
 )
+export { location }

@@ -1,8 +1,7 @@
-const mongoose = require('mongoose')
-const { BusinessRefSchema } = require('../businesses/businessRef.schema')
-const addressSchema = require('../../core/shared/schemas/address.schema')
-const { CreatedByUserSchema, usersCollection } = require('../users/users.schema')
-
+import mongoose from 'mongoose'
+import { BusinessRefSchema } from '../businesses/businessRef.schema.js'
+import * as addressSchema from '../../core/shared/schemas/address.schema.js'
+import { CreatedByUserSchema, usersCollection } from '../users/users.schema.js'
 const shopsCollection = 'shops'
 const ShopRefSchema = new mongoose.Schema(
 	{
@@ -35,9 +34,11 @@ const schema = new mongoose.Schema(
 	},
 	{ timestamps: true, collection: shopsCollection }
 )
-
-module.exports = {
-	ShopModel: mongoose.model(shopsCollection, schema),
+export const ShopModel = mongoose.model(shopsCollection, schema)
+export { shopsCollection }
+export { ShopRefSchema }
+export default {
+	ShopModel,
 	shopsCollection,
 	ShopRefSchema
 }

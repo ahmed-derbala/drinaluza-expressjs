@@ -1,7 +1,5 @@
-const { randomUUID } = require('crypto')
-
-//process transaction id
-exports.tidHandler = (req, res, next) => {
+import { randomUUID } from 'crypto'
+export const tidHandler = (req, res, next) => {
 	if (!req.headers.tid) {
 		req.headers.tid = randomUUID()
 	}

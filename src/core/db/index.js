@@ -1,3 +1,5 @@
-const { connectMongodb } = require('./mongodb')
-
-module.exports = { connectMongodb }
+import { connectMongodb } from './mongodb/index.js'
+export { connectMongodb }
+export default {
+	connectMongodb
+}

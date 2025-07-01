@@ -1,10 +1,7 @@
-/**
- * the default config.js
- */
-const packagejson = require(`../../package.json`)
-const ip = require('ip')
-const fs = require('fs')
-
+import packagejson from '../../package.json' with { type: 'json' }
+import ip from 'ip'
+import { format, transports } from 'winston'
+import 'winston-mongodb'
 const backend = {
 	port: 5001,
 	host: `${ip.address()}`,
@@ -13,7 +10,6 @@ const backend = {
 		return `${this.protocol}${this.host}:${this.port}`
 	}
 }
-
 /**
  * app
  */
@@ -49,7 +45,6 @@ let app = {
 	},
 	views: false
 }
-
 /**
  * db
  */
@@ -61,10 +56,8 @@ const name = packagejson.name
 const maxPoolSize = 200 //number > 0 otherwise ignored, default 200, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
 const minPoolSize = 5 //number > 0 otherwise ignored, default 5, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
 let uri = ``
-
 if (!user && !password) uri = `mongodb://${host}:${port}/${name}`
 else uri = `mongodb://${user}:${password}@${host}:${port}/${name}`
-
 let db = {
 	primary: 'mongodb',
 	mongodb: {
@@ -80,14 +73,7 @@ let db = {
 		}
 	}
 }
-
-/**
- * log
- */
-const { format, transports } = require('winston')
 const { prettyPrint, colorize } = format
-require('winston-mongodb')
-
 const transportsOptions = {
 	file: {
 		handleExceptions: false,
@@ -127,7 +113,6 @@ const transportsOptions = {
 		format: format.metadata()
 	}
 }
-
 const levelsPriority = {
 	error: 0,
 	warn: 1,
@@ -136,7 +121,6 @@ const levelsPriority = {
 	debug: 4,
 	silly: 5
 }
-
 const levelsNames = {
 	error: 'error',
 	warn: 'warn',
@@ -145,7 +129,6 @@ const levelsNames = {
 	debug: 'debug',
 	silly: 'silly'
 }
-
 const defaultConfig = {
 	NODE_ENV: process.env.NODE_ENV || 'local',
 	app,
@@ -261,5 +244,6 @@ const defaultConfig = {
 		}
 	}
 }
-
-module.exports = { ...defaultConfig }
+export default {
+	...defaultConfig
+}

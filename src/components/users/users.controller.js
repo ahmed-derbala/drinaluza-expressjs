@@ -1,20 +1,18 @@
-const express = require('express')
+import express from 'express'
+import * as usersSrvc from './users.service.js'
+import { authenticate } from '../../core/auth/index.js'
+import { errorHandler } from '../../core/error/index.js'
+import { log } from '../../core/log/index.js'
+import { resp } from '../../core/helpers/resp.js'
+import { validate } from '../../core/validation/index.js'
+import { findOneUserSrvc } from './users.service.js'
 const router = express.Router()
-const usersSrvc = require(`./users.service`)
-const { authenticate } = require(`../../core/auth`)
-const { errorHandler } = require('../../core/error')
-const { log } = require('../../core/log')
-const { resp } = require('../../core/helpers/resp')
-const { validate } = require('../../core/validation')
-const { findOneUserSrvc } = require('./users.service')
-
 router.get('/:username', async (req, res) => {
 	const { username } = req.params
 	const user = await findOneUserSrvc({ match: { username } })
 	if (!user) return resp({ status: 202, message: 'user not found', data: null, req, res })
 	return resp({ status: 200, message: 'user found', data: user, req, res })
 })
-
 router.get('/profile', authenticate(), async (req, res) => {
 	try {
 		const profile = await usersSrvc.getProfile({ loginId: req.query.loginId, userId: req.user._id, req })
@@ -23,5 +21,4 @@ router.get('/profile', authenticate(), async (req, res) => {
 		errorHandler({ err, req, res })
 	}
 })
-
-module.exports = router
+export default router

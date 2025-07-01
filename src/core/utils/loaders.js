@@ -1,14 +1,13 @@
-const fs = require('fs')
-const { log } = require(`../log`)
-const path = require('path')
-
+import fs from 'fs'
+import { log } from '../log/index.js'
+import path from 'path'
 /**
  *
  * @param {string} rootDir sub directory of /src , starts with /
  * @param {string} urlPrefix starts with / and ends with /
  * @param {string} filesSuffix starts with . and ends with .extension
  */
-module.exports.load = ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }) => {
+export const load = async ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }) => {
 	let endpoint_root,
 		files,
 		loadedFilesCount = 0
@@ -20,9 +19,9 @@ module.exports.load = ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }
 				if (file.includes(fileSuffix)) {
 					loadedFilesCount++
 					endpoint_root = file.substring(0, file.indexOf(fileSuffix))
-					app.use(`${urlPrefix}${endpoint_root}`, require(`${process.cwd()}/src${rootDir}/${file}`))
+					app.use(`${urlPrefix}${endpoint_root}`, (await import(`${process.cwd()}/src${rootDir}/${file}`)).default)
 					if (endpoint_root === 'index') {
-						app.use(`${urlPrefix}`, require(`${process.cwd()}/src${rootDir}/${file}`))
+						app.use(`${urlPrefix}`, (await import(`${process.cwd()}/src${rootDir}/${file}`)).default)
 					}
 				}
 			}
@@ -43,7 +42,7 @@ module.exports.load = ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }
 				if (file.includes(fileSuffix)) {
 					loadedFilesCount++
 					endpoint_root = file.substring(0, file.indexOf(fileSuffix))
-					app.use(`${urlPrefix}${endpoint_root}`, require(`${process.cwd()}/src${rootDir}/${dir}/${file}`))
+					app.use(`${urlPrefix}${endpoint_root}`, (await import(`${process.cwd()}/src${rootDir}/${dir}/${file}`)).default)
 				}
 			}
 		}
@@ -55,8 +54,9 @@ module.exports.load = ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }
  * require multiple files based on file name suffix
  * @param {*} param0
  */
-module.exports.batchRequire = ({ fileSuffix, rootDir, params, message }) => {
-	let loadedFilesCount = 0
+export const batchRequire = async ({ fileSuffix, rootDir, params, message }) => {
+	let loadedFilesCount = 0,
+		files
 	let directories = fs.readdirSync(`${process.cwd()}/src${rootDir}/`)
 	for (const dir of directories) {
 		files = fs.readdirSync(`${process.cwd()}/src${rootDir}/${dir}`)
@@ -65,9 +65,9 @@ module.exports.batchRequire = ({ fileSuffix, rootDir, params, message }) => {
 				if (file.includes(fileSuffix)) {
 					loadedFilesCount++
 					if (params) {
-						require(`${process.cwd()}/src${rootDir}/${dir}/${file}`)(params)
+						;(await import(`${process.cwd()}/src${rootDir}/${dir}/${file}`)).default(params)
 					} else {
-						require(`${process.cwd()}/src${rootDir}/${dir}/${file}`)
+						await import(`${process.cwd()}/src${rootDir}/${dir}/${file}`)
 					}
 				}
 			}

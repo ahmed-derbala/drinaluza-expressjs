@@ -1,12 +1,10 @@
-const mongoose = require('mongoose')
-const { ProductModel, productsCollection } = require('./products.schema') // Adjust path to your products model file
-const { DefaultProductModel, defaultProductsCollection } = require('../default-products/default-products.schema') // Adjust path to your default-products model file
-const { UserModel, usersCollection } = require('../users/users.schema') // Adjust path to your users model file
-const config = require(`../../config`)
-
+import mongoose from 'mongoose'
+import { ProductModel, productsCollection } from './products.schema.js'
+import { DefaultProductModel, defaultProductsCollection } from '../default-products/default-products.schema.js'
+import { UserModel, usersCollection } from '../users/users.schema.js'
+import config from '../../config/index.js'
 // MongoDB connection URI (replace with your MongoDB URI)
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/drinaluza'
-
 // Sample products data (without defaultProduct and user, which will be assigned dynamically)
 const productsData = [
 	{
@@ -130,7 +128,6 @@ const productsData = [
 		}
 	}
 ]
-
 // Function to seed the database
 async function seedDatabase() {
 	try {
@@ -141,45 +138,39 @@ async function seedDatabase() {
 		// Connect to MongoDB
 		await mongoose.connect(MONGODB_URI, {})
 		console.log('Connected to MongoDB')
-
 		// Fetch default product _ids
 		const defaultProducts = await DefaultProductModel.find().limit(10)
 		console.log(`Found ${defaultProducts.length} default products`)
 		if (defaultProducts.length === 0) {
 			throw new Error('No default products found. Please seed default-products first.')
 		}
-
 		// Fetch user _ids
 		const users = await UserModel.find().limit(10)
 		console.log(`Found ${users.length} users`)
 		if (users.length === 0) {
 			throw new Error('No users found. Please seed users first.')
 		}
-
 		// Limit products to the number of available default products
 		const productsToInsert = productsData.slice(0, defaultProducts.length).map((product, index) => {
 			// Randomly select a user _id
 			const user = users[Math.floor(Math.random() * users.length)]
 			/*console.log({
-				...product,
-				defaultProduct: defaultProducts[index],
-				user: user
-			})*/
+                ...product,
+                defaultProduct: defaultProducts[index],
+                user: user
+            })*/
 			return {
 				...product,
 				defaultProduct: defaultProducts[index],
 				user: user
 			}
 		})
-
 		console.log(`Attempting to seed ${productsToInsert.length} products`)
-
 		// Insert products without clearing existing data
 		await ProductModel.insertMany(productsToInsert, { ordered: false }).catch((err) => {
 			console.error(err)
 		})
 		console.log(`Successfully seeded ${productsToInsert.length} products`)
-
 		// Verify inserted data
 		const count = await ProductModel.countDocuments()
 		console.log(`Total documents in ${productsCollection}: ${count}`)
@@ -192,6 +183,5 @@ async function seedDatabase() {
 		process.exit(0)
 	}
 }
-
 // Run the seed function
 seedDatabase()

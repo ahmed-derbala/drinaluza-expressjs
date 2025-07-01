@@ -1,10 +1,10 @@
-const { ProductModel } = require(`./products.schema`)
-const { errorHandler } = require('../../core/error')
-const { paginateMongodb } = require('../../core/db/mongodb/pagination')
-const { log } = require(`../../core/log`)
-const { flattenObject } = require('../../core/helpers/filters')
+import { ProductModel } from './products.schema.js'
+import { errorHandler } from '../../core/error/index.js'
+import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
+import { log } from '../../core/log/index.js'
+import { flattenObject } from '../../core/helpers/filters.js'
 
-module.exports.findOneProductRepo = async ({ match, select }) => {
+export const findOneProductRepo = async ({ match, select }) => {
 	try {
 		const flattenedMatch = flattenObject({ obj: match })
 		console.log('....')
@@ -17,8 +17,7 @@ module.exports.findOneProductRepo = async ({ match, select }) => {
 		errorHandler({ err })
 	}
 }
-
-module.exports.findManyProductsRepo = async ({ match, select, page, limit }) => {
+export const findManyProductsRepo = async ({ match, select, page, limit }) => {
 	try {
 		const flattenedMatch = flattenObject({ obj: match })
 		const fetchedManyProduct = paginateMongodb({ model: ProductModel, match: { ...flattenedMatch }, select, page, limit })
@@ -27,8 +26,7 @@ module.exports.findManyProductsRepo = async ({ match, select, page, limit }) => 
 		errorHandler({ err })
 	}
 }
-
-module.exports.createdProductRepo = async ({ data }) => {
+export const createdProductRepo = async ({ data }) => {
 	try {
 		const createdProduct = await ProductModel.create({ ...data })
 		console.log(createdProduct)

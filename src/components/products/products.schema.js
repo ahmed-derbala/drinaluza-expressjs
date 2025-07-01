@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const { CreatedByUserSchema } = require('../users/users.schema')
-const { BusinessRefSchema } = require('../businesses/businessRef.schema')
-const { ShopRefSchema } = require('../shops/shops.schema')
-const { defaultProductRefSchema } = require('../default-products/defaultProductRef.schema')
-const { priceUnitEnum } = require('./products.enum')
+import mongoose from 'mongoose'
+import { CreatedByUserSchema } from '../users/users.schema.js'
+import { BusinessRefSchema } from '../businesses/businessRef.schema.js'
+import { ShopRefSchema } from '../shops/shops.schema.js'
+import { defaultProductRefSchema } from '../default-products/defaultProductRef.schema.js'
+import { priceUnitEnum } from './products.enum.js'
 
 const PriceSchema = new mongoose.Schema(
 	{
@@ -45,7 +45,6 @@ const PriceSchema = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: true }
 )
-
 const ProductRefSchema = new mongoose.Schema(
 	{
 		name: {
@@ -56,7 +55,6 @@ const ProductRefSchema = new mongoose.Schema(
 	},
 	{ timestamps: { createdAt: false, updatedAt: true } }
 )
-
 const ProductSchema = new mongoose.Schema(
 	{
 		createdByUser: { type: CreatedByUserSchema, required: true },
@@ -102,11 +100,13 @@ const ProductSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 )
-
 const productsCollection = 'products'
-
-module.exports = {
-	ProductModel: mongoose.model(productsCollection, ProductSchema),
+export const ProductModel = mongoose.model(productsCollection, ProductSchema)
+export { productsCollection }
+export { PriceSchema }
+export { ProductRefSchema }
+export default {
+	ProductModel,
 	productsCollection,
 	PriceSchema,
 	ProductRefSchema

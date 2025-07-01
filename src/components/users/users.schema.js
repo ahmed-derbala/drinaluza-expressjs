@@ -1,15 +1,14 @@
-const mongoose = require('mongoose')
-const phoneSchema = require('../../core/shared/schemas/phone.schema')
-const addressSchema = require('../../core/shared/schemas/address.schema')
+import mongoose from 'mongoose'
+import * as phoneSchema from '../../core/shared/schemas/phone.schema.js'
+import * as addressSchema from '../../core/shared/schemas/address.schema.js'
 
 const usersCollection = 'users'
-let photo = (exports.photo = new mongoose.Schema(
+let photo = new mongoose.Schema(
 	{
 		url: { type: String, required: false }
 	},
 	{ _id: false, timestamps: true }
-))
-
+)
 const UserProfileSchema = new mongoose.Schema(
 	{
 		firstName: {
@@ -32,7 +31,6 @@ const UserProfileSchema = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: true }
 )
-
 const UserSettingsSchema = new mongoose.Schema(
 	{
 		lang: { type: String, required: true, default: 'en', enum: ['tn_ar', 'tn', 'en'] }, //en, tn, tn_ar
@@ -40,7 +38,6 @@ const UserSettingsSchema = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: { createdAt: false }, select: false }
 )
-
 const UserSchema = new mongoose.Schema(
 	{
 		username: {
@@ -71,15 +68,15 @@ const UserSchema = new mongoose.Schema(
 		},
 		profile: UserProfileSchema,
 		/*role: {
-			type: Object,
-			enum: config.users.roles,
-			default: config.users.roles[0]
-		},*/
+        type: Object,
+        enum: config.users.roles,
+        default: config.users.roles[0]
+    },*/
 		/*type: {
-			type: Object,
-			enum: config.users.types,
-			default: config.users.types[0]
-		},*/
+        type: Object,
+        enum: config.users.types,
+        default: config.users.types[0]
+    },*/
 		isActive: {
 			type: Boolean,
 			default: true
@@ -92,7 +89,6 @@ const UserSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 )
-
 const CreatedByUserSchema = new mongoose.Schema(
 	{
 		_id: {
@@ -104,9 +100,15 @@ const CreatedByUserSchema = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }
 )
-
-module.exports = {
-	UserModel: mongoose.model(usersCollection, UserSchema),
+export const UserModel = mongoose.model(usersCollection, UserSchema)
+export { photo }
+export { usersCollection }
+export { UserProfileSchema }
+export { CreatedByUserSchema }
+export { UserSchema }
+export { UserSettingsSchema }
+export default {
+	UserModel,
 	usersCollection,
 	UserProfileSchema,
 	CreatedByUserSchema,

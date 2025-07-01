@@ -1,1 +1,1 @@
-module.exports.sendNotification = ({ userIds, kind, at }) => {}
+export const sendNotification = ({ userIds, kind, at }) => {}

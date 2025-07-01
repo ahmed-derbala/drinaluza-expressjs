@@ -1,3 +1,3 @@
-exports.cardTypeEnum = {
+export const cardTypeEnum = {
 	product: 'product'
 }

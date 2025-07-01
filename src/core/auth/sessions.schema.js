@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
-
+import mongoose from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 const schema = new mongoose.Schema(
 	{
 		token: {
@@ -24,12 +23,11 @@ const schema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 )
-
 schema.plugin(uniqueValidator)
-
 const sessionsCollection = 'sessions'
-
-module.exports = {
-	SessionsModel: mongoose.model(sessionsCollection, schema),
+export const SessionsModel = mongoose.model(sessionsCollection, schema)
+export { sessionsCollection }
+export default {
+	SessionsModel,
 	sessionsCollection
 }

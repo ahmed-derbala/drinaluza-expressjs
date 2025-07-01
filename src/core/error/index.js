@@ -1,16 +1,7 @@
-const { log } = require(`../log`)
-const { sanitizeReq } = require('../log/sanitize-req')
+import { log } from '../log/index.js'
+import { sanitizeReq } from '../log/sanitize-req.js'
 const noLogStatuses = [401]
-
-/**
- * handle errors
- * @param {Object} error
- * @param {Object | String} error.err the error message or object
- * @param {Request} error.req request object
- * @param {Response} error.res response object
- * @param {Next} error.next next object
- */
-exports.errorHandler = ({ err, req, res, next }) => {
+export const errorHandler = ({ err, req, res, next }) => {
 	let status = 500,
 		errObject = {},
 		label = 'internal_error'
@@ -22,7 +13,6 @@ exports.errorHandler = ({ err, req, res, next }) => {
 	}
 	errObject.caller = caller
 	errObject.level = 'error'
-
 	if (err) {
 		if (typeof err == 'object') {
 			if (err.errors) {
@@ -49,18 +39,14 @@ exports.errorHandler = ({ err, req, res, next }) => {
 				}
 			}
 		}
-
 		if (typeof err == 'string') {
 			errObject.message = err
 			errObject.error = err
 		}
 	}
-
 	errObject.status = status
 	errObject.label = label
-
 	if (!errObject.message) errObject.message = 'error'
-
 	if (req) {
 		errObject.req = sanitizeReq(req)
 	}
@@ -70,13 +56,3 @@ exports.errorHandler = ({ err, req, res, next }) => {
 	}
 	return errObject
 }
-
-/*
-exports.ERROR_TYPES = {
-	validation: {
-		code: 409,
-		name: 'validation error',
-		message: 'validation error',
-		label: "validation"
-	}
-}*/

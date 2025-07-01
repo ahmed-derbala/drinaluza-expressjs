@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-const { usersCollection } = require('../users/users.schema')
-
+import mongoose from 'mongoose'
+import { usersCollection } from '../users/users.schema.js'
 const BusinessRefSchema = new mongoose.Schema(
 	{
 		_id: {
@@ -12,7 +11,7 @@ const BusinessRefSchema = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: true }
 )
-
-module.exports = {
+export { BusinessRefSchema }
+export default {
 	BusinessRefSchema
 }

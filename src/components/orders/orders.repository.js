@@ -1,10 +1,9 @@
-const { OrderModel } = require(`./orders.schema`)
-const { errorHandler } = require('../../core/error')
-const { paginateMongodb } = require('../../core/db/mongodb/pagination')
-const { log } = require(`../../core/log`)
-const { flattenObject } = require('../../core/helpers/filters')
-
-module.exports.findOneOrderRepo = async ({ match, select }) => {
+import { OrderModel } from './orders.schema.js'
+import { errorHandler } from '../../core/error/index.js'
+import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
+import { log } from '../../core/log/index.js'
+import { flattenObject } from '../../core/helpers/filters.js'
+export const findOneOrderRepo = async ({ match, select }) => {
 	try {
 		const flattenedMatch = flattenObject({ obj: match })
 		const fetchedOrder = await OrderModel.findOne({ ...flattenedMatch })
@@ -15,8 +14,7 @@ module.exports.findOneOrderRepo = async ({ match, select }) => {
 		errorHandler({ err })
 	}
 }
-
-module.exports.findManyOrdersRepo = async ({ match, select, page, limit }) => {
+export const findManyOrdersRepo = async ({ match, select, page, limit }) => {
 	try {
 		const flattenedMatch = flattenObject({ obj: match })
 		const fetchedManyOrders = paginateMongodb({ model: OrderModel, match: { ...flattenedMatch }, select, page, limit })
@@ -25,11 +23,10 @@ module.exports.findManyOrdersRepo = async ({ match, select, page, limit }) => {
 		errorHandler({ err })
 	}
 }
-
-module.exports.createdOrderRepo = async ({ data }) => {
+export const createdOrderRepo = async ({ data }) => {
 	try {
 		const createdOrder = await OrderModel.create({ ...data })
-		console.log(createdOrder)
+		//console.log(createdOrder)
 		return createdOrder
 	} catch (err) {
 		throw errorHandler({ err })

@@ -1,15 +1,6 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 const Schema = mongoose.Schema
-
-/**
- * https://stackoverflow.com/questions/35492310/how-to-create-a-mongoose-schema-from-a-class-function
- * Dark wizardry function that creates a mongoose schema from a normal JS class
- * Objects can also be passed along, and any properties that has methods will be turned into methods on the mongoose Schema.
- * @param c The class to creare the schema from
- * @param options The additional options to pass to the schema creation
- * @returns {Schema} A new mongoose schema for the describing the given class
- */
-module.exports = function (c, options) {
+export default (function (c, options) {
 	let f = null
 	// Figure out if f is an object or a function, and take appropriate action
 	if (typeof c === 'function') {
@@ -19,7 +10,6 @@ module.exports = function (c, options) {
 	} else {
 		throw new TypeError('Class schema cannot work with that type. Whatever it was you supplied, probably a simple type. ')
 	}
-
 	let prop
 	let o = {}
 	// Save all the properties of f into a new object
@@ -65,4 +55,4 @@ module.exports = function (c, options) {
 		}
 	}
 	return sch
-}
+})
