@@ -18,7 +18,7 @@ const usersPathName = {
 					properties: {
 						email: {
 							type: 'string',
-							default: 'ahmed.derbala@esprit.tn',
+							default: 'derbala.ahmed531992@gmail.com',
 							required: false,
 							description: 'email description'
 						},
@@ -40,7 +40,7 @@ const usersPathName = {
 								properties: {
 									email: {
 										type: 'string',
-										default: 'ahmed.derbala@esprit.tn',
+										default: 'derbala.ahmed531992@gmail.com',
 										required: false,
 										description: 'user email'
 									},
@@ -67,7 +67,7 @@ const usersPathName = {
 									properties: {
 										id: {
 											type: 'integer',
-											default: 'ahmed.derbala@esprit.tn',
+											default: 'derbala.ahmed531992@gmail.com',
 											required: false,
 											description: 'user id'
 										},
@@ -131,7 +131,7 @@ const usersPathName = {
 					properties: {
 						id: {
 							type: 'integer',
-							default: 'ahmed.derbala@esprit.tn',
+							default: 'derbala.ahmed531992@gmail.com',
 							required: false,
 							description: 'user id'
 						},

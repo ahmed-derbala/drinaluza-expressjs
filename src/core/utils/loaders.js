@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import fs from 'fs'
 import { log } from '../log/index.js'
 import path from 'path'

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import packagejson from '../../../package.json' with { type: 'json' }
 import fs from 'fs'
 import config from '../../config/index.js'
@@ -41,7 +42,7 @@ export const mainDef = {
 		title: packagejson.name,
 		termsOfService: 'http://swagger.io/terms/',
 		contact: {
-			email: ['ahmed.derbala@esprit.tn', 'mahdi@esprit.tn']
+			email: ['derbala.ahmed531992@gmail.com', 'mahdi@esprit.tn']
 		},
 		license: {
 			name: 'Apache 2.0',

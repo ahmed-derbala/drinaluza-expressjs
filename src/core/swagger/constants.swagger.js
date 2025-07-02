@@ -26,7 +26,7 @@ export const properties = {
 	},
 	email: {
 		type: 'string',
-		default: 'ahmed.derbala@esprit.tn',
+		default: 'derbala.ahmed531992@gmail.com',
 		required: true,
 		description: 'email'
 	},

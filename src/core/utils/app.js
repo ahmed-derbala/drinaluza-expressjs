@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import useragent from 'express-useragent'

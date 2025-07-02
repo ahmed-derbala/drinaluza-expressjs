@@ -19,7 +19,7 @@ if (config.app.cluster > 0) {
 	if (cluster.isMaster) {
 		log({
 			message: `cluster is enabled. ${config.app.cluster} cpus are in use`,
-			level: 'info',
+			level: 'debug',
 			label: 'server'
 		})
 		// Create a worker for each CPU
@@ -37,7 +37,7 @@ if (config.app.cluster > 0) {
 			config.backend.port,
 			log({
 				message: `${config.app.name} ${config.app.version} ${config.backend.url} NODE_ENV=${config.NODE_ENV} fork ${cluster.worker.id} pid ${cluster.worker.process.pid}`,
-				level: 'info',
+				level: 'debug',
 				label: 'server'
 			})
 		)
@@ -50,7 +50,7 @@ if (config.app.cluster > 0) {
 		config.backend.port,
 		log({
 			message: `${config.app.name} ${config.app.version} ${config.backend.url} NODE_ENV=${config.NODE_ENV}`,
-			level: 'info',
+			level: 'debug',
 			label: 'server'
 		})
 	)

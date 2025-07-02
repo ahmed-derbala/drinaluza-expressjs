@@ -3,7 +3,7 @@ export const usersTag = {
 	description: 'a sample endpoint',
 	externalDocs: {
 		description: 'optionnal external link for more documentation',
-		url: 'http://esprit.tn'
+		url: 'https://github.com/ahmed-derbala'
 	} //externalDocs is optionnal
 }
 export default {
