@@ -46,9 +46,9 @@ if (config.app.views) {
 	app.use(express.static(`public`))
 	loaders.load({ app, rootDir: '/components', urlPrefix: '/', fileSuffix: '.render.js' }) //load views
 }
-loaders.load({ app, rootDir: '/components', urlPrefix: '/api/', fileSuffix: '.controller.js' }) //load api
-loaders.load({ app, rootDir: '/components/index', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load "/"
-loaders.load({ app, rootDir: '/core/auth', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
+await loaders.load({ app, rootDir: '/components', urlPrefix: '/api/', fileSuffix: '.controller.js' }) //load api
+await loaders.load({ app, rootDir: '/components/index', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load "/"
+await loaders.load({ app, rootDir: '/core/auth', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
 //when no api route matched
 app.use((req, res, next) => {
 	return resp({ status: 404, label: 'route_not_found', message: `${req.method} ${req.originalUrl} does not exist`, data: null, req, res })
