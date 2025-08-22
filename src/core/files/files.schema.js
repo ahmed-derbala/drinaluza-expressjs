@@ -1,13 +1,15 @@
 import mongoose from 'mongoose'
-const schema = new mongoose.Schema(
+import { CreatedByUserSchema } from '../../components/users/users.schema.js'
+
+export const FilesSchema = new mongoose.Schema(
 	{
+		createdByUser: { type: CreatedByUserSchema, required: true },
 		name: { type: String, required: true }, // name without extension
+		originalname: { type: String, required: false }, // name + . + extension
+		extension: { type: String, required: false }, // the extension prefixed with a dot
 		url: { type: String, required: true }, //download file
 		path: { type: String, required: false }, //local file path
 		encoding: { type: String, required: false },
-		originalname: { type: String, required: false }, // name + . + extension
-		extension: { type: String, required: false }, // the extension prefixed with a dot
-		tag: { type: String, required: false }, // a string to identify the source or where the file is displayed in front (source)
 		mimetype: String,
 		size: Number, // in bytes, 1 million ~ 1 mb
 		linkedData: [
@@ -21,18 +23,21 @@ const schema = new mongoose.Schema(
 					type: String
 				}
 			}
-		], //if the file is associated to multiple models , kind refers to collections. makes it so easy to share the same file between multiple collections
-		userId: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'users'
-		}
+		] //if the file is associated to multiple models , kind refers to collections. makes it so easy to share the same file between multiple collections
 	},
 	{ timestamps: true }
 )
-const filesCollection = 'files'
-export const FileModel = mongoose.model(filesCollection, schema)
-export { filesCollection }
-export default {
-	FileModel,
-	filesCollection
-}
+
+export const FileRefSchema = new mongoose.Schema({
+	createdByUser: { type: CreatedByUserSchema, required: true },
+	name: { type: String, required: true }, // name without extension
+	originalname: { type: String, required: false }, // name + . + extension
+	extension: { type: String, required: false }, // the extension prefixed with a dot
+	url: { type: String, required: true }, //download file
+	path: { type: String, required: false }, //local file path
+	encoding: { type: String, required: false },
+	mimetype: String,
+	size: Number // in bytes, 1 million ~ 1 mb
+})
+export const filesCollection = 'files'
+export const FileModel = mongoose.model(filesCollection, FilesSchema)

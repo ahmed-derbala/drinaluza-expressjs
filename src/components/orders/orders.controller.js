@@ -25,7 +25,7 @@ router
 			const createdByUser = req.body?.createdByUser || req.user
 			const { products } = req.body
 			//process products
-			for (p of products) {
+			for (let p of products) {
 				p = await findOneProductSrvc({ match: { _id: p.product._id } })
 			}
 			const business = products[0].product.business
