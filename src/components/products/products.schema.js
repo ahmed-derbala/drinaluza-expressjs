@@ -1,8 +1,6 @@
 import mongoose from 'mongoose'
 import { CreatedByUserSchema } from '../users/users.schema.js'
-import { BusinessRefSchema } from '../businesses/businessRef.schema.js'
 import { ShopRefSchema } from '../shops/shops.schema.js'
-import { defaultProductRefSchema } from '../default-products/defaultProductRef.schema.js'
 import { priceUnitEnum } from './products.enum.js'
 import { FileRefSchema } from '../../core/files/files.schema.js'
 
@@ -59,9 +57,7 @@ const ProductRefSchema = new mongoose.Schema(
 const ProductSchema = new mongoose.Schema(
 	{
 		createdByUser: { type: CreatedByUserSchema, required: true },
-		business: { type: BusinessRefSchema, required: false },
 		shop: { type: ShopRefSchema, required: false },
-		defaultProduct: { type: defaultProductRefSchema, required: false },
 		name: {
 			type: String, //by default the name of defaultProduct[lang]
 			required: true

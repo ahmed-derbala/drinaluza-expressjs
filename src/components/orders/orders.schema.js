@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import { CreatedByUserSchema } from '../users/users.schema.js'
 import { ProductRefSchema } from '../products/products.schema.js'
 import { ShopRefSchema } from '../shops/shops.schema.js'
-import { BusinessRefSchema } from '../businesses/businessRef.schema.js'
 import { orderStatusEnum } from './orders.enum.js'
 const ordersCollection = 'orders'
 const orderProducts = [
@@ -17,7 +16,6 @@ const orderProducts = [
 ]
 const OrderSchema = new mongoose.Schema(
 	{
-		business: { type: BusinessRefSchema, required: true },
 		shop: { type: ShopRefSchema, required: true },
 		createdByUser: { type: CreatedByUserSchema, required: true },
 		products: { type: orderProducts, required: true, _id: false },

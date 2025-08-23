@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import { BusinessRefSchema } from '../businesses/businessRef.schema.js'
 import * as addressSchema from '../../core/shared/schemas/address.schema.js'
 import { CreatedByUserSchema, usersCollection } from '../users/users.schema.js'
 const shopsCollection = 'shops'
@@ -10,7 +9,6 @@ const ShopRefSchema = new mongoose.Schema(
 			ref: usersCollection,
 			required: true
 		},
-		business: { type: BusinessRefSchema, required: true },
 		name: { type: String, required: true }
 	},
 	{ timestamps: true, required: true }
@@ -18,7 +16,6 @@ const ShopRefSchema = new mongoose.Schema(
 const schema = new mongoose.Schema(
 	{
 		createdByUser: CreatedByUserSchema,
-		business: { type: BusinessRefSchema, required: true },
 		name: String,
 		location: {
 			type: { type: String, enum: ['Point'], default: 'Point' },
