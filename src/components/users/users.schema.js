@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import * as phoneSchema from '../../core/shared/schemas/phone.schema.js'
 import * as addressSchema from '../../core/shared/schemas/address.schema.js'
+import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 
 const usersCollection = 'users'
 let photo = new mongoose.Schema(
@@ -68,15 +69,15 @@ const UserSchema = new mongoose.Schema(
 		},
 		profile: UserProfileSchema,
 		/*role: {
-        type: Object,
-        enum: config.users.roles,
-        default: config.users.roles[0]
-    },*/
+		type: Object,
+		enum: config.users.roles,
+		default: config.users.roles[0]
+	},*/
 		/*type: {
-        type: Object,
-        enum: config.users.types,
-        default: config.users.types[0]
-    },*/
+		type: Object,
+		enum: config.users.types,
+		default: config.users.types[0]
+	},*/
 		isActive: {
 			type: Boolean,
 			default: true
@@ -85,33 +86,17 @@ const UserSchema = new mongoose.Schema(
 			type: addressSchema,
 			select: false
 		},
-		settings: UserSettingsSchema
+		settings: UserSettingsSchema,
+		shops: [
+			{
+				type: ShopRefSchema,
+				required: false
+			}
+		]
 	},
 	{ timestamps: true }
 )
-const CreatedByUserSchema = new mongoose.Schema(
-	{
-		_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: usersCollection,
-			required: true
-		},
-		name: { type: String, required: true }
-	},
-	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }
-)
-export const UserModel = mongoose.model(usersCollection, UserSchema)
-export { photo }
-export { usersCollection }
-export { UserProfileSchema }
-export { CreatedByUserSchema }
-export { UserSchema }
-export { UserSettingsSchema }
-export default {
-	UserModel,
-	usersCollection,
-	UserProfileSchema,
-	CreatedByUserSchema,
-	UserSchema,
-	UserSettingsSchema
-}
+
+const UserModel = mongoose.model(usersCollection, UserSchema)
+
+export { photo, usersCollection, UserProfileSchema, UserSchema, UserSettingsSchema, UserModel }
