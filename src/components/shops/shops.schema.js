@@ -3,9 +3,9 @@ import * as addressSchema from '../../core/shared/schemas/address.schema.js'
 import { CreatedByUserSchema } from '../users/schemas/created-by-user.schema.js'
 const shopsCollection = 'shops'
 
-const schema = new mongoose.Schema(
+const shopSchema = new mongoose.Schema(
 	{
-		createdByUser: CreatedByUserSchema,
+		createdByUser: { type: CreatedByUserSchema, required: true },
 		name: String,
 		location: {
 			type: { type: String, enum: ['Point'], default: 'Point' },
@@ -21,5 +21,7 @@ const schema = new mongoose.Schema(
 	},
 	{ timestamps: true, collection: shopsCollection }
 )
-const ShopModel = mongoose.model(shopsCollection, schema)
+shopSchema.index({ createdByUser: 1, name: 1 }, { unique: true })
+
+const ShopModel = mongoose.model(shopsCollection, shopSchema)
 export { shopsCollection, ShopModel }
