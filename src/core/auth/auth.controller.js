@@ -10,7 +10,10 @@ import { resp } from '../helpers/resp.js'
 import { findOneUserSrvc, createUserSrvc } from '../../components/users/users.service.js'
 import { createAuthSrvc } from './auth.service.js'
 import { SessionsModel } from './sessions.schema.js'
+import { log } from '../log/index.js'
+
 const router = express.Router()
+
 router.post('/signup', validate(signupVld), async (req, res) => {
 	const { username, password } = req.body
 	let { settings } = req.body
@@ -25,19 +28,21 @@ router.post('/signup', validate(signupVld), async (req, res) => {
 	const token = createNewSession({ user, req })
 	return resp({ status: 200, data: { user, token }, req, res })
 })
+
 router.post('/signin', validate(signinVld), async (req, res) => {
 	try {
 		const { email, username, phone, password } = req.body
-		const filter = pickOneFilter({ filters: { email, username, phone } })
+		//const filter = pickOneFilter({ filters: { email, username, phone } })// we use username only for now
 		const authData = await signinSrvc({ match: { user: { username } }, password })
-		//console.log(authData)
-		if (!authData) return resp({ status: 400, data: null, message: `no user found with ${filter}`, req, res })
+		log({ level: 'debug', message: `authData fetched`, data: authData })
+		if (!authData) return resp({ status: 400, data: null, message: `no user found with username=${username}`, req, res })
 		const token = createNewSession({ user: authData.user, req })
 		return resp({ status: 200, data: { user: authData.user, token }, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}
 })
+
 router.post('/signout', authenticate(), async (req, res) => {
 	return SessionsModel.deleteOne({ token: req.headers.token })
 		.then((deletedSession) => {
