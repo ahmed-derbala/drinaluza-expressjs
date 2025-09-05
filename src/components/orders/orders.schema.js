@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import { CreatedByUserSchema } from '../users/users.schema.js'
+import { CreatedByUserSchema } from '../users/schemas/created-by-user.schema.js'
 import { ProductRefSchema } from '../products/products.schema.js'
-import { ShopRefSchema } from '../shops/shops.schema.js'
+import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { orderStatusEnum } from './orders.enum.js'
 const ordersCollection = 'orders'
 const orderProducts = [

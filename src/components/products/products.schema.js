@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import { CreatedByUserSchema } from '../users/users.schema.js'
-import { ShopRefSchema } from '../shops/shops.schema.js'
+import { CreatedByUserSchema } from '../users/schemas/created-by-user.schema.js'
+import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { priceUnitEnum } from './products.enum.js'
 import { FileRefSchema } from '../../core/files/files.schema.js'
 

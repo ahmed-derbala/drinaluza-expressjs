@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { usersCollection } from '../../components/users/users.schema.js'
+import { usersCollection } from '../../components/users/users.constant.js'
 import { UserSettingsSchema } from '../../components/users/users.schema.js'
 const authCollection = 'auth'
 const AuthSchema = new mongoose.Schema(

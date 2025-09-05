@@ -2,8 +2,7 @@ import mongoose from 'mongoose'
 import * as phoneSchema from '../../core/shared/schemas/phone.schema.js'
 import * as addressSchema from '../../core/shared/schemas/address.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
-
-const usersCollection = 'users'
+import { usersCollection } from './users.constant.js'
 let photo = new mongoose.Schema(
 	{
 		url: { type: String, required: false }
@@ -99,4 +98,4 @@ const UserSchema = new mongoose.Schema(
 
 const UserModel = mongoose.model(usersCollection, UserSchema)
 
-export { photo, usersCollection, UserProfileSchema, UserSchema, UserSettingsSchema, UserModel }
+export { photo, UserProfileSchema, UserSchema, UserSettingsSchema, UserModel }

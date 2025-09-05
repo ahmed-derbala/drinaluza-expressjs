@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findManyProductsSrvc, createProductSrvc } from './products.service.js'
+import { findMyShopsSrvc } from './shops.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 const router = express.Router()

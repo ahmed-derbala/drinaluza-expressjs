@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { CreatedByUserSchema } from '../../components/users/users.schema.js'
+import { CreatedByUserSchema } from '../../components/users/schemas/created-by-user.schema.js'
 
 export const FilesSchema = new mongoose.Schema(
 	{

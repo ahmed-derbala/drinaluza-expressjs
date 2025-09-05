@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { usersCollection } from '../../users/users.schema'
+import { usersCollection } from '../../users/users.constant.js'
 
 export const ShopRefSchema = new mongoose.Schema(
 	{

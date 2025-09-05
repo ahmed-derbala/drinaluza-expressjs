@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { usersCollection } from '../users.schema.js'
+import { usersCollection } from '../users.constant.js'
 
 export const CreatedByUserSchema = new mongoose.Schema(
 	{
