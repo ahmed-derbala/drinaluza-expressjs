@@ -26,3 +26,31 @@ export const createShopRepo = async ({ data }) => {
 		return errorHandler({ err })
 	}
 }
+
+export const findMyShopProductsRepo = async ({ match, select, page, limit }) => {
+	try {
+		const flattenedMatch = flattenObject(match)
+		log({ level: 'debug', message: 'findMyShopProductsRepo flattenedMatch', data: flattenedMatch })
+
+		const myShopProducts = paginateMongodb({ model: ShopModel, match: { ...flattenedMatch }, select, page, limit })
+		log({ level: 'debug', message: 'findMyShopProductsRepo', data: myShopProducts })
+		return myShopProducts
+	} catch (err) {
+		errorHandler({ err })
+	}
+}
+
+export const findMyShopRepo = async ({ match, select }) => {
+	try {
+		const flattenedMatch = flattenObject(match)
+		log({ level: 'debug', message: 'findMyShopRepo flattenedMatch', data: flattenedMatch })
+
+		const myShop = await ShopModel.findOne({ ...flattenedMatch })
+			.select(select)
+			.lean()
+		log({ level: 'debug', message: 'findMyShopRepo', data: myShop })
+		return myShop
+	} catch (err) {
+		errorHandler({ err })
+	}
+}

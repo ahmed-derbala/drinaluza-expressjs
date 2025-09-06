@@ -1,49 +1,9 @@
 import mongoose from 'mongoose'
 import { CreatedByUserSchema } from '../users/schemas/created-by-user.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
-import { priceUnitEnum } from './products.enum.js'
+import { PriceSchema } from './schemas/price.schema.js'
 import { FileRefSchema } from '../../core/files/files.schema.js'
 
-const PriceSchema = new mongoose.Schema(
-	{
-		value: {
-			tnd: {
-				type: Number,
-				required: true,
-				default: 0,
-				min: 0
-			},
-			eur: {
-				type: Number,
-				required: false,
-				//default: 0,
-				min: 0
-			},
-			usd: {
-				type: Number,
-				required: false,
-				//default: 0,
-				min: 0
-			}
-		},
-		unit: {
-			name: {
-				type: String,
-				required: true,
-				enum: priceUnitEnum.all,
-				default: priceUnitEnum.KG
-			},
-			min: {
-				//when the seller wants a minimum quantity to sell
-				type: Number,
-				required: true,
-				default: 1,
-				min: 1
-			}
-		}
-	},
-	{ _id: false, timestamps: true }
-)
 const ProductRefSchema = new mongoose.Schema(
 	{
 		name: {
@@ -101,7 +61,6 @@ const ProductSchema = new mongoose.Schema(
 const productsCollection = 'products'
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)
 export { productsCollection }
-export { PriceSchema }
 export { ProductRefSchema }
 export default {
 	ProductModel,

@@ -6,7 +6,7 @@ import { flattenObject } from '../../core/helpers/filters.js'
 
 export const findOneProductRepo = async ({ match, select }) => {
 	try {
-		const flattenedMatch = flattenObject({ obj: match })
+		const flattenedMatch = flattenObject(match)
 		console.log('....')
 		console.log(flattenedMatch)
 		const fetchedProduct = await ProductModel.findOne({ ...flattenedMatch })
@@ -19,7 +19,7 @@ export const findOneProductRepo = async ({ match, select }) => {
 }
 export const findManyProductsRepo = async ({ match, select, page, limit }) => {
 	try {
-		const flattenedMatch = flattenObject({ obj: match })
+		const flattenedMatch = flattenObject(match)
 		const fetchedManyProduct = paginateMongodb({ model: ProductModel, match: { ...flattenedMatch }, select, page, limit })
 		return fetchedManyProduct
 	} catch (err) {
@@ -29,7 +29,6 @@ export const findManyProductsRepo = async ({ match, select, page, limit }) => {
 export const createdProductRepo = async ({ data }) => {
 	try {
 		const createdProduct = await ProductModel.create({ ...data })
-		console.log(createdProduct)
 		return createdProduct
 	} catch (err) {
 		throw errorHandler({ err })

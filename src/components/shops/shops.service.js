@@ -1,6 +1,6 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
-import { findMyShopsRepo, createShopRepo } from './shops.repository.js'
+import { findMyShopsRepo, createShopRepo, findMyShopProductsRepo, findMyShopRepo } from './shops.repository.js'
 import config from '../../config/index.js'
 
 export const findMyShopsSrvc = async ({ match, select, page, limit }) => {
@@ -18,5 +18,14 @@ export const createShopSrvc = async ({ data }) => {
 		return newShop
 	} catch (err) {
 		return errorHandler({ err })
+	}
+}
+
+export const findMyShopSrvc = async ({ match, select }) => {
+	try {
+		const myShop = await findMyShopRepo({ match, select })
+		return myShop
+	} catch (err) {
+		errorHandler({ err })
 	}
 }
