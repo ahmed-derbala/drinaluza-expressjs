@@ -20,8 +20,8 @@ router.route('/my-shops').get(authenticate(), async (req, res) => {
 /*.post(authenticate(), async (req, res) => {
 		try {
 			const createdByUser = req.user
-			const { business, shop, name, defaultProduct, price } = req.body
-			const data = { business, shop, createdByUser, name, defaultProduct, price }
+			const {  shop, name, defaultProduct, price } = req.body
+			const data = {  shop, createdByUser, name, defaultProduct, price }
 			const createdProduct = await createProductSrvc({ data })
 			//console.log(createdProduct)
 			return resp({ status: 201, data: createdProduct, req, res })

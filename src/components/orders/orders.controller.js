@@ -28,9 +28,8 @@ router
 			for (let p of products) {
 				p = await findOneProductSrvc({ match: { _id: p.product._id } })
 			}
-			const business = products[0].product.business
 			const shop = products[0].product.shop
-			const data = { createdByUser, business, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			const data = { createdByUser, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
 			//console.log('data',data)
 			const createdOrder = await createOrderSrvc({ data })
 			//console.log(createdOrder)
@@ -49,9 +48,8 @@ router.route('/:orderId/status').patch(
 			for (p of products) {
 				p = await findOneProductSrvc({ match: { _id: p.product._id } })
 			}
-			const business = products[0].product.business
 			const shop = products[0].product.shop
-			const data = { createdByUser, business, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			const data = { createdByUser, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
 			//console.log('data',data)
 			const createdOrder = await createOrderSrvc({ data })
 			//console.log(createdOrder)
