@@ -67,16 +67,6 @@ const UserSchema = new mongoose.Schema(
 			required: false
 		},
 		profile: UserProfileSchema,
-		/*role: {
-		type: Object,
-		enum: config.users.roles,
-		default: config.users.roles[0]
-	},*/
-		/*type: {
-		type: Object,
-		enum: config.users.types,
-		default: config.users.types[0]
-	},*/
 		isActive: {
 			type: Boolean,
 			default: true
