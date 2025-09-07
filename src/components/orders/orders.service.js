@@ -38,7 +38,7 @@ export const calculateFinalPriceSrvc = ({ price, quantity }) => {
 
 export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus }) => {
 	try {
-		if (!validateStatusTransition(oldStatus, newStatus)) {
+		if (!validateSaleStatusTransition(oldStatus, newStatus)) {
 			log({ level: 'debug', message: 'invalid status transition', data: { oldStatus, newStatus } })
 			return { message: 'invalid status transition', data: null }
 		}
@@ -55,17 +55,11 @@ export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus }) => {
  * @param {string} newStatus The new status to transition to.
  * @returns {boolean} True if the transition is valid, false otherwise.
  */
-function validateStatusTransition(oldStatus, newStatus) {
+function validateSaleStatusTransition(oldStatus, newStatus) {
 	// A list of the valid statuses in their correct progressive order.
-	const orderedStatuses = [orderStatusEnum.PENDING_SHOP_CONFIRMATION, orderStatusEnum.DELIVERING_TO_USER, orderStatusEnum.DELIVERED_TO_USER]
+	const orderedStatuses = [orderStatusEnum.PENDING_SHOP_CONFIRMATION, orderStatusEnum.DELIVERING_TO_USER, orderStatusEnum.DELIVERED_TO_USER, orderStatusEnum.CANCELLED_BY_SHOP]
 
-	// The user's rule states that oldStatus and newStatus cannot be a cancelled status.
-	const cancelledStatuses = [orderStatusEnum.CANCELLED_BY_SHOP]
-
-	if (cancelledStatuses.includes(oldStatus) || cancelledStatuses.includes(newStatus)) {
-		return false
-	}
-
+	if (oldStatus === orderStatusEnum.CANCELLED_BY_USER && newStatus === orderStatusEnum.CANCELLED_BY_SHOP) return false
 	const oldStatusIndex = orderedStatuses.indexOf(oldStatus)
 	const newStatusIndex = orderedStatuses.indexOf(newStatus)
 
@@ -73,7 +67,6 @@ function validateStatusTransition(oldStatus, newStatus) {
 	if (oldStatusIndex === -1 || newStatusIndex === -1) {
 		return false
 	}
-
 	// A valid transition means the new status's index must be greater than the old status's index.
 	return newStatusIndex > oldStatusIndex
 }
