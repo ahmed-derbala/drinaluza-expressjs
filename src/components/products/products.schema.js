@@ -3,6 +3,7 @@ import { OwnerSchema } from '../users/schemas/owner.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { PriceSchema } from './schemas/price.schema.js'
 import { FileRefSchema } from '../../core/files/files.schema.js'
+const productsCollection = 'products'
 
 const ProductRefSchema = new mongoose.Schema(
 	{
@@ -21,7 +22,6 @@ const ProductRefSchema = new mongoose.Schema(
 )
 const ProductSchema = new mongoose.Schema(
 	{
-		owner: { type: OwnerSchema, required: true },
 		shop: { type: ShopRefSchema, required: false },
 		name: {
 			type: String, //by default the name of defaultProduct[lang]
@@ -63,7 +63,6 @@ const ProductSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 )
-const productsCollection = 'products'
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)
 export { productsCollection }
 export { ProductRefSchema }

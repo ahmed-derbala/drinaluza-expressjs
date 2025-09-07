@@ -15,14 +15,14 @@ import { log } from '../log/index.js'
 const router = express.Router()
 
 router.post('/signup', validate(signupVld), async (req, res) => {
-	const { username, password } = req.body
+	const { slug, password } = req.body
 	let { settings } = req.body
-	const existedUser = await findOneUserSrvc({ match: { username }, select: '_id' })
+	const existedUser = await findOneUserSrvc({ match: { slug }, select: '_id' })
 	if (existedUser) {
 		return resp({ status: 409, message: 'user already exist', data: null, req, res })
 	}
 	if (!settings) settings = { lang: config.users.defaults.settings.lang, currency: config.users.defaults.settings.currency }
-	const user = await createUserSrvc({ username, settings })
+	const user = await createUserSrvc({ slug, settings })
 	if (!user) return resp({ status: 400, data: null, message: 'no user was created', req, res })
 	const createdAuth = await createAuthSrvc({ user, password })
 	const token = createNewSession({ user, req })
@@ -31,11 +31,11 @@ router.post('/signup', validate(signupVld), async (req, res) => {
 
 router.post('/signin', validate(signinVld), async (req, res) => {
 	try {
-		const { email, username, phone, password } = req.body
-		//const filter = pickOneFilter({ filters: { email, username, phone } })// we use username only for now
-		const authData = await signinSrvc({ match: { user: { username } }, password })
+		const { email, slug, phone, password } = req.body
+		//const filter = pickOneFilter({ filters: { email, slug, phone } })// we use slug only for now
+		const authData = await signinSrvc({ match: { user: { slug } }, password })
 		log({ level: 'debug', message: `authData fetched`, data: authData })
-		if (!authData) return resp({ status: 400, data: null, message: `no user found with username=${username}`, req, res })
+		if (!authData) return resp({ status: 400, data: null, message: `no user found with slug=${slug}`, req, res })
 		const token = createNewSession({ user: authData.user, req })
 		return resp({ status: 200, data: { user: authData.user, token }, req, res })
 	} catch (err) {

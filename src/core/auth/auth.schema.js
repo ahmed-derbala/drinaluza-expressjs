@@ -7,7 +7,7 @@ const AuthSchema = new mongoose.Schema(
 		user: {
 			_id: { type: mongoose.Schema.Types.ObjectId, ref: usersCollection, required: true, unique: true },
 			email: { type: String /*unique: true*/ },
-			username: { type: String, required: true /*unique: true*/ },
+			slug: { type: String, required: true /*unique: true*/ },
 			name: { type: String, required: true },
 			settings: UserSettingsSchema,
 			updatedAt: { type: Date, required: true }

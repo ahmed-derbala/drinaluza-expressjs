@@ -5,7 +5,8 @@ import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { orderStatusEnum } from './orders.enum.js'
 import { FinalPriceSchema } from '../products/schemas/final-price.schema.js'
 
-const ordersCollection = 'orders'
+export const ordersCollection = 'orders'
+
 const orderProductsSchema = [
 	{
 		product: ProductRefSchema,
@@ -17,6 +18,7 @@ const orderProductsSchema = [
 		finalPrice: { type: FinalPriceSchema, required: true }
 	}
 ]
+
 const OrderSchema = new mongoose.Schema(
 	{
 		shop: { type: ShopRefSchema, required: true },
@@ -31,5 +33,5 @@ const OrderSchema = new mongoose.Schema(
 	},
 	{ timestamps: true, collection: ordersCollection }
 )
+
 export const OrderModel = mongoose.model(ordersCollection, OrderSchema)
-export { ordersCollection }

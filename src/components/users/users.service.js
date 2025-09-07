@@ -24,7 +24,7 @@ export const getProfile = async ({ loginId, userId, req }) => {
 	try {
 		log({ message: `requesting profile of userId=${userId} ...`, level: 'debug', req })
 		if (!loginId) loginId = userId
-		let $or = [{ email: loginId }, { username: loginId }, { 'phone.shortNumber': loginId }]
+		let $or = [{ email: loginId }, { slug: loginId }, { 'phone.shortNumber': loginId }]
 		if (mongoose.isValidObjectId(loginId)) $or.push({ _id: loginId })
 		return UserModel.findOne({ $or }).select('+profile').lean()
 	} catch (err) {
@@ -40,8 +40,8 @@ export const updateUserSrvc = async ({ identity, newData }) => {
 	}
 }
 
-export const createUserSrvc = async ({ email, username, phone, settings }) => {
-	const signedupUser = await createUserRepo({ email, username, phone, settings })
+export const createUserSrvc = async ({ email, slug, phone, settings }) => {
+	const signedupUser = await createUserRepo({ email, slug, phone, settings })
 	if (!signedupUser) return null
 	return signedupUser
 	/*if (profile && !profile.displayName) profile.displayName = `${profile.firstName} ${profile.lastName}`
@@ -55,10 +55,10 @@ export const createUserSrvc = async ({ email, username, phone, settings }) => {
     return createUserSrvc({ email,  })
         .then((createdUser) => {
             createdUser = createdUser.toJSON()
-            if (createdUser.username == null) {
-                return updateUserSrvc({ identity: { _id: createdUser._id }, newData: { username: createdUser._id } })
+            if (createdUser.slug == null) {
+                return updateUserSrvc({ identity: { _id: createdUser._id }, newData: { slug: createdUser._id } })
                     .then((updatedUser) => {
-                        createdUser.username = createdUser._id
+                        createdUser.slug = createdUser._id
                         return createdUser
                     })
                     .catch((err) => errorHandler({ err }))

@@ -3,6 +3,7 @@ import * as phoneSchema from '../../core/shared/schemas/phone.schema.js'
 import * as addressSchema from '../../core/shared/schemas/address.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
+import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 let photo = new mongoose.Schema(
 	{
 		url: { type: String, required: false }
@@ -40,20 +41,18 @@ const UserSettingsSchema = new mongoose.Schema(
 )
 const UserSchema = new mongoose.Schema(
 	{
-		username: {
-			//by default username is the _id, it can be changed later (once) by the user
+		slug: {
 			type: String,
 			required: true,
-			default: function () {
-				return this._id
-			}
+			trim: true,
+			lowercase: true
 		},
 		name: {
-			//defaults to firstName+lastName or username. Its displayed name, it can be changed many times by the user
+			//defaults to firstName+lastName or slug. Its displayed name, it can be changed many times by the user
 			type: String,
 			required: true,
 			default: function () {
-				return this.username
+				return this.slug
 			}
 		},
 		email: {
@@ -85,7 +84,9 @@ const UserSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 )
-
+UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
+//Define a case-insensitive unique index
+UserSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 const UserModel = mongoose.model(usersCollection, UserSchema)
 
 export { photo, UserProfileSchema, UserSchema, UserSettingsSchema, UserModel }

@@ -7,9 +7,9 @@ import { resp } from '../../core/helpers/resp.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneUserSrvc } from './users.service.js'
 const router = express.Router()
-router.get('/:username', async (req, res) => {
-	const { username } = req.params
-	const user = await findOneUserSrvc({ match: { username } })
+router.get('/:slug', async (req, res) => {
+	const { slug } = req.params
+	const user = await findOneUserSrvc({ match: { slug } })
 	if (!user) return resp({ status: 202, message: 'user not found', data: null, req, res })
 	return resp({ status: 200, message: 'user found', data: user, req, res })
 })

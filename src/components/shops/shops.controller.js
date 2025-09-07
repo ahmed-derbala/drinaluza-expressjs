@@ -4,9 +4,11 @@ import { findMyShopsSrvc, createShopSrvc, findMyShopSrvc } from './shops.service
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
+import { createShopVld } from './shops.validator.js'
+import { validate } from '../../core/validation/index.js'
 const router = express.Router()
 
-router.route('/create').post(authenticate(), async (req, res) => {
+router.route('/create').post(authenticate(), validate(createShopVld), async (req, res) => {
 	try {
 		let { name } = req.body
 		let data = { name, owner: req.user }

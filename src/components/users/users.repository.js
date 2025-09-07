@@ -19,16 +19,16 @@ export const findOneUserRepo = async ({ match, select }) => {
 		return errorHandler({ err })
 	}
 }
-export const createUserRepo = async ({ email, username, name, phone, password, profile, settings }) => {
+export const createUserRepo = async ({ email, slug, name, phone, password, profile, settings }) => {
 	try {
-		let singedupUser = await UserModel.create({ email, username, phone, password, settings })
+		let singedupUser = await UserModel.create({ email, slug, phone, password, settings })
 		let updateData = {}
-		if (!username) {
-			username = singedupUser._id
-			updateData.username = username
+		if (!slug) {
+			slug = singedupUser._id
+			updateData.slug = slug
 		}
 		if (!name) {
-			name = username
+			name = slug
 			updateData.name = name
 		}
 		if (updateData) await UserModel.updateOne({ _id: singedupUser._id }, updateData)

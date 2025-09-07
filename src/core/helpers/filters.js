@@ -4,8 +4,8 @@ export const makeAuthKeyQuery = ({ key, kind }) => {
 		case 'email':
 			authKeyQuery.email = key
 			break
-		case 'username':
-			authKeyQuery.username = key
+		case 'slug':
+			authKeyQuery.slug = key
 			break
 		case 'phone':
 			authKeyQuery.phone = key

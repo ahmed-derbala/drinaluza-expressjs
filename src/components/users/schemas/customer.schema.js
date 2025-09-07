@@ -8,7 +8,7 @@ export const CustomerSchema = new mongoose.Schema(
 			ref: usersCollection,
 			required: true
 		},
-		username: { type: String, required: true },
+		slug: { type: String, required: true },
 		name: { type: String, required: true }
 	},
 	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }

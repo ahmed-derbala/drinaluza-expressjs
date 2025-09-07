@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    //\"email\":\"derbala.ahmed531992@gmail.com\",\n    \"username\":\"ahmed16\",\n    \"password\":\"123\"\n}",
+							"raw": "{\n    //\"email\":\"derbala.ahmed531992@gmail.com\",\n    \"slug\":\"ahmed16\",\n    \"password\":\"123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -50,7 +50,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    //\"email\":\"derbala.ahmed531992@gmail.com\",\n    \"username\": \"ahmed13\",\n    \"password\": \"123\"\n}",
+							"raw": "{\n    //\"email\":\"derbala.ahmed531992@gmail.com\",\n    \"slug\": \"ahmed13\",\n    \"password\": \"123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
