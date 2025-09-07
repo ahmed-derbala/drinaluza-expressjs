@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { usersCollection } from '../users.constant.js'
 
-export const CreatedByUserSchema = new mongoose.Schema(
+export const OwnerSchema = new mongoose.Schema(
 	{
 		_id: {
 			type: mongoose.Schema.Types.ObjectId,

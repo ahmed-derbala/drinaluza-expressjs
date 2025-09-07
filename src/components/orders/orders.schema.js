@@ -1,24 +1,27 @@
 import mongoose from 'mongoose'
-import { CreatedByUserSchema } from '../users/schemas/created-by-user.schema.js'
+import { CustomerSchema } from '../users/schemas/customer.schema.js'
 import { ProductRefSchema } from '../products/products.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { orderStatusEnum } from './orders.enum.js'
+import { FinalPriceSchema } from '../products/schemas/final-price.schema.js'
+
 const ordersCollection = 'orders'
-const orderProducts = [
+const orderProductsSchema = [
 	{
 		product: ProductRefSchema,
 		quantity: {
 			type: Number,
 			required: true,
 			min: [1, 'Quantity must be at least 1']
-		}
+		},
+		finalPrice: { type: FinalPriceSchema, required: true }
 	}
 ]
 const OrderSchema = new mongoose.Schema(
 	{
 		shop: { type: ShopRefSchema, required: true },
-		createdByUser: { type: CreatedByUserSchema, required: true },
-		products: { type: orderProducts, required: true, _id: false },
+		customer: { type: CustomerSchema, required: true },
+		products: { type: orderProductsSchema, required: true, _id: false },
 		status: {
 			type: String,
 			enum: orderStatusEnum,
@@ -30,7 +33,3 @@ const OrderSchema = new mongoose.Schema(
 )
 export const OrderModel = mongoose.model(ordersCollection, OrderSchema)
 export { ordersCollection }
-export default {
-	OrderModel,
-	ordersCollection
-}

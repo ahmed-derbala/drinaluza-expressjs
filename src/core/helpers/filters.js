@@ -48,7 +48,7 @@ export const flattenObject = (obj) => {
 	/**
 	 * Recursive helper function to traverse the object.
 	 * @param {any} currentObject - The current part of the object being processed.
-	 * @param {string} [prefix=''] - The prefix for the new key (e.g., 'createdByUser').
+	 * @param {string} [prefix=''] - The prefix for the new key (e.g., 'owner').
 	 */
 	function recurse(currentObject, prefix = '') {
 		// Check if the current value is an object and not null or an array.

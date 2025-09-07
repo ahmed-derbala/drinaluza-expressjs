@@ -6,25 +6,25 @@ import { authenticate } from '../../core/auth/index.js'
 import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
 const router = express.Router()
 
-router.route('/my-shops').get(authenticate(), async (req, res) => {
+router.route('/create').post(authenticate(), async (req, res) => {
 	try {
-		let match = {}
-		match.createdByUser = { _id: req.user._id }
-		const select = ''
-		let { page = 1, limit = 10 } = req.query
-		const myShops = await findManyProductsSrvc({ match, select, page, limit })
-		return resp({ status: 200, data: myShops, req, res })
+		let { name } = req.body
+		let data = { name, owner: req.user }
+		const newShop = await createShopSrvc({ data })
+		return resp({ status: newShop.status || 200, data: newShop, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}
 })
 
-router.route('/create').post(authenticate(), async (req, res) => {
+router.route('/my-shops').get(authenticate(), async (req, res) => {
 	try {
-		let { name } = req.body
-		let data = { name, createdByUser: req.user }
-		const newShop = await createShopSrvc({ data })
-		return resp({ status: newShop.status || 200, data: newShop, req, res })
+		let match = {}
+		match.owner = { _id: req.user._id }
+		const select = ''
+		let { page = 1, limit = 10 } = req.query
+		const myShops = await findMyShopsSrvc({ match, select, page, limit })
+		return resp({ status: 200, data: myShops, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}
@@ -33,13 +33,13 @@ router.route('/create').post(authenticate(), async (req, res) => {
 router.route('/my-shops/:shopId/products').get(authenticate(), async (req, res) => {
 	try {
 		let match = {}
-		//match.createdByUser = { _id: req.user._id }
+		//match.owner = { _id: req.user._id }
 		const select = ''
 		let { page = 1, limit = 10 } = req.query
 		const shopId = req.params.shopId
 		match.shop = {}
 		match.shop._id = shopId
-		match.shop.createdByUser = { _id: req.user._id }
+		match.shop.owner = { _id: req.user._id }
 		const myShopProducts = await findManyProductsSrvc({ match, select, page, limit })
 		console.log(myShopProducts)
 		return resp({ status: 200, data: myShopProducts, req, res })
@@ -52,10 +52,10 @@ router.route('/my-shops/:shopId/products/create').post(authenticate(), async (re
 	try {
 		const shopId = req.params.shopId
 		const { name, price, photos, searchTerms, availability, stock } = req.body
-		const shop = await findMyShopSrvc({ match: { _id: shopId, createdByUser: { _id: req.user._id } }, select: '' })
+		const shop = await findMyShopSrvc({ match: { _id: shopId, owner: { _id: req.user._id } }, select: '' })
 		if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
 
-		const data = { shop, createdByUser: req.user, name, price, photos, searchTerms, availability, stock }
+		const data = { shop, owner: req.user, name, price, photos, searchTerms, availability, stock }
 		const shopProduct = await createProductSrvc({ data })
 		return resp({ status: shopProduct.status || 200, data: shopProduct, req, res })
 	} catch (err) {

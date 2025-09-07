@@ -22,14 +22,14 @@ router
 	})
 	.post(authenticate(), validate(createOrderVld), async (req, res) => {
 		try {
-			const createdByUser = req.body?.createdByUser || req.user
+			const owner = req.body?.owner || req.user
 			const { products } = req.body
 			//process products
 			for (let p of products) {
 				p = await findOneProductSrvc({ match: { _id: p.product._id } })
 			}
 			const shop = products[0].product.shop
-			const data = { createdByUser, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			const data = { owner, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
 			//console.log('data',data)
 			const createdOrder = await createOrderSrvc({ data })
 			//console.log(createdOrder)
@@ -42,14 +42,14 @@ router.route('/:orderId/status').patch(
 	authenticate(),
 	/*validate(createOrderVld),*/ async (req, res) => {
 		try {
-			const createdByUser = req.body?.createdByUser || req.user
+			const owner = req.body?.owner || req.user
 			const { products } = req.body
 			//process products
 			for (p of products) {
 				p = await findOneProductSrvc({ match: { _id: p.product._id } })
 			}
 			const shop = products[0].product.shop
-			const data = { createdByUser, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			const data = { owner, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
 			//console.log('data',data)
 			const createdOrder = await createOrderSrvc({ data })
 			//console.log(createdOrder)

@@ -32,6 +32,7 @@
     "delete": "pm2 delete all",
     "monit": "pm2 monit",
     "code": "code . && npm run start:local",
+    "windsurf": "windsurf . && npm run start:local",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "push": "npm run format && git add . && git commit -m",
     "postpush": "git push && npm run start:local",

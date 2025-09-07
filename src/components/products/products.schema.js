@@ -1,11 +1,16 @@
 import mongoose from 'mongoose'
-import { CreatedByUserSchema } from '../users/schemas/created-by-user.schema.js'
+import { OwnerSchema } from '../users/schemas/owner.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { PriceSchema } from './schemas/price.schema.js'
 import { FileRefSchema } from '../../core/files/files.schema.js'
 
 const ProductRefSchema = new mongoose.Schema(
 	{
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: productsCollection,
+			required: true
+		},
 		name: {
 			type: String, //by default the name of defaultProduct[lang]
 			required: true
@@ -16,7 +21,7 @@ const ProductRefSchema = new mongoose.Schema(
 )
 const ProductSchema = new mongoose.Schema(
 	{
-		createdByUser: { type: CreatedByUserSchema, required: true },
+		owner: { type: OwnerSchema, required: true },
 		shop: { type: ShopRefSchema, required: false },
 		name: {
 			type: String, //by default the name of defaultProduct[lang]

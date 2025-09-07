@@ -24,7 +24,7 @@ const seedProducts = async () => {
 			{ name: 'Huitres', price: { value: { tnd: 70 }, unit: { name: 'KG', min: 1 } }, searchTerms: ['oyster'], stock: { quantity: 10, minThreshold: 2 } }
 		].map((p) => ({
 			...p,
-			createdByUser: { _id: new mongoose.Types.ObjectId(), name: 'Seeder Script' },
+			owner: { _id: new mongoose.Types.ObjectId(), name: 'Seeder Script' },
 			photos: [],
 			isActive: true,
 			availability: { startDate: new Date(), endDate: null }

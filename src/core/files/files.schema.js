@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
-import { CreatedByUserSchema } from '../../components/users/schemas/created-by-user.schema.js'
+import { OwnerSchema } from '../../components/users/schemas/owner.schema.js'
 
 export const FilesSchema = new mongoose.Schema(
 	{
-		createdByUser: { type: CreatedByUserSchema, required: true },
+		owner: { type: OwnerSchema, required: true },
 		name: { type: String, required: true }, // name without extension
 		originalname: { type: String, required: false }, // name + . + extension
 		extension: { type: String, required: false }, // the extension prefixed with a dot
@@ -29,7 +29,7 @@ export const FilesSchema = new mongoose.Schema(
 )
 
 export const FileRefSchema = new mongoose.Schema({
-	createdByUser: { type: CreatedByUserSchema, required: true },
+	owner: { type: OwnerSchema, required: true },
 	name: { type: String, required: true }, // name without extension
 	originalname: { type: String, required: false }, // name + . + extension
 	extension: { type: String, required: false }, // the extension prefixed with a dot

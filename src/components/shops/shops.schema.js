@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
 import * as addressSchema from '../../core/shared/schemas/address.schema.js'
-import { CreatedByUserSchema } from '../users/schemas/created-by-user.schema.js'
+import { OwnerSchema } from '../users/schemas/owner.schema.js'
 const shopsCollection = 'shops'
 
 const shopSchema = new mongoose.Schema(
 	{
-		createdByUser: { type: CreatedByUserSchema, required: true },
+		owner: { type: OwnerSchema, required: true },
 		name: String,
 		location: {
 			type: { type: String, enum: ['Point'], default: 'Point' },
@@ -21,7 +21,7 @@ const shopSchema = new mongoose.Schema(
 	},
 	{ timestamps: true, collection: shopsCollection }
 )
-shopSchema.index({ createdByUser: 1, name: 1 }, { unique: true })
+shopSchema.index({ owner: 1, name: 1 }, { unique: true })
 
 const ShopModel = mongoose.model(shopsCollection, shopSchema)
 export { shopsCollection, ShopModel }
