@@ -40,3 +40,13 @@ export const createUserRepo = async ({ email, slug, name, phone, password, profi
 		errorHandler({ err })
 	}
 }
+
+export const addShopToUserRepo = async ({ shop, userId }) => {
+	try {
+		const updatedUser = await UserModel.updateOne({ _id: userId }, { $push: { shops: shop } })
+		log({ level: 'debug', message: 'addShopToUserRepo', data: updatedUser })
+		return updatedUser
+	} catch (err) {
+		return errorHandler({ err })
+	}
+}

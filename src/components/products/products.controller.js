@@ -27,6 +27,7 @@ router
 			console.log(price, 'price')
 			let { shop } = req.body
 			shop = await findOneShopRepo({ match: { slug: shop.slug }, select: '' })
+			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
 			const data = { shop, name, defaultProduct, price }
 			log({ level: 'debug', message: 'createdProduct data', data: JSON.stringify(data) })
 			const createdProduct = await createProductSrvc({ data })

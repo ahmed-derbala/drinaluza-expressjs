@@ -2,9 +2,9 @@ import { UserModel } from './users.schema.js'
 import { errorHandler } from '../../core/error/index.js'
 import mongoose from 'mongoose'
 import { log } from '../../core/log/index.js'
-import { createUserRepo, findOneUserRepo, updateUserRepo } from './users.repository.js'
-import config from '../../config/index.js'
-const findOneUserSrvc = async ({ match, select }) => {
+import { createUserRepo, findOneUserRepo, updateUserRepo, addShopToUserRepo } from './users.repository.js'
+
+export const findOneUserSrvc = async ({ match, select }) => {
 	try {
 		//log({ level: 'debug', data: { match, select } })
 		const fetchedUser = await findOneUserRepo({ match, select })
@@ -69,12 +69,11 @@ export const createUserSrvc = async ({ email, slug, phone, settings }) => {
         */
 }
 
-addShopToUser = async ({ shop, userId }) => {
+export const addShopToUserSrvc = async ({ shop, userId }) => {
 	try {
-		const updatedUser = await updateUserRepo({ identity: { _id: userId }, newData: { shops: shop } })
+		const updatedUser = await addShopToUserRepo({ shop, userId })
 		return updatedUser
 	} catch (err) {
 		errorHandler({ err })
 	}
 }
-export { findOneUserSrvc }

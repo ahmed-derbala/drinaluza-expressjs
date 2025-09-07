@@ -26,7 +26,6 @@ export const findManyOrdersRepo = async ({ match, select, page, limit }) => {
 export const createdOrderRepo = async ({ data }) => {
 	try {
 		const createdOrder = await OrderModel.create({ ...data })
-		//console.log(createdOrder)
 		return createdOrder
 	} catch (err) {
 		throw errorHandler({ err })

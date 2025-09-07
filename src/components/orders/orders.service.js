@@ -25,9 +25,10 @@ export const createOrderSrvc = async ({ data }) => {
 	}
 }
 
-export const calculateFinalPriceSrvc = async ({ price, quantity }) => {
+export const calculateFinalPriceSrvc = ({ price, quantity }) => {
 	try {
-		const finalPrice = price * quantity
+		const finalPrice = { value: { tnd: price.value.tnd * quantity, usd: price.value.usd * quantity, eur: price.value.eur * quantity } }
+		log({ level: 'debug', message: 'calculateFinalPriceSrvc', data: finalPrice })
 		return finalPrice
 	} catch (err) {
 		throw errorHandler({ err })

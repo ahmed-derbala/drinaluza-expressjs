@@ -6,15 +6,17 @@ import { authenticate } from '../../core/auth/index.js'
 import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
 import { createShopVld } from './shops.validator.js'
 import { validate } from '../../core/validation/index.js'
+import { addShopToUserSrvc } from '../users/users.service.js'
+
 const router = express.Router()
 
-router.route('/create').post(authenticate(), validate(createShopVld), async (req, res) => {
+router.route('/').post(authenticate(), validate(createShopVld), async (req, res) => {
 	try {
 		let { name } = req.body
 		let data = { name, owner: req.user }
 		const newShop = await createShopSrvc({ data })
-		if (newShop.status == 201) {
-			addShopToUser({ shop: newShop, userId: req.user._id })
+		if (newShop) {
+			addShopToUserSrvc({ shop: newShop, userId: req.user._id })
 		}
 		return resp({ status: newShop.status || 200, data: newShop, req, res })
 	} catch (err) {

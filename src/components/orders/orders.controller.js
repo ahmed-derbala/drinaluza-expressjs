@@ -9,10 +9,11 @@ import { findOneProductSrvc } from '../products/products.service.js'
 import { orderStatusEnum } from './orders.enum.js'
 import { findOneShopSrvc } from '../shops/shops.service.js'
 import { calculateFinalPriceSrvc } from './orders.service.js'
+import { log } from '../../core/log/index.js'
 const router = express.Router()
 router
 	.route('/')
-	.get(async (req, res) => {
+	.get(authenticate(), async (req, res) => {
 		try {
 			const { match, select } = req.body || {}
 			let { page = 1, limit = 10 } = req.query
@@ -29,17 +30,13 @@ router
 			//process products
 			for (let p of products) {
 				p.product = await findOneProductSrvc({ match: { slug: p.product.slug } })
-				console.log(p)
-
-				p.finalPrice = calculateFinalPriceSrvc({ price: p.product.price.value.tnd, quantity: p.quantity })
+				p.finalPrice = calculateFinalPriceSrvc({ price: p.product.price, quantity: p.quantity })
+				log({ level: 'debug', message: 'process products', data: p })
 			}
 			shop = await findOneShopSrvc({ match: { slug: shop.slug }, select: '' })
 			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
-
 			const data = { customer, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
-			//console.log('data',data)
 			const createdOrder = await createOrderSrvc({ data })
-			//console.log(createdOrder)
 			return resp({ status: 201, data: createdOrder, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })

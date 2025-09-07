@@ -9,6 +9,12 @@ export const ShopRefSchema = new mongoose.Schema(
 			required: true
 		},
 		name: { type: String, required: true },
+		slug: {
+			type: String,
+			required: true,
+			trim: true,
+			lowercase: true
+		},
 		owner: { type: OwnerSchema, required: true }
 	},
 	{ timestamps: true, required: true }
