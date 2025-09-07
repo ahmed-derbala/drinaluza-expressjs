@@ -12,13 +12,13 @@ export const FinalPriceSchema = new mongoose.Schema(
 			eur: {
 				type: Number,
 				required: false,
-				//default: 0,
+				default: null,
 				min: 0
 			},
 			usd: {
 				type: Number,
 				required: false,
-				//default: 0,
+				default: null,
 				min: 0
 			}
 		}

@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { usersCollection } from '../../components/users/users.constant.js'
 import { UserSettingsSchema } from '../../components/users/users.schema.js'
 const authCollection = 'auth'
+import { userRolesEnum } from '../../components/users/users.enum.js'
 const AuthSchema = new mongoose.Schema(
 	{
 		user: {
@@ -9,6 +10,11 @@ const AuthSchema = new mongoose.Schema(
 			email: { type: String /*unique: true*/ },
 			slug: { type: String, required: true /*unique: true*/ },
 			name: { type: String, required: true },
+			role: {
+				type: String,
+				enum: userRolesEnum.ALL,
+				default: userRolesEnum.CUSTOMER
+			},
 			settings: UserSettingsSchema,
 			updatedAt: { type: Date, required: true }
 		},

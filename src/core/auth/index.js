@@ -9,6 +9,7 @@ export const authenticate = (params) => {
 			//check params
 			if (params == null) params = {}
 			if (params.tokenRequired == null) params.tokenRequired = true
+			if (params.role == null) params.role = null
 			//search for token
 			if (req.headers.token == null) {
 				if (req.cookies.token != null) req.headers.token = req.cookies.token
@@ -52,6 +53,18 @@ export const authenticate = (params) => {
 					return resp({ message: `token must be used in one device`, status: 401, data, req, res })
 				}
 				req.user = decoded.user
+
+				// Check role-based access if role is specified
+				if (params.role && req.user.role !== params.role) {
+					return resp({
+						message: `Access denied. Required role: ${params.role}, user role: ${req.user.role || 'none'}`,
+						status: 403,
+						data: null,
+						req,
+						res
+					})
+				}
+
 				return next()
 			})
 		} catch (err) {

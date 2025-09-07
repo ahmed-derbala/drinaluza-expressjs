@@ -4,6 +4,8 @@ import * as addressSchema from '../../core/shared/schemas/address.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { userRolesEnum } from './users.enum.js'
+
 let photo = new mongoose.Schema(
 	{
 		url: { type: String, required: false }
@@ -59,6 +61,11 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			required: false
 			//unique: true // return error if email is null duplicated
+		},
+		role: {
+			type: String,
+			enum: userRolesEnum.ALL,
+			default: userRolesEnum.CUSTOMER
 		},
 		phone: {
 			type: phoneSchema,

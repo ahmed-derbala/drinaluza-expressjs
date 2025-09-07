@@ -1,23 +1,25 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findManyOrdersSrvc, createOrderSrvc } from './orders.service.js'
+import { findManyOrdersSrvc, createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './orders.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
-import { createOrderVld } from './orders.validator.js'
+import { createOrderVld, patchOrderStatusVld } from './orders.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
 import { orderStatusEnum } from './orders.enum.js'
 import { findOneShopSrvc } from '../shops/shops.service.js'
 import { calculateFinalPriceSrvc } from './orders.service.js'
 import { log } from '../../core/log/index.js'
+import { userRolesEnum } from '../users/users.enum.js'
+
 const router = express.Router()
 router
 	.route('/')
 	.get(authenticate(), async (req, res) => {
 		try {
-			const { match, select } = req.body || {}
+			const match = { customer: { _id: req.user._id } }
 			let { page = 1, limit = 10 } = req.query
-			const fetchedManyOrders = await findManyOrdersSrvc({ match, select, page, limit })
+			const fetchedManyOrders = await findManyOrdersSrvc({ match, page, limit })
 			return resp({ status: 200, data: fetchedManyOrders, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
@@ -64,4 +66,30 @@ router.route('/:orderId/status').patch(
 		}
 	}
 )
+
+router.route('/sales').get(authenticate({ role: 'shop_owner' }), async (req, res) => {
+	try {
+		const match = { shop: { owner: { _id: req.user._id } } }
+		const select = ''
+		let { page = 1, limit = 10 } = req.query
+		const fetchedManyOrders = await findManyOrdersSrvc({ match, select, page, limit })
+		return resp({ status: 200, data: fetchedManyOrders, req, res })
+	} catch (err) {
+		errorHandler({ err, req, res })
+	}
+})
+
+router.route('/sales/:orderId/:status').patch(authenticate({ role: userRolesEnum.SHOP_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
+	try {
+		const { status, orderId } = req.params
+		const match = { _id: orderId, shop: { owner: { _id: req.user._id } } }
+		const order = await findOneOrderSrvc({ match })
+		if (!order) return resp({ status: 202, message: `order not found ${JSON.stringify(match)}`, data: null, req, res })
+		const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: order.status, newStatus: status })
+		if (!patchedOrder.data) return resp({ status: 409, message: patchedOrder.message, data: null, req, res })
+		return resp({ status: 200, message: patchedOrder.message, data: patchedOrder.data, req, res })
+	} catch (err) {
+		errorHandler({ err, req, res })
+	}
+})
 export default router

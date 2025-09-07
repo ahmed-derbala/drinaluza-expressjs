@@ -44,29 +44,6 @@ export const createUserSrvc = async ({ email, slug, phone, settings }) => {
 	const signedupUser = await createUserRepo({ email, slug, phone, settings })
 	if (!signedupUser) return null
 	return signedupUser
-	/*if (profile && !profile.displayName) profile.displayName = `${profile.firstName} ${profile.lastName}`
-    if (phone) {
-        phone.countryCode = phone.countryCode.trim()
-        phone.shortNUmber = phone.shortNumber.trim()
-        phone.fullNumber = `${phone.countryCode}${phone.shortNumber}`
-    }
-
-    
-    return createUserSrvc({ email,  })
-        .then((createdUser) => {
-            createdUser = createdUser.toJSON()
-            if (createdUser.slug == null) {
-                return updateUserSrvc({ identity: { _id: createdUser._id }, newData: { slug: createdUser._id } })
-                    .then((updatedUser) => {
-                        createdUser.slug = createdUser._id
-                        return createdUser
-                    })
-                    .catch((err) => errorHandler({ err }))
-            }
-            return createdUser
-        })
-        .catch((err) => errorHandler({ err }))
-        */
 }
 
 export const addShopToUserSrvc = async ({ shop, userId }) => {
