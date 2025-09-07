@@ -7,6 +7,8 @@ import { createOrderVld } from './orders.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
 import { orderStatusEnum } from './orders.enum.js'
+import { findOneShopSrvc } from '../shops/shops.service.js'
+import { calculateFinalPriceSrvc } from './orders.service.js'
 const router = express.Router()
 router
 	.route('/')
@@ -22,14 +24,19 @@ router
 	})
 	.post(authenticate(), validate(createOrderVld), async (req, res) => {
 		try {
-			const owner = req.body?.owner || req.user
-			const { products } = req.body
+			const customer = req.user
+			let { products, shop } = req.body
 			//process products
 			for (let p of products) {
-				p = await findOneProductSrvc({ match: { _id: p.product._id } })
+				p.product = await findOneProductSrvc({ match: { slug: p.product.slug } })
+				console.log(p)
+
+				p.finalPrice = calculateFinalPriceSrvc({ price: p.product.price.value.tnd, quantity: p.quantity })
 			}
-			const shop = products[0].product.shop
-			const data = { owner, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			shop = await findOneShopSrvc({ match: { slug: shop.slug }, select: '' })
+			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
+
+			const data = { customer, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
 			//console.log('data',data)
 			const createdOrder = await createOrderSrvc({ data })
 			//console.log(createdOrder)
@@ -38,6 +45,7 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
+
 router.route('/:orderId/status').patch(
 	authenticate(),
 	/*validate(createOrderVld),*/ async (req, res) => {

@@ -68,4 +68,13 @@ export const createUserSrvc = async ({ email, slug, phone, settings }) => {
         .catch((err) => errorHandler({ err }))
         */
 }
+
+addShopToUser = async ({ shop, userId }) => {
+	try {
+		const updatedUser = await updateUserRepo({ identity: { _id: userId }, newData: { shops: shop } })
+		return updatedUser
+	} catch (err) {
+		errorHandler({ err })
+	}
+}
 export { findOneUserSrvc }

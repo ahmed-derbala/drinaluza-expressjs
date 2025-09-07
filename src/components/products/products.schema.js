@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
-import { OwnerSchema } from '../users/schemas/owner.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { PriceSchema } from './schemas/price.schema.js'
 import { FileRefSchema } from '../../core/files/files.schema.js'
+import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 const productsCollection = 'products'
 
 const ProductRefSchema = new mongoose.Schema(
@@ -23,6 +23,12 @@ const ProductRefSchema = new mongoose.Schema(
 const ProductSchema = new mongoose.Schema(
 	{
 		shop: { type: ShopRefSchema, required: false },
+		slug: {
+			type: String,
+			required: true,
+			trim: true,
+			lowercase: true
+		},
 		name: {
 			type: String, //by default the name of defaultProduct[lang]
 			required: true
@@ -63,6 +69,8 @@ const ProductSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 )
+ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
+ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)
 export { productsCollection }
 export { ProductRefSchema }

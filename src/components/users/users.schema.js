@@ -85,7 +85,6 @@ const UserSchema = new mongoose.Schema(
 	{ timestamps: true }
 )
 UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
-//Define a case-insensitive unique index
 UserSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 const UserModel = mongoose.model(usersCollection, UserSchema)
 

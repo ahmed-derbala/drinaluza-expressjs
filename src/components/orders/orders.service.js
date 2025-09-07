@@ -24,3 +24,12 @@ export const createOrderSrvc = async ({ data }) => {
 		throw errorHandler({ err })
 	}
 }
+
+export const calculateFinalPriceSrvc = async ({ price, quantity }) => {
+	try {
+		const finalPrice = price * quantity
+		return finalPrice
+	} catch (err) {
+		throw errorHandler({ err })
+	}
+}

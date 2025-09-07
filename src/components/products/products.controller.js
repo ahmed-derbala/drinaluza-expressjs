@@ -3,6 +3,10 @@ import { resp } from '../../core/helpers/resp.js'
 import { findManyProductsSrvc, createProductSrvc } from './products.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
+import { validate } from '../../core/validation/index.js'
+import { createProductVld } from './products.validator.js'
+import { findOneShopRepo } from '../shops/shops.repository.js'
+import { log } from '../../core/log/index.js'
 const router = express.Router()
 
 router
@@ -17,16 +21,18 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
-	.post(authenticate(), async (req, res) => {
+	.post(authenticate(), validate(createProductVld), async (req, res) => {
 		try {
-			const owner = req.user
-			const { shop, name, defaultProduct, price } = req.body
-			const data = { shop, owner, name, defaultProduct, price }
+			const { name, defaultProduct, price } = req.body
+			console.log(price, 'price')
+			let { shop } = req.body
+			shop = await findOneShopRepo({ match: { slug: shop.slug }, select: '' })
+			const data = { shop, name, defaultProduct, price }
+			log({ level: 'debug', message: 'createdProduct data', data: JSON.stringify(data) })
 			const createdProduct = await createProductSrvc({ data })
-			//console.log(createdProduct)
 			return resp({ status: 201, data: createdProduct, req, res })
 		} catch (err) {
-			errorHandler({ err, req, res })
+			return errorHandler({ err, req, res })
 		}
 	})
 
@@ -50,7 +56,6 @@ router
 			const { shop, name, defaultProduct, price } = req.body
 			const data = { shop, owner, name, defaultProduct, price }
 			const createdProduct = await createProductSrvc({ data })
-			//console.log(createdProduct)
 			return resp({ status: 201, data: createdProduct, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })

@@ -17,6 +17,20 @@ export const findMyShopsRepo = async ({ match, select, page, limit }) => {
 	}
 }
 
+export const findOneShopRepo = async ({ match, select }) => {
+	try {
+		const flattenedMatch = flattenObject(match)
+		log({ level: 'debug', message: 'findOneShopRepo flattenedMatch', data: flattenedMatch })
+		const shop = await ShopModel.findOne({ ...flattenedMatch })
+			.select(select)
+			.lean()
+		log({ level: 'debug', message: 'findOneShopRepo', data: shop })
+		return shop
+	} catch (err) {
+		return errorHandler({ err })
+	}
+}
+
 export const createShopRepo = async ({ data }) => {
 	try {
 		const newShop = await ShopModel.create(data)

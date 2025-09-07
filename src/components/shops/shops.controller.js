@@ -13,6 +13,9 @@ router.route('/create').post(authenticate(), validate(createShopVld), async (req
 		let { name } = req.body
 		let data = { name, owner: req.user }
 		const newShop = await createShopSrvc({ data })
+		if (newShop.status == 201) {
+			addShopToUser({ shop: newShop, userId: req.user._id })
+		}
 		return resp({ status: newShop.status || 200, data: newShop, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
