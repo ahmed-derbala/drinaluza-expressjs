@@ -17,13 +17,11 @@ export const findMyShopsRepo = async ({ match, select, page, limit }) => {
 	}
 }
 
-export const findOneShopRepo = async ({ match, select }) => {
+export const findOneShopRepo = async ({ match }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
 		log({ level: 'debug', message: 'findOneShopRepo flattenedMatch', data: flattenedMatch })
-		const shop = await ShopModel.findOne({ ...flattenedMatch })
-			.select(select)
-			.lean()
+		const shop = await ShopModel.findOne({ ...flattenedMatch }).lean()
 		log({ level: 'debug', message: 'findOneShopRepo', data: shop })
 		return shop
 	} catch (err) {

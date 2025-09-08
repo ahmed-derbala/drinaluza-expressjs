@@ -12,9 +12,9 @@ export const findMyShopsSrvc = async ({ match, select, page, limit }) => {
 	}
 }
 
-export const findOneShopSrvc = async ({ match, select }) => {
+export const findOneShopSrvc = async ({ match }) => {
 	try {
-		const shop = await findOneShopRepo({ match, select })
+		const shop = await findOneShopRepo({ match })
 		return shop
 	} catch (err) {
 		return errorHandler({ err })

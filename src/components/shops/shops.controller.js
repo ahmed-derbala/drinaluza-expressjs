@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findMyShopsSrvc, createShopSrvc, findMyShopSrvc } from './shops.service.js'
+import { findMyShopsSrvc, createShopSrvc, findMyShopSrvc, findOneShopSrvc } from './shops.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
@@ -32,6 +32,22 @@ router.route('/my-shops').get(authenticate(), async (req, res) => {
 		let { page = 1, limit = 10 } = req.query
 		const myShops = await findMyShopsSrvc({ match, select, page, limit })
 		return resp({ status: 200, data: myShops, req, res })
+	} catch (err) {
+		errorHandler({ err, req, res })
+	}
+})
+
+router.route('/my-shops/:shopId/').get(authenticate(), async (req, res) => {
+	try {
+		let match = {}
+		match.owner = { _id: req.user._id }
+		const shopId = req.params.shopId
+		//match.shop = {}
+		match._id = shopId
+		//match.shop.owner = { _id: req.user._id }
+		const myShopProducts = await findOneShopSrvc({ match })
+		console.log(myShopProducts)
+		return resp({ status: 200, data: myShopProducts, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}
