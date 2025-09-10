@@ -8,8 +8,7 @@ export const findMyShopsRepo = async ({ match, select, page, limit }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
 		log({ level: 'debug', message: 'findMyShopsRepo flattenedMatch', data: flattenedMatch })
-
-		const myShops = paginateMongodb({ model: ShopModel, match: { ...flattenedMatch }, select, page, limit })
+		const myShops = await paginateMongodb({ model: ShopModel, match: { ...flattenedMatch }, select, page, limit })
 		log({ level: 'debug', message: 'findMyShopsRepo', data: myShops })
 		return myShops
 	} catch (err) {
@@ -31,6 +30,7 @@ export const findOneShopRepo = async ({ match }) => {
 
 export const createShopRepo = async ({ data }) => {
 	try {
+		log({ level: 'debug', message: 'createShopRepo data', data: JSON.stringify(data) })
 		const newShop = await ShopModel.create(data)
 		log({ level: 'debug', message: 'createShopRepo', data: newShop })
 		return newShop

@@ -24,22 +24,21 @@ router.post('/signup', validate(signupVld), async (req, res) => {
 	if (!settings) settings = { lang: config.users.defaults.settings.lang, currency: config.users.defaults.settings.currency }
 	const user = await createUserSrvc({ slug, settings })
 	if (!user) return resp({ status: 400, data: null, message: 'no user was created', req, res })
-	const createdAuth = await createAuthSrvc({ user, password })
+	await createAuthSrvc({ user, password })
 	const token = createNewSession({ user, req })
 	return resp({ status: 200, data: { user, token }, req, res })
 })
 
 router.post('/signin', validate(signinVld), async (req, res) => {
 	try {
-		const { email, slug, phone, password } = req.body
-		//const filter = pickOneFilter({ filters: { email, slug, phone } })// we use slug only for now
+		const { slug, password } = req.body
 		const authData = await signinSrvc({ match: { user: { slug } }, password })
 		log({ level: 'debug', message: `authData fetched`, data: authData })
 		if (!authData) return resp({ status: 400, data: null, message: `no user found with slug=${slug}`, req, res })
 		const token = createNewSession({ user: authData.user, req })
 		return resp({ status: 200, data: { user: authData.user, token }, req, res })
 	} catch (err) {
-		errorHandler({ err, req, res })
+		return errorHandler({ err, req, res })
 	}
 })
 

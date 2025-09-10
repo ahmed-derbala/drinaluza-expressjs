@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-import * as addressSchema from '../../core/shared/schemas/address.schema.js'
+import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
+import { LocationSchema } from '../../core/db/mongodb/shared-schemas/location.schema.js'
 import { OwnerSchema } from '../users/schemas/owner.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 const shopsCollection = 'shops'
@@ -19,8 +20,10 @@ const shopSchema = new mongoose.Schema(
 			coordinates: [Number]
 		},
 		address: {
-			type: addressSchema,
-			select: false
+			type: AddressSchema
+		},
+		location: {
+			type: LocationSchema
 		},
 		operatingHours: mongoose.Schema.Types.Mixed,
 		deliveryRadiusKm: Number,

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import * as phoneSchema from '../../core/shared/schemas/phone.schema.js'
-import * as addressSchema from '../../core/shared/schemas/address.schema.js'
+import * as phoneSchema from '../../core/db/mongodb/shared-schemas/phone.schema.js'
+import * as addressSchema from '../../core/db/mongodb/shared-schemas/address.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'

@@ -8,7 +8,7 @@ export const findMyShopsSrvc = async ({ match, select, page, limit }) => {
 		const myShops = await findMyShopsRepo({ match, select, page, limit })
 		return myShops
 	} catch (err) {
-		errorHandler({ err })
+		return errorHandler({ err })
 	}
 }
 

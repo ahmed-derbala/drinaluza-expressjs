@@ -12,8 +12,8 @@ const router = express.Router()
 
 router.route('/').post(authenticate(), validate(createShopVld), async (req, res) => {
 	try {
-		let { name } = req.body
-		let data = { name, owner: req.user }
+		let { name, address, location } = req.body
+		let data = { name, owner: req.user, address, location }
 		const newShop = await createShopSrvc({ data })
 		if (newShop) {
 			addShopToUserSrvc({ shop: newShop, userId: req.user._id })

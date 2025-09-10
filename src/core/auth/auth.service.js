@@ -28,7 +28,7 @@ export const signinSrvc = async ({ match, password }) => {
 		}
 		return fecthedAuth
 	} catch (err) {
-		errorHandler({ err })
+		return errorHandler({ err })
 	}
 }
 

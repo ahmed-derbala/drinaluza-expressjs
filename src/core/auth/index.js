@@ -18,8 +18,8 @@ export const authenticate = (params) => {
 				else if (req.query.token != null) req.headers.token = req.query.token
 			}
 			if (req.headers.token == null && params.tokenRequired == true) {
-				if (config.NODE_ENV === 'production') return res.status(403).json({ message: 'Please signin' })
-				return resp({ message: 'No token found on headers, cookies or query', status: 403, data: null, req, res })
+				if (config.NODE_ENV === 'production') return res.status(401).json({ message: 'Please signin' })
+				return resp({ message: 'No token found on headers, cookies or query', status: 401, data: null, req, res })
 			}
 			req.headers.token = req.headers.token.replace('Bearer ', '')
 			//verify token
@@ -34,7 +34,7 @@ export const authenticate = (params) => {
 				//check if token is in session
 				const session = await SessionsModel.findOne({ token: req.headers.token }).select('token').lean()
 				if (session == null) {
-					return resp({ message: 'No session created with provided token', data: null, status: 403, req, res })
+					return resp({ message: 'No session created with provided token', data: null, status: 401, req, res })
 				}
 				//console.log(decoded, 'decoded');
 				//check if we have valid user object
@@ -73,7 +73,6 @@ export const authenticate = (params) => {
 	}
 }
 export const createNewSession = ({ user, req }) => {
-	console.log(user)
 	const token = jwt.sign({ user, req: { ip: req.ip, headers: { 'user-agent': req.headers['user-agent'] } } }, config.auth.jwt.privateKey, { expiresIn: config.auth.jwt.expiresIn })
 	SessionsModel.create({
 		token,
