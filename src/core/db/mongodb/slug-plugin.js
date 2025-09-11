@@ -16,11 +16,11 @@ export const slugPlugin = (schema, options = {}) => {
 
 	// The key change: Using 'pre("validate")' to run before validation.
 	schema.pre('validate', async function (next) {
-		if (!this.isModified(sourceField) && this[targetField]) {
+		/*if (!this.isModified(sourceField) && this[targetField]) {
 			// If the source field hasn't changed and a slug already exists,
 			// we don't need to do anything.
 			return next()
-		}
+		}*/
 
 		// Step 1: Generate the base slug from the source field.
 		let baseSlug = this[sourceField]

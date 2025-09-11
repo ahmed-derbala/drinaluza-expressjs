@@ -14,10 +14,10 @@ const shopSchema = new mongoose.Schema(
 			trim: true,
 			lowercase: true
 		},
-		name: String,
-		location: {
-			type: { type: String, enum: ['Point'], default: 'Point' },
-			coordinates: [Number]
+		name: {
+			type: String,
+			required: true,
+			trim: true
 		},
 		address: {
 			type: AddressSchema
@@ -25,7 +25,7 @@ const shopSchema = new mongoose.Schema(
 		location: {
 			type: LocationSchema
 		},
-		operatingHours: mongoose.Schema.Types.Mixed,
+		operatingHours: {},
 		deliveryRadiusKm: Number,
 		isActive: { type: Boolean, default: true }
 	},

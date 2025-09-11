@@ -3,6 +3,8 @@ import { SessionsModel } from './sessions.schema.js'
 import { errorHandler } from '../error/index.js'
 import config from '../../config/index.js'
 import { resp } from '../helpers/resp.js'
+import { log } from '../log/index.js'
+
 export const authenticate = (params) => {
 	return function (req, res, next) {
 		try {
@@ -11,19 +13,22 @@ export const authenticate = (params) => {
 			if (params.tokenRequired == null) params.tokenRequired = true
 			if (params.role == null) params.role = null
 			//search for token
-			if (req.headers.token == null) {
-				if (req.cookies.token != null) req.headers.token = req.cookies.token
-				else if (req.headers['x-access-token'] != null) req.headers.token = req.headers['x-access-token']
-				else if (req.headers['authorization'] != null) req.headers.token = req.headers['authorization']
-				else if (req.query.token != null) req.headers.token = req.query.token
+			let token = checkStringForContent(req.headers.token)
+			if (token == null) {
+				if (req.cookies.token != null) token = req.cookies.token
+				else if (req.headers['x-access-token'] != null) token = req.headers['x-access-token']
+				else if (req.headers['authorization'] != null) token = req.headers['authorization']
+				else if (req.query.token != null) token = req.query.token
 			}
-			if (req.headers.token == null && params.tokenRequired == true) {
+			if (token == null && params.tokenRequired == true) {
 				if (config.NODE_ENV === 'production') return res.status(401).json({ message: 'Please signin' })
 				return resp({ message: 'No token found on headers, cookies or query', status: 401, data: null, req, res })
 			}
-			req.headers.token = req.headers.token.replace('Bearer ', '')
+			token = token.replace('Bearer ', '')
 			//verify token
-			return jwt.verify(req.headers.token, config.auth.jwt.privateKey, async (err, decoded) => {
+			log({ level: 'debug', message: 'token', data: token })
+
+			return jwt.verify(token, config.auth.jwt.privateKey, async (err, decoded) => {
 				if (err) {
 					//if token is not required move on
 					if (params.tokenRequired == false) {
@@ -32,7 +37,7 @@ export const authenticate = (params) => {
 					return errorHandler({ err, req, res, next })
 				}
 				//check if token is in session
-				const session = await SessionsModel.findOne({ token: req.headers.token }).select('token').lean()
+				const session = await SessionsModel.findOne({ token: token }).select('token').lean()
 				if (session == null) {
 					return resp({ message: 'No session created with provided token', data: null, status: 401, req, res })
 				}
@@ -83,4 +88,20 @@ export const createNewSession = ({ user, req }) => {
 		}
 	})
 	return token
+}
+
+/**
+ * Checks if a string contains any non-whitespace characters.
+ * @param {string} inputString - The string to check.
+ * @returns {string|null} The original string if it contains content, otherwise null.
+ */
+function checkStringForContent(inputString) {
+	// Use .trim() to remove leading and trailing whitespace.
+	// Then, check if the resulting string is empty.
+	if (inputString && inputString.trim() === '') {
+		return null
+	}
+
+	// If the trimmed string is not empty, return the original string.
+	return inputString
 }

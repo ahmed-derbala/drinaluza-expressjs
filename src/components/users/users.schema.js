@@ -50,7 +50,6 @@ const UserSchema = new mongoose.Schema(
 			lowercase: true
 		},
 		name: {
-			//defaults to firstName+lastName or slug. Its displayed name, it can be changed many times by the user
 			type: String,
 			required: true,
 			default: function () {
