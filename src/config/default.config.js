@@ -232,16 +232,6 @@ const defaultConfig = {
 			},
 			allowEIO3: true
 		}
-	},
-	users: {
-		roles: ['admin', 'user'],
-		types: ['type1', 'type2'],
-		defaults: {
-			settings: {
-				lang: 'en',
-				currency: 'tnd'
-			}
-		}
 	}
 }
 export default {

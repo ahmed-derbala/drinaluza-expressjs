@@ -11,6 +11,7 @@ import { findOneUserSrvc, createUserSrvc } from '../../components/users/users.se
 import { createAuthSrvc } from './auth.service.js'
 import { SessionsModel } from './sessions.schema.js'
 import { log } from '../log/index.js'
+import { defaults } from '../../components/users/users.constant.js'
 
 const router = express.Router()
 
@@ -21,7 +22,7 @@ router.post('/signup', validate(signupVld), async (req, res) => {
 	if (existedUser) {
 		return resp({ status: 409, message: 'user already exist', data: null, req, res })
 	}
-	if (!settings) settings = { lang: config.users.defaults.settings.lang, currency: config.users.defaults.settings.currency }
+	if (!settings) settings = defaults.settings
 	const user = await createUserSrvc({ slug, settings })
 	if (!user) return resp({ status: 400, data: null, message: 'no user was created', req, res })
 	await createAuthSrvc({ user, password })
