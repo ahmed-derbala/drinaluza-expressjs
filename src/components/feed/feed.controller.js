@@ -8,7 +8,7 @@ import { authenticate } from '../../core/auth/index.js'
 const router = express.Router()
 router
 	.route('/')
-	.get(authenticate(), async (req, res) => {
+	.get(authenticate({ tokenRequired: false }), async (req, res) => {
 		try {
 			const { match, select } = req.body || {}
 			let { page = 1, limit = 10 } = req.query
@@ -18,13 +18,15 @@ router
 					type: cardTypeEnum.product
 				}
 
-				//if user is owner of the shop
-				if (p.shop.owner._id.toString() === req.user._id.toString()) {
-					p.card.order = {
-						isActive: true
+				//user conencted
+				if (req.user) {
+					//if user is owner of the shop
+					if (p.shop.owner._id.toString() === req.user._id.toString()) {
+						p.card.order = {
+							isActive: true
+						}
 					}
 				}
-
 				return p
 			})
 			return resp({ status: 200, data: products, req, res })

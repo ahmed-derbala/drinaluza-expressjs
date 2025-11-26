@@ -102,7 +102,7 @@ const shopSchema = new mongoose.Schema(
 const Shop = mongoose.model('Shop', shopSchema)
 
 // --- Data Generation Function ---
-const generateRandomShop = (index) => {
+const generateRandomShop = (owner, index) => {
 	const shopNames = [
 		'The Seafood Shack',
 		"Neptune's Bounty",
@@ -127,17 +127,17 @@ const generateRandomShop = (index) => {
 	const longitudeRange = [8.5, 11.5] // Approx. longitude range for Tunisia
 	const latitudeRange = [33.5, 37.5] // Approx. latitude range for Tunisia
 
-	const randomName = shopNames[Math.floor(Math.random() * shopNames.length)]
+	const randomName = shopNames[index % shopNames.length]
 	const randomCityIndex = Math.floor(Math.random() * cityNames.length)
 
 	return {
 		owner: {
-			slug: `ahmed`,
-			_id: `68c2deaf655126fda906c7a7`,
-			name: `ahmed`
+			slug: owner.slug,
+			_id: owner._id,
+			name: owner.name
 		},
 		name: randomName,
-		slug: randomName.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and'),
+		slug: randomName.toLowerCase().replace(/\s+/g, '-').replace(/&amp;/g, 'and'),
 		address: {
 			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
 			city: cityNames[randomCityIndex],
@@ -165,14 +165,25 @@ const seedDatabase = async () => {
 		await mongoose.connect(dbUri)
 		console.log('Successfully connected to MongoDB.')
 
+		// Get existing owners from the users collection
+		const owners = await mongoose.connection.db.collection('users').find({ role: 'shop_owner' }).toArray()
+
+		if (owners.length === 0) {
+			console.error('No owners found in the database. Please run the owners seed script first.')
+			return
+		}
+
+		console.log(`Found ${owners.length} owners in the database.`)
+
 		// Clear existing data to prevent duplicates on re-run
 		await Shop.deleteMany({})
 		console.log('Existing shops collection cleared.')
 
-		// Generate 10 shop documents
+		// Generate shop documents - distribute shops among available owners
 		const shopsToInsert = []
 		for (let i = 0; i < 10; i++) {
-			shopsToInsert.push(generateRandomShop(i))
+			const owner = owners[i % owners.length] // Cycle through owners
+			shopsToInsert.push(generateRandomShop(owner, i))
 		}
 
 		// Insert the documents

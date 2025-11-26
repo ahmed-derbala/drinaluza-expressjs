@@ -24,7 +24,7 @@ export const authenticate = (params) => {
 				if (config.NODE_ENV === 'production') return res.status(401).json({ message: 'Please signin' })
 				return resp({ message: 'No token found on headers, cookies or query', status: 401, data: null, req, res })
 			}
-			token = token.replace('Bearer ', '')
+			token = token?.replace('Bearer ', '')
 			//verify token
 			log({ level: 'debug', message: 'token', data: token })
 

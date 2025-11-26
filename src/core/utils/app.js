@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import express from 'express'
 import cookieParser from 'cookie-parser'
-import useragent from 'express-useragent'
+import { express as useragent } from 'express-useragent'
 import expressWinston from 'express-winston'
 import winston from 'winston'
 import * as loaders from './loaders.js'
@@ -23,7 +23,7 @@ app.use('/', rateLimit(config.app.apiLimiter))
 app.use(compression())
 if (config.app.helmet.isActive) app.use(helmet(config.app.helmet.options))
 app.use(tidHandler)
-app.use(useragent.express())
+app.use(useragent())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())

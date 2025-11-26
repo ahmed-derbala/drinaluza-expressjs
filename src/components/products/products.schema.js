@@ -35,7 +35,7 @@ const ProductSchema = new mongoose.Schema(
 		},
 		price: { type: PriceSchema, required: true },
 		photos: { type: [FileRefSchema], required: true },
-		searchTerms: [String],
+		searchTerms: { type: [String], required: true, index: 'text' },
 		isActive: {
 			type: Boolean,
 			default: true
@@ -71,6 +71,8 @@ const ProductSchema = new mongoose.Schema(
 )
 ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
 ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
+ProductSchema.index({ searchTerms: 1 })
+
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)
 export { productsCollection }
 export { ProductRefSchema }

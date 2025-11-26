@@ -24,7 +24,6 @@ router
 	.post(authenticate(), validate(createProductVld), async (req, res) => {
 		try {
 			const { name, defaultProduct, price } = req.body
-			console.log(price, 'price')
 			let { shop } = req.body
 			shop = await findOneShopRepo({ match: { slug: shop.slug }, select: '' })
 			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })

@@ -40,8 +40,8 @@ export const updateUserSrvc = async ({ identity, newData }) => {
 	}
 }
 
-export const createUserSrvc = async ({ email, slug, phone, settings }) => {
-	const signedupUser = await createUserRepo({ email, slug, phone, settings })
+export const createUserSrvc = async (userData) => {
+	const signedupUser = await createUserRepo(userData)
 	if (!signedupUser) return null
 	return signedupUser
 }
