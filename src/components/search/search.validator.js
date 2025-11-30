@@ -2,7 +2,7 @@ import * as expressValidator from 'express-validator'
 const { checkSchema, body, query, oneOf } = expressValidator
 
 export const searchVld = [
-	body('text').trim().isString().notEmpty(),
+	body('text').trim().isString(),
 	body('components')
 		.trim()
 		.isArray()

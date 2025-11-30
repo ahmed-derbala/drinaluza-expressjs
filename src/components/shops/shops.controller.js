@@ -26,6 +26,10 @@ router.route('/').post(authenticate(), validate(createShopVld), async (req, res)
 
 router.route('/my-shops').get(authenticate(), async (req, res) => {
 	try {
+		//check if its a shop_owner
+		if (req.user.role !== 'shop_owner') {
+			return resp({ status: 403, message: 'only shop owners can access their shops', data: null, req, res })
+		}
 		let match = {}
 		match.owner = { _id: req.user._id }
 		const select = ''
