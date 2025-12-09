@@ -1,8 +1,8 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
 import config from '../../config/index.js'
-import { findOneOrderRepo, findManyOrdersRepo, createdOrderRepo, patchOrderStatusRepo } from './orders.repository.js'
-import { orderStatusEnum } from './orders.enum.js'
+import { findOneOrderRepo, findManyOrdersRepo, createdOrderRepo, patchOrderStatusRepo } from './purchases.repository.js'
+import { orderStatusEnum } from '../orders/orders.enum.js'
 export const findOneOrderSrvc = async ({ match, select }) => {
 	const fetchedOrder = await findOneOrderRepo({ match, select })
 	return fetchedOrder
@@ -43,20 +43,20 @@ export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus }) => {
 			return { message: 'invalid status transition', data: null }
 		}
 		const patchedOrder = await patchOrderStatusRepo({ match, status: newStatus })
-		return { message: 'order status patched successfully', data: patchedOrder }
+		return { message: 'purchase status patched successfully', data: patchedOrder }
 	} catch (err) {
 		throw errorHandler({ err })
 	}
 }
 
 /**
- * Validates a status transition for an order.
- * @param {string} oldStatus The current status of the order.
+ * Validates a status transition for an purchase.
+ * @param {string} oldStatus The current status of the purchase.
  * @param {string} newStatus The new status to transition to.
  * @returns {boolean} True if the transition is valid, false otherwise.
  */
 function validateSaleStatusTransition(oldStatus, newStatus) {
-	// A list of the valid statuses in their correct progressive order.
+	// A list of the valid statuses in their correct progressive purchase.
 	const orderedStatuses = [orderStatusEnum.PENDING_SHOP_CONFIRMATION, orderStatusEnum.DELIVERING_TO_USER, orderStatusEnum.DELIVERED_TO_USER, orderStatusEnum.CANCELLED_BY_SHOP]
 
 	if (oldStatus === orderStatusEnum.CANCELLED_BY_USER && newStatus === orderStatusEnum.CANCELLED_BY_SHOP) return false

@@ -1,4 +1,4 @@
-import { OrderModel } from './orders.schema.js'
+import { OrderModel } from '../orders/orders.schema.js'
 import { errorHandler } from '../../core/error/index.js'
 import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
 import { log } from '../../core/log/index.js'

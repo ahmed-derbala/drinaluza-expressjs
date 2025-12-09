@@ -7,7 +7,7 @@ import { FinalPriceSchema } from '../products/schemas/final-price.schema.js'
 
 export const ordersCollection = 'orders'
 
-const orderProductsSchema = [
+const OrderProductsSchema = [
 	{
 		product: ProductRefSchema,
 		quantity: {
@@ -23,7 +23,7 @@ const OrderSchema = new mongoose.Schema(
 	{
 		shop: { type: ShopRefSchema, required: true },
 		customer: { type: CustomerSchema, required: true },
-		products: { type: orderProductsSchema, required: true, _id: false },
+		products: { type: OrderProductsSchema, required: true, _id: false },
 		status: {
 			type: String,
 			enum: orderStatusEnum,

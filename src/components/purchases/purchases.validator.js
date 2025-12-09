@@ -1,6 +1,7 @@
 import * as expressValidator from 'express-validator'
 const { checkSchema, body, query, oneOf, param } = expressValidator
-import { orderStatusEnum } from './orders.enum.js'
+import { orderStatusEnum } from '../orders/orders.enum.js'
+
 export const createOrderVld = [
 	//body('shop').isObject().notEmpty(),
 	body('products').isArray({ min: 1 }).withMessage('must be array with at least 1 product'),

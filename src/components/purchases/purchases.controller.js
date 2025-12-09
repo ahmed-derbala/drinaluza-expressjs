@@ -1,14 +1,14 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findManyOrdersSrvc, createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './orders.service.js'
+import { findManyOrdersSrvc, createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './purchases.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
-import { createOrderVld, patchOrderStatusVld } from './orders.validator.js'
+import { createOrderVld, patchOrderStatusVld } from './purchases.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
-import { orderStatusEnum } from './orders.enum.js'
+import { orderStatusEnum } from '../orders/orders.enum.js'
 import { findOneShopSrvc } from '../shops/shops.service.js'
-import { calculateFinalPriceSrvc } from './orders.service.js'
+import { calculateFinalPriceSrvc } from './purchases.service.js'
 import { log } from '../../core/log/index.js'
 import { userRolesEnum } from '../users/users.enum.js'
 
@@ -83,9 +83,9 @@ router.route('/sales/:orderId/:status').patch(authenticate({ role: userRolesEnum
 	try {
 		const { status, orderId } = req.params
 		const match = { _id: orderId, shop: { owner: { _id: req.user._id } } }
-		const order = await findOneOrderSrvc({ match })
-		if (!order) return resp({ status: 202, message: `order not found ${JSON.stringify(match)}`, data: null, req, res })
-		const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: order.status, newStatus: status })
+		const purchase = await findOneOrderSrvc({ match })
+		if (!purchase) return resp({ status: 202, message: `purchase not found ${JSON.stringify(match)}`, data: null, req, res })
+		const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: purchase.status, newStatus: status })
 		if (!patchedOrder.data) return resp({ status: 409, message: patchedOrder.message, data: null, req, res })
 		return resp({ status: 200, message: patchedOrder.message, data: patchedOrder.data, req, res })
 	} catch (err) {

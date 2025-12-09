@@ -10,6 +10,9 @@ router
 	.route('/')
 	.get(authenticate({ tokenRequired: false }), async (req, res) => {
 		try {
+			/*console.log(req.query)
+			console.log(req.query.components)
+			console.log(req.query.x)*/
 			const { match, select } = req.body || {}
 			let { page = 1, limit = 10 } = req.query
 			let products = await findManyProductsSrvc({ match, select, page, limit })
