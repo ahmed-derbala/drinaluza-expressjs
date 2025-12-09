@@ -8,7 +8,7 @@ import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
 import { orderStatusEnum } from '../orders/orders.enum.js'
 import { findOneShopSrvc } from '../shops/shops.service.js'
-import { calculateFinalPriceSrvc } from './purchases.service.js'
+import { processFinalPriceSrvc } from './purchases.service.js'
 import { log } from '../../core/log/index.js'
 import { userRolesEnum } from '../users/users.enum.js'
 
@@ -17,8 +17,11 @@ router
 	.route('/')
 	.get(authenticate(), async (req, res) => {
 		try {
-			const match = { customer: { _id: req.user._id } }
-			let { page = 1, limit = 10 } = req.query
+			let match = { customer: { _id: req.user._id } }
+			let { page = 1, limit = 10, status } = req.query
+			if (status) {
+				match.status = status
+			}
 			const fetchedManyOrders = await findManyOrdersSrvc({ match, page, limit })
 			return resp({ status: 200, data: fetchedManyOrders, req, res })
 		} catch (err) {
@@ -29,15 +32,24 @@ router
 		try {
 			const customer = req.user
 			let { products, shop } = req.body
+			let match = {}
 			//process products
 			for (let p of products) {
-				p.product = await findOneProductSrvc({ match: { slug: p.product.slug } })
-				p.finalPrice = calculateFinalPriceSrvc({ price: p.product.price, quantity: p.quantity })
-				log({ level: 'debug', message: 'process products', data: p })
+				if (p.product._id) {
+					match._id = p.product._id
+				} else {
+					match.slug = p.product.slug
+				}
+				p.product = await findOneProductSrvc({ match })
+				if (!p.product) return resp({ status: 410, data: null, message: `product ${JSON.stringify(match)} not found`, req, res })
+				p.finalPrice = processFinalPriceSrvc({ price: p.product.price, quantity: p.quantity })
+				console.log(p.finalPrice)
+				//log({ level: 'debug', message: 'process products', data: p })
 			}
 			shop = await findOneShopSrvc({ match: { slug: shop.slug }, select: '' })
-			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
+			if (!shop) return resp({ status: 410, message: 'shop not found', data: null, req, res })
 			const data = { customer, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			//console.log(data.products[0].finalPrice,'data')
 			const createdOrder = await createOrderSrvc({ data })
 			return resp({ status: 201, data: createdOrder, req, res })
 		} catch (err) {
