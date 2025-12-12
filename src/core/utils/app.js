@@ -17,7 +17,12 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerSpec from '../swagger/swagger.js'
 import { resp } from '../helpers/resp.js'
 import expressLayouts from 'express-ejs-layouts'
+
 let app = express()
+//serve /public folder with express static middleware
+//make the public folder accessible at /public
+// i got 404 error when i try to access /public
+app.use('/public', express.static(`${process.cwd()}/public`))
 app.use(cors(config.app.corsOptions))
 app.use('/', rateLimit(config.app.apiLimiter))
 app.use(compression())

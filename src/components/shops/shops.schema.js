@@ -25,7 +25,6 @@ const shopSchema = new mongoose.Schema(
 		location: {
 			type: LocationSchema
 		},
-		operatingHours: {},
 		deliveryRadiusKm: Number,
 		isActive: { type: Boolean, default: true }
 	},

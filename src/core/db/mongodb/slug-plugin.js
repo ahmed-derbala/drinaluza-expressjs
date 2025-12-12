@@ -13,6 +13,7 @@ export const slugPlugin = (schema, options = {}) => {
 	const sourceField = options.source || 'name'
 	const targetField = options.target || 'slug'
 	const ownerField = options.ownerField
+	const sub = options.sub
 
 	// The key change: Using 'pre("validate")' to run before validation.
 	schema.pre('validate', async function (next) {
@@ -24,6 +25,10 @@ export const slugPlugin = (schema, options = {}) => {
 
 		// Step 1: Generate the base slug from the source field.
 		let baseSlug = this[sourceField]
+		if (sub) {
+			baseSlug = this[sourceField][sub]
+		}
+		baseSlug
 			.toString()
 			.toLowerCase()
 			.replace(/\s+/g, '-')

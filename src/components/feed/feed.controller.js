@@ -16,6 +16,7 @@ router
 			const { match, select } = req.body || {}
 			let { page = 1, limit = 10 } = req.query
 			let products = await findManyProductsSrvc({ match, select, page, limit })
+			console.log(products)
 			products.data = products.data.map((p) => {
 				p.card = {
 					type: cardTypeEnum.product

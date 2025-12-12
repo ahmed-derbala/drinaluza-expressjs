@@ -7,6 +7,7 @@ import { validate } from '../../core/validation/index.js'
 import { createProductVld } from './products.validator.js'
 import { findOneShopRepo } from '../shops/shops.repository.js'
 import { log } from '../../core/log/index.js'
+import { findOneDefaultProductSrvc } from '../default-products/default-products.service.js'
 const router = express.Router()
 
 router
@@ -23,11 +24,12 @@ router
 	})
 	.post(authenticate(), validate(createProductVld), async (req, res) => {
 		try {
-			const { name, defaultProduct, price } = req.body
-			let { shop } = req.body
+			const { name, price } = req.body
+			let { shop, DefaultProduct } = req.body
+			DefaultProduct = await findOneDefaultProductSrvc({ slug: DefaultProduct.slug })
 			shop = await findOneShopRepo({ match: { slug: shop.slug }, select: '' })
 			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
-			const data = { shop, name, defaultProduct, price }
+			const data = { shop, name, DefaultProduct, price }
 			log({ level: 'debug', message: 'createdProduct data', data: JSON.stringify(data) })
 			const createdProduct = await createProductSrvc({ data })
 			return resp({ status: 201, data: createdProduct, req, res })

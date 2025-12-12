@@ -3,26 +3,13 @@ import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { PriceSchema } from './schemas/price.schema.js'
 import { FileRefSchema } from '../../core/files/files.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { DefaultProductRefSchema } from '../default-products/default-products.schema.js'
 const productsCollection = 'products'
 
-const ProductRefSchema = new mongoose.Schema(
-	{
-		_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: productsCollection,
-			required: true
-		},
-		name: {
-			type: String, //by default the name of defaultProduct[lang]
-			required: true
-		},
-		price: { type: PriceSchema, required: true }
-	},
-	{ timestamps: { createdAt: false, updatedAt: true } }
-)
 const ProductSchema = new mongoose.Schema(
 	{
 		shop: { type: ShopRefSchema, required: false },
+		DefaultProduct: { type: DefaultProductRefSchema, required: true },
 		slug: {
 			type: String,
 			required: true,
@@ -34,7 +21,7 @@ const ProductSchema = new mongoose.Schema(
 			required: true
 		},
 		price: { type: PriceSchema, required: true },
-		photos: { type: [FileRefSchema], required: true },
+		//photos: { type: [FileRefSchema], required: true },
 		searchTerms: { type: [String], required: true, index: 'text' },
 		isActive: {
 			type: Boolean,
@@ -48,7 +35,7 @@ const ProductSchema = new mongoose.Schema(
 			quantity: {
 				type: Number,
 				required: true,
-				default: 0,
+				default: 100,
 				min: 0,
 				validate: {
 					validator: Number.isInteger,
@@ -68,6 +55,22 @@ const ProductSchema = new mongoose.Schema(
 		}
 	},
 	{ timestamps: true }
+)
+
+const ProductRefSchema = new mongoose.Schema(
+	{
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: productsCollection,
+			required: true
+		},
+		name: {
+			type: String, //by default the name of defaultProduct[lang]
+			required: true
+		},
+		price: { type: PriceSchema, required: true }
+	},
+	{ timestamps: { createdAt: false, updatedAt: true } }
 )
 ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
 ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
