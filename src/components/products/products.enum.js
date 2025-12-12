@@ -1,7 +1,7 @@
 const KG = 'KG',
 	L = 'L',
-	Piece = 'Piece',
-	Tara = 'Tara'
+	Piece = 'PIECE',
+	Tara = 'TARA'
 export const priceUnitEnum = {
 	all: [KG, L, Piece, Tara],
 	KG,

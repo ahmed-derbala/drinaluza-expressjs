@@ -17,8 +17,11 @@ router
 	.route('/')
 	.get(authenticate(), async (req, res) => {
 		try {
-			const match = { customer: { _id: req.user._id } }
-			let { page = 1, limit = 10 } = req.query
+			const match = { shop: { owner: { _id: req.user._id } } }
+			let { page = 1, limit = 10, status } = req.query
+			if (status) {
+				match.status = status
+			}
 			const fetchedManyOrders = await findManyOrdersSrvc({ match, page, limit })
 			return resp({ status: 200, data: fetchedManyOrders, req, res })
 		} catch (err) {
@@ -79,12 +82,13 @@ router.route('/sales').get(authenticate({ role: 'shop_owner' }), async (req, res
 	}
 })
 
-router.route('/sales/:orderId/:status').patch(authenticate({ role: userRolesEnum.SHOP_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
+router.route('/:orderId').patch(authenticate({ role: userRolesEnum.SHOP_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
 	try {
-		const { status, orderId } = req.params
+		const { orderId } = req.params
+		const { status } = req.body
 		const match = { _id: orderId, shop: { owner: { _id: req.user._id } } }
 		const sale = await findOneOrderSrvc({ match })
-		if (!sale) return resp({ status: 202, message: `sale not found ${JSON.stringify(match)}`, data: null, req, res })
+		if (!sale) return resp({ status: 410, message: `sale not found ${JSON.stringify(match)}`, data: null, req, res })
 		const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: sale.status, newStatus: status })
 		if (!patchedOrder.data) return resp({ status: 409, message: patchedOrder.message, data: null, req, res })
 		return resp({ status: 200, message: patchedOrder.message, data: patchedOrder.data, req, res })

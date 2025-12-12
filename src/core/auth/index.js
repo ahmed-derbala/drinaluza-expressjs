@@ -26,8 +26,6 @@ export const authenticate = (params) => {
 			}
 			token = token?.replace('Bearer ', '')
 			//verify token
-			log({ level: 'debug', message: 'token', data: token })
-
 			return jwt.verify(token, config.auth.jwt.privateKey, async (err, decoded) => {
 				if (err) {
 					//if token is not required move on

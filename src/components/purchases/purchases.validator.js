@@ -11,4 +11,4 @@ export const createOrderVld = [
 	//body('products.*.product._id').isMongoId().withMessage('Each item must have a valid MongoDB ObjectId in _id field')
 ]
 
-export const patchOrderStatusVld = [param('status').isIn(Object.values(orderStatusEnum))]
+export const patchOrderStatusVld = [body('status').isIn(Object.values(orderStatusEnum))]

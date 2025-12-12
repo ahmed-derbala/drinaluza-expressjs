@@ -91,9 +91,10 @@ router.route('/sales').get(authenticate({ role: 'shop_owner' }), async (req, res
 	}
 })
 
-router.route('/sales/:orderId/:status').patch(authenticate({ role: userRolesEnum.SHOP_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
+router.route('/:orderId/').patch(authenticate({ role: userRolesEnum.SHOP_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
 	try {
-		const { status, orderId } = req.params
+		const { orderId } = req.params
+		const { status } = req.body
 		const match = { _id: orderId, shop: { owner: { _id: req.user._id } } }
 		const purchase = await findOneOrderSrvc({ match })
 		if (!purchase) return resp({ status: 202, message: `purchase not found ${JSON.stringify(match)}`, data: null, req, res })

@@ -2,6 +2,16 @@ import { UserModel } from './users.schema.js'
 import { errorHandler } from '../../core/error/index.js'
 import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
 import { log } from '../../core/log/index.js'
+
+export const updateMyProfileRepo = async ({ userId, newData }) => {
+	try {
+		const updatedMyProfile = await UserModel.findByIdAndUpdate(userId, { $set: newData }, { new: true }).select('+address +basicInfos +settings')
+		return updatedMyProfile
+	} catch (err) {
+		errorHandler({ err })
+	}
+}
+
 export const updateUserRepo = async ({ identity, newData }) => {
 	try {
 		const updatedUser = await UserModel.updateOne(identity, newData)
@@ -10,6 +20,16 @@ export const updateUserRepo = async ({ identity, newData }) => {
 		errorHandler({ err })
 	}
 }
+
+export const findMyProfileRepo = async ({ userId }) => {
+	try {
+		const myProfile = await UserModel.findOne({ _id: userId }).select('+basicInfos +settings +address +location').lean()
+		return myProfile
+	} catch (err) {
+		return errorHandler({ err })
+	}
+}
+
 export const findOneUserRepo = async ({ match, select }) => {
 	try {
 		const user = await UserModel.findOne(match).select(select).lean()
@@ -19,6 +39,7 @@ export const findOneUserRepo = async ({ match, select }) => {
 		return errorHandler({ err })
 	}
 }
+
 export const createUserRepo = async ({ email, slug, name, phone, password, profile, settings, role }) => {
 	try {
 		let singedupUser = await UserModel.create({ email, slug, name, phone, password, profile, settings, role })

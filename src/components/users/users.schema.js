@@ -1,26 +1,22 @@
 import mongoose from 'mongoose'
 import * as phoneSchema from '../../core/db/mongodb/shared-schemas/phone.schema.js'
-import * as addressSchema from '../../core/db/mongodb/shared-schemas/address.schema.js'
+import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { userRolesEnum } from './users.enum.js'
 
-let photo = new mongoose.Schema(
+let photoSchema = new mongoose.Schema(
 	{
 		url: { type: String, required: false }
 	},
 	{ _id: false, timestamps: true }
 )
-const UserProfileSchema = new mongoose.Schema(
+export const UserBasicInfosSchema = new mongoose.Schema(
 	{
 		firstName: {
 			type: String,
 			required: true
-		},
-		middleName: {
-			type: String,
-			required: false
 		},
 		lastName: {
 			type: String,
@@ -30,7 +26,11 @@ const UserProfileSchema = new mongoose.Schema(
 			type: Date,
 			required: false
 		},
-		photo
+		photo: photoSchema,
+		biography: {
+			type: String,
+			required: false
+		}
 	},
 	{ _id: false, timestamps: true }
 )
@@ -71,16 +71,22 @@ const UserSchema = new mongoose.Schema(
 			select: false,
 			required: false
 		},
-		profile: UserProfileSchema,
+		basicInfos: {
+			type: UserBasicInfosSchema,
+			select: false
+		},
 		isActive: {
 			type: Boolean,
 			default: true
 		},
 		address: {
-			type: addressSchema,
+			type: AddressSchema,
 			select: false
 		},
-		settings: UserSettingsSchema,
+		settings: {
+			type: UserSettingsSchema,
+			select: false
+		},
 		shops: [
 			{
 				type: ShopRefSchema,
@@ -94,4 +100,4 @@ UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
 UserSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 const UserModel = mongoose.model(usersCollection, UserSchema)
 
-export { photo, UserProfileSchema, UserSchema, UserSettingsSchema, UserModel }
+export { photoSchema, UserSchema, UserSettingsSchema, UserModel }

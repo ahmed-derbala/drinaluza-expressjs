@@ -2,8 +2,26 @@ import { UserModel } from './users.schema.js'
 import { errorHandler } from '../../core/error/index.js'
 import mongoose from 'mongoose'
 import { log } from '../../core/log/index.js'
-import { createUserRepo, findOneUserRepo, updateUserRepo, addShopToUserRepo } from './users.repository.js'
+import { createUserRepo, findOneUserRepo, updateUserRepo, addShopToUserRepo, findMyProfileRepo, updateMyProfileRepo } from './users.repository.js'
 
+export const updateMyProfileSrvc = async ({ userId, newData }) => {
+	try {
+		const updatedMyProfile = await updateMyProfileRepo({ userId, newData })
+		return updatedMyProfile
+	} catch (err) {
+		errorHandler({ err })
+	}
+}
+
+export const findMyProfileSrvc = async ({ userId }) => {
+	try {
+		log({ message: `requesting profile of _id=${userId} ...`, level: 'debug' })
+		const myProfile = await findMyProfileRepo({ userId })
+		return myProfile
+	} catch (err) {
+		errorHandler({ err })
+	}
+}
 export const findOneUserSrvc = async ({ match, select }) => {
 	try {
 		//log({ level: 'debug', data: { match, select } })
@@ -13,6 +31,7 @@ export const findOneUserSrvc = async ({ match, select }) => {
 		errorHandler({ err })
 	}
 }
+
 export const getUsers = async (params) => {
 	return paginate({ model: UserModel })
 		.then((users) => {
@@ -20,9 +39,10 @@ export const getUsers = async (params) => {
 		})
 		.catch((err) => errorHandler({ err }))
 }
-export const getProfile = async ({ loginId, userId, req }) => {
+
+export const findOneProfileSrvc = async ({ slug }) => {
 	try {
-		log({ message: `requesting profile of userId=${userId} ...`, level: 'debug', req })
+		log({ message: `requesting profile of slug=${slug} ...`, level: 'debug' })
 		if (!loginId) loginId = userId
 		let $or = [{ email: loginId }, { slug: loginId }, { 'phone.shortNumber': loginId }]
 		if (mongoose.isValidObjectId(loginId)) $or.push({ _id: loginId })
@@ -31,6 +51,7 @@ export const getProfile = async ({ loginId, userId, req }) => {
 		errorHandler({ err })
 	}
 }
+
 export const updateUserSrvc = async ({ identity, newData }) => {
 	try {
 		const updatedUser = await updateUserRepo({ identity, newData })
