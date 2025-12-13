@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.disable('x-powered-by')
 app.disable('etag')
-app.use(morganLogger())
+if (config.log.morgan.isActive) app.use(morganLogger())
 //save logs to db
 app.use(
 	expressWinston.logger({

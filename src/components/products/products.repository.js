@@ -17,6 +17,7 @@ export const findOneProductRepo = async ({ match, select }) => {
 		errorHandler({ err })
 	}
 }
+
 export const findManyProductsRepo = async ({ match, select, page, limit }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
@@ -27,11 +28,27 @@ export const findManyProductsRepo = async ({ match, select, page, limit }) => {
 		errorHandler({ err })
 	}
 }
+
 export const createdProductRepo = async ({ data }) => {
 	try {
 		const createdProduct = await ProductModel.create({ ...data })
 		return createdProduct
 	} catch (err) {
 		throw errorHandler({ err })
+	}
+}
+
+export const findMyProductsRepo = async ({ match, select, page, limit, count }) => {
+	try {
+		const flattenedMatch = flattenObject(match)
+		match = { ...flattenedMatch }
+		if (count) {
+			const productsCount = await ProductModel.countDocuments(match)
+			return productsCount
+		}
+		const myProducts = await paginateMongodb({ model: ProductModel, match, select, page, limit })
+		return myProducts
+	} catch (err) {
+		errorHandler({ err })
 	}
 }

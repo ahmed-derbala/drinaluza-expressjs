@@ -32,6 +32,11 @@ router
 		try {
 			const customer = req.user
 			let { products, shop } = req.body
+			//a shop_owner cannot purchase from his shops
+			if (customer.role === userRolesEnum.SHOP_OWNER) {
+				const ownedShop = await findOneShopSrvc({ match: { owner: { _id: customer._id }, slug: shop.slug }, select: '_id' })
+				if (ownedShop) return resp({ status: 409, message: 'shop owners cannot purchase from their own shops', data: null, req, res })
+			}
 			let match = {}
 			//process products
 			for (let p of products) {

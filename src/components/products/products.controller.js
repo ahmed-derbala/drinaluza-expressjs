@@ -25,11 +25,11 @@ router
 	.post(authenticate(), validate(createProductVld), async (req, res) => {
 		try {
 			const { name, price } = req.body
-			let { shop, DefaultProduct } = req.body
-			DefaultProduct = await findOneDefaultProductSrvc({ slug: DefaultProduct.slug })
+			let { shop, defaultProduct } = req.body
+			defaultProduct = await findOneDefaultProductSrvc({ slug: defaultProduct.slug })
 			shop = await findOneShopRepo({ match: { slug: shop.slug }, select: '' })
 			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
-			const data = { shop, name, DefaultProduct, price }
+			const data = { shop, name, defaultProduct, price }
 			log({ level: 'debug', message: 'createdProduct data', data: JSON.stringify(data) })
 			const createdProduct = await createProductSrvc({ data })
 			return resp({ status: 201, data: createdProduct, req, res })

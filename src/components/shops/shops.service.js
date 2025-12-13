@@ -3,9 +3,9 @@ import { log } from '../../core/log/index.js'
 import { findMyShopsRepo, createShopRepo, findMyShopProductsRepo, findMyShopRepo, findOneShopRepo } from './shops.repository.js'
 import config from '../../config/index.js'
 
-export const findMyShopsSrvc = async ({ match, select, page, limit }) => {
+export const findMyShopsSrvc = async ({ match, select, page, limit, count }) => {
 	try {
-		const myShops = await findMyShopsRepo({ match, select, page, limit })
+		const myShops = await findMyShopsRepo({ match, select, page, limit, count })
 		return myShops
 	} catch (err) {
 		return errorHandler({ err })
@@ -20,10 +20,10 @@ export const findOneShopSrvc = async ({ match }) => {
 		return errorHandler({ err })
 	}
 }
-export const createShopSrvc = async ({ data }) => {
+export const createShopSrvc = async ({ name, address, location, owner, business }) => {
 	try {
-		const newShop = await createShopRepo({ data })
-		log({ level: 'debug', message: 'createShopSrvc', data: newShop })
+		const newShop = await createShopRepo({ name, address, location, owner, business })
+		//log({ level: 'debug', message: 'createShopSrvc', data: newShop })
 		return newShop
 	} catch (err) {
 		return errorHandler({ err })

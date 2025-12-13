@@ -15,7 +15,6 @@ export const updateMyProfileSrvc = async ({ userId, newData }) => {
 
 export const findMyProfileSrvc = async ({ userId }) => {
 	try {
-		log({ message: `requesting profile of _id=${userId} ...`, level: 'debug' })
 		const myProfile = await findMyProfileRepo({ userId })
 		return myProfile
 	} catch (err) {
@@ -42,7 +41,6 @@ export const getUsers = async (params) => {
 
 export const findOneProfileSrvc = async ({ slug }) => {
 	try {
-		log({ message: `requesting profile of slug=${slug} ...`, level: 'debug' })
 		if (!loginId) loginId = userId
 		let $or = [{ email: loginId }, { slug: loginId }, { 'phone.shortNumber': loginId }]
 		if (mongoose.isValidObjectId(loginId)) $or.push({ _id: loginId })
@@ -52,9 +50,9 @@ export const findOneProfileSrvc = async ({ slug }) => {
 	}
 }
 
-export const updateUserSrvc = async ({ identity, newData }) => {
+export const updateUserSrvc = async ({ match, newData }) => {
 	try {
-		const updatedUser = await updateUserRepo({ identity, newData })
+		const updatedUser = await updateUserRepo({ match, newData })
 		return updatedUser
 	} catch (err) {
 		errorHandler({ err })

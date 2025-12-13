@@ -9,7 +9,7 @@ const productsCollection = 'products'
 const ProductSchema = new mongoose.Schema(
 	{
 		shop: { type: ShopRefSchema, required: false },
-		DefaultProduct: { type: DefaultProductRefSchema, required: true },
+		defaultProduct: { type: DefaultProductRefSchema, required: true },
 		slug: {
 			type: String,
 			required: true,

@@ -4,8 +4,10 @@ import { removeEmptyKeys } from '../helpers/removeEmptyKeys.js'
 import { sanitizeReq } from './sanitize-req.js'
 winston.addColors(config.log.levels.colors)
 const logger = winston.createLogger(config.log.winston.createLoggerOptions)
-const winstonLogger = ({ level, label, error, message, req, data }) => {
+const winstonLogger = ({ level, status, label, error, message, req, data, user }) => {
 	let logObject = {}
+	logObject.user = user ? user : null
+	logObject.status = status ? status : null
 	level = level ? level : 'debug'
 	if (!config.log.isActive || !config.log.levels.allowed.includes(level)) return null
 	if (config.log.levels.isActive) logObject.level = level

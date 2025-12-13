@@ -4,12 +4,17 @@ import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
 import { log } from '../../core/log/index.js'
 import { flattenObject } from '../../core/helpers/filters.js'
 
-export const findMyShopsRepo = async ({ match, select, page, limit }) => {
+export const findMyShopsRepo = async ({ match, select, page, limit, count }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
-		log({ level: 'debug', message: 'findMyShopsRepo flattenedMatch', data: flattenedMatch })
-		const myShops = await paginateMongodb({ model: ShopModel, match: { ...flattenedMatch }, select, page, limit })
-		log({ level: 'debug', message: 'findMyShopsRepo', data: myShops })
+		match = { ...flattenedMatch }
+		if (count) {
+			const shopsCount = await ShopModel.countDocuments(match)
+			return shopsCount
+		}
+		//log({ level: 'debug', message: 'findMyShopsRepo flattenedMatch', data: flattenedMatch })
+		const myShops = await paginateMongodb({ model: ShopModel, match, select, page, limit })
+		//log({ level: 'debug', message: 'findMyShopsRepo', data: myShops })
 		return myShops
 	} catch (err) {
 		errorHandler({ err })
@@ -28,10 +33,9 @@ export const findOneShopRepo = async ({ match }) => {
 	}
 }
 
-export const createShopRepo = async ({ data }) => {
+export const createShopRepo = async ({ name, address, location, owner, business }) => {
 	try {
-		log({ level: 'debug', message: 'createShopRepo data', data: JSON.stringify(data) })
-		const newShop = await ShopModel.create(data)
+		const newShop = await ShopModel.create({ name, address, location, owner, business })
 		log({ level: 'debug', message: 'createShopRepo', data: newShop })
 		return newShop
 	} catch (err) {

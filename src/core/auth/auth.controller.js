@@ -34,7 +34,6 @@ router.post('/signin', validate(signinVld), async (req, res) => {
 	try {
 		const { slug, password } = req.body
 		const authData = await signinSrvc({ match: { user: { slug } }, password })
-		log({ level: 'debug', message: `authData fetched`, data: authData })
 		if (!authData) return resp({ status: 400, data: null, message: `no user found with slug=${slug}`, req, res })
 		const token = createNewSession({ user: authData.user, req })
 		return resp({ status: 200, data: { user: authData.user, token }, req, res })

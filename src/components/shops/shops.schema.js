@@ -3,11 +3,14 @@ import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.sche
 import { LocationSchema } from '../../core/db/mongodb/shared-schemas/location.schema.js'
 import { OwnerSchema } from '../users/schemas/owner.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
+
 const shopsCollection = 'shops'
 
 const shopSchema = new mongoose.Schema(
 	{
 		owner: { type: OwnerSchema, required: true },
+		business: { type: BusinessRefSchema, required: true },
 		slug: {
 			type: String,
 			required: true,

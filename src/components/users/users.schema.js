@@ -5,6 +5,9 @@ import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { userRolesEnum } from './users.enum.js'
+import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
+import { AuthModel } from '../../core/auth/auth.schema.js'
+import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 
 let photoSchema = new mongoose.Schema(
 	{
@@ -34,15 +37,16 @@ export const UserBasicInfosSchema = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: true }
 )
-const UserSettingsSchema = new mongoose.Schema(
-	{
-		lang: { type: String, required: true, default: 'en', enum: ['tn_ar', 'tn', 'en'] }, //en, tn, tn_ar
-		currency: { type: String, required: true, default: 'tnd', enum: ['tnd', 'eur', 'usd'] } //tnd,eur,usd
-	},
-	{ _id: false, timestamps: { createdAt: false }, select: false }
-)
+
 const UserSchema = new mongoose.Schema(
 	{
+		business: { type: BusinessRefSchema, required: false },
+		shops: [
+			{
+				type: ShopRefSchema,
+				required: false
+			}
+		],
 		slug: {
 			type: String,
 			required: true,
@@ -86,18 +90,39 @@ const UserSchema = new mongoose.Schema(
 		settings: {
 			type: UserSettingsSchema,
 			select: false
-		},
-		shops: [
-			{
-				type: ShopRefSchema,
-				required: false
-			}
-		]
+		}
 	},
 	{ timestamps: true }
 )
+
+UserSchema.post('findOneAndUpdate', async function (doc, next) {
+	// 1. Get the update object from the query that was executed
+	// 'this' refers to the Mongoose Query object here.
+	const update = this.getUpdate()
+
+	// 2. Determine if the 'role' field was part of the update operation.
+	// It could be:
+	// a) Directly set: { role: 'NEW_ROLE' }
+	// b) Set using $set: { $set: { role: 'NEW_ROLE' } }
+	const roleWasUpdated = update && (update.role || (update.$set && update.$set.role))
+
+	if (roleWasUpdated) {
+		try {
+			// 'doc' is the updated User document returned by findOneAndUpdate.
+			const newRole = doc.role
+
+			// Update the denormalized role in the Auth collection
+			await AuthModel.updateOne({ 'user._id': doc._id }, { $set: { 'user.role': newRole } })
+
+			console.log(`✅ Auth role synchronized for user ${doc._id} after findOneAndUpdate.`)
+		} catch (error) {
+			console.error(`❌ Error synchronizing Auth role:`, error)
+		}
+	}
+	next()
+})
 UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
 UserSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 const UserModel = mongoose.model(usersCollection, UserSchema)
 
-export { photoSchema, UserSchema, UserSettingsSchema, UserModel }
+export { photoSchema, UserSchema, UserModel }

@@ -12,9 +12,10 @@ export const updateMyProfileRepo = async ({ userId, newData }) => {
 	}
 }
 
-export const updateUserRepo = async ({ identity, newData }) => {
+export const updateUserRepo = async ({ match, newData }) => {
 	try {
-		const updatedUser = await UserModel.updateOne(identity, newData)
+		const updatedUser = await UserModel.findOneAndUpdate(match, { $set: newData }, { new: true })
+		console.log(updatedUser, 'updatedUser')
 		return updatedUser
 	} catch (err) {
 		errorHandler({ err })

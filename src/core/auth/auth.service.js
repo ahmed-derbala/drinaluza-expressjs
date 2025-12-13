@@ -1,9 +1,9 @@
 import { errorHandler } from '../error/index.js'
 import bcrypt from 'bcrypt'
-import { createAuthRepo, findOneAuthRepo } from './auth.repository.js'
+import { createAuthRepo, findOneAuthRepo, destroyManySessionsRepo } from './auth.repository.js'
 import config from '../../config/index.js'
 
-const findOneAuthSrvc = async ({ match, select }) => {
+export const findOneAuthSrvc = async ({ match, select }) => {
 	try {
 		const fetchedAuth = await findOneAuthRepo({ match, select })
 		return fetchedAuth
@@ -42,4 +42,13 @@ export const createAuthSrvc = async ({ user, password }) => {
 		errorHandler({ err })
 	}
 }
-export { findOneAuthSrvc }
+
+export const destroyUserSessionsSrvc = async ({ userId }) => {
+	try {
+		console.log('Destroying sessions for userId=', userId)
+		const destroyedSessions = await destroyManySessionsRepo({ userId })
+		return destroyedSessions
+	} catch (err) {
+		errorHandler({ err })
+	}
+}

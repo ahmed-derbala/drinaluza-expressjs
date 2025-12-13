@@ -60,7 +60,7 @@ export const authenticate = (params) => {
 				// Check role-based access if role is specified
 				if (params.role && req.user.role !== params.role) {
 					return resp({
-						message: `Access denied. Required role: ${params.role}, user role: ${req.user.role || 'none'}`,
+						message: `Access denied for user ${req.user.slug}. Required role: ${params.role}, user role: ${req.user.role || 'none'}`,
 						status: 403,
 						data: null,
 						req,

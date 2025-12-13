@@ -7,16 +7,26 @@ import { createProductSrvc, findManyProductsSrvc } from '../products/products.se
 import { createShopVld } from './shops.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { addShopToUserSrvc } from '../users/users.service.js'
-
+import { findOneBusinessSrvc, createBusinessSrvc, addShopToBusinessSrvc } from '../businesses/businesses.service.js'
+import { stateEnum } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 const router = express.Router()
 
-router.route('/').post(authenticate(), validate(createShopVld), async (req, res) => {
+router.route('/').post(authenticate({ role: 'shop_owner' }), validate(createShopVld), async (req, res) => {
 	try {
-		let { name, address, location } = req.body
-		let data = { name, owner: req.user, address, location }
-		const newShop = await createShopSrvc({ data })
+		const { name, address, location } = req.body
+		const owner = req.user
+
+		//create new business if not exists
+		let myBusiness = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id }, state: { code: stateEnum.ACTIVE } }, select: '' })
+		if (!myBusiness) {
+			myBusiness = await createBusinessSrvc({ owner })
+		}
+		const newShop = await createShopSrvc({ name, address, location, owner, business: myBusiness })
+
 		if (newShop) {
 			addShopToUserSrvc({ shop: newShop, userId: req.user._id })
+			//add shop to business
+			addShopToBusinessSrvc({ businessId: myBusiness._id, shop: newShop })
 		}
 		return resp({ status: newShop.status || 200, data: newShop, req, res })
 	} catch (err) {
@@ -24,12 +34,8 @@ router.route('/').post(authenticate(), validate(createShopVld), async (req, res)
 	}
 })
 
-router.route('/my-shops').get(authenticate(), async (req, res) => {
+router.route('/my-shops').get(authenticate({ role: 'shop_owner' }), async (req, res) => {
 	try {
-		//check if its a shop_owner
-		if (req.user.role !== 'shop_owner') {
-			return resp({ status: 403, message: 'only shop owners can access their shops', data: null, req, res })
-		}
 		let match = {}
 		match.owner = { _id: req.user._id }
 		const select = ''

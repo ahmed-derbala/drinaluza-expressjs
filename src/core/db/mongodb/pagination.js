@@ -52,7 +52,7 @@ export const paginateMongodb = async ({ model, page, limit, match = {}, select =
 		limit,
 		populate
 	}
-	const data = await model.find(match, select, options)
+	const docs = await model.find(match, select, options)
 	return {
 		pagination: {
 			totalDocs,
@@ -63,9 +63,9 @@ export const paginateMongodb = async ({ model, page, limit, match = {}, select =
 			nextPage,
 			hasPrevPage,
 			prevPage,
-			returnedDocsCount: data.length
+			returnedDocsCount: docs.length
 		},
-		data
+		docs
 	}
 }
 export const aggregatePaginate = async ({ model, page, limit, pipeline = [] }) => {
@@ -109,8 +109,7 @@ export const aggregatePaginate = async ({ model, page, limit, pipeline = [] }) =
 	}
 	//console.log(JSON.stringify(pipeline), 'pipeline in pagination helper');
 	// console.log(options,'options in helper');
-	let data = await model.aggregate(pipeline, options)
-	//console.log(data, 'data in helper');
+	let docs = await model.aggregate(pipeline, options)
 	let result = {}
 	if (sortIndex > -1 && matchIndex > sortIndex) result.message = `its advised to have $match stage before $sort`
 	result.pagination = {}
@@ -127,7 +126,7 @@ export const aggregatePaginate = async ({ model, page, limit, pipeline = [] }) =
 	const { prevPage, hasPrevPage } = processPrevious({ page })
 	result.pagination.hasPrevPage = hasPrevPage
 	result.pagination.prevPage = prevPage
-	result.pagination.returnedDocsCount = data.length
-	result.data = data
+	result.pagination.returnedDocsCount = docs.length
+	result.docs = docs
 	return result
 }
