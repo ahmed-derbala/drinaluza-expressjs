@@ -1,7 +1,7 @@
 import { log } from './core/log/index.js'
 import config from './config/index.js'
 import { connectMongodb } from './core/db/index.js'
-import server from './core/utils/server.js'
+import { server } from './core/utils/server.js'
 import { socketio } from './core/socketio/index.js'
 ;('use strict')
 /**

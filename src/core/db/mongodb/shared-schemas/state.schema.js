@@ -4,7 +4,8 @@ export const stateEnum = {
 	ACTIVE: 'active',
 	INACTIVE: 'inactive',
 	SUSPENDED: 'suspended',
-	ALL: ['active', 'inactive', 'suspended']
+	DELETED: 'deleted',
+	ALL: ['active', 'inactive', 'suspended', 'deleted']
 }
 
 export const StateSchema = new mongoose.Schema(
@@ -14,10 +15,6 @@ export const StateSchema = new mongoose.Schema(
 			enum: stateEnum.ALL,
 			default: 'active',
 			required: true
-		},
-		updatedAt: {
-			type: Date,
-			default: Date.now
 		}
 	},
 	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }

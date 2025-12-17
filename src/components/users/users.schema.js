@@ -9,7 +9,7 @@ import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 
-let photoSchema = new mongoose.Schema(
+export const PhotoSchema = new mongoose.Schema(
 	{
 		url: { type: String, required: false }
 	},
@@ -29,7 +29,7 @@ export const UserBasicInfosSchema = new mongoose.Schema(
 			type: Date,
 			required: false
 		},
-		photo: photoSchema,
+		photo: PhotoSchema,
 		biography: {
 			type: String,
 			required: false
@@ -123,6 +123,4 @@ UserSchema.post('findOneAndUpdate', async function (doc, next) {
 })
 UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
 UserSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
-const UserModel = mongoose.model(usersCollection, UserSchema)
-
-export { photoSchema, UserSchema, UserModel }
+export const UserModel = mongoose.model(usersCollection, UserSchema)

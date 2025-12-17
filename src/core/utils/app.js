@@ -48,13 +48,14 @@ if (config.app.views) {
 	app.set('layout', './index/views/layout', { author: 'app' })
 	app.set('views', `${process.cwd()}/src/components`)
 	app.set('view engine', 'ejs')
-	app.use(express.static(`public`))
+	//app.use(express.static(`public`))
 	loaders.load({ app, rootDir: '/components', urlPrefix: '/', fileSuffix: '.render.js' }) //load views
 }
 await loaders.load({ app, rootDir: '/components', urlPrefix: '/api/', fileSuffix: '.controller.js' }) //load api
 await loaders.load({ app, rootDir: '/components/index', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load "/"
 await loaders.load({ app, rootDir: '/core/auth', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
 await loaders.load({ app, rootDir: '/core/health', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load health
+await loaders.load({ app, rootDir: '/core/notifications', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
 
 //when no api route matched
 app.use((req, res, next) => {

@@ -4,7 +4,8 @@ import { PriceSchema } from './schemas/price.schema.js'
 import { FileRefSchema } from '../../core/files/files.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { DefaultProductRefSchema } from '../default-products/default-products.schema.js'
-const productsCollection = 'products'
+
+export const productsCollection = 'products'
 
 const ProductSchema = new mongoose.Schema(
 	{
@@ -57,8 +58,9 @@ const ProductSchema = new mongoose.Schema(
 	{ timestamps: true }
 )
 
-const ProductRefSchema = new mongoose.Schema(
+export const ProductRefSchema = new mongoose.Schema(
 	{
+		defaultProduct: { type: DefaultProductRefSchema, required: true },
 		_id: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: productsCollection,
@@ -77,11 +79,3 @@ ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', stre
 ProductSchema.index({ searchTerms: 1 })
 
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)
-export { productsCollection }
-export { ProductRefSchema }
-export default {
-	ProductModel,
-	productsCollection,
-	PriceSchema,
-	ProductRefSchema
-}

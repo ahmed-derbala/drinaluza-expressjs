@@ -40,13 +40,13 @@
     "pull": "git pull origin main && npm run i && npm run start:local",
     "i": "npm i",
     "i:prod": "NODE_ENV=production npm ci --omit=dev",
-    "clean": "npm run clean:only && npm run i && npm run start:local",
+    "clean": "npm run clean:only && npm run start:local",
     "clean:prod": "rm -r -f node_modules  && npm run i:prod",
-    "clean:only": "rm -f package-lock.json && rm -r -f node_modules ",
+    "clean:only": "rm -f package-lock.json && rm -r -f node_modules && npm run i",
     "backup": "rm -r -f backups/* && mkdir backups -p && cp package.json backups/package.json.backup && cp package-lock.json backups/package-lock.json.backup 2>/dev/null; true && mv node_modules backups/node_modules.backup 2>/dev/null; true",
     "update": "npm run backup && npm run ncu && npm run clean",
     "restore": "cp backups/package.json.backup package.json && cp backups/package-lock.json.backup package-lock.json && mv backups/node_modules.backup node_modules && npm run start:local",
-    "ncu": "npm run clean:only && npm i -D npm-check-updates && ncu -u"
+    "ncu": "npm i -D npm-check-updates && ncu -u"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -73,8 +73,8 @@
     "winston-mongodb": "^7.0.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "eslint": "^9.39.1",
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
     "globals": "^16.5.0",
     "npm-check-updates": "^19.2.0",
     "pm2": "^6.0.14",

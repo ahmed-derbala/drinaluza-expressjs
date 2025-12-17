@@ -1,23 +1,11 @@
 import mongoose from 'mongoose'
-import { usersCollection } from '../../components/users/users.constant.js'
-import { UserSettingsSchema } from '../../components/users/schemas/user-settings.schema.js'
+import { UserRefSchema } from '../../components/users/schemas/user-ref.schema.js'
+
 const authCollection = 'auth'
-import { userRolesEnum } from '../../components/users/users.enum.js'
+
 const AuthSchema = new mongoose.Schema(
 	{
-		user: {
-			_id: { type: mongoose.Schema.Types.ObjectId, ref: usersCollection, required: true, unique: true },
-			email: { type: String /*unique: true*/ },
-			slug: { type: String, required: true /*unique: true*/ },
-			name: { type: String, required: true },
-			role: {
-				type: String,
-				enum: userRolesEnum.ALL,
-				default: userRolesEnum.CUSTOMER
-			},
-			settings: UserSettingsSchema,
-			updatedAt: { type: Date, required: true }
-		},
+		user: UserRefSchema,
 		password: {
 			type: String,
 			required: true,
@@ -33,8 +21,3 @@ const AuthSchema = new mongoose.Schema(
 	{ timestamps: true, collection: authCollection }
 )
 export const AuthModel = mongoose.model(authCollection, AuthSchema)
-export { authCollection }
-export default {
-	AuthModel,
-	authCollection
-}

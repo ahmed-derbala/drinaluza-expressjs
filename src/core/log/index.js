@@ -8,7 +8,7 @@ import { simplelogger } from './simple.logger.js'
  * @param {string} log.level
  * @param {string} log.message
  */
-let log = ({ level, status, label, error, message, req, data, user }) => {
+let log = ({ level, label, error, message, req, data, user }) => {
 	switch (config.log.kind) {
 		case 'winston':
 			winstonLogger({ level, label, error, message, req, data, user })

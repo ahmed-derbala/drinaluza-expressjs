@@ -1,7 +1,9 @@
 import { log } from '../log/index.js'
 import { sanitizeReq } from '../log/sanitize-req.js'
 const noLogStatuses = [401]
-export const errorHandler = ({ err, req, res, next }) => {
+
+export const errorHandler = ({ err, req, res, next, error }) => {
+	if (!err && error) err = error
 	let status = 500,
 		errObject = {},
 		label = 'internal_error'
@@ -38,6 +40,9 @@ export const errorHandler = ({ err, req, res, next }) => {
 					status = 401
 				}
 			}
+			if (err.error) {
+				errObject.error = err.error
+			}
 		}
 		if (typeof err == 'string') {
 			errObject.message = err
@@ -46,6 +51,8 @@ export const errorHandler = ({ err, req, res, next }) => {
 	}
 	errObject.status = status
 	errObject.label = label
+	//console.error(errObject.error);
+
 	if (!errObject.message) errObject.message = 'error'
 	if (req) {
 		errObject.req = sanitizeReq(req)
@@ -54,5 +61,5 @@ export const errorHandler = ({ err, req, res, next }) => {
 	if (res) {
 		return res.status(status).json(errObject)
 	}
-	return errObject
+	throw errObject
 }

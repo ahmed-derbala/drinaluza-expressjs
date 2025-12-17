@@ -11,7 +11,7 @@ app.set('port', config.backend.port)
 /**
  * Create HTTP server.
  */
-const server = http.createServer(app)
+export const server = http.createServer(app)
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -99,4 +99,3 @@ function onListening() {
 	const addr = server.address()
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port
 }
-export default server

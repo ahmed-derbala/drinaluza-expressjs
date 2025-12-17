@@ -24,10 +24,5 @@ const schema = new mongoose.Schema(
 	{ timestamps: true }
 )
 schema.plugin(uniqueValidator)
-const sessionsCollection = 'sessions'
+export const sessionsCollection = 'sessions'
 export const SessionsModel = mongoose.model(sessionsCollection, schema)
-export { sessionsCollection }
-export default {
-	SessionsModel,
-	sessionsCollection
-}
