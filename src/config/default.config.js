@@ -55,8 +55,6 @@ let port = parseInt(process.env.DATABASE_PORT, 10) || 27017
 const name = packagejson.name
 const maxPoolSize = 200 //number > 0 otherwise ignored, default 200, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
 const minPoolSize = 5 //number > 0 otherwise ignored, default 5, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
-console.log(process.env.MONGO_URI)
-console.log(process.env.NODE_ENV)
 
 let uri = process.env.MONGO_URI || ``
 if (uri) {

@@ -13,7 +13,7 @@ const connectMongodb = async () => {
 		})
 		await mongoose.connect(config.db.mongodb.uri, config.db.mongodb.options)
 		log({
-			message: `db-conn-success | ${config.db.mongodb.name} | ${config.db.mongodb.host}:${config.db.mongodb.port}`,
+			message: `db-conn-success | ${config.db.mongodb.uri}`,
 			level: 'info',
 			label: 'db-mongo'
 		})
