@@ -3,7 +3,7 @@ import ip from 'ip'
 import { format, transports } from 'winston'
 import 'winston-mongodb'
 const backend = {
-	port: 5001,
+	port: process.env.PORT || 5001,
 	host: `${ip.address()}`,
 	protocol: 'http://',
 	get url() {

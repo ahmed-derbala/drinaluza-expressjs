@@ -19,7 +19,8 @@
   "scripts": {
     "config:new-prod": "cp src/config/default.config.js src/config/production.config.js",
     "config:prod": "cp -n src/config/default.config.js src/config/production.config.js",
-    "build": "npm run config:new-prod && npm run clean:prod && npm run start:prod",
+    "build": "npm run build:only && npm run start:prod",
+    "build:only": "npm run config:new-prod && npm run clean:prod",
     "first-run:local": "cp src/config/default.config.js src/config/local.config.js && npm run i && npm run start:local",
     "frl": "npm run first-run:local",
     "first-run:prod": "npm run config:new-prod && npm run clean:prod && npm run start:prod-pm2-monit",
