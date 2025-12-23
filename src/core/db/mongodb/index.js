@@ -6,7 +6,7 @@ import { errorHandler } from '../../error/index.js'
 const connectMongodb = async () => {
 	try {
 		log({
-			message: `mongodb-connecting`,
+			message: `mongodb-connecting | process.env.MONGO_URI=${process.env.MONGO_URI}`,
 			level: 'debug',
 			label: 'db-mongo',
 			data: config.db.mongodb
