@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { businessesCollection } from '../businesses.schema.js'
-import { OwnerSchema } from '../../users/schemas/owner.schema.js'
 import { StateSchema } from '../../../core/db/mongodb/shared-schemas/state.schema.js'
+//import { BusinessOwnerSchema } from '../../users/schemas/business-owner.schema.js'
 
 export const BusinessRefSchema = new mongoose.Schema(
 	{
@@ -10,7 +10,7 @@ export const BusinessRefSchema = new mongoose.Schema(
 			ref: businessesCollection,
 			required: true
 		},
-		owner: { type: OwnerSchema, required: true },
+		//owner: { type: BusinessOwnerSchema, required: true },
 		slug: {
 			type: String,
 			required: true,

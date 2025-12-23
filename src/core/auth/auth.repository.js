@@ -14,7 +14,7 @@ export const createAuthRepo = async ({ user, password }) => {
 }
 export const findOneAuthRepo = async ({ match, select }) => {
 	try {
-		const fetchedAuth = await AuthModel.findOne({ 'user.slug': match.user.slug }).select(select).lean()
+		const fetchedAuth = await AuthModel.findOne({ 'user.slug': match.slug }).select(select).lean()
 		return fetchedAuth
 	} catch (err) {
 		errorHandler({ err })

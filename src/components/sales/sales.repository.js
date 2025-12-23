@@ -42,7 +42,7 @@ export const patchOrderStatusRepo = async ({ match, status }) => {
 	}
 }
 
-export const findMySalesRepo = async ({ match, select, page, limit, count }) => {
+export const findMySalesRepo = async ({ match, page, limit, count, select }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
 		match = { ...flattenedMatch }
@@ -50,7 +50,7 @@ export const findMySalesRepo = async ({ match, select, page, limit, count }) => 
 			const salesCount = await OrderModel.countDocuments(match)
 			return salesCount
 		}
-		const mySales = await paginateMongodb({ model: OrderModel, match, select, page, limit })
+		const mySales = await paginateMongodb({ model: OrderModel, match, page, limit, select })
 		return mySales
 	} catch (err) {
 		errorHandler({ err })

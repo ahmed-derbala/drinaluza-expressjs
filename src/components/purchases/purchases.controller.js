@@ -46,13 +46,13 @@ router
 					match.slug = p.product.slug
 				}
 				p.product = await findOneProductSrvc({ match })
-				if (!p.product) return resp({ status: 410, data: null, message: `product ${JSON.stringify(match)} not found`, req, res })
+				if (!p.product) return resp({ status: 404, data: null, message: `product ${JSON.stringify(match)} not found`, req, res })
 				p.finalPrice = processFinalPriceSrvc({ price: p.product.price, quantity: p.quantity })
 				console.log(p.finalPrice)
 				//log({ level: 'debug', message: 'process products', data: p })
 			}
 			shop = await findOneShopSrvc({ match: { slug: shop.slug }, select: '' })
-			if (!shop) return resp({ status: 410, message: 'shop not found', data: null, req, res })
+			if (!shop) return resp({ status: 404, message: 'shop not found', data: null, req, res })
 			const data = { customer, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
 			//console.log(data.products[0].finalPrice,'data')
 			const createdOrder = await createOrderSrvc({ data })

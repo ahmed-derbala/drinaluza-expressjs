@@ -66,4 +66,13 @@ router.route('/:businessId').patch(authenticate({ role: userRolesEnum.SUPER }), 
 	}
 })
 
+router.route('/:businessId/customers').get(authenticate(), async (req, res) => {
+	try {
+		const customers = await findMySalesSrvc({ /*match: { shop: { owner: { business: { _id: req.params.businessId } } } },*/ select: 'customer' })
+		return resp({ status: 200, data: customers, req, res })
+	} catch (err) {
+		errorHandler({ err, req, res })
+	}
+})
+
 export default router

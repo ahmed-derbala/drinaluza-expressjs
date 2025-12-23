@@ -20,8 +20,9 @@ router.route('/').post(authenticate({ role: 'shop_owner' }), validate(createShop
 		let myBusiness = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id }, state: { code: stateEnum.ACTIVE } }, select: '' })
 		if (!myBusiness) {
 			myBusiness = await createBusinessSrvc({ owner })
+			owner.business = myBusiness
 		}
-		const newShop = await createShopSrvc({ name, address, location, owner, business: myBusiness })
+		const newShop = await createShopSrvc({ name, address, location, owner })
 
 		if (newShop) {
 			addShopToUserSrvc({ shop: newShop, userId: req.user._id })

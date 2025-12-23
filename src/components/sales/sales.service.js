@@ -50,11 +50,12 @@ export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus }) => {
 	}
 }
 
-export const findMySalesSrvc = async ({ match, page, limit, count }) => {
+export const findMySalesSrvc = async ({ match, page, limit, count, select }) => {
 	try {
 		page = parseInt(page, 10)
 		limit = parseInt(limit, 10)
-		const mySales = await findMySalesRepo({ match, page, limit, count })
+		log({ level: 'debug', message: 'findMySalesSrvc', data: { match, page, limit, count, select } })
+		const mySales = await findMySalesRepo({ match, page, limit, count, select })
 		return mySales
 	} catch (err) {
 		errorHandler({ err })

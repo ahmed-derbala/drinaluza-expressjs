@@ -1,15 +1,15 @@
 import mongoose from 'mongoose'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
-import { OwnerSchema } from '../users/schemas/owner.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
+//import { OwnerSchema } from '../users/schemas/owner.schema.js'
 
 export const businessesCollection = 'businesses'
 
 const BusinessSchema = new mongoose.Schema(
 	{
 		shops: [{ type: ShopRefSchema, required: true }],
-		owner: { type: OwnerSchema, required: true },
+		//owner: { type: OwnerSchema, required: true },
 		slug: {
 			type: String,
 			required: true,

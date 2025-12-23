@@ -20,9 +20,9 @@ export const findOneShopSrvc = async ({ match }) => {
 		return errorHandler({ err })
 	}
 }
-export const createShopSrvc = async ({ name, address, location, owner, business }) => {
+export const createShopSrvc = async ({ name, address, location, owner }) => {
 	try {
-		const newShop = await createShopRepo({ name, address, location, owner, business })
+		const newShop = await createShopRepo({ name, address, location, owner })
 		//log({ level: 'debug', message: 'createShopSrvc', data: newShop })
 		return newShop
 	} catch (err) {
