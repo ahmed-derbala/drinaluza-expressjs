@@ -70,7 +70,8 @@ let db = {
 		options: {
 			maxPoolSize,
 			minPoolSize
-		}
+		},
+		MONGO_URI: process.env.MONGO_URI
 	}
 }
 const { prettyPrint, colorize } = format
