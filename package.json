@@ -17,6 +17,7 @@
     "drinaluza"
   ],
   "scripts": {
+    "build":"npm run clean:prod && npm run start:prod",
     "first-run:local": "cp src/config/default.config.js src/config/local.config.js && npm run i && npm run start:local",
     "frl": "npm run first-run:local",
     "first-run:prod": "cp src/config/default.config.js src/config/production.config.js && npm run i && npm run start:prod-pm2-monit",
