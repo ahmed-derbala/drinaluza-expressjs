@@ -48,16 +48,26 @@ let app = {
 /**
  * db
  */
-const user = null
-const password = null
-const host = process.env.DATABASE_HOST || '127.0.0.1'
-const port = parseInt(process.env.DATABASE_PORT, 10) || 27017
+let user = null
+let password = null
+let host = process.env.DATABASE_HOST || '127.0.0.1'
+let port = parseInt(process.env.DATABASE_PORT, 10) || 27017
 const name = packagejson.name
 const maxPoolSize = 200 //number > 0 otherwise ignored, default 200, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
 const minPoolSize = 5 //number > 0 otherwise ignored, default 5, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
+console.log(process.env.MONGO_URI)
+console.log(process.env.NODE_ENV)
+
 let uri = process.env.MONGO_URI || ``
-if (!user && !password && !uri) uri = `mongodb://${host}:${port}/${name}`
-else uri = `mongodb://${user}:${password}@${host}:${port}/${name}`
+if (uri) {
+	user = null
+	password = null
+	host = null
+	port = null
+} else {
+	if (!user && !password) uri = `mongodb://${host}:${port}/${name}`
+	else uri = `mongodb://${user}:${password}@${host}:${port}/${name}`
+}
 let db = {
 	primary: 'mongodb',
 	mongodb: {
@@ -151,7 +161,7 @@ const defaultConfig = {
 	},
 	db,
 	log: {
-		kind: 'winston', //winston, simple
+		kind: 'simple', //winston, simple
 		reqDefaultLog: 'morgan_log',
 		isActive: true,
 		winston: {
