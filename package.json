@@ -17,8 +17,10 @@
     "drinaluza"
   ],
   "scripts": {
-    "first-time:local": "cp src/config/default.config.js src/config/local.config.js && npm run i && npm run start:local",
-    "first-time:prod": "cp src/config/default.config.js src/config/production.config.js && npm run i && npm run start:prod-pm2-monit",
+    "first-run:local": "cp src/config/default.config.js src/config/local.config.js && npm run i && npm run start:local",
+    "frl": "npm run first-run:local",
+    "first-run:prod": "cp src/config/default.config.js src/config/production.config.js && npm run i && npm run start:prod-pm2-monit",
+    "frp": "npm run first-run:prod",
     "start": "node src/main.js",
     "start:prod": "NODE_ENV=production node src/main.js",
     "start:prod-pm2": "npm run i:prod && NODE_ENV=production pm2 start --name drinaluza src/main.js -i max --node-args='--max-old-space-size=8192' -f",
