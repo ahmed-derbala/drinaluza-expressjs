@@ -2,8 +2,15 @@ import mongoose from 'mongoose'
 import config from '../../../config/index.js'
 import { log } from '../../log/index.js'
 import { errorHandler } from '../../error/index.js'
+
 const connectMongodb = async () => {
 	try {
+		log({
+			message: `mongodb-connecting`,
+			level: 'debug',
+			label: 'db-mongo',
+			data: config.db.mongodb
+		})
 		await mongoose.connect(config.db.mongodb.uri, config.db.mongodb.options)
 		log({
 			message: `db-conn-success | ${config.db.mongodb.name} | ${config.db.mongodb.host}:${config.db.mongodb.port}`,
