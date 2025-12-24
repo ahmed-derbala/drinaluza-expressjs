@@ -1,172 +1,130 @@
-// This script connects to the MongoDB database and seeds the 'products' collection
-// with sample product data, using existing shops and owners.
-
 import { connectMongodb } from '../../../core/db/index.js'
-import { log } from '../../../core/log/index.js'
 import mongoose from 'mongoose'
+import { log } from '../../../core/log/index.js'
 import { ProductModel } from '../products.schema.js'
 import { ShopModel } from '../../shops/shops.schema.js'
-import { UserModel } from '../../users/users.schema.js'
+import { DefaultProductModel } from '../../default-products/default-products.schema.js'
+import { createProductSrvc } from '../products.service.js'
 
-// Sample product data
-const productTemplates = [
-	{
-		name: 'Fresh Tuna',
-		description: 'Premium quality fresh tuna, perfect for sushi or grilling',
-		category: 'Fish',
-		unit: 'KG',
-		basePrice: 45,
-		stock: { quantity: 50, minThreshold: 10 }
-	},
-	{
-		name: 'Atlantic Salmon',
-		description: 'Fresh Atlantic salmon fillets, skin on',
-		category: 'Fish',
-		unit: 'KG',
-		basePrice: 55,
-		stock: { quantity: 35, minThreshold: 8 }
-	},
-	{
-		name: 'Tiger Prawns',
-		description: 'Jumbo tiger prawns, 10-12 pieces per kg',
-		category: 'Shellfish',
-		unit: 'KG',
-		basePrice: 70,
-		stock: { quantity: 25, minThreshold: 5 }
-	},
-	{
-		name: 'Black Mussels',
-		description: 'Fresh black mussels, cleaned and debearded',
-		category: 'Shellfish',
-		unit: 'KG',
-		basePrice: 25,
-		stock: { quantity: 40, minThreshold: 15 }
-	},
-	{
-		name: 'Whole Octopus',
-		description: 'Fresh Mediterranean octopus, cleaned',
-		category: 'Cephalopods',
-		unit: 'KG',
-		basePrice: 40,
-		stock: { quantity: 15, minThreshold: 3 }
-	}
-]
-
-/**
- * Seed products into the database
- */
 export const seedProducts = async () => {
 	try {
-		await connectMongodb()
 		log({ message: 'Starting products seed script...', level: 'info' })
 
-		// Get existing shops with their owners
-		const shops = await ShopModel.find({})
-			.populate({
-				path: 'owner._id',
-				select: 'profile'
-			})
-			.lean()
-
+		// Check Shops
+		const shops = await ShopModel.find({}).lean()
 		if (shops.length === 0) {
-			throw new Error('No shops found. Please seed shops first.')
+			log({ message: 'No shops found. Please run shops seed first.', level: 'warn' })
+			return
 		}
 
-		// Delete existing products
-		await ProductModel.deleteMany({})
-		log({ message: 'Cleared existing products', level: 'info' })
+		// Check Default Products
+		const defaultProducts = await DefaultProductModel.find({}).lean()
+		if (defaultProducts.length === 0) {
+			log({ message: 'No default products found.', level: 'warn' })
+			return
+		}
 
-		const products = []
+		// Clear existing products and indexes to avoid legacy index issues
+		try {
+			await ProductModel.collection.drop()
+		} catch (e) {
+			// Ignore error if collection does not exist
+		}
+		// ensure indexes are created
+		await ProductModel.ensureIndexes()
+		log({ message: 'Cleared existing products and rebuilt indexes.', level: 'info' })
 
-		// Create products for each shop
+		let count = 0
+
 		for (const shop of shops) {
-			// Check if owner exists and has profile
-			if (!shop.owner || !shop.owner._id || !shop.owner._id.profile) {
-				log({
-					message: `Skipping shop ${shop.name} - owner or profile not found`,
-					level: 'warn'
-				})
-				continue
-			}
+			// Pick 5-8 random default products
+			const shuffled = [...defaultProducts].sort(() => 0.5 - Math.random())
+			const selected = shuffled.slice(0, Math.floor(Math.random() * 4) + 5)
 
-			// Each shop gets a subset of products
-			const productCount = Math.floor(Math.random() * 3) + 2 // 2-4 products per shop
+			for (const dp of selected) {
+				// Generate a slug for default product if missing (handling potential bad seed data)
+				const dpSlug =
+					dp.slug ||
+					(dp.name?.en || 'product')
+						.toLowerCase()
+						.replace(/\s+/g, '-')
+						.replace(/[^\w-]+/g, '')
 
-			for (let i = 0; i < productCount; i++) {
-				const template = productTemplates[(shop._id.toString().charCodeAt(0) + i) % productTemplates.length]
-				const priceVariance = Math.random() * 0.3 + 0.85 // 85-115% of base price
+				// Ensure name object is valid
+				const validName = {
+					en: dp.name?.en || 'Unknown Product',
+					tn_en: dp.name?.tn_en || dp.name?.en || 'Unknown Product',
+					tn_ar: dp.name?.tn_ar || ''
+				}
 
-				const product = new ProductModel({
-					name: template.name,
-					description: template.description,
-					price: {
-						value: {
-							tnd: Math.round(template.basePrice * priceVariance * 10) / 10, // Round to 1 decimal
-							eur: Math.round(template.basePrice * priceVariance * 0.3 * 10) / 10,
-							usd: Math.round(template.basePrice * priceVariance * 0.32 * 10) / 10
-						},
-						unit: {
-							name: template.unit,
-							symbol: template.unit === 'KG' ? 'kg' : 'pcs'
-						}
-					},
-					photos: [], // Will be populated with actual file references in production
-					searchTerms: [
-						template.name.toLowerCase(),
-						template.category.toLowerCase(),
-						'seafood',
-						'fresh',
-						shop.owner._id.profile.firstName.toLowerCase(),
-						shop.owner._id.profile.lastName.toLowerCase()
-					],
-					isActive: Math.random() > 0.1, // 90% chance of being active
-					stock: {
-						quantity: template.stock.quantity,
-						minThreshold: template.stock.minThreshold
-					},
-					availability: {
-						startDate: new Date(),
-						endDate: null
-					},
+				const productData = {
 					shop: {
 						_id: shop._id,
+						owner: shop.owner,
 						name: shop.name,
 						slug: shop.slug,
-						owner: shop.owner
+						address: shop.address,
+						location: shop.location
+					},
+					defaultProduct: {
+						_id: dp._id,
+						slug: dpSlug,
+						name: validName,
+						images: {
+							thumbnail: {
+								url: 'https://placehold.co/200'
+							}
+						}
+					},
+					name: validName.en,
+					// Slug for product will be generated by plugin from 'name' if omitted, or we can provide base
+					price: {
+						value: {
+							tnd: parseFloat((Math.random() * 50 + 5).toFixed(2))
+						},
+						unit: { name: 'KG', min: 1 }
+					},
+					searchTerms: [...(dp.searchKeywords || []), ...shop.name.split(' ')],
+					state: { code: 'active' },
+					stock: {
+						quantity: Math.floor(Math.random() * 100),
+						minThreshold: 5
+					},
+					availability: {
+						startDate: new Date()
 					}
-				})
+				}
 
-				products.push(await product.save())
-				log({
-					message: `Created product: ${product.name} for shop: ${shop.name}`,
-					level: 'info'
-				})
+				await createProductSrvc({ data: productData })
+				count++
 			}
 		}
 
-		log({
-			message: `Successfully seeded ${products.length} products`,
-			level: 'success'
-		})
-
-		return products
-	} catch (error) {
-		log({
-			message: 'Error seeding products',
-			error: error.message,
-			stack: error.stack,
-			level: 'error'
-		})
-		throw error
-	} finally {
-		// Close the connection when done
-		await mongoose.connection.close()
+		log({ message: `Successfully seeded ${count} products.`, level: 'success' })
+	} catch (e) {
+		log({ message: 'Error seeding products', error: e.message, level: 'error' })
 	}
 }
 
-// Run the seed if this file is executed directly
 if (process.argv[1] === import.meta.filename) {
-	seedProducts()
-		.then(() => process.exit(0))
-		.catch(() => process.exit(1))
+	;(async () => {
+		try {
+			if (config.NODE_ENV == 'production') {
+				console.log('Skipping seed in production environment')
+				process.exit(0)
+			}
+			await connectMongodb()
+			await seedProducts()
+			process.exit(0)
+		} catch (error) {
+			log({
+				message: 'Failed to run products seed script',
+				error: error.message,
+				level: 'error'
+			})
+			process.exit(1)
+		} finally {
+			await mongoose.connection.close() // Close connection
+		}
+	})()
 }

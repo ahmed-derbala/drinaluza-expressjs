@@ -1,6 +1,13 @@
 // This file exports a Mongoose plugin function that can be used to
 // automatically generate a unique slug for any schema.
 
+export const slugDefObject = {
+	type: String,
+	required: true,
+	trim: true,
+	lowercase: true
+}
+
 /**
  * Mongoose plugin to generate a unique slug from a specified field.
  * @param {Schema} schema The Mongoose schema to apply the plugin to.

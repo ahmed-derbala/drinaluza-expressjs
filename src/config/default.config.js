@@ -55,7 +55,11 @@ let port = parseInt(process.env.DATABASE_PORT, 10) || 27017
 const name = packagejson.name
 const maxPoolSize = 200 //number > 0 otherwise ignored, default 200, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
 const minPoolSize = 5 //number > 0 otherwise ignored, default 5, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
-
+if (process.env.MONGO_URI && process.env.NODE_ENV !== 'production') {
+	throw `Using MONGO_URI from environment variables in non-production mode
+		  MONGO_URI: ${process.env.MONGO_URI}
+		  NODE_ENV: ${process.env.NODE_ENV}`
+}
 let uri = process.env.MONGO_URI || ``
 if (uri) {
 	user = null
@@ -159,7 +163,7 @@ const defaultConfig = {
 	},
 	db,
 	log: {
-		kind: 'simple', //winston, simple
+		kind: 'winston', //winston, simple
 		reqDefaultLog: 'morgan_log',
 		isActive: true,
 		winston: {

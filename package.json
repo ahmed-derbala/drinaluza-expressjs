@@ -17,6 +17,7 @@
     "drinaluza"
   ],
   "scripts": {
+    "smenu": "node src/core/scripts/smenu.js",
     "config:new-prod": "cp src/config/default.config.js src/config/production.config.js",
     "config:prod": "cp -n src/config/default.config.js src/config/production.config.js",
     "build": "npm run build:only && npm run start:prod",
@@ -66,7 +67,9 @@
     "express-useragent": "^2.0.2",
     "express-validator": "^7.3.1",
     "express-winston": "^4.2.0",
+    "glob": "^13.0.0",
     "helmet": "^8.1.0",
+    "inquirer": "^13.1.0",
     "ip": "^2.0.1",
     "jsonwebtoken": "^9.0.3",
     "lodash-es": "^4.17.22",

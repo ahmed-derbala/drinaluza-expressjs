@@ -1,40 +1,13 @@
 import mongoose from 'mongoose'
-import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
-
-export const defaultProductsCollection = 'default-products'
+import { slugPlugin, slugDefObject } from '../../core/db/mongodb/slug-plugin.js'
+import { defaultProductsCollection } from './default-products.constant.js'
+import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
+import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 
 const DefaultProductSchema = new mongoose.Schema(
 	{
-		slug: {
-			type: String,
-			required: true,
-			trim: true,
-			lowercase: true
-		},
-		name: {
-			en: {
-				type: String,
-				required: true,
-				unique: true
-			}
-			/*tn_en: {
-				//tunisian with latin alphabet
-				type: String,
-				required: true,
-				unique: true
-			},
-			tn_ar: {
-				//tunisian with arabic alphabet
-				type: String,
-				required: true,
-				unique: true
-			},
-			fr: {
-				type: String,
-				required: true,
-				unique: true
-			},*/
-		},
+		slug: slugDefObject,
+		name: { type: MultiLangNameSchema, required: true },
 		searchKeywords: {
 			type: [String],
 			required: true,
@@ -47,64 +20,15 @@ const DefaultProductSchema = new mongoose.Schema(
 		},
 		images: {
 			thumbnail: {
-				url: { type: String, required: true }
+				url: { type: String, required: false }
 			}
 		},
-		isActive: {
-			type: Boolean,
-			default: true
-		}
+		state: StateSchema
 	},
 	{ timestamps: true, collection: defaultProductsCollection }
 )
 
-export const DefaultProductRefSchema = new mongoose.Schema(
-	{
-		slug: {
-			type: String,
-			required: true,
-			trim: true,
-			lowercase: true
-		},
-		_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: defaultProductsCollection,
-			required: true
-		},
-		name: {
-			en: {
-				type: String,
-				required: true,
-				unique: true
-			}
-			/*tn_en: {
-				//tunisian with latin alphabet
-				type: String,
-				required: true,
-				unique: true
-			},
-			tn_ar: {
-				//tunisian with arabic alphabet
-				type: String,
-				required: true,
-				unique: true
-			},
-			fr: {
-				type: String,
-				required: true,
-				unique: true
-			},*/
-		},
-		images: {
-			thumbnail: {
-				url: { type: String, required: true }
-			}
-		}
-	},
-	{ timestamps: { createdAt: false, updatedAt: true } }
-)
-
 DefaultProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en' })
-//DefaultProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
+DefaultProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 
 export const DefaultProductModel = mongoose.model(defaultProductsCollection, DefaultProductSchema)

@@ -1,33 +1,24 @@
 import mongoose from 'mongoose'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { PriceSchema } from './schemas/price.schema.js'
-import { FileRefSchema } from '../../core/files/files.schema.js'
-import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
-import { DefaultProductRefSchema } from '../default-products/default-products.schema.js'
+import { slugDefObject, slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { DefaultProductRefSchema } from '../default-products/schemas/default-product-ref.schema.js'
+import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 
 export const productsCollection = 'products'
 
 const ProductSchema = new mongoose.Schema(
 	{
-		shop: { type: ShopRefSchema, required: false },
+		shop: { type: ShopRefSchema, required: true },
 		defaultProduct: { type: DefaultProductRefSchema, required: true },
-		slug: {
-			type: String,
-			required: true,
-			trim: true,
-			lowercase: true
-		},
+		slug: slugDefObject,
 		name: {
 			type: String, //by default the name of defaultProduct[lang]
 			required: true
 		},
 		price: { type: PriceSchema, required: true },
-		//photos: { type: [FileRefSchema], required: true },
 		searchTerms: { type: [String], required: true, index: 'text' },
-		isActive: {
-			type: Boolean,
-			default: true
-		},
+		state: StateSchema,
 		availability: {
 			startDate: { type: Date, required: true, default: Date.now },
 			endDate: { type: Date, required: false, default: null }

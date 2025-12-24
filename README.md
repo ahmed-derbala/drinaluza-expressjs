@@ -1,5 +1,16 @@
 # drinaluza
 Backend of drinaluza. Small businesses management application
+
+# download android app
+
+[google drive](https://drive.google.com/drive/folders/1euN1ogdssvbiq4wJdxYQBYqMXWbwIpBm?usp=drive_link)
+
+
+# web app
+
+[netlify](https://drinaluza.netlify.app/)
+
+
 # features
 - javascript node.js 22 with express 5
 - everything is configurable in src/config

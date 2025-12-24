@@ -1,0 +1,67 @@
+import { globSync } from 'glob'
+import inquirer from 'inquirer'
+import { execSync } from 'child_process'
+
+async function startMenu() {
+	const files = globSync('src/components/**/*.script.js', {
+		ignore: 'node_modules/**',
+		posix: true
+	})
+
+	if (files.length === 0) {
+		console.error('❌ No scripts found.')
+		process.exit(1)
+	}
+
+	const choices = files.map((file) => ({
+		name: file.replace('src/components/', ''),
+		value: file
+	}))
+
+	let keepRunning = true
+
+	while (keepRunning) {
+		console.clear() // Keeps the UI clean
+		console.log(`
+    💡 NAVIGATION:
+    • Enter a NUMBER to select.
+    • Press ENTER to confirm.
+    • Press CTRL+C to quit.
+    `)
+
+		const { selectedFile } = await inquirer.prompt([
+			{
+				type: 'rawlist', // Best for number selection
+				name: 'selectedFile',
+				message: 'Select a script to run:',
+				choices: choices,
+				pageSize: 9
+			}
+		])
+
+		console.log(`\n🚀 Executing: node ${selectedFile}\n`)
+
+		try {
+			execSync(`node ${selectedFile}`, { stdio: 'inherit' })
+			console.log('\n✅ Script completed successfully.')
+		} catch (err) {
+			console.error('\n❌ Script failed.')
+		}
+
+		// Ask to continue or exit
+		const { confirm } = await inquirer.prompt([
+			{
+				type: 'confirm',
+				name: 'confirm',
+				message: 'Would you like to run another script?',
+				default: true
+			}
+		])
+
+		keepRunning = confirm
+	}
+
+	console.log('👋 Goodbye!')
+}
+
+startMenu()

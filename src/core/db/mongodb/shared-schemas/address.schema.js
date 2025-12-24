@@ -25,5 +25,5 @@ export const AddressSchema = new mongoose.Schema(
 			trim: true
 		}
 	},
-	{ _id: false } // avoids creating an extra _id for subdocument
+	{ _id: false }
 )
