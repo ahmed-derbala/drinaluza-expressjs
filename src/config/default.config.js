@@ -163,7 +163,7 @@ const defaultConfig = {
 	},
 	db,
 	log: {
-		kind: 'winston', //winston, simple
+		kind: 'simple', //winston, simple
 		reqDefaultLog: 'morgan_log',
 		isActive: true,
 		winston: {
