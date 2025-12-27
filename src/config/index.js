@@ -16,5 +16,4 @@ if (process.env.NODE_ENV) {
 } else {
 	config = (await import('./default.config.js')).default
 }
-
 export default { ...config }

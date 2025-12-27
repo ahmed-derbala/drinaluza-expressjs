@@ -1,113 +1,15 @@
-// This script connects to a local MongoDB database and seeds the 'shops' collection
-// with 10 documents representing seafood shops located in Tunisia.
-
 import mongoose from 'mongoose'
+import config from '../../../config/index.js'
+import { UserModel } from '../../users/users.schema.js'
+import { ShopModel } from '../shops.schema.js'
+import { stateEnum } from '../../../core/db/mongodb/shared-schemas/state.schema.js'
 
-// --- Database Configuration ---
-const dbName = 'drinaluza'
-const dbUri = `mongodb://127.0.0.1:27017/${dbName}`
-
-// --- Schema Definitions (from user's prompt) ---
-
-// Defining a simple OwnerSchema since it was not provided in the prompt.
-const OwnerSchema = new mongoose.Schema({
-	_id: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'users',
-		required: true
-	},
-	slug: { type: String, required: true },
-	name: { type: String, required: true }
-})
-
-const AddressSchema = new mongoose.Schema(
-	{
-		street: {
-			type: String,
-			trim: true
-		},
-		city: {
-			type: String,
-			required: true,
-			trim: true
-		},
-		state: {
-			type: String,
-			trim: true
-		},
-		postalCode: {
-			type: String,
-			trim: true
-		},
-		country: {
-			type: String,
-			required: true,
-			trim: true
-		}
-	},
-	{ _id: false }
-)
-
-const LocationSchema = new mongoose.Schema(
-	{
-		type: {
-			type: String,
-			enum: ['Point'],
-			required: true,
-			default: 'Point'
-		},
-		coordinates: {
-			type: [Number],
-			required: true,
-			validate: {
-				validator: function (value) {
-					return value.length === 2
-				},
-				message: 'Coordinates must be an array of [longitude, latitude].'
-			}
-		}
-	},
-	{ _id: false }
-)
-
-const shopsCollection = 'shops'
-const shopSchema = new mongoose.Schema(
-	{
-		owner: { type: OwnerSchema, required: true },
-		slug: {
-			type: String,
-			required: true,
-			trim: true,
-			lowercase: true
-		},
-		name: {
-			type: String,
-			required: true,
-			trim: true
-		},
-		address: {
-			type: AddressSchema
-		},
-		location: {
-			type: LocationSchema
-		},
-		operatingHours: {},
-		deliveryRadiusKm: Number,
-		isActive: { type: Boolean, default: true }
-	},
-	{ timestamps: true, collection: shopsCollection }
-)
-
-// Define the Mongoose models
-const Shop = mongoose.model('Shop', shopSchema)
-
-// --- Data Generation Function ---
 const generateRandomShop = (owner, index) => {
 	const shopNames = [
-		'The Seafood Shack',
-		"Neptune's Bounty",
-		"Ocean's Catch Fish Market",
-		'Coastal Crab & Lobster',
+		's1',
+		's2',
+		's3',
+		's4',
 		"Sailor's Seafood Grill",
 		'The Oyster Bar',
 		'Fresh Fish & Co.',
@@ -129,6 +31,7 @@ const generateRandomShop = (owner, index) => {
 
 	const randomName = shopNames[index % shopNames.length]
 	const randomCityIndex = Math.floor(Math.random() * cityNames.length)
+	const randomState = stateEnum.ALL[index % stateEnum.ALL.length]
 
 	return {
 		owner: {
@@ -137,7 +40,6 @@ const generateRandomShop = (owner, index) => {
 			name: owner.name
 		},
 		name: randomName,
-		slug: randomName.toLowerCase().replace(/\s+/g, '-').replace(/&amp;/g, 'and'),
 		address: {
 			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
 			city: cityNames[randomCityIndex],
@@ -155,18 +57,41 @@ const generateRandomShop = (owner, index) => {
 			sunday: 'Closed'
 		},
 		deliveryRadiusKm: Math.floor(Math.random() * 20) + 5, // 5-25 km
-		isActive: true
+		state: { code: randomState }
 	}
 }
+
+let manualShops = [
+	{
+		owner: {},
+		name: 'Drinaluza',
+		address: {
+			street: 'ellouza',
+			city: 'Sfax',
+			country: 'Tunisia'
+		},
+		location: {
+			type: 'Point',
+			coordinates: [10.18, 36.8]
+		},
+		operatingHours: {
+			monday: '9:00 AM - 8:00 PM',
+			sunday: 'Closed'
+		},
+		deliveryRadiusKm: 10,
+		state: { code: 'active' }
+	}
+]
 
 // --- Main Seed Function ---
 const seedDatabase = async () => {
 	try {
-		await mongoose.connect(dbUri)
+		await mongoose.connect(config.db.mongodb.uri)
 		console.log('Successfully connected to MongoDB.')
 
 		// Get existing owners from the users collection
-		const owners = await mongoose.connection.db.collection('users').find({ role: 'shop_owner' }).toArray()
+		const owners = await UserModel.find({ role: 'shop_owner' })
+		const userAhmed = owners.find((owner) => owner.slug === 'ahmed')
 
 		if (owners.length === 0) {
 			console.error('No owners found in the database. Please run the owners seed script first.')
@@ -176,7 +101,7 @@ const seedDatabase = async () => {
 		console.log(`Found ${owners.length} owners in the database.`)
 
 		// Clear existing data to prevent duplicates on re-run
-		await Shop.deleteMany({})
+		await ShopModel.deleteMany()
 		console.log('Existing shops collection cleared.')
 
 		// Generate shop documents - distribute shops among available owners
@@ -185,9 +110,10 @@ const seedDatabase = async () => {
 			const owner = owners[i % owners.length] // Cycle through owners
 			shopsToInsert.push(generateRandomShop(owner, i))
 		}
-
+		manualShops[0].owner = userAhmed
+		shopsToInsert.push(...manualShops)
 		// Insert the documents
-		const result = await Shop.insertMany(shopsToInsert)
+		const result = await ShopModel.insertMany(shopsToInsert)
 		console.log(`Successfully inserted ${result.length} documents into the 'shops' collection.`)
 	} catch (error) {
 		console.error('Error seeding the database:', error)

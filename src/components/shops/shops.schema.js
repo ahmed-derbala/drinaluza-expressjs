@@ -3,6 +3,7 @@ import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.sche
 import { LocationSchema } from '../../core/db/mongodb/shared-schemas/location.schema.js'
 import { OwnerSchema } from '../users/schemas/owner.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 
 export const shopsCollection = 'shops'
 
@@ -27,7 +28,7 @@ const shopSchema = new mongoose.Schema(
 			type: LocationSchema
 		},
 		deliveryRadiusKm: Number,
-		isActive: { type: Boolean, default: true }
+		state: StateSchema
 	},
 	{ timestamps: true, collection: shopsCollection }
 )

@@ -17,7 +17,7 @@
     "drinaluza"
   ],
   "scripts": {
-    "smenu": "node src/core/scripts/smenu.js",
+    "smenu": "NODE_ENV=local node src/core/scripts/smenu.js",
     "config:new-prod": "cp src/config/default.config.js src/config/production.config.js",
     "config:prod": "cp -n src/config/default.config.js src/config/production.config.js",
     "build": "npm run config:new-prod && npm run clean:prod",

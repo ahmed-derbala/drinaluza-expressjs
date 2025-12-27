@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findMyShopsSrvc, createShopSrvc, findMyShopSrvc, findOneShopSrvc } from './shops.service.js'
+import { findMyShopsSrvc, createShopSrvc, findMyShopSrvc, findOneShopSrvc, findShopsSrvc } from './shops.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
@@ -11,29 +11,39 @@ import { findOneBusinessSrvc, createBusinessSrvc, addShopToBusinessSrvc } from '
 import { stateEnum } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 const router = express.Router()
 
-router.route('/').post(authenticate({ role: 'shop_owner' }), validate(createShopVld), async (req, res) => {
-	try {
-		const { name, address, location } = req.body
-		const owner = req.user
+router
+	.route('/')
+	.post(authenticate({ role: 'shop_owner' }), validate(createShopVld), async (req, res) => {
+		try {
+			const { name, address, location } = req.body
+			const owner = req.user
 
-		//create new business if not exists
-		let myBusiness = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id }, state: { code: stateEnum.ACTIVE } }, select: '' })
-		if (!myBusiness) {
-			myBusiness = await createBusinessSrvc({ owner })
-			owner.business = myBusiness
-		}
-		const newShop = await createShopSrvc({ name, address, location, owner })
+			//create new business if not exists
+			let myBusiness = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id }, state: { code: stateEnum.ACTIVE } }, select: '' })
+			if (!myBusiness) {
+				myBusiness = await createBusinessSrvc({ owner })
+				owner.business = myBusiness
+			}
+			const newShop = await createShopSrvc({ name, address, location, owner })
 
-		if (newShop) {
-			addShopToUserSrvc({ shop: newShop, userId: req.user._id })
-			//add shop to business
-			addShopToBusinessSrvc({ businessId: myBusiness._id, shop: newShop })
+			if (newShop) {
+				addShopToUserSrvc({ shop: newShop, userId: req.user._id })
+				//add shop to business
+				addShopToBusinessSrvc({ businessId: myBusiness._id, shop: newShop })
+			}
+			return resp({ status: newShop.status || 200, data: newShop, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
 		}
-		return resp({ status: newShop.status || 200, data: newShop, req, res })
-	} catch (err) {
-		errorHandler({ err, req, res })
-	}
-})
+	})
+	.get(async (req, res) => {
+		try {
+			const shops = await findShopsSrvc({})
+			return resp({ status: 200, data: shops, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
 
 router.route('/my-shops').get(authenticate({ role: 'shop_owner' }), async (req, res) => {
 	try {
