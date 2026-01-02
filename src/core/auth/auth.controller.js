@@ -15,14 +15,14 @@ import bcrypt from 'bcrypt'
 const router = express.Router()
 
 router.post('/signup', validate(signupVld), async (req, res) => {
-	const { slug, password } = req.body
+	const { slug, password, role } = req.body
 	let { settings } = req.body
 	const existedUser = await findOneUserSrvc({ match: { slug }, select: '_id' })
 	if (existedUser) {
 		return resp({ status: 409, message: 'user already exist', data: null, req, res })
 	}
 	if (!settings) settings = defaults.settings
-	const user = await createUserSrvc({ slug, settings })
+	const user = await createUserSrvc({ slug, role, settings })
 	if (!user) return resp({ status: 400, data: null, message: 'no user was created', req, res })
 	await createAuthSrvc({ user, password })
 	const token = createNewSession({ user, req })

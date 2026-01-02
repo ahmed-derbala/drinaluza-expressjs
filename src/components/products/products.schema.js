@@ -4,6 +4,7 @@ import { PriceSchema } from './schemas/price.schema.js'
 import { slugDefObject, slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { DefaultProductRefSchema } from '../default-products/schemas/default-product-ref.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
+import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 
 export const productsCollection = 'products'
 
@@ -12,10 +13,7 @@ const ProductSchema = new mongoose.Schema(
 		shop: { type: ShopRefSchema, required: true },
 		defaultProduct: { type: DefaultProductRefSchema, required: true },
 		slug: slugDefObject,
-		name: {
-			type: String, //by default the name of defaultProduct[lang]
-			required: true
-		},
+		name: MultiLangNameSchema,
 		price: { type: PriceSchema, required: true },
 		searchTerms: { type: [String], required: true, index: 'text' },
 		state: StateSchema,
@@ -57,10 +55,7 @@ export const ProductRefSchema = new mongoose.Schema(
 			ref: productsCollection,
 			required: true
 		},
-		name: {
-			type: String, //by default the name of defaultProduct[lang]
-			required: true
-		},
+		name: MultiLangNameSchema,
 		price: { type: PriceSchema, required: true }
 	},
 	{ timestamps: { createdAt: false, updatedAt: true } }

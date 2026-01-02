@@ -41,9 +41,9 @@ export const findOneUserRepo = async ({ match, select }) => {
 	}
 }
 
-export const createUserRepo = async ({ email, slug, name, phone, password, profile, settings, role }) => {
+export const createUserRepo = async ({ email, slug, name, phone, profile, settings, role }) => {
 	try {
-		let singedupUser = await UserModel.create({ email, slug, name, phone, password, profile, settings, role })
+		let singedupUser = await UserModel.create({ email, slug, name, phone, profile, settings, role })
 		let updateData = {}
 		if (!slug) {
 			slug = singedupUser._id
@@ -56,9 +56,6 @@ export const createUserRepo = async ({ email, slug, name, phone, password, profi
 		if (Object.keys(updateData).length > 0) {
 			await UserModel.updateOne({ _id: singedupUser._id }, updateData)
 		}
-		singedupUser = singedupUser.toJSON()
-		delete singedupUser.password
-		//console.log(singedupUser)
 		return singedupUser
 	} catch (err) {
 		errorHandler({ err })

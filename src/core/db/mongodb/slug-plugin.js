@@ -3,9 +3,7 @@
 
 export const slugDefObject = {
 	type: String,
-	required: true,
-	trim: true,
-	lowercase: true
+	required: true
 }
 
 /**
@@ -35,9 +33,10 @@ export const slugPlugin = (schema, options = {}) => {
 		if (sub) {
 			baseSlug = this[sourceField][sub]
 		}
-		baseSlug
+		baseSlug = baseSlug
 			.toString()
 			.toLowerCase()
+			.trim()
 			.replace(/\s+/g, '-')
 			.replace(/[^\w-]+/g, '')
 			.replace(/--+/g, '-')

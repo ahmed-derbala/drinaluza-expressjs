@@ -3,6 +3,7 @@ import { errorHandler } from '../../core/error/index.js'
 import mongoose from 'mongoose'
 import { log } from '../../core/log/index.js'
 import { createUserRepo, findOneUserRepo, updateUserRepo, addShopToUserRepo, findMyProfileRepo, updateMyProfileRepo } from './users.repository.js'
+import { createBusinessSrvc } from '../businesses/businesses.service.js'
 
 export const updateMyProfileSrvc = async ({ userId, newData }) => {
 	try {
@@ -21,6 +22,7 @@ export const findMyProfileSrvc = async ({ userId }) => {
 		errorHandler({ err })
 	}
 }
+
 export const findOneUserSrvc = async ({ match, select }) => {
 	try {
 		//log({ level: 'debug', data: { match, select } })
@@ -59,9 +61,12 @@ export const updateUserSrvc = async ({ match, newData }) => {
 	}
 }
 
-export const createUserSrvc = async (userData) => {
-	const signedupUser = await createUserRepo(userData)
+export const createUserSrvc = async ({ email, slug, name, phone, profile, settings, role }) => {
+	const signedupUser = await createUserRepo({ email, slug, name, phone, profile, settings, role })
 	if (!signedupUser) return null
+	if (signedupUser.role === 'shop_owner') {
+		await createBusinessSrvc({ owner: signedupUser })
+	}
 	return signedupUser
 }
 

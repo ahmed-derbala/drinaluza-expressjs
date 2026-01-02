@@ -33,6 +33,7 @@
     "start:prod-pm2-monit": "npm run start:prod-pm2 && pm2 monit",
     "start:local": "NODE_ENV=local node --watch-path=./src src/main.js",
     "dev": "npm run start:local",
+    "dev:prod": "NODE_ENV=production node --watch-path=./src src/main.js",
     "debug": "NODE_ENV=local NODE_DEBUG=module node --trace-warnings --stack-trace-limit=100 --watch-path=./src src/main.js",
     "start:local-pm2": "pm2 start src/config/pm2.config.js --env local && pm2 monit",
     "start:dev": "NODE_ENV=development node --watch-path=./src --max-old-space-size=8192 src/main.js",

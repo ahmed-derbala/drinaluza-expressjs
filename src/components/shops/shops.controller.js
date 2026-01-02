@@ -15,6 +15,7 @@ router
 	.route('/')
 	.post(authenticate({ role: 'shop_owner' }), validate(createShopVld), async (req, res) => {
 		try {
+			console.log(req.body)
 			const { name, address, location } = req.body
 			const owner = req.user
 

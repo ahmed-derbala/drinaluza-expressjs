@@ -110,8 +110,8 @@ const seedDatabase = async () => {
 			const owner = owners[i % owners.length] // Cycle through owners
 			shopsToInsert.push(generateRandomShop(owner, i))
 		}
-		manualShops[0].owner = userAhmed
-		shopsToInsert.push(...manualShops)
+		//manualShops[0].owner = userAhmed
+		//shopsToInsert.push(...manualShops)
 		// Insert the documents
 		const result = await ShopModel.insertMany(shopsToInsert)
 		console.log(`Successfully inserted ${result.length} documents into the 'shops' collection.`)

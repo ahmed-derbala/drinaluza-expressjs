@@ -3,12 +3,12 @@ import * as phoneSchema from '../../core/db/mongodb/shared-schemas/phone.schema.
 import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
-import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { slugDefObject, slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { userRolesEnum } from './users.enum.js'
 import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
-
+import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 export const PhotoSchema = new mongoose.Schema(
 	{
 		url: { type: String, required: false }
@@ -47,12 +47,7 @@ const UserSchema = new mongoose.Schema(
 				required: false
 			}
 		],
-		slug: {
-			type: String,
-			required: true,
-			trim: true,
-			lowercase: true
-		},
+		slug: slugDefObject,
 		name: {
 			type: String,
 			required: true,
@@ -79,10 +74,6 @@ const UserSchema = new mongoose.Schema(
 			type: UserBasicInfosSchema,
 			select: false
 		},
-		isActive: {
-			type: Boolean,
-			default: true
-		},
 		address: {
 			type: AddressSchema,
 			select: false
@@ -90,7 +81,8 @@ const UserSchema = new mongoose.Schema(
 		settings: {
 			type: UserSettingsSchema,
 			select: false
-		}
+		},
+		state: StateSchema
 	},
 	{ timestamps: true }
 )

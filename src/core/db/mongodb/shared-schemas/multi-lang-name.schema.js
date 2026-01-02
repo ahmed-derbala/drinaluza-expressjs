@@ -4,18 +4,21 @@ export const MultiLangNameSchema = new mongoose.Schema(
 	{
 		en: {
 			type: String,
+			trim: true,
 			required: true
 		},
-		tn_en: {
+		tn_latn: {
 			//tunisian with latin alphabet
 			type: String,
-			required: true
+			trim: true,
+			required: false
 		},
-		tn_ar: {
+		tn_arab: {
 			//tunisian with arabic alphabet
 			type: String,
+			trim: true,
 			required: false
 		}
 	},
-	{ _id: false, timestamps: false }
+	{ _id: false, timestamps: false, required: true }
 )

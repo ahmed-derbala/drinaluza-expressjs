@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { businessesCollection } from '../businesses.schema.js'
+import { businessesCollection } from '../businesses.constant.js'
 import { StateSchema } from '../../../core/db/mongodb/shared-schemas/state.schema.js'
 //import { BusinessOwnerSchema } from '../../users/schemas/business-owner.schema.js'
 
