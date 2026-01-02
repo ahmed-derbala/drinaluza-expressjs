@@ -1,8 +1,11 @@
 import express from 'express'
 import config from '../../config/index.js'
+import { resp } from '../../core/helpers/resp.js'
 const router = express.Router()
+
 router.get('/', function (req, res, next) {
 	const { NODE_ENV, app } = config
-	return res.status(200).json({ NODE_ENV, app })
+	return resp({ status: 200, label: 'success', message: 'success', data: { NODE_ENV, app }, req, res })
 })
+
 export default router

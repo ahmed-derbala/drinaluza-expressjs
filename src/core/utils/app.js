@@ -26,7 +26,7 @@ app.use('/public', express.static(`${process.cwd()}/public`))
 app.use(cors(config.app.corsOptions))
 app.use('/', rateLimit(config.app.apiLimiter))
 app.use(compression())
-if (config.app.helmet.isActive) app.use(helmet(config.app.helmet.options))
+if (config.security.helmet.isActive) app.use(helmet(config.security.helmet.options))
 app.use(tidHandler)
 app.use(useragent())
 app.use(express.json())
@@ -42,7 +42,7 @@ app.use(
 		expressFormat: true
 	})
 )
-app.use(config.app.swagger.endpoint, swaggerUi.serve, swaggerUi.setup(swaggerSpec.mainDef))
+app.use(config.docs.swagger.endpoint, swaggerUi.serve, swaggerUi.setup(swaggerSpec.mainDef))
 if (config.app.views) {
 	app.use(expressLayouts)
 	app.set('layout', './index/views/layout', { author: 'app' })

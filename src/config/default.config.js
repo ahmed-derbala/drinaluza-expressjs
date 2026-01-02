@@ -17,15 +17,10 @@ let app = {
 	name: packagejson.name,
 	version: packagejson.version,
 	description: packagejson.description,
-	author: packagejson.author,
-	swagger: {
-		endpoint: '/swagger',
-		get url() {
-			return `${backend.url}${this.endpoint}`
-		}
-	},
-	cluster: 0, //os.cpus().length,//a number, 0 to disable
-	responseTimeAlert: 20000, //time in ms before considering a request timeout
+	author: packagejson.author
+}
+
+const security = {
 	apiLimiter: {
 		windowMs: 15 * 60 * 1000, // 15 minutes
 		max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -38,13 +33,26 @@ let app = {
 		credentials: true
 	},
 	helmet: {
-		isActive: false,
+		isActive: true,
 		options: {
 			crossOriginResourcePolicy: false
 		}
-	},
-	views: false
+	}
 }
+const docs = {
+	swagger: {
+		endpoint: '/swagger',
+		get url() {
+			return `${backend.url}${this.endpoint}`
+		}
+	}
+}
+const views = false
+const performance = {
+	cluster: 0, //os.cpus().length,//a number, 0 to disable
+	responseTimeAlert: 20000 //time in ms before considering a request timeout
+}
+
 /**
  * db
  */
@@ -247,7 +255,11 @@ const defaultConfig = {
 			}
 			//allowEIO3: true
 		}
-	}
+	},
+	security,
+	docs,
+	views,
+	performance
 }
 export default {
 	...defaultConfig
