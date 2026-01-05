@@ -1,8 +1,14 @@
 import mongoose from 'mongoose'
 import config from '../../../config/index.js'
-import { UserModel } from '../../users/users.schema.js'
-import { ShopModel } from '../shops.schema.js'
 import { stateEnum } from '../../../core/db/mongodb/shared-schemas/state.schema.js'
+import { findUsersSrvc } from '../../users/users.service.js'
+import { log } from '../../../core/log/index.js'
+import { createShopSrvc } from '../shops.service.js'
+
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+const __filename = fileURLToPath(import.meta.url)
+const scriptFilename = path.basename(__filename)
 
 const generateRandomShop = (owner, index) => {
 	const shopNames = [
@@ -39,7 +45,7 @@ const generateRandomShop = (owner, index) => {
 			_id: owner._id,
 			name: owner.name
 		},
-		name: randomName,
+		name: { en: randomName },
 		address: {
 			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
 			city: cityNames[randomCityIndex],
@@ -63,8 +69,8 @@ const generateRandomShop = (owner, index) => {
 
 let manualShops = [
 	{
-		owner: {},
-		name: 'Drinaluza',
+		owner: { slug: 'so1' },
+		name: { en: 'Drinaluza' },
 		address: {
 			street: 'ellouza',
 			city: 'Sfax',
@@ -83,50 +89,39 @@ let manualShops = [
 	}
 ]
 
-// --- Main Seed Function ---
-const seedDatabase = async () => {
+const processScript = async () => {
+	log({ message: `running ${scriptFilename}`, level: 'info' })
+	const shopOwners = await findUsersSrvc({ match: { role: 'shop_owner' }, select: 'slug _id name' })
+	if (shopOwners.docs.length === 0) {
+		console.error('No owners found in the database. Please run the users seed script first.')
+		return
+	}
+	log({ message: `Found ${shopOwners.docs.length} shop owners`, level: 'info' })
+
+	// Generate shop documents - distribute shops among available owners
+	const shopsToInsert = []
+	for (let i = 0; i < 10; i++) {
+		const owner = shopOwners.docs[i % shopOwners.docs.length] // Cycle through owners
+		shopsToInsert.push(generateRandomShop(owner, i))
+	}
+	// Insert the documents
+	for (const shop of shopsToInsert) {
+		await createShopSrvc(shop)
+	}
+	log({ message: `Inserted ${shopsToInsert.length} shops`, level: 'info' })
+}
+
+async function run() {
 	try {
-		await mongoose.connect(config.db.mongodb.uri)
-		console.log('Successfully connected to MongoDB.')
-
-		// Get existing owners from the users collection
-		const owners = await UserModel.find({ role: 'shop_owner' })
-		const userAhmed = owners.find((owner) => owner.slug === 'ahmed')
-
-		if (owners.length === 0) {
-			console.error('No owners found in the database. Please run the owners seed script first.')
-			return
-		}
-
-		console.log(`Found ${owners.length} owners in the database.`)
-
-		// Clear existing data to prevent duplicates on re-run
-		await ShopModel.deleteMany()
-		console.log('Existing shops collection cleared.')
-
-		// Generate shop documents - distribute shops among available owners
-		const shopsToInsert = []
-		for (let i = 0; i < 10; i++) {
-			const owner = owners[i % owners.length] // Cycle through owners
-			shopsToInsert.push(generateRandomShop(owner, i))
-		}
-		//manualShops[0].owner = userAhmed
-		//shopsToInsert.push(...manualShops)
-		// Insert the documents
-		const result = await ShopModel.insertMany(shopsToInsert)
-		console.log(`Successfully inserted ${result.length} documents into the 'shops' collection.`)
+		if (config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
+		await mongoose.connect(config.db.mongodb.uri, {})
+		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
+		await processScript()
 	} catch (error) {
-		console.error('Error seeding the database:', error)
+		console.error('script error:', error)
 	} finally {
-		// Disconnect from the database
-		await mongoose.disconnect()
-		console.log('Disconnected from MongoDB.')
+		await mongoose.connection.close()
+		console.log('MongoDB connection closed')
 	}
 }
-
-// Execute the seeding process only if not in a production environment
-if (process.env.NODE_ENV !== 'production') {
-	seedDatabase()
-} else {
-	console.log("Script is not running because NODE_ENV is set to 'production'.")
-}
+run()

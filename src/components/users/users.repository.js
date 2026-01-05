@@ -41,6 +41,18 @@ export const findOneUserRepo = async ({ match, select }) => {
 	}
 }
 
+export const findUsersRepo = async ({ match, select, page, limit, count }) => {
+	try {
+		if (count) {
+			const usersCount = await UserModel.countDocuments(match)
+			return usersCount
+		}
+		return await paginateMongodb({ model: UserModel, match, select, page, limit })
+	} catch (err) {
+		return errorHandler({ err })
+	}
+}
+
 export const createUserRepo = async ({ email, slug, name, phone, profile, settings, role }) => {
 	try {
 		let singedupUser = await UserModel.create({ email, slug, name, phone, profile, settings, role })

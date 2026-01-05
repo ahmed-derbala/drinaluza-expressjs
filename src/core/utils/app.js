@@ -24,7 +24,7 @@ let app = express()
 // i got 404 error when i try to access /public
 app.use('/public', express.static(`${process.cwd()}/public`))
 app.use(cors(config.app.corsOptions))
-app.use('/', rateLimit(config.app.apiLimiter))
+app.use('/', rateLimit(config.security.apiLimiter))
 app.use(compression())
 if (config.security.helmet.isActive) app.use(helmet(config.security.helmet.options))
 app.use(tidHandler)

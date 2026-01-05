@@ -4,6 +4,11 @@ import mongoose from 'mongoose'
 import config from '../../../config/index.js'
 import { createAuthSrvc } from '../../../core/auth/auth.service.js'
 
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+const __filename = fileURLToPath(import.meta.url)
+const scriptFilename = path.basename(__filename)
+
 // Sample owner data
 const users = [
 	{
@@ -72,57 +77,31 @@ const users = [
 	}
 ]
 
-/**
- * Seed owner users into the database
- */
-const processSeed = async () => {
-	try {
-		log({ message: 'Starting owners seed script...', level: 'info' })
-
-		// Check if owners already exist
-		/*	const existingOwners = await UserModel.find({ role: 'shop_owner' }).lean()
-	
-			if (existingOwners.length > 0) {
-				log({ message: 'Owners already exist in the database. Skipping seed.', level: 'warn' })
-				return { success: true, message: 'Owners already exist' }
-			}*/
-
-		// Create each owner
-		for (const ownerData of users) {
-			const signedupUser = await createUserSrvc(ownerData)
-			await createAuthSrvc({ user: signedupUser, password: ownerData.password })
-			log({ message: `Created owner: ${ownerData.slug}`, level: 'info' })
-		}
-
-		log({ message: 'Owners seed completed successfully', level: 'success' })
-		return { success: true, message: 'Owners seeded successfully' }
-	} catch (error) {
-		log({
-			message: 'Error in owners seed script',
-			error: error.message,
-			stack: error.stack,
-			level: 'error'
-		})
-		return { success: false, error: error.message }
+const processScript = async () => {
+	log({ message: `running ${scriptFilename}`, level: 'info' })
+	log({ message: 'Starting users seed script...', level: 'info' })
+	// Create each owner
+	for (const userData of users) {
+		const signedupUser = await createUserSrvc(userData)
+		await createAuthSrvc({ user: signedupUser, password: userData.password })
+		log({ message: `Created user: ${userData.slug}`, level: 'info' })
 	}
+
+	log({ message: 'Owners seed completed successfully', level: 'success' })
+	return { success: true, message: 'Owners seeded successfully' }
 }
 
-// Function to seed the database
-async function seedDatabase() {
+async function run() {
 	try {
-		if (config.NODE_ENV === 'production') throw new Error('Seed script is not allowed to run in production environment')
-
-		// Connect to MongoDB
+		if (config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
 		await mongoose.connect(config.db.mongodb.uri, {})
 		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
-		await processSeed()
+		await processScript()
 	} catch (error) {
-		console.error('Error seeding database:', error)
+		console.error('script error:', error)
 	} finally {
-		// Close the MongoDB connection
 		await mongoose.connection.close()
 		console.log('MongoDB connection closed')
 	}
 }
-// Run the seed function
-seedDatabase()
+run()

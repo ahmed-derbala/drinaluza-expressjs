@@ -2,7 +2,7 @@ import { UserModel } from './users.schema.js'
 import { errorHandler } from '../../core/error/index.js'
 import mongoose from 'mongoose'
 import { log } from '../../core/log/index.js'
-import { createUserRepo, findOneUserRepo, updateUserRepo, addShopToUserRepo, findMyProfileRepo, updateMyProfileRepo } from './users.repository.js'
+import { createUserRepo, findOneUserRepo, updateUserRepo, addShopToUserRepo, findMyProfileRepo, updateMyProfileRepo, findUsersRepo } from './users.repository.js'
 import { createBusinessSrvc } from '../businesses/businesses.service.js'
 
 export const updateMyProfileSrvc = async ({ userId, newData }) => {
@@ -33,16 +33,14 @@ export const findOneUserSrvc = async ({ match, select }) => {
 	}
 }
 
-export const getUsers = async (params) => {
-	return paginate({ model: UserModel })
-		.then((users) => {
-			return users
-		})
-		.catch((err) => errorHandler({ err }))
+export const findUsersSrvc = async ({ match, select, page, limit, count }) => {
+	//log({ level: 'debug', data: { match, select } })
+	return await findUsersRepo({ match, select, page, limit, count })
 }
 
 export const findOneProfileSrvc = async ({ slug }) => {
 	try {
+		findUsersRepo
 		if (!loginId) loginId = userId
 		let $or = [{ email: loginId }, { slug: loginId }, { 'phone.shortNumber': loginId }]
 		if (mongoose.isValidObjectId(loginId)) $or.push({ _id: loginId })

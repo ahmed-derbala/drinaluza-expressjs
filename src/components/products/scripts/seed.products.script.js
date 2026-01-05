@@ -106,25 +106,31 @@ export const seedProducts = async () => {
 	}
 }
 
-if (process.argv[1] === import.meta.filename) {
-	;(async () => {
-		try {
-			if (config.NODE_ENV == 'production') {
-				console.log('Skipping seed in production environment')
-				process.exit(0)
-			}
-			await connectMongodb()
-			await seedProducts()
-			process.exit(0)
-		} catch (error) {
-			log({
-				message: 'Failed to run products seed script',
-				error: error.message,
-				level: 'error'
-			})
-			process.exit(1)
-		} finally {
-			await mongoose.connection.close() // Close connection
-		}
-	})()
+const processScript = async () => {
+	log({ message: `running ${scriptFilename}`, level: 'info' })
+	log({ message: 'Starting users seed script...', level: 'info' })
+	// Create each owner
+	for (const userData of users) {
+		const signedupUser = await createUserSrvc(userData)
+		await createAuthSrvc({ user: signedupUser, password: userData.password })
+		log({ message: `Created user: ${userData.slug}`, level: 'info' })
+	}
+
+	log({ message: 'Owners seed completed successfully', level: 'success' })
+	return { success: true, message: 'Owners seeded successfully' }
 }
+
+async function run() {
+	try {
+		if (config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
+		await mongoose.connect(config.db.mongodb.uri, {})
+		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
+		await processScript()
+	} catch (error) {
+		console.error('script error:', error)
+	} finally {
+		await mongoose.connection.close()
+		console.log('MongoDB connection closed')
+	}
+}
+run()
