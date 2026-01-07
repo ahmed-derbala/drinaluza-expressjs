@@ -13,7 +13,7 @@ export const findOneDefaultProductRepo = async ({ match, select }) => {
 		errorHandler({ err })
 	}
 }
-export const findManyDefaultProductsRepo = async ({ page, limit }) => {
+export const findDefaultProductsRepo = async ({ page, limit }) => {
 	try {
 		//const flattenedMatch = flattenObject({ obj: match })
 		//const fetchedManyDefaultProducts = paginateMongodb({ model: DefaultProductModel, match: { ...flattenedMatch }, select, page, limit })

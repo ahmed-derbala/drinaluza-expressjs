@@ -28,7 +28,7 @@ export const findShopsRepo = async ({ match, select, page, limit, count }) => {
 		const shopsCount = await ShopModel.countDocuments(match)
 		return shopsCount
 	}
-	//log({ level: 'debug', message: 'findMyShopsRepo flattenedMatch', data: flattenedMatch })
+	log({ level: 'debug', message: 'findShopsRepo: ', data: flattenedMatch })
 	return await paginateMongodb({ model: ShopModel, match, select, page, limit })
 }
 

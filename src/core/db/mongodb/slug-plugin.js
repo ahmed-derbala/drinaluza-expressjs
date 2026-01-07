@@ -19,14 +19,19 @@ export const slugPlugin = (schema, options = {}) => {
 	const targetField = options.target || 'slug'
 	const ownerField = options.ownerField
 	const sub = options.sub
-
+	//let unique = options.unique || true//force unique slug only
+	//console.log('slugPlugin', options)
 	// The key change: Using 'pre("validate")' to run before validation.
 	schema.pre('validate', async function (next) {
-		/*if (!this.isModified(sourceField) && this[targetField]) {
+		/*console.log(this)
+		console.log(this[sourceField])
+		console.log(this[targetField])
+*/
+		if (!this.isModified(sourceField) && this[targetField]) {
 			// If the source field hasn't changed and a slug already exists,
 			// we don't need to do anything.
 			return next()
-		}*/
+		}
 
 		// Step 1: Generate the base slug from the source field.
 		let baseSlug = this[sourceField]
@@ -46,7 +51,6 @@ export const slugPlugin = (schema, options = {}) => {
 		// Step 2: Check for uniqueness and append a counter if a duplicate exists.
 		let count = 0
 		let uniqueSlug = baseSlug
-
 		while (true) {
 			const query = {
 				[targetField]: uniqueSlug,
@@ -58,16 +62,15 @@ export const slugPlugin = (schema, options = {}) => {
 			}
 
 			const existingDoc = await this.constructor.findOne(query)
-
 			if (!existingDoc) {
 				this[targetField] = uniqueSlug
 				break
 			}
-
+			//if (unique === false) {
 			count++
 			uniqueSlug = `${baseSlug}-${count}`
+			//} else { break }
 		}
-
 		next()
 	})
 }

@@ -60,12 +60,13 @@ export const updateUserSrvc = async ({ match, newData }) => {
 }
 
 export const createUserSrvc = async ({ email, slug, name, phone, profile, settings, role }) => {
-	const signedupUser = await createUserRepo({ email, slug, name, phone, profile, settings, role })
-	if (!signedupUser) return null
-	if (signedupUser.role === 'shop_owner') {
-		await createBusinessSrvc({ owner: signedupUser })
+	const user = await createUserRepo({ email, slug, name, phone, profile, settings, role })
+	if (!user) return null
+	if (user.role === 'shop_owner') {
+		const business = await createBusinessSrvc({ owner: user })
+		await addBusinessToUserSrvc({ business, user })
 	}
-	return signedupUser
+	return user
 }
 
 export const addShopToUserSrvc = async ({ shop, userId }) => {
@@ -75,4 +76,8 @@ export const addShopToUserSrvc = async ({ shop, userId }) => {
 	} catch (err) {
 		errorHandler({ err })
 	}
+}
+
+export const addBusinessToUserSrvc = async ({ business, user }) => {
+	return await updateUserRepo({ match: { _id: user._id }, newData: { business } })
 }

@@ -68,7 +68,6 @@ router.route('/my-shops/:shopId/').get(authenticate(), async (req, res) => {
 		match._id = shopId
 		//match.shop.owner = { _id: req.user._id }
 		const myShopProducts = await findOneShopSrvc({ match })
-		console.log(myShopProducts)
 		return resp({ status: 200, data: myShopProducts, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
@@ -86,7 +85,6 @@ router.route('/my-shops/:shopId/products').get(authenticate(), async (req, res) 
 		match.shop._id = shopId
 		match.shop.owner = { _id: req.user._id }
 		const myShopProducts = await findManyProductsSrvc({ match, select, page, limit })
-		console.log(myShopProducts)
 		return resp({ status: 200, data: myShopProducts, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
@@ -108,4 +106,15 @@ router.route('/my-shops/:shopId/products/create').post(authenticate(), async (re
 	}
 })
 
+router.route('/:shopSlug').get(async (req, res) => {
+	try {
+		const shopSlug = req.params.shopSlug
+		let match = {}
+		match.slug = shopSlug
+		const shop = await findOneShopSrvc({ match })
+		return resp({ status: 200, data: shop, req, res })
+	} catch (err) {
+		errorHandler({ err, req, res })
+	}
+})
 export default router

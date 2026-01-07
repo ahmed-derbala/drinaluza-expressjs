@@ -60,8 +60,8 @@ export const ProductRefSchema = new mongoose.Schema(
 	},
 	{ timestamps: { createdAt: false, updatedAt: true } }
 )
-ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
-ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
+ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en' })
+//ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 ProductSchema.index({ searchTerms: 1 })
 
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)

@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
 import config from '../../../config/index.js'
 import { stateEnum } from '../../../core/db/mongodb/shared-schemas/state.schema.js'
-import { findUsersSrvc } from '../../users/users.service.js'
+import { findUsersSrvc, addShopToUserSrvc } from '../../users/users.service.js'
 import { log } from '../../../core/log/index.js'
 import { createShopSrvc } from '../shops.service.js'
+import { addShopToBusinessSrvc } from '../../businesses/businesses.service.js'
 
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -106,7 +107,12 @@ const processScript = async () => {
 	}
 	// Insert the documents
 	for (const shop of shopsToInsert) {
-		await createShopSrvc(shop)
+		const newShop = await createShopSrvc(shop)
+		if (newShop) {
+			addShopToUserSrvc({ shop: newShop, userId: shop.owner._id })
+			//add shop to business
+			addShopToBusinessSrvc({ businessId: shop.owner.business._id, shop: newShop })
+		}
 	}
 	log({ message: `Inserted ${shopsToInsert.length} shops`, level: 'info' })
 }

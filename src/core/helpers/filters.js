@@ -80,3 +80,5 @@ export const flattenObject = (obj) => {
 
 	return result
 }
+
+export const pickRandom = (array) => array[Math.floor(Math.random() * array.length)]

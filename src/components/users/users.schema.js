@@ -9,6 +9,7 @@ import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
+import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 export const PhotoSchema = new mongoose.Schema(
 	{
 		url: { type: String, required: false }
@@ -48,13 +49,14 @@ const UserSchema = new mongoose.Schema(
 			}
 		],
 		slug: slugDefObject,
-		name: {
+		name: MultiLangNameSchema,
+		/*name: {
 			type: String,
 			required: true,
 			default: function () {
 				return this.slug
 			}
-		},
+		},*/
 		email: {
 			type: String,
 			required: false
@@ -113,6 +115,6 @@ UserSchema.post('findOneAndUpdate', async function (doc, next) {
 	}
 	next()
 })
-UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug' })
-UserSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
+UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en' })
+//UserSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 export const UserModel = mongoose.model(usersCollection, UserSchema)

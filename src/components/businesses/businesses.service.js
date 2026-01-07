@@ -11,12 +11,7 @@ export const findOneBusinessSrvc = async ({ match }) => {
 }
 
 export const createBusinessSrvc = async ({ owner }) => {
-	try {
-		const newBusiness = await createBusinessRepo({ owner })
-		return newBusiness
-	} catch (err) {
-		errorHandler({ err })
-	}
+	return await createBusinessRepo({ owner })
 }
 
 export const addShopToBusinessSrvc = async ({ shop, businessId }) => {

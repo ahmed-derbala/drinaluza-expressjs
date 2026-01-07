@@ -24,10 +24,10 @@ export const PriceSchema = new mongoose.Schema(
 			}
 		},
 		unit: {
-			name: {
+			measure: {
 				type: String,
 				required: true,
-				enum: priceUnitEnum.all,
+				enum: priceUnitEnum.values,
 				default: priceUnitEnum.KG
 			},
 			min: {

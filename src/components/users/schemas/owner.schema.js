@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import { usersCollection } from '../users.constant.js'
 import { BusinessRefSchema } from '../../businesses/schemas/business-ref.schema.js'
+import { MultiLangNameSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 
 export const OwnerSchema = new mongoose.Schema(
 	{
@@ -9,9 +10,9 @@ export const OwnerSchema = new mongoose.Schema(
 			ref: usersCollection,
 			required: true
 		},
-		business: { type: BusinessRefSchema, required: false },
+		business: { type: BusinessRefSchema, required: true },
 		slug: { type: String, required: true },
-		name: { type: String, required: true }
+		name: MultiLangNameSchema
 	},
 	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }
 )

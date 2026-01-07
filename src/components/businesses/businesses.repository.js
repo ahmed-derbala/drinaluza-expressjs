@@ -31,13 +31,8 @@ export const findManyBusinessesRepo = async ({ match, select, page, limit, count
 }
 
 export const createBusinessRepo = async ({ owner }) => {
-	try {
-		const name = owner.name + ' New Business'
-		const newBusiness = await BusinessModel.create({ owner, name, state: { code: 'pending' } })
-		return newBusiness
-	} catch (err) {
-		throw errorHandler({ err })
-	}
+	const name = { en: owner.name.en + ' New Business' }
+	return await BusinessModel.create({ owner, name, state: { code: 'pending' } })
 }
 
 export const addShopToBusinessRepo = async ({ match, select, page, limit, count }) => {

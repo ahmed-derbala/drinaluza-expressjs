@@ -14,72 +14,55 @@ const users = [
 	{
 		slug: 'so1',
 		password: '123',
+		role: 'shop_owner',
 		profile: {
 			firstName: 'John',
 			lastName: 'Doe',
 			phone: '+1234567890',
 			address: '123 Main St, City, Country'
 		},
-		role: 'shop_owner',
-		settings: {
-			lang: 'en',
-			currency: 'tnd'
-		},
-		name: 'J o*h    n D-_/o  e' // For backward compatibility with slug plugin
+		name: { en: 'so1' }
 	},
 	{
 		slug: 'so2',
 		password: '123',
-		profile: {
-			firstName: 'Jane',
-			lastName: 'Smith',
-			phone: '+1987654321',
-			address: '456 Oak Ave, Town, Country'
-		},
 		role: 'shop_owner',
-		settings: {
-			lang: 'en',
-			currency: 'tnd'
+		profile: {
+			firstName: 'John',
+			lastName: 'Doe',
+			phone: '+1234567890',
+			address: '123 Main St, City, Country'
 		},
-		name: 'Jane Smith' // For backward compatibility with slug plugin
+		name: { en: 'so2' }
 	},
 	{
-		password: '123',
 		slug: 'c1',
-		profile: {
-			firstName: 'Michael',
-			lastName: 'Johnson',
-			phone: '+1555123456',
-			address: '789 Pine Rd, Village, Country'
-		},
+		password: '123',
 		role: 'customer',
-		settings: {
-			lang: 'en',
-			currency: 'tnd'
+		profile: {
+			firstName: 'c1',
+			lastName: 'Doe',
+			phone: '+1234567890',
+			address: '123 Main St, City, Country'
 		},
-		name: 'Michael Johnson' // For backward compatibility with slug plugin
+		name: { en: 'c1' }
 	},
 	{
+		slug: 'c2',
 		password: '123',
-		slug: 'ahmed',
-		profile: {
-			firstName: 'Michael',
-			lastName: 'Johnson',
-			phone: '+1555123456',
-			address: '789 Pine Rd, Village, Country'
-		},
 		role: 'customer',
-		settings: {
-			lang: 'en',
-			currency: 'tnd'
+		profile: {
+			firstName: 'c2',
+			lastName: 'Doe',
+			phone: '+1234567890',
+			address: '123 Main St, City, Country'
 		},
-		name: 'ahmed' // For backward compatibility with slug plugin
+		name: { en: 'c2' }
 	}
 ]
 
 const processScript = async () => {
 	log({ message: `running ${scriptFilename}`, level: 'info' })
-	log({ message: 'Starting users seed script...', level: 'info' })
 	// Create each owner
 	for (const userData of users) {
 		const signedupUser = await createUserSrvc(userData)
@@ -88,7 +71,7 @@ const processScript = async () => {
 	}
 
 	log({ message: 'Owners seed completed successfully', level: 'success' })
-	return { success: true, message: 'Owners seeded successfully' }
+	return true
 }
 
 async function run() {

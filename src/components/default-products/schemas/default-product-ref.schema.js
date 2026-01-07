@@ -14,7 +14,7 @@ export const DefaultProductRefSchema = new mongoose.Schema(
 		name: { type: MultiLangNameSchema, required: true },
 		images: {
 			thumbnail: {
-				url: { type: String, required: true }
+				url: { type: String, required: false }
 			}
 		}
 	},

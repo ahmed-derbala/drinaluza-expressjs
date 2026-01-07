@@ -58,7 +58,7 @@ let user = null
 let password = null
 let host = process.env.DATABASE_HOST || '127.0.0.1'
 let port = parseInt(process.env.DATABASE_PORT, 10) || 27017
-const name = packagejson.name
+const dbName = 'drinaluza'
 const maxPoolSize = 200 //number > 0 otherwise ignored, default 200, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
 const minPoolSize = 5 //number > 0 otherwise ignored, default 5, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
 if (process.env.MONGO_URI && process.env.NODE_ENV !== 'production') {
@@ -73,8 +73,8 @@ if (uri) {
 	host = null
 	port = null
 } else {
-	if (!user && !password) uri = `mongodb://${host}:${port}/${name}`
-	else uri = `mongodb://${user}:${password}@${host}:${port}/${name}`
+	if (!user && !password) uri = `mongodb://${host}:${port}/${dbName}`
+	else uri = `mongodb://${user}:${password}@${host}:${port}/${dbName}`
 }
 let db = {
 	primary: 'mongodb',
@@ -82,9 +82,9 @@ let db = {
 		isActive: true,
 		host,
 		port,
-		name,
+		name: dbName,
 		uri,
-		connectionName: name,
+		connectionName: dbName,
 		options: {
 			maxPoolSize,
 			minPoolSize
@@ -257,7 +257,11 @@ const defaultConfig = {
 	security,
 	docs,
 	views,
-	performance
+	performance,
+	lang: {
+		default: 'en',
+		supported: ['en', 'tn_latn', 'tn_arab']
+	}
 }
 export default {
 	...defaultConfig

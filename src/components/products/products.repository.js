@@ -19,19 +19,14 @@ export const findOneProductRepo = async ({ match, select }) => {
 }
 
 export const findManyProductsRepo = async ({ match, select, page, limit }) => {
-	try {
-		const flattenedMatch = flattenObject(match)
-		log({ level: 'debug', message: 'findManyProductsRepo', data: flattenedMatch })
-		const fetchedManyProduct = paginateMongodb({ model: ProductModel, match: { ...flattenedMatch }, select, page, limit })
-		return fetchedManyProduct
-	} catch (err) {
-		errorHandler({ err })
-	}
+	const flattenedMatch = flattenObject(match)
+	log({ level: 'debug', message: 'findManyProductsRepo', data: flattenedMatch })
+	return paginateMongodb({ model: ProductModel, match: { ...flattenedMatch }, select, page, limit })
 }
 
-export const createdProductRepo = async ({ data }) => {
+export const createdProductRepo = async ({ shop, name, defaultProduct, price }) => {
 	try {
-		const createdProduct = await ProductModel.create({ ...data })
+		const createdProduct = await ProductModel.create({ shop, name, defaultProduct, price })
 		return createdProduct
 	} catch (err) {
 		throw errorHandler({ err })
