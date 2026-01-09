@@ -10,6 +10,7 @@ import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
+
 export const PhotoSchema = new mongoose.Schema(
 	{
 		url: { type: String, required: false }

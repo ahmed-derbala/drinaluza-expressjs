@@ -1,19 +1,19 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
 import config from '../../config/index.js'
-import { findOneOrderRepo, findManyOrdersRepo, createdOrderRepo, patchOrderStatusRepo, findMySalesRepo } from './sales.repository.js'
+import { findOneOrderRepo, findOrdersRepo, createdOrderRepo, patchOrderStatusRepo, findMySalesRepo } from './sales.repository.js'
 import { validateSaleStatusTransition } from './sales.helper.js'
 
 export const findOneOrderSrvc = async ({ match, select }) => {
 	const fetchedOrder = await findOneOrderRepo({ match, select })
 	return fetchedOrder
 }
-export const findManyOrdersSrvc = async ({ match, page, limit }) => {
+export const findOrdersSrvc = async ({ match, page, limit }) => {
 	try {
 		page = parseInt(page, 10)
 		limit = parseInt(limit, 10)
-		const fetchedManyOrders = await findManyOrdersRepo({ match, page, limit })
-		return fetchedManyOrders
+		const fetchedOrders = await findOrdersRepo({ match, page, limit })
+		return fetchedOrders
 	} catch (err) {
 		errorHandler({ err })
 	}

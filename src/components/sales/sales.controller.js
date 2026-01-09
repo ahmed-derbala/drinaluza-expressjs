@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findManyOrdersSrvc, createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './sales.service.js'
+import { findOrdersSrvc, createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './sales.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createOrderVld, patchOrderStatusVld } from './sales.validator.js'
@@ -22,8 +22,8 @@ router
 			if (status) {
 				match.status = status
 			}
-			const fetchedManyOrders = await findManyOrdersSrvc({ match, page, limit })
-			return resp({ status: 200, data: fetchedManyOrders, req, res })
+			const fetchedOrders = await findOrdersSrvc({ match, page, limit })
+			return resp({ status: 200, data: fetchedOrders, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}
@@ -75,8 +75,8 @@ router.route('/sales').get(authenticate({ role: 'shop_owner' }), async (req, res
 		const match = { shop: { owner: { _id: req.user._id } } }
 		const select = ''
 		let { page = 1, limit = 10 } = req.query
-		const fetchedManyOrders = await findManyOrdersSrvc({ match, select, page, limit })
-		return resp({ status: 200, data: fetchedManyOrders, req, res })
+		const fetchedOrders = await findOrdersSrvc({ match, select, page, limit })
+		return resp({ status: 200, data: fetchedOrders, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}

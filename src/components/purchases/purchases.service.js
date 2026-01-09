@@ -1,22 +1,14 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
 import config from '../../config/index.js'
-import { findOneOrderRepo, findManyOrdersRepo, createdOrderRepo, patchOrderStatusRepo } from './purchases.repository.js'
+import { findOneOrderRepo, createdOrderRepo, patchOrderStatusRepo, appendProductsToOrderRepo } from './purchases.repository.js'
 import { orderStatusEnum } from '../orders/orders.enum.js'
+
 export const findOneOrderSrvc = async ({ match, select }) => {
 	const fetchedOrder = await findOneOrderRepo({ match, select })
 	return fetchedOrder
 }
-export const findManyOrdersSrvc = async ({ match, page, limit }) => {
-	try {
-		page = parseInt(page, 10)
-		limit = parseInt(limit, 10)
-		const fetchedManyOrders = await findManyOrdersRepo({ match, page, limit })
-		return fetchedManyOrders
-	} catch (err) {
-		errorHandler({ err })
-	}
-}
+
 export const createOrderSrvc = async ({ data }) => {
 	try {
 		const createdOrder = await createdOrderRepo({ data })
@@ -46,6 +38,10 @@ export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus }) => {
 	} catch (err) {
 		throw errorHandler({ err })
 	}
+}
+
+export const appendProductsToOrderSrvc = async ({ orderId, products }) => {
+	return appendProductsToOrderRepo({ orderId, products })
 }
 
 /**

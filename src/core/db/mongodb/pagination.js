@@ -35,7 +35,7 @@ let processPrevious = ({ page }) => {
 	}
 	return { hasPrevPage, prevPage }
 }
-export const paginateMongodb = async ({ model, page, limit, match = {}, select = '', sort = {}, populate = [] }) => {
+export const paginateMongodb = async ({ model, page, limit, match = {}, select = '', sort = { updatedAt: -1, createdAt: -1 }, populate = [] }) => {
 	page = processPage(page)
 	limit = processLimit(limit)
 	const totalDocs = await model.countDocuments(match)

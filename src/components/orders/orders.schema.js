@@ -10,7 +10,8 @@ export const ordersCollection = 'orders'
 const OrderProductsSchema = [
 	{
 		product: ProductRefSchema,
-		finalPrice: { type: FinalPriceSchema, required: true }
+		finalPrice: { type: FinalPriceSchema, required: true },
+		quantity: { type: Number, required: true, default: 1, min: 0.1 }
 	}
 ]
 

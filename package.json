@@ -1,8 +1,8 @@
 {
   "name": "drinaluza-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "src/main.js",
-  "description": "Backend of drinaluza. A mobile first app to manage small businesses",
+  "description": "Drinaluza, seafood business manager",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
   "private": true,
   "type": "module",

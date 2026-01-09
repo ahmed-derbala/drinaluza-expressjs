@@ -69,7 +69,6 @@ const processScript = async () => {
 		await createAuthSrvc({ user: signedupUser, password: userData.password })
 		log({ message: `Created user: ${userData.slug}`, level: 'info' })
 	}
-
 	log({ message: 'Owners seed completed successfully', level: 'success' })
 	return true
 }

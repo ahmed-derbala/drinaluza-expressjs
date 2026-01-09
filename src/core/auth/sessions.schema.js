@@ -1,16 +1,15 @@
 import mongoose from 'mongoose'
-import uniqueValidator from 'mongoose-unique-validator'
+import { UserRefSchema } from '../../components/users/schemas/user-ref.schema.js'
+
+export const sessionsCollection = 'sessions'
+
 const schema = new mongoose.Schema(
 	{
 		token: {
 			type: String,
 			required: true
 		},
-		user: {
-			type: Object,
-			ref: 'users',
-			required: true
-		},
+		user: UserRefSchema,
 		req: {
 			headers: {
 				'user-agent': {
@@ -21,8 +20,7 @@ const schema = new mongoose.Schema(
 			ip: { type: String, required: true }
 		}
 	},
-	{ timestamps: true }
+	{ timestamps: true, collection: sessionsCollection }
 )
-schema.plugin(uniqueValidator)
-export const sessionsCollection = 'sessions'
+
 export const SessionsModel = mongoose.model(sessionsCollection, schema)

@@ -13,13 +13,7 @@ export const updateMyProfileRepo = async ({ userId, newData }) => {
 }
 
 export const updateUserRepo = async ({ match, newData }) => {
-	try {
-		const updatedUser = await UserModel.findOneAndUpdate(match, { $set: newData }, { new: true })
-		console.log(updatedUser, 'updatedUser')
-		return updatedUser
-	} catch (err) {
-		errorHandler({ err })
-	}
+	return await UserModel.findOneAndUpdate(match, { $set: newData }, { new: true })
 }
 
 export const findMyProfileRepo = async ({ userId }) => {
@@ -54,24 +48,21 @@ export const findUsersRepo = async ({ match, select, page, limit, count }) => {
 }
 
 export const createUserRepo = async ({ email, slug, name, phone, profile, settings, role }) => {
-	try {
-		let singedupUser = await UserModel.create({ email, slug, name, phone, profile, settings, role })
-		let updateData = {}
-		if (!slug) {
-			slug = singedupUser._id
-			updateData.slug = slug
-		}
-		if (!name) {
-			name = slug
-			updateData.name = name
-		}
-		if (Object.keys(updateData).length > 0) {
-			await UserModel.updateOne({ _id: singedupUser._id }, updateData)
-		}
-		return singedupUser
-	} catch (err) {
-		errorHandler({ err })
+	let updateData = {}
+	if (!name) {
+		name = {}
+		name.en = slug
+		updateData.name = name
 	}
+	let singedupUser = await UserModel.create({ email, slug, name, phone, profile, settings, role })
+	if (!slug) {
+		slug = singedupUser._id
+		updateData.slug = slug
+	}
+	if (Object.keys(updateData).length > 0) {
+		await UserModel.updateOne({ _id: singedupUser._id }, updateData)
+	}
+	return singedupUser
 }
 
 export const addShopToUserRepo = async ({ shop, userId }) => {

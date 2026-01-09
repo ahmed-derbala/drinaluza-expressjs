@@ -21,12 +21,8 @@ export const findOneAuthRepo = async ({ match, select }) => {
 	}
 }
 
-export const destroyManySessionsRepo = async ({ userId }) => {
-	try {
-		const destroyedSessions = await SessionsModel.deleteMany({ 'user._id': userId })
-		log({ message: `Destroyed ${destroyedSessions.deletedCount} sessions for userId=${userId}`, level: 'info' })
-		return destroyedSessions
-	} catch (err) {
-		errorHandler({ err })
-	}
+export const destroySessionsRepo = async ({ user }) => {
+	const destroyedSessions = await SessionsModel.deleteMany({ 'user._id': user._id })
+	log({ message: `Destroyed ${destroyedSessions.deletedCount} sessions for user.slug=${user.slug}`, level: 'info' })
+	return destroyedSessions
 }

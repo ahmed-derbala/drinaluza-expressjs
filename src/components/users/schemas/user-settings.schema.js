@@ -1,18 +1,19 @@
 import mongoose from 'mongoose'
 import config from '../../../config/default.config.js'
+console.log(config.lang)
 
 export const UserSettingsSchema = new mongoose.Schema(
 	{
 		lang: {
 			app: {
 				type: String,
-				required: true,
+				required: false,
 				default: config.lang.default,
 				enum: config.lang.supported
 			},
 			content: {
 				type: String,
-				required: true,
+				required: false,
 				default: config.lang.default,
 				enum: config.lang.supported
 			}

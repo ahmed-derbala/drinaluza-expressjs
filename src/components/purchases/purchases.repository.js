@@ -14,15 +14,7 @@ export const findOneOrderRepo = async ({ match, select }) => {
 		errorHandler({ err })
 	}
 }
-export const findManyOrdersRepo = async ({ match, page, limit }) => {
-	try {
-		const flattenedMatch = flattenObject(match)
-		const fetchedManyOrders = paginateMongodb({ model: OrderModel, match: { ...flattenedMatch }, select: '', page, limit })
-		return fetchedManyOrders
-	} catch (err) {
-		errorHandler({ err })
-	}
-}
+
 export const createdOrderRepo = async ({ data }) => {
 	try {
 		const createdOrder = await OrderModel.create({ ...data })
@@ -40,4 +32,8 @@ export const patchOrderStatusRepo = async ({ match, status }) => {
 	} catch (err) {
 		throw errorHandler({ err })
 	}
+}
+
+export const appendProductsToOrderRepo = async ({ orderId, products }) => {
+	return OrderModel.findByIdAndUpdate(orderId, { $push: { products } }, { new: true })
 }

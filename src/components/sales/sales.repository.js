@@ -14,11 +14,11 @@ export const findOneOrderRepo = async ({ match, select }) => {
 		errorHandler({ err })
 	}
 }
-export const findManyOrdersRepo = async ({ match, page, limit }) => {
+export const findOrdersRepo = async ({ match, page, limit }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
-		const fetchedManyOrders = paginateMongodb({ model: OrderModel, match: { ...flattenedMatch }, select: '', page, limit })
-		return fetchedManyOrders
+		const fetchedOrders = paginateMongodb({ model: OrderModel, match: { ...flattenedMatch }, select: '', page, limit })
+		return fetchedOrders
 	} catch (err) {
 		errorHandler({ err })
 	}

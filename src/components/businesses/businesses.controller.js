@@ -9,6 +9,7 @@ import { userRolesEnum } from '../users/users.enum.js'
 import { findManyBusinessesSrvc, findOneBusinessSrvc, createBusinessSrvc, updateBusinessSrvc } from './businesses.service.js'
 import { updateUserSrvc } from '../users/users.service.js'
 import { destroyUserSessionsSrvc } from '../../core/auth/auth.service.js'
+import config from '../../config/default.config.js'
 const router = express.Router()
 
 router.route('/my-business').get(authenticate({ role: 'shop_owner' }), async (req, res) => {
@@ -43,8 +44,16 @@ router
 			const owner = req.user
 			const fetchedBusiness = await findOneBusinessSrvc({ match: { owner: { _id: owner._id } }, select: '' })
 			if (fetchedBusiness) return resp({ status: 409, message: 'Business already exists for this owner', req, res })
-			const request = await createBusinessSrvc({ owner })
-			return resp({ status: 200, data: request, req, res })
+			let business = await createBusinessSrvc({ owner })
+			if (config.businesses.autoApprove) {
+				const state = { code: 'active' }
+				if (state && state.code === 'active') {
+					updateUserSrvc({ match: { _id: business.owner._id }, newData: { role: userRolesEnum.SHOP_OWNER } })
+					destroyUserSessionsSrvc({ user: business.owner })
+				}
+				business = await updateBusinessSrvc({ match: { _id: business._id }, newData: { state } })
+			}
+			return resp({ status: 200, data: business, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}
@@ -57,9 +66,9 @@ router.route('/:businessId').patch(authenticate({ role: userRolesEnum.SUPER }), 
 		if (!business) return resp({ status: 404, message: 'Business not found', req, res })
 		if (state && state.code === 'active') {
 			updateUserSrvc({ match: { _id: business.owner._id }, newData: { role: userRolesEnum.SHOP_OWNER } })
-			destroyUserSessionsSrvc({ userId: business.owner._id })
+			destroyUserSessionsSrvc({ user: business.owner })
 		}
-		const patchedBusiness = await updateBusinessSrvc({ match: { _id: req.params.businessId }, newData: req.body })
+		const patchedBusiness = await updateBusinessSrvc({ match: { _id: req.params.businessId }, newData: { state } })
 		return resp({ status: 200, data: patchedBusiness, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })

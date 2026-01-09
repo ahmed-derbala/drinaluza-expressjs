@@ -51,15 +51,11 @@ export const findOneProfileSrvc = async ({ slug }) => {
 }
 
 export const updateUserSrvc = async ({ match, newData }) => {
-	try {
-		const updatedUser = await updateUserRepo({ match, newData })
-		return updatedUser
-	} catch (err) {
-		errorHandler({ err })
-	}
+	return await updateUserRepo({ match, newData })
 }
 
 export const createUserSrvc = async ({ email, slug, name, phone, profile, settings, role }) => {
+	if (!slug && !name) return null
 	const user = await createUserRepo({ email, slug, name, phone, profile, settings, role })
 	if (!user) return null
 	if (user.role === 'shop_owner') {

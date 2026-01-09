@@ -169,7 +169,7 @@ const defaultConfig = {
 	},
 	db,
 	log: {
-		kind: 'simple', //winston, simple
+		kind: 'winston', //winston, simple
 		reqDefaultLog: 'morgan_log',
 		isActive: true,
 		winston: {
@@ -261,6 +261,9 @@ const defaultConfig = {
 	lang: {
 		default: 'en',
 		supported: ['en', 'tn_latn', 'tn_arab']
+	},
+	businesses: {
+		autoApprove: true
 	}
 }
 export default {

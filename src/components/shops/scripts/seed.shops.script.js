@@ -5,6 +5,7 @@ import { findUsersSrvc, addShopToUserSrvc } from '../../users/users.service.js'
 import { log } from '../../../core/log/index.js'
 import { createShopSrvc } from '../shops.service.js'
 import { addShopToBusinessSrvc } from '../../businesses/businesses.service.js'
+import { errorHandler } from '../../../core/error/index.js'
 
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -41,11 +42,7 @@ const generateRandomShop = (owner, index) => {
 	const randomState = stateEnum.ALL[index % stateEnum.ALL.length]
 
 	return {
-		owner: {
-			slug: owner.slug,
-			_id: owner._id,
-			name: owner.name
-		},
+		owner,
 		name: { en: randomName },
 		address: {
 			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
@@ -92,7 +89,7 @@ let manualShops = [
 
 const processScript = async () => {
 	log({ message: `running ${scriptFilename}`, level: 'info' })
-	const shopOwners = await findUsersSrvc({ match: { role: 'shop_owner' }, select: 'slug _id name' })
+	const shopOwners = await findUsersSrvc({ match: { role: 'shop_owner' }, select: 'slug _id name business' })
 	if (shopOwners.docs.length === 0) {
 		console.error('No owners found in the database. Please run the users seed script first.')
 		return
@@ -103,15 +100,17 @@ const processScript = async () => {
 	const shopsToInsert = []
 	for (let i = 0; i < 10; i++) {
 		const owner = shopOwners.docs[i % shopOwners.docs.length] // Cycle through owners
+		//console.log(owner)
 		shopsToInsert.push(generateRandomShop(owner, i))
 	}
 	// Insert the documents
 	for (const shop of shopsToInsert) {
+		//console.log(shop)
 		const newShop = await createShopSrvc(shop)
 		if (newShop) {
-			addShopToUserSrvc({ shop: newShop, userId: shop.owner._id })
+			await addShopToUserSrvc({ shop: newShop, userId: shop.owner._id })
 			//add shop to business
-			addShopToBusinessSrvc({ businessId: shop.owner.business._id, shop: newShop })
+			await addShopToBusinessSrvc({ businessId: shop.owner.business._id, shop: newShop })
 		}
 	}
 	log({ message: `Inserted ${shopsToInsert.length} shops`, level: 'info' })
@@ -123,11 +122,14 @@ async function run() {
 		await mongoose.connect(config.db.mongodb.uri, {})
 		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
 		await processScript()
-	} catch (error) {
-		console.error('script error:', error)
+	} catch (err) {
+		errorHandler({ err })
+		//console.error(err)
+		process.exit(1)
 	} finally {
 		await mongoose.connection.close()
 		console.log('MongoDB connection closed')
+		process.exit(0)
 	}
 }
 run()

@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findManyOrdersSrvc, createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './purchases.service.js'
+import { createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './purchases.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createOrderVld, patchOrderStatusVld } from './purchases.validator.js'
@@ -11,6 +11,7 @@ import { findOneShopSrvc } from '../shops/shops.service.js'
 import { processFinalPriceSrvc } from './purchases.service.js'
 import { log } from '../../core/log/index.js'
 import { userRolesEnum } from '../users/users.enum.js'
+import { findOrdersSrvc } from '../orders/orders.service.js'
 
 const router = express.Router()
 router
@@ -22,8 +23,8 @@ router
 			if (status) {
 				match.status = status
 			}
-			const fetchedManyOrders = await findManyOrdersSrvc({ match, page, limit })
-			return resp({ status: 200, data: fetchedManyOrders, req, res })
+			const fetchedOrders = await findOrdersSrvc({ match, page, limit })
+			return resp({ status: 200, data: fetchedOrders, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}
@@ -31,12 +32,17 @@ router
 	.post(authenticate(), validate(createOrderVld), async (req, res) => {
 		try {
 			const customer = req.user
-			let { products, shop } = req.body
-			//a shop_owner cannot purchase from his shops
+			//shop_owner cannot purchase from his shops
 			if (customer.role === userRolesEnum.SHOP_OWNER) {
 				const ownedShop = await findOneShopSrvc({ match: { owner: { _id: customer._id }, slug: shop.slug }, select: '_id' })
 				if (ownedShop) return resp({ status: 409, message: 'shop owners cannot purchase from their own shops', data: null, req, res })
 			}
+
+			let { products, shop } = req.body
+			//check shop
+			shop = await findOneShopSrvc({ match: { slug: shop.slug } })
+			if (!shop) return resp({ status: 404, message: 'shop not found', data: null, req, res })
+
 			let match = {}
 			//process products
 			for (let p of products) {
@@ -48,11 +54,23 @@ router
 				p.product = await findOneProductSrvc({ match })
 				if (!p.product) return resp({ status: 404, data: null, message: `product ${JSON.stringify(match)} not found`, req, res })
 				p.finalPrice = processFinalPriceSrvc({ price: p.product.price, quantity: p.quantity })
-				console.log(p.finalPrice)
+				//console.log(p.finalPrice)
 				//log({ level: 'debug', message: 'process products', data: p })
 			}
-			shop = await findOneShopSrvc({ match: { slug: shop.slug }, select: '' })
-			if (!shop) return resp({ status: 404, message: 'shop not found', data: null, req, res })
+
+			//check if there is alreay pending purchases from that shop
+			const purchases = await findOrdersSrvc({ match: { customer: { _id: customer._id }, shop: { _id: shop._id }, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION } })
+			if (purchases.docs.length > 0) {
+				//TODO: check each product has the still the same price as in db
+				//if yes just add quantity
+				//if no add it as another product (push to products array)
+				for (let purchase of purchases.docs) {
+				}
+
+				//update the purchase
+				//const updatedOrder = await updateOrderSrvc({ orderId: purchase._id, data: { products } })
+				//return resp({ status: 200, data: updatedOrder, req, res })
+			}
 			const data = { customer, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
 			//console.log(data.products[0].finalPrice,'data')
 			const createdOrder = await createOrderSrvc({ data })
@@ -89,8 +107,8 @@ router.route('/sales').get(authenticate({ role: 'shop_owner' }), async (req, res
 		const match = { shop: { owner: { _id: req.user._id } } }
 		const select = ''
 		let { page = 1, limit = 10 } = req.query
-		const fetchedManyOrders = await findManyOrdersSrvc({ match, select, page, limit })
-		return resp({ status: 200, data: fetchedManyOrders, req, res })
+		const fetchedOrders = await findOrdersSrvc({ match, select, page, limit })
+		return resp({ status: 200, data: fetchedOrders, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}
