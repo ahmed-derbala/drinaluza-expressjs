@@ -5,12 +5,12 @@ export const LocationSchema = new mongoose.Schema(
 		type: {
 			type: String,
 			enum: ['Point'], // only allow 'Point'
-			required: true,
+			required: false,
 			default: 'Point'
 		},
 		coordinates: {
 			type: [Number], // [longitude, latitude]
-			required: true,
+			required: false,
 			validate: {
 				validator: function (value) {
 					return value.length === 2
