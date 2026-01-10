@@ -8,7 +8,7 @@ export const AddressSchema = new mongoose.Schema(
 		},
 		city: {
 			type: String,
-			required: true,
+			required: false,
 			trim: true,
 			default: 'Sfax'
 		},
@@ -22,7 +22,7 @@ export const AddressSchema = new mongoose.Schema(
 		},
 		country: {
 			type: String,
-			required: true,
+			required: false,
 			trim: true,
 			default: 'Tunisia'
 		}
