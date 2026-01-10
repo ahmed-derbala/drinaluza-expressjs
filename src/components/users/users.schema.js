@@ -3,7 +3,7 @@ import * as phoneSchema from '../../core/db/mongodb/shared-schemas/phone.schema.
 import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
-import { slugDefObject, slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { userRolesEnum } from './users.enum.js'
 import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
@@ -49,7 +49,7 @@ const UserSchema = new mongoose.Schema(
 				required: false
 			}
 		],
-		slug: slugDefObject,
+		slug: { type: String, required: true },
 		name: MultiLangNameSchema,
 		/*name: {
 			type: String,
@@ -116,6 +116,6 @@ UserSchema.post('findOneAndUpdate', async function (doc, next) {
 	}
 	next()
 })
-UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en' })
+UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
 //UserSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 export const UserModel = mongoose.model(usersCollection, UserSchema)

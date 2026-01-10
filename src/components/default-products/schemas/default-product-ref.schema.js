@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import { MultiLangNameSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 import { defaultProductsCollection } from '../default-products.constant.js'
-import { slugDefObject } from '../../../core/db/mongodb/slug-plugin.js'
 
 export const DefaultProductRefSchema = new mongoose.Schema(
 	{
@@ -10,7 +9,7 @@ export const DefaultProductRefSchema = new mongoose.Schema(
 			ref: defaultProductsCollection,
 			required: true
 		},
-		slug: slugDefObject,
+		slug: { type: String, required: true },
 		name: { type: MultiLangNameSchema, required: true },
 		images: {
 			thumbnail: {

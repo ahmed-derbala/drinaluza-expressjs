@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
-import { slugPlugin, slugDefObject } from '../../core/db/mongodb/slug-plugin.js'
+import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { defaultProductsCollection } from './default-products.constant.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 
 const DefaultProductSchema = new mongoose.Schema(
 	{
-		slug: slugDefObject,
+		slug: { type: String, required: true },
 		name: { type: MultiLangNameSchema, required: true },
 		searchKeywords: {
 			type: [String],
@@ -28,7 +28,7 @@ const DefaultProductSchema = new mongoose.Schema(
 	{ timestamps: true, collection: defaultProductsCollection }
 )
 
-DefaultProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en' })
+DefaultProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: false })
 DefaultProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 
 export const DefaultProductModel = mongoose.model(defaultProductsCollection, DefaultProductSchema)

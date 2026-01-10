@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
-import { slugDefObject, slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { businessesCollection } from './businesses.constant.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
@@ -10,7 +10,7 @@ const BusinessSchema = new mongoose.Schema(
 	{
 		shops: [{ type: ShopRefSchema, required: true }],
 		owner: { type: UserRefSchema, required: true },
-		slug: slugDefObject,
+		slug: { type: String, required: true },
 		name: MultiLangNameSchema,
 		description: { type: String, required: false },
 		state: { type: StateSchema, required: true }

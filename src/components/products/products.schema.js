@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { PriceSchema } from './schemas/price.schema.js'
-import { slugDefObject, slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { DefaultProductRefSchema } from '../default-products/schemas/default-product-ref.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
@@ -12,7 +12,7 @@ const ProductSchema = new mongoose.Schema(
 	{
 		shop: { type: ShopRefSchema, required: true },
 		defaultProduct: { type: DefaultProductRefSchema, required: true },
-		slug: slugDefObject,
+		slug: { type: String, required: true },
 		name: MultiLangNameSchema,
 		price: { type: PriceSchema, required: true },
 		unit: { type: UnitSchema, required: true },
@@ -48,7 +48,7 @@ const ProductSchema = new mongoose.Schema(
 	{ timestamps: true }
 )
 
-ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en' })
+ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
 //ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 ProductSchema.index({ searchTerms: 1 })
 
