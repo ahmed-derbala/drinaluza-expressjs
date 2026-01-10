@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "src/main.js",
   "description": "Drinaluza, seafood business manager",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -18,6 +18,7 @@
   ],
   "scripts": {
     "smenu": "NODE_ENV=local node src/core/scripts/smenu.js",
+    "smenu:prod": "NODE_ENV=production node src/core/scripts/smenu.js",
     "config:new-prod": "cp src/config/default.config.js src/config/production.config.js",
     "config:prod": "cp -n src/config/default.config.js src/config/production.config.js",
     "build": "npm run config:new-prod && npm run clean:prod",
@@ -50,8 +51,7 @@
     "clean": "npm run clean:only && npm run start:local",
     "clean:prod": "rm -r -f node_modules  && npm run i:prod",
     "clean:only": "rm -f package-lock.json && rm -r -f node_modules && npm run i",
-       "code": "windsurf . && npm run start:local",
-
+    "code": "windsurf . && npm run start:local",
     "backup": "rm -r -f backups/* && mkdir backups -p && cp package.json backups/package.json.backup && cp package-lock.json backups/package-lock.json.backup 2>/dev/null; true && mv node_modules backups/node_modules.backup 2>/dev/null; true",
     "update": "npm run backup && npm run ncu && npm run clean",
     "restore": "cp backups/package.json.backup package.json && cp backups/package-lock.json.backup package-lock.json && mv backups/node_modules.backup node_modules && npm run start:local",
