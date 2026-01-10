@@ -4,6 +4,7 @@ export const AddressSchema = new mongoose.Schema(
 	{
 		street: {
 			type: String,
+			required: false,
 			trim: true
 		},
 		city: {
@@ -14,7 +15,9 @@ export const AddressSchema = new mongoose.Schema(
 		},
 		state: {
 			type: String,
-			trim: true
+			required: false,
+			trim: true,
+			default: 'Sfax'
 		},
 		postalCode: {
 			type: String,

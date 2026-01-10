@@ -9,22 +9,27 @@ import { validate } from '../../core/validation/index.js'
 import { addShopToUserSrvc } from '../users/users.service.js'
 import { findOneBusinessSrvc, createBusinessSrvc, addShopToBusinessSrvc } from '../businesses/businesses.service.js'
 import { stateEnum } from '../../core/db/mongodb/shared-schemas/state.schema.js'
+import { log } from '../../core/log/index.js'
 const router = express.Router()
 
 router
 	.route('/')
 	.post(authenticate({ role: 'shop_owner' }), validate(createShopVld), async (req, res) => {
 		try {
-			console.log(req.body)
 			const { name, address, location } = req.body
 			const owner = req.user
 
 			//create new business if not exists
-			let myBusiness = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id }, state: { code: stateEnum.ACTIVE } }, select: '' })
+			let myBusiness = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id } }, select: '' })
+			log({ level: 'debug', data: myBusiness, message: 'myBusiness' })
 			if (!myBusiness) {
 				myBusiness = await createBusinessSrvc({ owner })
-				owner.business = myBusiness
 			}
+			if (myBusiness && myBusiness.state.code != stateEnum.ACTIVE) {
+				return resp({ status: 409, data: { message: `Business is ${myBusiness.state.code}` }, req, res })
+			}
+
+			owner.business = myBusiness
 			const newShop = await createShopSrvc({ name, address, location, owner })
 
 			if (newShop) {

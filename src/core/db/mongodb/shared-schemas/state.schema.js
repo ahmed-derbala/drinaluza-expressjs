@@ -14,7 +14,7 @@ export const StateSchema = new mongoose.Schema(
 		code: {
 			type: String,
 			enum: stateEnum.ALL,
-			default: 'active',
+			default: stateEnum.ACTIVE,
 			required: true
 		}
 	},
