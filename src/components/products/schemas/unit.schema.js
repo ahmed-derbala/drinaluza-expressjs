@@ -22,7 +22,13 @@ export const UnitSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 			default: 1,
-			min: 1
+			min: 0.01
+		},
+		max: {
+			type: Number,
+			required: true,
+			default: 10,
+			min: 0.01
 		}
 	},
 	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }

@@ -31,18 +31,16 @@ router
 	})
 	.post(authenticate(), validate(createPurchaseVld), async (req, res) => {
 		try {
+			let { products, shop } = req.body
+			//check shop
+			shop = await findOneShopSrvc({ match: { slug: shop.slug } })
+			if (!shop) return resp({ status: 404, message: 'shop not found', data: null, req, res })
 			const customer = req.user
 			//shop_owner cannot purchase from his shops
 			if (customer.role === userRolesEnum.SHOP_OWNER) {
 				const ownedShop = await findOneShopSrvc({ match: { owner: { _id: customer._id }, slug: shop.slug }, select: '_id' })
 				if (ownedShop) return resp({ status: 409, message: 'shop owners cannot purchase from their own shops', data: null, req, res })
 			}
-
-			let { products, shop } = req.body
-			//check shop
-			shop = await findOneShopSrvc({ match: { slug: shop.slug } })
-			if (!shop) return resp({ status: 404, message: 'shop not found', data: null, req, res })
-
 			let match = {},
 				price = { total: { tnd: 0, eur: null, usd: null } }
 			//process products
