@@ -6,3 +6,7 @@ export const findOrdersRepo = async ({ match, page, limit }) => {
 	const flattenedMatch = flattenObject(match)
 	return paginateMongodb({ model: OrderModel, match: { ...flattenedMatch }, select: '', page, limit })
 }
+
+export const createdOrderRepo = async ({ customer, shop, products, status, price }) => {
+	return OrderModel.create({ customer, shop, products, status, price })
+}

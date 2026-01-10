@@ -21,8 +21,8 @@ export const findManyProductsSrvc = async ({ match, select, page, limit }) => {
 	}
 }
 
-export const createProductSrvc = async ({ shop, name, defaultProduct, price }) => {
-	return await createdProductRepo({ shop, name, defaultProduct, price })
+export const createProductSrvc = async ({ shop, name, defaultProduct, price, unit }) => {
+	return await createdProductRepo({ shop, name, defaultProduct, price, unit })
 }
 
 export const findMyProductsSrvc = async ({ match, select, page, limit, count }) => {

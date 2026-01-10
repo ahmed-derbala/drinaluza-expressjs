@@ -3,27 +3,26 @@ import { createProductSrvc } from '../products.service.js'
 import { findShopsSrvc } from '../../shops/shops.service.js'
 import { log } from '../../../core/log/index.js'
 import config from '../../../config/index.js'
-import { priceUnitEnum } from '../products.enum.js'
 import { pickRandom } from '../../../core/helpers/filters.js'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 const __filename = fileURLToPath(import.meta.url)
 const scriptFilename = path.basename(__filename)
 import { findDefaultProductsSrvc } from '../../default-products/default-products.service.js'
-import { ProductModel } from '../products.schema.js'
-
+import { UNITS } from '../schemas/unit.schema.js'
 // Sample seafood products
 let products = [
-	{ name: { en: 'Dorade', fr: 'Dorade' }, price: { value: { tnd: 25 }, unit: { measure: 'kg', min: 1 } }, searchTerms: ['fish', 'dorade'], stock: { quantity: 50, minThreshold: 5 } },
-	{ name: { en: 'Loup de mer', fr: 'Loup de mer' }, price: { value: { tnd: 32 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['fish', 'sea bass'], stock: { quantity: 40, minThreshold: 5 } },
-	{ name: { en: 'Sardines', fr: 'Sardines' }, price: { value: { tnd: 12 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['fish', 'sardine'], stock: { quantity: 100, minThreshold: 10 } },
-	{ name: { en: 'Crevettes', fr: 'Crevettes' }, price: { value: { tnd: 48 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['shrimp', 'prawn'], stock: { quantity: 30, minThreshold: 5 } },
-	{ name: { en: 'Calamar', fr: 'Calamar' }, price: { value: { tnd: 40 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['squid', 'calamari'], stock: { quantity: 25, minThreshold: 5 } },
-	{ name: { en: 'Moules', fr: 'Moules' }, price: { value: { tnd: 18 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['mussels'], stock: { quantity: 60, minThreshold: 10 } },
-	{ name: { en: 'Thon', fr: 'Thon' }, price: { value: { tnd: 55 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['tuna'], stock: { quantity: 20, minThreshold: 3 } },
-	{ name: { en: 'Seiche', fr: 'Seiche' }, price: { value: { tnd: 38 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['cuttlefish'], stock: { quantity: 15, minThreshold: 2 } },
-	{ name: { en: 'Rouget', fr: 'Rouget' }, price: { value: { tnd: 28 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['red mullet'], stock: { quantity: 35, minThreshold: 5 } },
-	{ name: { en: 'Huitres', fr: 'Huitres' }, price: { value: { tnd: 70 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['oyster'], stock: { quantity: 10, minThreshold: 2 } }
+	{ name: { en: 'Dorade', fr: 'Dorade' }, price: { total: { tnd: 25 } }, unit: { measure: 'kg', min: 1 }, searchTerms: ['fish', 'dorade'], stock: { quantity: 50, minThreshold: 5 } },
+	{ name: { en: 'Loup de mer', fr: 'Loup de mer' }, price: { total: { tnd: 32 } }, unit: { measure: 'KG', min: 1 }, searchTerms: ['fish', 'sea bass'], stock: { quantity: 40, minThreshold: 5 } }
+	/*{ name: { en: 'Sardines', fr: 'Sardines' }, price: { total: { tnd: 12 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['fish', 'sardine'], stock: { quantity: 100, minThreshold: 10 } },
+	{ name: { en: 'Crevettes', fr: 'Crevettes' }, price: { total: { tnd: 48 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['shrimp', 'prawn'], stock: { quantity: 30, minThreshold: 5 } },
+	{ name: { en: 'Calamar', fr: 'Calamar' }, price: { total: { tnd: 40 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['squid', 'calamari'], stock: { quantity: 25, minThreshold: 5 } },
+	{ name: { en: 'Moules', fr: 'Moules' }, price: { total: { tnd: 18 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['mussels'], stock: { quantity: 60, minThreshold: 10 } },
+	{ name: { en: 'Thon', fr: 'Thon' }, price: { total: { tnd: 55 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['tuna'], stock: { quantity: 20, minThreshold: 3 } },
+	{ name: { en: 'Seiche', fr: 'Seiche' }, price: { total: { tnd: 38 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['cuttlefish'], stock: { quantity: 15, minThreshold: 2 } },
+	{ name: { en: 'Rouget', fr: 'Rouget' }, price: { total: { tnd: 28 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['red mullet'], stock: { quantity: 35, minThreshold: 5 } },
+	{ name: { en: 'Huitres', fr: 'Huitres' }, price: { total: { tnd: 70 }, unit: { measure: 'KG', min: 1 } }, searchTerms: ['oyster'], stock: { quantity: 10, minThreshold: 2 } }
+*/
 ]
 
 const processScript = async () => {
@@ -47,12 +46,9 @@ const processScript = async () => {
 	products = products.map((p) => {
 		return {
 			...p,
-			price: {
-				...p.price,
-				unit: {
-					...p.price.unit,
-					measure: pickRandom(priceUnitEnum.values)
-				}
+			unit: {
+				...p.unit,
+				measure: pickRandom(UNITS)
 			},
 			shop: pickRandom(shops.docs),
 			defaultProduct: pickRandom(defaultProducts.docs)

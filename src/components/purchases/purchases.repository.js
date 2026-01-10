@@ -15,15 +15,6 @@ export const findOneOrderRepo = async ({ match, select }) => {
 	}
 }
 
-export const createdOrderRepo = async ({ data }) => {
-	try {
-		const createdOrder = await OrderModel.create({ ...data })
-		return createdOrder
-	} catch (err) {
-		throw errorHandler({ err })
-	}
-}
-
 export const patchOrderStatusRepo = async ({ match, status }) => {
 	try {
 		const flattenedMatch = flattenObject(match)

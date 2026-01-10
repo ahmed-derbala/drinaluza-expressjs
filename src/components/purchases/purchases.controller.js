@@ -1,14 +1,14 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './purchases.service.js'
+import { findOneOrderSrvc, patchOrderStatusSrvc } from './purchases.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
-import { createOrderVld, patchOrderStatusVld } from './purchases.validator.js'
+import { createPurchaseVld, patchOrderStatusVld } from './purchases.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
 import { orderStatusEnum } from '../orders/orders.enum.js'
 import { findOneShopSrvc } from '../shops/shops.service.js'
-import { processFinalPriceSrvc } from './purchases.service.js'
+import { processLineTotalSrvc, createPurchaseSrvc } from './purchases.service.js'
 import { log } from '../../core/log/index.js'
 import { userRolesEnum } from '../users/users.enum.js'
 import { findOrdersSrvc } from '../orders/orders.service.js'
@@ -29,7 +29,7 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
-	.post(authenticate(), validate(createOrderVld), async (req, res) => {
+	.post(authenticate(), validate(createPurchaseVld), async (req, res) => {
 		try {
 			const customer = req.user
 			//shop_owner cannot purchase from his shops
@@ -43,7 +43,8 @@ router
 			shop = await findOneShopSrvc({ match: { slug: shop.slug } })
 			if (!shop) return resp({ status: 404, message: 'shop not found', data: null, req, res })
 
-			let match = {}
+			let match = {},
+				price = { total: { tnd: 0, eur: null, usd: null } }
 			//process products
 			for (let p of products) {
 				if (p.product._id) {
@@ -53,9 +54,12 @@ router
 				}
 				p.product = await findOneProductSrvc({ match })
 				if (!p.product) return resp({ status: 404, data: null, message: `product ${JSON.stringify(match)} not found`, req, res })
-				p.finalPrice = processFinalPriceSrvc({ price: p.product.price, quantity: p.quantity })
+				p.lineTotal = processLineTotalSrvc({ price: p.product.price, quantity: p.quantity })
 				//console.log(p.finalPrice)
 				//log({ level: 'debug', message: 'process products', data: p })
+				price.total.tnd += p.lineTotal.tnd
+				price.total.eur += p.lineTotal.eur
+				price.total.usd += p.lineTotal.usd
 			}
 
 			//check if there is alreay pending purchases from that shop
@@ -71,10 +75,10 @@ router
 				//const updatedOrder = await updateOrderSrvc({ orderId: purchase._id, data: { products } })
 				//return resp({ status: 200, data: updatedOrder, req, res })
 			}
-			const data = { customer, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			const data = { customer, shop, products, price, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
 			//console.log(data.products[0].finalPrice,'data')
-			const createdOrder = await createOrderSrvc({ data })
-			return resp({ status: 201, data: createdOrder, req, res })
+			const createPurchase = await createPurchaseSrvc(data)
+			return resp({ status: 201, data: createPurchase, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}

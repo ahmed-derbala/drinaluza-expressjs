@@ -1,30 +1,23 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
 import config from '../../config/index.js'
-import { findOneOrderRepo, createdOrderRepo, patchOrderStatusRepo, appendProductsToOrderRepo } from './purchases.repository.js'
+import { findOneOrderRepo, patchOrderStatusRepo, appendProductsToOrderRepo } from './purchases.repository.js'
 import { orderStatusEnum } from '../orders/orders.enum.js'
+import { createdOrderRepo } from '../orders/orders.repository.js'
 
 export const findOneOrderSrvc = async ({ match, select }) => {
 	const fetchedOrder = await findOneOrderRepo({ match, select })
 	return fetchedOrder
 }
 
-export const createOrderSrvc = async ({ data }) => {
-	try {
-		const createdOrder = await createdOrderRepo({ data })
-		return createdOrder
-	} catch (err) {
-		throw errorHandler({ err })
-	}
+export const createPurchaseSrvc = async ({ customer, shop, products, status, price }) => {
+	log({ level: 'debug', message: 'create purchase', data: { customer, shop, products, status, price } })
+	return createdOrderRepo({ customer, shop, products, status, price })
 }
 
-export const processFinalPriceSrvc = ({ price, quantity }) => {
-	try {
-		const finalPrice = { value: { tnd: price.value.tnd * quantity, usd: price.value.usd * quantity || null, eur: price.value.eur * quantity || null }, quantity }
-		return finalPrice
-	} catch (err) {
-		throw errorHandler({ err })
-	}
+export const processLineTotalSrvc = ({ price, quantity }) => {
+	//log({level:'debug',message:'process line total',data:{price,quantity}})
+	return { tnd: price.total.tnd * quantity, usd: price.total.usd * quantity || null, eur: price.total.eur * quantity || null }
 }
 
 export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus }) => {

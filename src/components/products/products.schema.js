@@ -5,7 +5,7 @@ import { slugDefObject, slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { DefaultProductRefSchema } from '../default-products/schemas/default-product-ref.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
-
+import { UnitSchema } from './schemas/unit.schema.js'
 export const productsCollection = 'products'
 
 const ProductSchema = new mongoose.Schema(
@@ -15,6 +15,7 @@ const ProductSchema = new mongoose.Schema(
 		slug: slugDefObject,
 		name: MultiLangNameSchema,
 		price: { type: PriceSchema, required: true },
+		unit: { type: UnitSchema, required: true },
 		searchTerms: { type: [String], required: true, index: 'text' },
 		state: StateSchema,
 		availability: {
@@ -47,19 +48,6 @@ const ProductSchema = new mongoose.Schema(
 	{ timestamps: true }
 )
 
-export const ProductRefSchema = new mongoose.Schema(
-	{
-		defaultProduct: { type: DefaultProductRefSchema, required: true },
-		_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: productsCollection,
-			required: true
-		},
-		name: MultiLangNameSchema,
-		price: { type: PriceSchema, required: true }
-	},
-	{ timestamps: { createdAt: false, updatedAt: true } }
-)
 ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en' })
 //ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 ProductSchema.index({ searchTerms: 1 })

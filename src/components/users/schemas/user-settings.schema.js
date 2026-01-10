@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import config from '../../../config/default.config.js'
-console.log(config.lang)
 
 export const UserSettingsSchema = new mongoose.Schema(
 	{
