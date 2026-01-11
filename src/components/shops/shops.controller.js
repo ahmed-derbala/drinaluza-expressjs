@@ -64,14 +64,13 @@ router.route('/my-shops').get(authenticate({ role: 'shop_owner' }), async (req, 
 	}
 })
 
-router.route('/my-shops/:shopId/').get(authenticate(), async (req, res) => {
+router.route('/my-shops/:shopSlug/').get(authenticate(), async (req, res) => {
 	try {
 		let match = {}
 		match.owner = { _id: req.user._id }
-		const shopId = req.params.shopId
+		const shopSlug = req.params.shopSlug
 		//match.shop = {}
-		match._id = shopId
-		//match.shop.owner = { _id: req.user._id }
+		match.slug = shopSlug
 		const myShopProducts = await findOneShopSrvc({ match })
 		return resp({ status: 200, data: myShopProducts, req, res })
 	} catch (err) {
@@ -118,6 +117,21 @@ router.route('/:shopSlug').get(async (req, res) => {
 		match.slug = shopSlug
 		const shop = await findOneShopSrvc({ match })
 		return resp({ status: 200, data: shop, req, res })
+	} catch (err) {
+		errorHandler({ err, req, res })
+	}
+})
+
+router.route('/:shopSlug/products').get(async (req, res) => {
+	try {
+		let match = {}
+		const select = ''
+		let { page = 1, limit = 10 } = req.query
+		const shopSlug = req.params.shopSlug
+		match.shop = {}
+		match.shop.slug = shopSlug
+		const shopProducts = await findManyProductsSrvc({ match, select, page, limit })
+		return resp({ status: 200, data: shopProducts, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}

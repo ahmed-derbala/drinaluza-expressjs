@@ -31,7 +31,7 @@ const security = {
 		credentials: true
 	},
 	helmet: {
-		isActive: true,
+		isActive: false,
 		options: {
 			crossOriginResourcePolicy: false
 		}

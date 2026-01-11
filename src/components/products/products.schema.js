@@ -6,6 +6,8 @@ import { DefaultProductRefSchema } from '../default-products/schemas/default-pro
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 import { UnitSchema } from './schemas/unit.schema.js'
+import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
+import { searchKeywordsField } from '../../core/db/mongodb/search-keywords.field.js'
 export const productsCollection = 'products'
 
 const ProductSchema = new mongoose.Schema(
@@ -16,7 +18,7 @@ const ProductSchema = new mongoose.Schema(
 		name: MultiLangNameSchema,
 		price: { type: PriceSchema, required: true },
 		unit: { type: UnitSchema, required: true },
-		searchTerms: { type: [String], required: true, index: 'text' },
+		searchKeywords: searchKeywordsField,
 		state: StateSchema,
 		availability: {
 			startDate: { type: Date, required: true, default: Date.now },
@@ -43,7 +45,8 @@ const ProductSchema = new mongoose.Schema(
 					message: 'Minimum stock threshold must be an integer'
 				}
 			}
-		}
+		},
+		media: MediaSchema
 	},
 	{ timestamps: true }
 )

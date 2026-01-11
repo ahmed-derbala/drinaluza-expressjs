@@ -5,7 +5,7 @@ import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.j
 import { businessesCollection } from './businesses.constant.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 import { UserRefSchema } from '../users/schemas/user-ref.schema.js'
-
+import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
 const BusinessSchema = new mongoose.Schema(
 	{
 		shops: [{ type: ShopRefSchema, required: true }],
@@ -13,7 +13,8 @@ const BusinessSchema = new mongoose.Schema(
 		slug: { type: String, required: true },
 		name: MultiLangNameSchema,
 		description: { type: String, required: false },
-		state: { type: StateSchema, required: true }
+		state: { type: StateSchema, required: true },
+		media: MediaSchema
 	},
 	{ timestamps: true, collection: businessesCollection }
 )

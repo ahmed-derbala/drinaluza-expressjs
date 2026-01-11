@@ -7,31 +7,28 @@ import { DefaultProductModel } from '../default-products.schema.js'
 import { defaultProductsCollection } from '../default-products.constant.js'
 import { log } from '../../../core/log/index.js'
 import config from '../../../config/index.js'
+import { createDefaultProductSrvc } from '../default-products.service.js'
 
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 const __filename = fileURLToPath(import.meta.url)
 const scriptFilename = path.basename(__filename)
 
-const seafoodProducts = [
+const defaultProducts = [
 	{
-		name: { en: 'Atlantic Salmon', tn_latn: 'Salmon', tn_arab: 'سلمون' },
-		searchKeywords: ['atlantic salmon', 'salmon', 'سلمون', 'fish', 'seafood']
-	},
-	{
-		name: { en: 'Tunisian Shrimp', tn_latn: 'Crevet', tn_arab: 'قمرون' },
+		name: { en: 'Shrimp', tn_latn: 'Crevet', tn_arab: 'قمرون' },
 		searchKeywords: ['shrimp', 'crevet', 'crevette', 'قمرون', 'جمبري', 'prawn', 'seafood']
 	},
 	{
-		name: { en: 'Sea Bream', tn_latn: 'Spares', tn_arab: 'شرغو' },
-		searchKeywords: ['sea bream', 'spares', 'sparus', 'شرغو', 'fish', 'seafood']
+		name: { en: 'Tuna', tn_latn: 'Thon', tn_arab: 'تونة' },
+		searchKeywords: ['tuna', 'bluefin tuna', 'thon', 'تونة', 'fish', 'seafood']
 	},
 	{
-		name: { en: 'Sea Bass', tn_latn: 'Loups', tn_arab: 'وراطة' },
-		searchKeywords: ['sea bass', 'loup de mer', 'loups', 'وراطة', 'fish', 'seafood']
+		name: { en: 'Salmon', tn_latn: 'Salmon', tn_arab: 'سلمون' },
+		searchKeywords: ['atlantic salmon', 'salmon', 'سلمون', 'fish', 'seafood']
 	},
 	{
-		name: { en: 'Sardines', tn_latn: 'Sardina', tn_arab: 'سردينة' },
+		name: { en: 'Sardine', tn_latn: 'Sardina', tn_arab: 'سردينة' },
 		searchKeywords: ['sardine', 'sardina', 'سردينة', 'oily fish', 'seafood']
 	},
 	{
@@ -43,13 +40,31 @@ const seafoodProducts = [
 		searchKeywords: ['squid', 'calamar', 'كلمار', 'cephalopod', 'seafood']
 	},
 	{
+		name: { en: 'Crab', tn_latn: 'Crabe', tn_arab: 'سلطعون' },
+		searchKeywords: ['crab', 'crabe', 'سلطعون', 'shellfish', 'seafood']
+	}
+
+	/*
+
+
+
+
+	{
+		name: { en: 'Sea Bream', tn_latn: 'Spares', tn_arab: 'شرغو' },
+		searchKeywords: ['sea bream', 'spares', 'sparus', 'شرغو', 'fish', 'seafood']
+	},
+	{
+		name: { en: 'Sea Bass', tn_latn: 'Loups', tn_arab: 'وراطة' },
+		searchKeywords: ['sea bass', 'loup de mer', 'loups', 'وراطة', 'fish', 'seafood']
+	},
+	
+	
+	
+	{
 		name: { en: 'Cuttlefish', tn_latn: 'Sebbite', tn_arab: 'سبّيط' },
 		searchKeywords: ['cuttlefish', 'sebbite', 'sepia', 'سبّيط', 'seafood']
 	},
-	{
-		name: { en: 'Bluefin Tuna', tn_latn: 'Thon', tn_arab: 'تونة' },
-		searchKeywords: ['tuna', 'bluefin tuna', 'thon', 'تونة', 'fish', 'seafood']
-	},
+	
 	{
 		name: { en: 'Mussels', tn_latn: 'Moules', tn_arab: 'محار' },
 		searchKeywords: ['mussels', 'moules', 'محار', 'shellfish', 'seafood']
@@ -74,10 +89,7 @@ const seafoodProducts = [
 		name: { en: 'Mackerel', tn_latn: 'Maquereau', tn_arab: 'سكمبري' },
 		searchKeywords: ['mackerel', 'maquereau', 'سكمبري', 'oily fish', 'seafood']
 	},
-	{
-		name: { en: 'Crab', tn_latn: 'Crabe', tn_arab: 'سلطعون' },
-		searchKeywords: ['crab', 'crabe', 'سلطعون', 'shellfish', 'seafood']
-	},
+	
 	{
 		name: { en: 'Lobster', tn_latn: 'Homard', tn_arab: 'كركند' },
 		searchKeywords: ['lobster', 'homard', 'كركند', 'shellfish', 'seafood']
@@ -94,37 +106,16 @@ const seafoodProducts = [
 		name: { en: 'Eel', tn_latn: 'Anguille', tn_arab: 'حنكليس' },
 		searchKeywords: ['eel', 'anguille', 'حنكليس', 'fish', 'seafood']
 	}
+		*/
 ]
-/*
-// Function to seed the database
-async function seedDatabase() {
-	try {
-		// Connect to MongoDB
-		await mongoose.connect(config.db.mongodb.uri, {})
-		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
-		// Insert seafood products without clearing existing data
-		await DefaultProductModel.insertMany(seafoodProducts, { ordered: false })
-		console.log(`Successfully seeded ${seafoodProducts.length} seafood products`)
-		// Verify inserted data
-		const count = await DefaultProductModel.countDocuments()
-		console.log(`Total documents in ${defaultProductsCollection}: ${count}`)
-	} catch (error) {
-		console.error('Error seeding database:', error)
-	} finally {
-		// Close the MongoDB connection
-		await mongoose.connection.close()
-		console.log('MongoDB connection closed')
-	}
-}
-// Run the seed function
-seedDatabase()
-*/
+
 const processScript = async () => {
 	log({ message: `running ${scriptFilename}`, level: 'info' })
-	await DefaultProductModel.insertMany(seafoodProducts, { ordered: false })
+	for (let dp of defaultProducts) {
+		await createDefaultProductSrvc(dp)
+	}
 	const count = await DefaultProductModel.countDocuments()
 	log({ message: `Total documents in ${defaultProductsCollection}: ${count}`, level: 'info' })
-
 	log({ message: `${scriptFilename} completed successfully`, level: 'info' })
 	return true
 }

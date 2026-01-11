@@ -22,19 +22,8 @@ router
 	})
 	.post(authenticate(), validate(createDefaultProductVld), async (req, res) => {
 		try {
-			const { name, searchKeywords } = req.body
-			let { images } = req.body
-			if (!images) {
-				images = {}
-				if (!images.thumbnail) {
-					images.thumbnail = {}
-					if (!images.thumbnail.url) {
-						images.thumbnail.url = `${config.backend.url}/public/default-products/${name.en}/thumbnail.jpeg`
-					}
-				}
-			}
-			console.log(images)
-			const createdDefaultProduct = await createDefaultProductSrvc({ name, images, searchKeywords })
+			const { name, searchKeywords, media } = req.body
+			const createdDefaultProduct = await createDefaultProductSrvc({ name, media, searchKeywords })
 			return resp({ status: 201, data: createdDefaultProduct, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })

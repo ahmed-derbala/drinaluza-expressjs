@@ -21,8 +21,17 @@ export const findManyProductsSrvc = async ({ match, select, page, limit }) => {
 	}
 }
 
-export const createProductSrvc = async ({ shop, name, defaultProduct, price, unit }) => {
-	return await createdProductRepo({ shop, name, defaultProduct, price, unit })
+export const createProductSrvc = async ({ shop, name, slug, defaultProduct, price, unit, state, media }) => {
+	if (!state || !state.code) {
+		state = { code: 'active' }
+	}
+	if (!slug) {
+		slug = shop.slug + '-' + defaultProduct.slug
+	}
+	if (!media) {
+		media = defaultProduct.media
+	}
+	return createdProductRepo({ shop, name, slug, defaultProduct, price, unit, state, media })
 }
 
 export const findMyProductsSrvc = async ({ match, select, page, limit, count }) => {

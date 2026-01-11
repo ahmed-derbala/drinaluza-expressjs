@@ -27,5 +27,5 @@ export const ShopRefSchema = new mongoose.Schema(
 			type: LocationSchema
 		}
 	},
-	{ timestamps: true, required: true }
+	{ timestamps: true }
 )

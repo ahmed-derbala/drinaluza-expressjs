@@ -15,6 +15,8 @@ const router = express.Router()
 router.route('/my-business').get(authenticate({ role: 'shop_owner' }), async (req, res) => {
 	try {
 		let results = {}
+		const business = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id } }, select: '' })
+		results = { ...business }
 		const shopsCount = await findMyShopsSrvc({ match: { owner: { _id: req.user._id } }, count: true })
 		results.shopsCount = shopsCount
 

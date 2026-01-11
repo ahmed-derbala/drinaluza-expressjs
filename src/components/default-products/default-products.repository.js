@@ -25,12 +25,6 @@ export const findDefaultProductsRepo = async ({ page, limit }) => {
 	}
 }
 
-export const createDefaultProductRepo = async ({ name, images, searchKeywords }) => {
-	try {
-		console.log(images)
-		const createdDefaultProduct = DefaultProductModel.create({ name, images, searchKeywords })
-		return createdDefaultProduct
-	} catch (err) {
-		errorHandler({ err })
-	}
+export const createDefaultProductRepo = async ({ name, slug, media, searchKeywords }) => {
+	return DefaultProductModel.create({ name, slug, media, searchKeywords })
 }
