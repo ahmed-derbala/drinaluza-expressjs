@@ -13,7 +13,7 @@ export const UserSettingsSchema = new mongoose.Schema(
 			content: {
 				type: String,
 				required: false,
-				default: config.lang.default,
+				default: config.lang.supported[2],
 				enum: config.lang.supported
 			}
 		},
@@ -21,24 +21,3 @@ export const UserSettingsSchema = new mongoose.Schema(
 	},
 	{ _id: false, timestamps: false, select: false }
 )
-
-/*
-export const UserSettingsSchema = 
-	{
-		lang: {
-			app: {
-				type: String,
-				required: true,
-				default: config.lang.default,
-				enum: config.lang.supported
-			},
-			content: {
-				type: String,
-				required: true,
-				default: config.lang.default,
-				enum: config.lang.supported
-			}
-		},
-		currency: { type: String, required: true, default: config.currency.default, enum: config.currency.supported } //tnd,eur,usd
-	}
-	*/
