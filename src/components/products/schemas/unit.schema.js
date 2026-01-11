@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 
 const UNIT = {
 	KG: 'kg',
-	L: 'l',
 	PIECE: 'piece',
 	TARA: 'tara'
 }

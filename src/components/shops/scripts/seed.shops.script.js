@@ -100,12 +100,10 @@ const processScript = async () => {
 	const shopsToInsert = []
 	for (let i = 0; i < 10; i++) {
 		const owner = shopOwners.docs[i % shopOwners.docs.length] // Cycle through owners
-		//console.log(owner)
 		shopsToInsert.push(generateRandomShop(owner, i))
 	}
 	// Insert the documents
 	for (const shop of shopsToInsert) {
-		//console.log(shop)
 		const newShop = await createShopSrvc(shop)
 		if (newShop) {
 			await addShopToUserSrvc({ shop: newShop, userId: shop.owner._id })
@@ -118,7 +116,7 @@ const processScript = async () => {
 
 async function run() {
 	try {
-		if (config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
+		//if (config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
 		await mongoose.connect(config.db.mongodb.uri, {})
 		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
 		await processScript()

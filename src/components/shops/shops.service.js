@@ -23,7 +23,7 @@ export const findOneShopSrvc = async ({ match }) => {
 	}
 }
 export const createShopSrvc = async ({ name, address, location, owner }) => {
-	log({ level: 'debug', message: 'createShopSrvc', data: { name, address, location, owner } })
+	//log({ level: 'debug', message: 'createShopSrvc', data: { name, address, location, owner } })
 	return createShopRepo({ name, address, location, owner })
 }
 

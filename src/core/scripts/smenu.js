@@ -1,6 +1,7 @@
 import { globSync } from 'glob'
 import inquirer from 'inquirer'
 import { execSync } from 'child_process'
+import config from '../../config/index.js'
 
 async function startMenu() {
 	const files = globSync('src/components/**/*.script.js', {
@@ -28,12 +29,14 @@ async function startMenu() {
     • Press ENTER to confirm.
     • Press CTRL+C to quit.
     `)
+		let message = 'Select a script to run:'
+		if (config.NODE_ENV === 'production') message = '***** RUNNING ON PRODUCTION ***** \n Select a script to run:'
 
 		const { selectedFile } = await inquirer.prompt([
 			{
 				type: 'rawlist', // Best for number selection
 				name: 'selectedFile',
-				message: 'Select a script to run:',
+				message,
 				choices: choices,
 				pageSize: 9
 			}
