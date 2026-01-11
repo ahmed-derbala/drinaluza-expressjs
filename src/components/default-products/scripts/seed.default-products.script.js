@@ -16,16 +16,16 @@ const scriptFilename = path.basename(__filename)
 
 const defaultProducts = [
 	{
-		name: { en: 'Shrimp', tn_latn: 'Crevet', tn_arab: 'قمرون' },
-		searchKeywords: ['shrimp', 'crevet', 'crevette', 'قمرون', 'جمبري', 'prawn', 'seafood']
+		name: { en: 'Shrimp', tn_latn: 'Crevet', tn_arab: 'كروفات' },
+		searchKeywords: ['shrimp', 'crevet', 'crevette', 'قمرون', 'جمبري', 'prawn', 'seafood', 'كروفات', 'كرفات', 'كرفت']
 	},
 	{
-		name: { en: 'Tuna', tn_latn: 'Thon', tn_arab: 'تونة' },
-		searchKeywords: ['tuna', 'bluefin tuna', 'thon', 'تونة', 'fish', 'seafood']
+		name: { en: 'Tuna', tn_latn: 'Thon', tn_arab: 'تن' },
+		searchKeywords: ['tuna', 'bluefin tuna', 'thon', 'تونة', 'fish', 'seafood', 'تن']
 	},
 	{
 		name: { en: 'Salmon', tn_latn: 'Salmon', tn_arab: 'سلمون' },
-		searchKeywords: ['atlantic salmon', 'salmon', 'سلمون', 'fish', 'seafood']
+		searchKeywords: ['atlantic salmon', 'salmon', 'سلمون', 'fish', 'seafood', 'سومون']
 	},
 	{
 		name: { en: 'Sardine', tn_latn: 'Sardina', tn_arab: 'سردينة' },
@@ -40,8 +40,8 @@ const defaultProducts = [
 		searchKeywords: ['squid', 'calamar', 'كلمار', 'cephalopod', 'seafood']
 	},
 	{
-		name: { en: 'Crab', tn_latn: 'Crabe', tn_arab: 'سلطعون' },
-		searchKeywords: ['crab', 'crabe', 'سلطعون', 'shellfish', 'seafood']
+		name: { en: 'Crab', tn_latn: 'Daech', tn_arab: 'داعش' },
+		searchKeywords: ['crab', 'crabe', 'سلطعون', 'shellfish', 'seafood', 'داعش']
 	}
 
 	/*
@@ -122,7 +122,7 @@ const processScript = async () => {
 
 async function run() {
 	try {
-		//if (config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
+		if (!config.security.allowScriptsInProdution && config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
 		await mongoose.connect(config.db.mongodb.uri, {})
 		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
 		await processScript()

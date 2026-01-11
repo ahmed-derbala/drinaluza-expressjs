@@ -11,11 +11,11 @@ export const AddressSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 			trim: true,
-			default: 'Sfax'
+			default: 'El bosten'
 		},
 		state: {
 			type: String,
-			required: false,
+			required: true,
 			trim: true,
 			default: 'Sfax'
 		},
@@ -25,7 +25,7 @@ export const AddressSchema = new mongoose.Schema(
 		},
 		country: {
 			type: String,
-			required: false,
+			required: true,
 			trim: true,
 			default: 'Tunisia'
 		}

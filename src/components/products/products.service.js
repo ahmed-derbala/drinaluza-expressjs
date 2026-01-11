@@ -31,6 +31,9 @@ export const createProductSrvc = async ({ shop, name, slug, defaultProduct, pric
 	if (!media) {
 		media = defaultProduct.media
 	}
+	if (!name) {
+		name = defaultProduct.name
+	}
 	return createdProductRepo({ shop, name, slug, defaultProduct, price, unit, state, media })
 }
 

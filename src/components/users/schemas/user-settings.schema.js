@@ -17,7 +17,28 @@ export const UserSettingsSchema = new mongoose.Schema(
 				enum: config.lang.supported
 			}
 		},
-		currency: { type: String, required: true, default: 'tnd', enum: ['tnd', 'eur', 'usd'] } //tnd,eur,usd
+		currency: { type: String, required: true, default: config.currency.default, enum: config.currency.supported }
 	},
-	{ _id: false, timestamps: { createdAt: false }, select: false }
+	{ _id: false, timestamps: false, select: false }
 )
+
+/*
+export const UserSettingsSchema = 
+	{
+		lang: {
+			app: {
+				type: String,
+				required: true,
+				default: config.lang.default,
+				enum: config.lang.supported
+			},
+			content: {
+				type: String,
+				required: true,
+				default: config.lang.default,
+				enum: config.lang.supported
+			}
+		},
+		currency: { type: String, required: true, default: config.currency.default, enum: config.currency.supported } //tnd,eur,usd
+	}
+	*/

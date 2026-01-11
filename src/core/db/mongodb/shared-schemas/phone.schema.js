@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-export const phone = new mongoose.Schema(
+export const PhoneSchema = new mongoose.Schema(
 	{
 		fullNumber: { type: String, required: false },
 		countryCode: { type: String, required: false },

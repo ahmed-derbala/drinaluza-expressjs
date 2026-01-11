@@ -6,21 +6,12 @@ import { createUserRepo, findOneUserRepo, updateUserRepo, addShopToUserRepo, fin
 import { createBusinessSrvc } from '../businesses/businesses.service.js'
 
 export const updateMyProfileSrvc = async ({ userId, newData }) => {
-	try {
-		const updatedMyProfile = await updateMyProfileRepo({ userId, newData })
-		return updatedMyProfile
-	} catch (err) {
-		errorHandler({ err })
-	}
+	return updateMyProfileRepo({ userId, newData })
 }
 
 export const findMyProfileSrvc = async ({ userId }) => {
-	try {
-		const myProfile = await findMyProfileRepo({ userId })
-		return myProfile
-	} catch (err) {
-		errorHandler({ err })
-	}
+	const select = '+basicInfos +settings +address +location +phone +backupPhones'
+	return findMyProfileRepo({ userId, select })
 }
 
 export const findOneUserSrvc = async ({ match, select }) => {
@@ -38,25 +29,18 @@ export const findUsersSrvc = async ({ match, select, page, limit, count }) => {
 	return await findUsersRepo({ match, select, page, limit, count })
 }
 
-export const findOneProfileSrvc = async ({ slug }) => {
-	try {
-		findUsersRepo
-		if (!loginId) loginId = userId
-		let $or = [{ email: loginId }, { slug: loginId }, { 'phone.shortNumber': loginId }]
-		if (mongoose.isValidObjectId(loginId)) $or.push({ _id: loginId })
-		return UserModel.findOne({ $or }).select('+profile').lean()
-	} catch (err) {
-		errorHandler({ err })
-	}
+export const findOneProfileSrvc = async ({ match }) => {
+	const select = '+basicInfos +address'
+	return findOneUserRepo({ match, select })
 }
 
 export const updateUserSrvc = async ({ match, newData }) => {
 	return await updateUserRepo({ match, newData })
 }
 
-export const createUserSrvc = async ({ email, slug, name, phone, profile, settings, role }) => {
+export const createUserSrvc = async ({ email, slug, name, phone, profile, settings, role, address }) => {
 	if (!slug && !name) return null
-	const user = await createUserRepo({ email, slug, name, phone, profile, settings, role })
+	const user = await createUserRepo({ email, slug, name, phone, profile, settings, role, address })
 	if (!user) return null
 	if (user.role === 'shop_owner') {
 		const business = await createBusinessSrvc({ owner: user })

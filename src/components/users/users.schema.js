@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import * as phoneSchema from '../../core/db/mongodb/shared-schemas/phone.schema.js'
+import { PhoneSchema } from '../../core/db/mongodb/shared-schemas/phone.schema.js'
 import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
@@ -10,66 +10,47 @@ import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
+import { SocialMediaSchema } from '../../core/db/mongodb/shared-schemas/social-media.schema.js'
+import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
+import { stateEnum } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 
-export const PhotoSchema = new mongoose.Schema(
-	{
-		url: { type: String, required: false }
-	},
-	{ _id: false, timestamps: true }
-)
 export const UserBasicInfosSchema = new mongoose.Schema(
 	{
-		firstName: {
-			type: String,
-			required: true
-		},
-		lastName: {
-			type: String,
-			required: true
-		},
 		birthDate: {
 			type: Date,
 			required: false
 		},
-		photo: PhotoSchema,
 		biography: {
 			type: String,
 			required: false
 		}
 	},
-	{ _id: false, timestamps: true }
+	{ _id: false }
 )
 
 const UserSchema = new mongoose.Schema(
 	{
 		business: { type: BusinessRefSchema, required: false },
-		shops: [
-			{
-				type: ShopRefSchema,
-				required: false
-			}
-		],
+		shops: {
+			type: [ShopRefSchema],
+			required: false,
+			select: false
+		},
 		slug: { type: String, required: true },
 		name: MultiLangNameSchema,
-		/*name: {
-			type: String,
-			required: true,
-			default: function () {
-				return this.slug
-			}
-		},*/
-		email: {
-			type: String,
-			required: false
-			//unique: true // return error if email is null duplicated
-		},
 		role: {
 			type: String,
 			enum: userRolesEnum.ALL,
 			default: userRolesEnum.CUSTOMER
 		},
+		email: { type: String, select: false, required: false, unique: true },
 		phone: {
-			type: phoneSchema,
+			type: PhoneSchema,
+			select: false,
+			required: false
+		},
+		backupPhones: {
+			type: [PhoneSchema],
 			select: false,
 			required: false
 		},
@@ -85,7 +66,13 @@ const UserSchema = new mongoose.Schema(
 			type: UserSettingsSchema,
 			select: false
 		},
-		state: StateSchema
+		state: {
+			type: StateSchema,
+			required: true,
+			default: () => ({})
+		},
+		socialMedia: SocialMediaSchema,
+		media: MediaSchema
 	},
 	{ timestamps: true }
 )
@@ -117,5 +104,4 @@ UserSchema.post('findOneAndUpdate', async function (doc, next) {
 	next()
 })
 UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
-//UserSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 export const UserModel = mongoose.model(usersCollection, UserSchema)

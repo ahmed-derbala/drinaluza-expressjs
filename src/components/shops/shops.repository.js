@@ -46,7 +46,7 @@ export const findOneShopRepo = async ({ match }) => {
 
 export const createShopRepo = async ({ name, address, location, owner }) => {
 	const newShop = await ShopModel.create({ name, address, location, owner })
-	log({ level: 'debug', message: 'createShopRepo', data: newShop })
+	//log({ level: 'debug', message: 'createShopRepo', data: newShop })
 	return newShop
 }
 

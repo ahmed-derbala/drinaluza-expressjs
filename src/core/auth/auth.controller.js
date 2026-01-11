@@ -9,20 +9,20 @@ import { findOneUserSrvc, createUserSrvc } from '../../components/users/users.se
 import { createAuthSrvc, findOneAuthSrvc } from './auth.service.js'
 import { SessionsModel } from './sessions.schema.js'
 import { log } from '../log/index.js'
-import { defaults } from '../../components/users/users.constant.js'
 import bcrypt from 'bcrypt'
 
 const router = express.Router()
 
 router.post('/signup', validate(signupVld), async (req, res) => {
 	const { slug, password, role } = req.body
-	let { settings } = req.body
+	let { settings, address = {}, socialMedia = {} } = req.body
 	const existedUser = await findOneUserSrvc({ match: { slug }, select: '_id' })
 	if (existedUser) {
 		return resp({ status: 409, message: 'user already exist', data: null, req, res })
 	}
-	if (!settings) settings = defaults.settings
-	const user = await createUserSrvc({ slug, role, settings })
+	if (!settings) settings = config.defaults.users.settings
+
+	const user = await createUserSrvc({ slug, role, settings, address, socialMedia })
 	if (!user) return resp({ status: 400, data: null, message: 'no user was created', req, res })
 	await createAuthSrvc({ user, password })
 	const token = createNewSession({ user, req })

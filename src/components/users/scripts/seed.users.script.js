@@ -75,7 +75,7 @@ const processScript = async () => {
 
 async function run() {
 	try {
-		//if (config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
+		if (!config.security.allowScriptsInProdution && config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
 		await mongoose.connect(config.db.mongodb.uri, {})
 		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
 		await processScript()

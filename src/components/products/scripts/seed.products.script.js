@@ -18,44 +18,44 @@ function randomPrice(min, max, decimals = 2) {
 
 let products = [
 	{
-		name: { en: 'Shrimp', tn_latn: 'Crevet', tn_arab: 'قمرون' },
+		//name: { en: 'Shrimp', tn_latn: 'Crevet', tn_arab: 'قمرون' },
 		searchKeywords: ['shrimp', 'crevet', 'crevette', 'قمرون', 'جمبري', 'prawn', 'seafood'],
 		price: { total: { tnd: 25 } },
 		unit: { measure: 'kg', min: 1 },
 		stock: { quantity: 50, minThreshold: 5 }
 	},
 	{
-		name: { en: 'Tuna', tn_latn: 'Thon', tn_arab: 'تونة' },
+		//name: { en: 'Tuna', tn_latn: 'Thon', tn_arab: 'تونة' },
 		searchKeywords: ['tuna', 'bluefin tuna', 'thon', 'تونة', 'fish', 'seafood'],
 		price: { total: { tnd: 25 } },
 		unit: { measure: 'kg', min: 1 }
 	},
 	{
-		name: { en: 'Salmon', tn_latn: 'Salmon', tn_arab: 'سلمون' },
+		//name: { en: 'Salmon', tn_latn: 'Salmon', tn_arab: 'سلمون' },
 		searchKeywords: ['atlantic salmon', 'salmon', 'سلمون', 'fish', 'seafood'],
 		price: { total: { tnd: randomPrice(10, 300) } },
 		unit: { measure: 'kg', min: 1 }
 	},
 	{
-		name: { en: 'Sardine', tn_latn: 'Sardina', tn_arab: 'سردينة' },
+		//name: { en: 'Sardine', tn_latn: 'Sardina', tn_arab: 'سردينة' },
 		searchKeywords: ['sardine', 'sardina', 'سردينة', 'oily fish', 'seafood'],
 		price: { total: { tnd: randomPrice(5, 15) } },
 		unit: { measure: 'kg', min: 1 }
 	},
 	{
-		name: { en: 'Octopus', tn_latn: 'Garnit', tn_arab: 'قرنيط' },
+		//name: { en: 'Octopus', tn_latn: 'Garnit', tn_arab: 'قرنيط' },
 		searchKeywords: ['octopus', 'garnit', 'قرنيط', 'cephalopod', 'seafood'],
 		price: { total: { tnd: randomPrice(15, 40) } },
 		unit: { measure: 'kg', min: 1 }
 	},
 	{
-		name: { en: 'Squid', tn_latn: 'Calamar', tn_arab: 'كلمار' },
+		//name: { en: 'Squid', tn_latn: 'Calamar', tn_arab: 'كلمار' },
 		searchKeywords: ['squid', 'calamar', 'كلمار', 'cephalopod', 'seafood'],
 		price: { total: { tnd: randomPrice(8, 25) } },
 		unit: { measure: 'kg', min: 1 }
 	},
 	{
-		name: { en: 'Crab', tn_latn: 'Crabe', tn_arab: 'سلطعون' },
+		//name: { en: 'Crab', tn_latn: 'Crabe', tn_arab: 'سلطعون' },
 		searchKeywords: ['crab', 'crabe', 'سلطعون', 'shellfish', 'seafood'],
 		price: { total: { tnd: randomPrice(20, 50) } },
 		unit: { measure: 'kg', min: 1 }
@@ -168,7 +168,7 @@ const processScript = async () => {
 
 async function run() {
 	try {
-		//if (config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
+		if (!config.security.allowScriptsInProdution && config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
 		await mongoose.connect(config.db.mongodb.uri, {})
 		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
 		await processScript()

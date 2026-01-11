@@ -5,7 +5,8 @@ import { log } from '../../core/log/index.js'
 
 export const updateMyProfileRepo = async ({ userId, newData }) => {
 	try {
-		const updatedMyProfile = await UserModel.findByIdAndUpdate(userId, { $set: newData }, { new: true }).select('+address +basicInfos +settings')
+		console.log(newData)
+		const updatedMyProfile = await UserModel.findByIdAndUpdate(userId, { $set: newData }, { new: true }).select('+address +basicInfos +settings +phone +backupPhones +socialMedia +media')
 		return updatedMyProfile
 	} catch (err) {
 		errorHandler({ err })
@@ -16,23 +17,12 @@ export const updateUserRepo = async ({ match, newData }) => {
 	return await UserModel.findOneAndUpdate(match, { $set: newData }, { new: true })
 }
 
-export const findMyProfileRepo = async ({ userId }) => {
-	try {
-		const myProfile = await UserModel.findOne({ _id: userId }).select('+basicInfos +settings +address +location').lean()
-		return myProfile
-	} catch (err) {
-		return errorHandler({ err })
-	}
+export const findMyProfileRepo = async ({ userId, select }) => {
+	return UserModel.findOne({ _id: userId }).select(select).lean()
 }
 
 export const findOneUserRepo = async ({ match, select }) => {
-	try {
-		const user = await UserModel.findOne(match).select(select).lean()
-		//console.log(user,match)
-		return user
-	} catch (err) {
-		return errorHandler({ err })
-	}
+	return UserModel.findOne(match).select(select).lean()
 }
 
 export const findUsersRepo = async ({ match, select, page, limit, count }) => {
@@ -47,14 +37,15 @@ export const findUsersRepo = async ({ match, select, page, limit, count }) => {
 	}
 }
 
-export const createUserRepo = async ({ email, slug, name, phone, profile, settings, role }) => {
+export const createUserRepo = async ({ email, slug, name, phone, profile, settings, role, address }) => {
+	console.log(address)
 	let updateData = {}
 	if (!name) {
 		name = {}
 		name.en = slug
 		updateData.name = name
 	}
-	let singedupUser = await UserModel.create({ email, slug, name, phone, profile, settings, role })
+	let singedupUser = await UserModel.create({ email, slug, name, phone, profile, settings, role, address })
 	if (!slug) {
 		slug = singedupUser._id
 		updateData.slug = slug

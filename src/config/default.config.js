@@ -35,7 +35,8 @@ const security = {
 		options: {
 			crossOriginResourcePolicy: false
 		}
-	}
+	},
+	allowScriptsInProdution: false
 }
 const docs = {
 	swagger: {
@@ -148,6 +149,16 @@ const levelsNames = {
 	debug: 'debug',
 	silly: 'silly'
 }
+
+const lang = {
+	default: 'en',
+	supported: ['en', 'tn_latn', 'tn_arab']
+}
+const currency = {
+	default: 'tnd',
+	supported: ['tnd', 'usd', 'eur']
+}
+
 const defaultConfig = {
 	NODE_ENV: process.env.NODE_ENV || 'local',
 	app,
@@ -258,9 +269,18 @@ const defaultConfig = {
 	docs,
 	views,
 	performance,
-	lang: {
-		default: 'en',
-		supported: ['en', 'tn_latn', 'tn_arab']
+	lang,
+	currency,
+	defaults: {
+		users: {
+			settings: {
+				lang: {
+					app: lang.default,
+					content: lang.default
+				},
+				currency: currency.default
+			}
+		}
 	},
 	businesses: {
 		autoApprove: true

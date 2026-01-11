@@ -43,10 +43,11 @@ router
 	)
 
 router
-	.route('/:slug/profile')
-	.get(authenticate(), async (req, res) => {
+	.route('/:userSlug/profile')
+	.get(async (req, res) => {
 		try {
-			const profile = await findOneProfileSrvc({ slug: req.params.slug })
+			const match = { slug: req.params.userSlug }
+			const profile = await findOneProfileSrvc({ match })
 			return resp({ status: 200, data: profile, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
