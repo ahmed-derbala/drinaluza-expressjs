@@ -4,13 +4,7 @@ import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
 import { log } from '../../core/log/index.js'
 
 export const updateMyProfileRepo = async ({ userId, newData }) => {
-	try {
-		console.log(newData)
-		const updatedMyProfile = await UserModel.findByIdAndUpdate(userId, { $set: newData }, { new: true }).select('+address +basicInfos +settings +phone +backupPhones +socialMedia +media')
-		return updatedMyProfile
-	} catch (err) {
-		errorHandler({ err })
-	}
+	return UserModel.findByIdAndUpdate(userId, { $set: newData }, { new: true }).select('+address +basicInfos +settings +contact +socialMedia +media')
 }
 
 export const updateUserRepo = async ({ match, newData }) => {

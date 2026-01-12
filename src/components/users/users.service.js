@@ -10,7 +10,7 @@ export const updateMyProfileSrvc = async ({ userId, newData }) => {
 }
 
 export const findMyProfileSrvc = async ({ userId }) => {
-	const select = '+basicInfos +settings +address +location +phone +backupPhones'
+	const select = '+basicInfos +settings +address +location +contact'
 	return findMyProfileRepo({ userId, select })
 }
 

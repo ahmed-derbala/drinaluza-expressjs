@@ -6,6 +6,7 @@ import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
+import { ContactSchema } from '../../core/db/mongodb/shared-schemas/contact.schema.js'
 export const shopsCollection = 'shops'
 
 const shopSchema = new mongoose.Schema(
@@ -21,7 +22,8 @@ const shopSchema = new mongoose.Schema(
 		},
 		deliveryRadiusKm: Number,
 		state: StateSchema,
-		media: MediaSchema
+		media: { type: MediaSchema, required: false, default: () => ({}) },
+		contact: ContactSchema
 	},
 	{ timestamps: true, collection: shopsCollection }
 )

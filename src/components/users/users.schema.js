@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import { PhoneSchema } from '../../core/db/mongodb/shared-schemas/phone.schema.js'
 import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
@@ -13,7 +12,7 @@ import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-
 import { SocialMediaSchema } from '../../core/db/mongodb/shared-schemas/social-media.schema.js'
 import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
 import { stateEnum } from '../../core/db/mongodb/shared-schemas/state.schema.js'
-
+import { ContactSchema } from '../../core/db/mongodb/shared-schemas/contact.schema.js'
 export const UserBasicInfosSchema = new mongoose.Schema(
 	{
 		birthDate: {
@@ -43,14 +42,8 @@ const UserSchema = new mongoose.Schema(
 			enum: userRolesEnum.ALL,
 			default: userRolesEnum.CUSTOMER
 		},
-		email: { type: String, select: false, required: false, unique: true },
-		phone: {
-			type: PhoneSchema,
-			select: false,
-			required: false
-		},
-		backupPhones: {
-			type: [PhoneSchema],
+		contact: {
+			type: ContactSchema,
 			select: false,
 			required: false
 		},

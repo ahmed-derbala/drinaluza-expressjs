@@ -61,7 +61,23 @@ const generateRandomShop = (owner, index) => {
 			sunday: 'Closed'
 		},
 		deliveryRadiusKm: Math.floor(Math.random() * 20) + 5, // 5-25 km
-		state: { code: randomState }
+		state: { code: randomState },
+		contact: {
+			phone: {
+				countryCode: '216',
+				localNumber: Math.floor(Math.random() * 900000000) + 100000000,
+				fullNumber: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
+			},
+			backupPhones: [
+				{
+					countryCode: '216',
+					localNumber: Math.floor(Math.random() * 900000000) + 100000000,
+					fullNumber: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
+				}
+			],
+			email: `shop${index}@example.com`,
+			whatsapp: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
+		}
 	}
 }
 

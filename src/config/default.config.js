@@ -280,7 +280,8 @@ const defaultConfig = {
 				},
 				currency: currency.default
 			}
-		}
+		},
+		shops: { media: { thumbnail: { url: `${backend.url}/public/default-thumbnails/shop.png` } } }
 	},
 	businesses: {
 		autoApprove: true
