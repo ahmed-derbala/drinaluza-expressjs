@@ -11,8 +11,9 @@ import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.j
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 import { SocialMediaSchema } from '../../core/db/mongodb/shared-schemas/social-media.schema.js'
 import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
-import { stateEnum } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { ContactSchema } from '../../core/db/mongodb/shared-schemas/contact.schema.js'
+import { LocationSchema } from '../../core/db/mongodb/shared-schemas/location.schema.js'
+
 export const UserBasicInfosSchema = new mongoose.Schema(
 	{
 		birthDate: {
@@ -47,25 +48,26 @@ const UserSchema = new mongoose.Schema(
 			select: false,
 			required: false
 		},
-		basicInfos: {
-			type: UserBasicInfosSchema,
-			select: false
-		},
 		address: {
 			type: AddressSchema,
 			select: false
 		},
+		location: LocationSchema,
 		settings: {
 			type: UserSettingsSchema,
+			select: false
+		},
+		media: MediaSchema,
+		socialMedia: SocialMediaSchema,
+		basicInfos: {
+			type: UserBasicInfosSchema,
 			select: false
 		},
 		state: {
 			type: StateSchema,
 			required: true,
 			default: () => ({})
-		},
-		socialMedia: SocialMediaSchema,
-		media: MediaSchema
+		}
 	},
 	{ timestamps: true }
 )

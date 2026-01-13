@@ -17,9 +17,13 @@ export const LocationSchema = new mongoose.Schema(
 				},
 				message: 'Coordinates must be an array of [longitude, latitude].'
 			}
+		},
+		sharingEnabled: {
+			type: Boolean,
+			default: false
 		}
 	},
-	{ _id: false }
+	{ _id: false, timestamps: { updatedAt: true, createdAt: false }, select: false }
 )
 
 // Create 2dsphere index for geospatial queries

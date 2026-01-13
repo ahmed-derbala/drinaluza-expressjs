@@ -3,16 +3,17 @@ import { errorHandler } from '../../core/error/index.js'
 import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
 import { log } from '../../core/log/index.js'
 
-export const updateMyProfileRepo = async ({ userId, newData }) => {
-	return UserModel.findByIdAndUpdate(userId, { $set: newData }, { new: true }).select('+address +basicInfos +settings +contact +socialMedia +media')
+export const updateMyProfileRepo = async ({ user, newData }) => {
+	return UserModel.findOneAndUpdate({ slug: user.slug }, { $set: newData }, { new: true }).select('+address +location +basicInfos +settings +contact +socialMedia +media')
 }
 
 export const updateUserRepo = async ({ match, newData }) => {
 	return await UserModel.findOneAndUpdate(match, { $set: newData }, { new: true })
 }
 
-export const findMyProfileRepo = async ({ userId, select }) => {
-	return UserModel.findOne({ _id: userId }).select(select).lean()
+export const findMyProfileRepo = async ({ user, select }) => {
+	//log({ level: 'debug', message: 'findMyProfileRepo', data: { user, select } })
+	return UserModel.findOne({ slug: user.slug }).select(select).lean()
 }
 
 export const findOneUserRepo = async ({ match, select }) => {
@@ -31,15 +32,14 @@ export const findUsersRepo = async ({ match, select, page, limit, count }) => {
 	}
 }
 
-export const createUserRepo = async ({ email, slug, name, phone, profile, settings, role, address }) => {
-	console.log(address)
+export const createUserRepo = async ({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos }) => {
 	let updateData = {}
 	if (!name) {
 		name = {}
 		name.en = slug
 		updateData.name = name
 	}
-	let singedupUser = await UserModel.create({ email, slug, name, phone, profile, settings, role, address })
+	let singedupUser = await UserModel.create({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos })
 	if (!slug) {
 		slug = singedupUser._id
 		updateData.slug = slug

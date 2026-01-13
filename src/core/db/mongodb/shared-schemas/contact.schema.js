@@ -16,8 +16,8 @@ export const ContactSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 			trim: true,
-			sparse: true,
-			unique: true
+			sparse: true
+			//unique: true
 			/*validate: {
 				validator: value =>
 					!value || validator.isMobilePhone(value, 'any', { strictMode: false }),
@@ -28,7 +28,7 @@ export const ContactSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 			sparse: true, // avoids unique conflicts on null values
-			unique: true,
+			//unique: true,
 			lowercase: true,
 			trim: true,
 			validate: {

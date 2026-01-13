@@ -12,6 +12,7 @@ import { processLineTotalSrvc, createPurchaseSrvc } from './purchases.service.js
 import { log } from '../../core/log/index.js'
 import { userRolesEnum } from '../users/users.enum.js'
 import { findOrdersSrvc } from '../orders/orders.service.js'
+import { findOneCustomerSrvc } from '../users/users.service.js'
 
 const router = express.Router()
 router
@@ -35,7 +36,8 @@ router
 			//check shop
 			shop = await findOneShopSrvc({ match: { slug: shop.slug } })
 			if (!shop) return resp({ status: 404, message: 'shop not found', data: null, req, res })
-			const customer = req.user
+			const customer = await findOneCustomerSrvc({ match: { slug: req.user.slug } })
+			log({ level: 'debug', message: 'create purchase', data: { customer, shop } })
 			//shop_owner cannot purchase from his shops
 			if (customer.role === userRolesEnum.SHOP_OWNER) {
 				const ownedShop = await findOneShopSrvc({ match: { owner: { _id: customer._id }, slug: shop.slug }, select: '_id' })

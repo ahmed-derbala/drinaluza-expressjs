@@ -21,8 +21,8 @@ router
 	.route('/my-profile')
 	.get(authenticate(), async (req, res) => {
 		try {
-			const userId = req.user._id
-			const myProfile = await findMyProfileSrvc({ userId })
+			const user = req.user
+			const myProfile = await findMyProfileSrvc({ user })
 			return resp({ status: 200, data: myProfile, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
@@ -33,8 +33,8 @@ router
 		//validate(patchMyProfileVld),
 		async (req, res) => {
 			try {
-				const userId = req.user._id
-				const myUpdatedProfile = await updateMyProfileSrvc({ userId, newData: req.body })
+				const user = req.user
+				const myUpdatedProfile = await updateMyProfileSrvc({ user, newData: req.body })
 				return resp({ status: 200, data: myUpdatedProfile, req, res })
 			} catch (err) {
 				errorHandler({ err, req, res })
