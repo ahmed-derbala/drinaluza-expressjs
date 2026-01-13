@@ -52,7 +52,7 @@ router
 				} else {
 					match.slug = p.product.slug
 				}
-				p.product = await findOneProductSrvc({ match })
+				p.product = await findOneProductSrvc({ match, select: '+media' })
 				if (!p.product) return resp({ status: 404, data: null, message: `product ${JSON.stringify(match)} not found`, req, res })
 				p.lineTotal = processLineTotalSrvc({ price: p.product.price, quantity: p.quantity })
 				//console.log(p.finalPrice)

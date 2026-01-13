@@ -4,6 +4,7 @@ import { PriceSchema } from './price.schema.js'
 import { UnitSchema } from './unit.schema.js'
 import { productsCollection } from '../products.schema.js'
 import { MultiLangNameSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
+import { MediaThumbnailSchema } from '../../../core/db/mongodb/shared-schemas/media-thumbnail.schema.js'
 
 export const ProductRefSchema = new mongoose.Schema(
 	{
@@ -15,7 +16,8 @@ export const ProductRefSchema = new mongoose.Schema(
 		defaultProduct: { type: DefaultProductRefSchema, required: true },
 		name: MultiLangNameSchema,
 		price: { type: PriceSchema, required: true },
-		unit: { type: UnitSchema, required: true }
+		unit: { type: UnitSchema, required: true },
+		media: { type: MediaThumbnailSchema, required: false }
 	},
 	{ timestamps: { createdAt: false, updatedAt: true } }
 )
