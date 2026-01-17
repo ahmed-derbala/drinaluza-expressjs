@@ -51,7 +51,7 @@ const ProductSchema = new mongoose.Schema(
 	{ timestamps: true }
 )
 
-ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
+ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: false })
 //ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
 ProductSchema.index({ searchTerms: 1 })
 

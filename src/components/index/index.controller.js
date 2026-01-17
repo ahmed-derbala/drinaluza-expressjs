@@ -5,7 +5,8 @@ const router = express.Router()
 
 router.get('/', function (req, res, next) {
 	const { NODE_ENV, app } = config
-	return resp({ status: 200, label: 'success', message: 'success', data: { NODE_ENV, app }, req, res })
+	const NODE_VERSION = process.version
+	return resp({ status: 200, label: 'success', message: 'success', data: { NODE_ENV, app, NODE_VERSION }, req, res })
 })
 
 export default router

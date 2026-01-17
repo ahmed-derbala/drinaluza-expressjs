@@ -155,7 +155,7 @@ const processScript = async () => {
 				...p.unit,
 				measure: pickRandom(UNITS)
 			},
-			shop: pickRandom(shops.docs),
+			shop: shops.docs[0], //pickRandom(shops.docs),
 			defaultProduct: pickRandom(defaultProducts.docs)
 		}
 	})
