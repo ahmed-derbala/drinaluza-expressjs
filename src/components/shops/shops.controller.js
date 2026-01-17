@@ -78,15 +78,15 @@ router.route('/my-shops/:shopSlug/').get(authenticate(), async (req, res) => {
 	}
 })
 
-router.route('/my-shops/:shopId/products').get(authenticate(), async (req, res) => {
+router.route('/my-shops/:shopSlug/products').get(authenticate(), async (req, res) => {
 	try {
 		let match = {}
 		//match.owner = { _id: req.user._id }
 		const select = ''
 		let { page = 1, limit = 10 } = req.query
-		const shopId = req.params.shopId
+		const shopSlug = req.params.shopSlug
 		match.shop = {}
-		match.shop._id = shopId
+		match.shop.slug = shopSlug
 		match.shop.owner = { _id: req.user._id }
 		const myShopProducts = await findManyProductsSrvc({ match, select, page, limit })
 		return resp({ status: 200, data: myShopProducts, req, res })
