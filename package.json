@@ -45,7 +45,7 @@
     "monit": "pm2 monit",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "push": "npm run format && git add . && git commit -m",
-    "postpush": "git push",
+    "postpush": "git push && npm run ver",
     "pull": "git pull origin main && npm run i && npm run start:local",
     "i": "npm i",
     "i:prod": "NODE_ENV=production npm ci --omit=dev",
