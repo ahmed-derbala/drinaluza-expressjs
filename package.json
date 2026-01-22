@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "main": "src/index.js",
   "description": "Drinaluza, seafood business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -22,7 +22,7 @@
     "config:new-prod": "cp src/config/default.config.js src/config/production.config.js",
     "config:prod": "cp -n src/config/default.config.js src/config/production.config.js",
     "ver": "npm version patch --no-git-tag-version",
-    "build:prod": "npm run config:new-prod && npm run clean:prod",
+    "build:prod": "npm run config:new-prod && npm run clean:only",
     "build:run": "npm run build && npm run start:prod",
     "first-run:local": "cp src/config/default.config.js src/config/local.config.js && npm run i && npm run start:local",
     "frl": "npm run first-run:local",
