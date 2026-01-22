@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "main": "src/index.js",
   "description": "Drinaluza, seafood business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
