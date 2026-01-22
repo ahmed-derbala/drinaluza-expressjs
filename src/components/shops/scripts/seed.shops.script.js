@@ -11,34 +11,46 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 const __filename = fileURLToPath(import.meta.url)
 const scriptFilename = path.basename(__filename)
+import axios from 'axios'
 
-const generateRandomShop = (owner, index) => {
-	const shopNames = [
-		's1',
-		's2',
-		's3',
-		's4',
-		"Sailor's Seafood Grill",
-		'The Oyster Bar',
-		'Fresh Fish & Co.',
-		'Aqua Harvest',
-		"Poseidon's Platter",
-		'The Gilded Clam',
-		'Coral Cove',
-		"Triton's Treasure",
-		'Lighthouse Seafood',
-		'The Catch of the Day',
-		'Deep Blue Deli'
-	]
+export async function getRandomProductImage() {
+	const { data: products } = await axios.get('https://fakestoreapi.com/products')
+
+	if (!Array.isArray(products) || products.length === 0) {
+		throw new Error('No products returned from API')
+	}
+
+	const randomProduct = products[Math.floor(Math.random() * products.length)]
+
+	return randomProduct.image
+}
+const cityNames = ['Sfax', 'Tunis', 'Sousse', 'Djerba', 'Hammamet']
+const randomCityIndex = Math.floor(Math.random() * cityNames.length)
+const country = 'Tunisia'
+const longitudeRange = [8.5, 11.5] // Approx. longitude range for Tunisia
+const latitudeRange = [33.5, 37.5] // Approx. latitude range for Tunisia
+const shopNames = [
+	's1',
+	's2',
+	's3',
+	's4',
+	'D',
+	'The Oyster Bar',
+	'Fresh Fish & Co.',
+	'Aqua Harvest',
+	"Poseidon's Platter",
+	'The Gilded Clam',
+	'Coral Cove',
+	"Triton's Treasure",
+	'Lighthouse Seafood',
+	'The Catch of the Day',
+	'Deep Blue Deli'
+]
+
+const generateRandomShop = async (owner, index) => {
 	// Updated cities to be in Tunisia
-	const cityNames = ['Sfax', 'Tunis', 'Sousse', 'Djerba', 'Hammamet']
 	// Set the country to Tunisia for all shops
-	const country = 'Tunisia'
-	const longitudeRange = [8.5, 11.5] // Approx. longitude range for Tunisia
-	const latitudeRange = [33.5, 37.5] // Approx. latitude range for Tunisia
-
 	const randomName = shopNames[index % shopNames.length]
-	const randomCityIndex = Math.floor(Math.random() * cityNames.length)
 	const randomState = stateEnum.ALL[index % stateEnum.ALL.length]
 
 	return {
@@ -56,6 +68,7 @@ const generateRandomShop = (owner, index) => {
 				parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
 			]
 		},
+		media: { thumbnail: { url: await getRandomProductImage() } },
 		operatingHours: {
 			monday: '9:00 AM - 5:00 PM',
 			sunday: 'Closed'
@@ -91,7 +104,6 @@ let manualShops = [
 			country: 'Tunisia'
 		},
 		location: {
-			type: 'Point',
 			coordinates: [10.18, 36.8]
 		},
 		operatingHours: {
@@ -100,6 +112,44 @@ let manualShops = [
 		},
 		deliveryRadiusKm: 10,
 		state: { code: 'active' }
+	},
+	{
+		owner: { slug: 'ahmed' },
+		name: { en: 'Drinaluza' },
+		address: {
+			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
+			city: cityNames[randomCityIndex],
+			country: country
+		},
+		location: {
+			type: 'Point',
+			coordinates: [
+				parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
+				parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
+			]
+		},
+		operatingHours: {
+			monday: '9:00 AM - 5:00 PM',
+			sunday: 'Closed'
+		},
+		deliveryRadiusKm: Math.floor(Math.random() * 20) + 5, // 5-25 km
+		state: { code: 'active' },
+		contact: {
+			phone: {
+				countryCode: '216',
+				localNumber: '99112619',
+				fullNumber: `+21699112619`
+			},
+			backupPhones: [
+				{
+					countryCode: '216',
+					localNumber: Math.floor(Math.random() * 900000000) + 100000000,
+					fullNumber: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
+				}
+			],
+			email: `drinaluza@gmail.com`,
+			whatsapp: `+21699112619`
+		}
 	}
 ]
 
@@ -113,11 +163,14 @@ const processScript = async () => {
 	log({ message: `Found ${shopOwners.docs.length} shop owners`, level: 'info' })
 
 	// Generate shop documents - distribute shops among available owners
-	const shopsToInsert = []
+	let shopsToInsert = []
 	for (let i = 0; i < 10; i++) {
 		const owner = shopOwners.docs[i % shopOwners.docs.length] // Cycle through owners
-		shopsToInsert.push(generateRandomShop(owner, i))
+		const s = await generateRandomShop(owner, i)
+		console.log(s.media)
+		shopsToInsert.push(s)
 	}
+	shopsToInsert = [...shopsToInsert, ...manualShops]
 	// Insert the documents
 	for (const shop of shopsToInsert) {
 		const newShop = await createShopSrvc(shop)

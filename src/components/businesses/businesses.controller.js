@@ -12,24 +12,34 @@ import { destroyUserSessionsSrvc } from '../../core/auth/auth.service.js'
 import config from '../../config/default.config.js'
 const router = express.Router()
 
-router.route('/my-business').get(authenticate({ role: 'shop_owner' }), async (req, res) => {
-	try {
-		let results = {}
-		const business = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id } }, select: '' })
-		results = { ...business }
-		const shopsCount = await findMyShopsSrvc({ match: { owner: { _id: req.user._id } }, count: true })
-		results.shopsCount = shopsCount
+router
+	.route('/my-business')
+	.get(authenticate({ role: 'shop_owner' }), async (req, res) => {
+		try {
+			let results = {}
+			const business = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id } }, select: '' })
+			results = { ...business }
+			const shopsCount = await findMyShopsSrvc({ match: { owner: { _id: req.user._id } }, count: true })
+			results.shopsCount = shopsCount
 
-		const productsCount = await findMyProductsSrvc({ match: { shop: { owner: { _id: req.user._id } } }, count: true })
-		results.productsCount = productsCount
+			const productsCount = await findMyProductsSrvc({ match: { shop: { owner: { _id: req.user._id } } }, count: true })
+			results.productsCount = productsCount
 
-		const salessCount = await findMySalesSrvc({ match: { shop: { owner: { _id: req.user._id } } }, count: true })
-		results.salessCount = salessCount
-		return resp({ status: 200, data: results, req, res })
-	} catch (err) {
-		errorHandler({ err, req, res })
-	}
-})
+			const salessCount = await findMySalesSrvc({ match: { shop: { owner: { _id: req.user._id } } }, count: true })
+			results.salessCount = salessCount
+			return resp({ status: 200, data: results, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
+	.patch(authenticate({ role: 'shop_owner' }), async (req, res) => {
+		try {
+			const business = await updateBusinessSrvc({ match: { owner: { _id: req.user._id } }, newData: req.body })
+			return resp({ status: 200, data: business, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
 
 router
 	.route('/requests')
@@ -46,7 +56,8 @@ router
 			const owner = req.user
 			const fetchedBusiness = await findOneBusinessSrvc({ match: { owner: { _id: owner._id } }, select: '' })
 			if (fetchedBusiness) return resp({ status: 409, message: 'Business already exists for this owner', req, res })
-			let business = await createBusinessSrvc({ owner })
+			const { name } = req.body
+			let business = await createBusinessSrvc({ owner, name })
 			if (config.businesses.autoApprove) {
 				const state = { code: 'active' }
 				if (state && state.code === 'active') {

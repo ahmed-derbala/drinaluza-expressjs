@@ -19,6 +19,11 @@ const users = [
 		password: '123',
 		role: 'shop_owner',
 		name: { en: 'so1' },
+		media: {
+			thumbnail: {
+				url: `https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/491802149_9937094896377254_7813699953526702305_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=HHDaDL3wXwkQ7kNvwHOUXQw&_nc_oc=Adk6a87QreUctp498uVjNO2KkTyPfJHYokq5g7WfCk5XIOXoEj75J_LZE0hZwjAk7iw&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=XJtYtuv8qf9bVQ3pcWtCqg&oh=00_Afq_pV8sqtxHPAsPesfLq4rAlDBznIjlDYxNlqO8Rb0tEw&oe=6973B853`
+			}
+		},
 		location: {
 			//type: 'Point',
 			sharingEnabled: true,
@@ -29,10 +34,28 @@ const users = [
 		}
 	},
 	{
-		slug: 'so2',
+		slug: 'ahmed',
 		password: '123',
 		role: 'shop_owner',
-		name: { en: 'so2' }
+		name: { en: 'Ahmed Derbala' },
+		address: {
+			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
+			city: 'Ellouza',
+			country: 'Tunisia',
+			state: 'Sfax'
+		}
+	},
+	{
+		slug: 'mahdi-akid',
+		password: '123',
+		role: 'shop_owner',
+		name: { en: 'Mahdi Akid' },
+		address: {
+			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
+			city: 'Ellouza',
+			country: 'Tunisia',
+			state: 'Sfax'
+		}
 	},
 	{
 		slug: 'c1',
@@ -51,7 +74,6 @@ const users = [
 		},
 		name: { en: 'c1' },
 		location: {
-			//type: 'Point',
 			sharingEnabled: true,
 			coordinates: [
 				parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
@@ -76,16 +98,28 @@ const users = [
 		}
 	},
 	{
-		slug: 'c2',
+		slug: 'abir-othmen',
 		password: '123',
 		role: 'customer',
-		name: { en: 'c2' }
+		name: { en: 'Abir Othmen' }
 	},
 	{
-		slug: 'c3',
+		slug: 'souha-derbala',
 		password: '123',
 		role: 'customer',
-		name: { en: 'c3' },
+		name: { en: 'Souha Derbala' }
+	},
+	{
+		slug: 'serra-aloui',
+		password: '123',
+		role: 'customer',
+		name: { en: 'Serra Aloui' }
+	},
+	{
+		slug: 'rached-fourati',
+		password: '123',
+		role: 'customer',
+		name: { en: 'Rached Fourati' },
 		location: {
 			//type: 'Point',
 			sharingEnabled: true,

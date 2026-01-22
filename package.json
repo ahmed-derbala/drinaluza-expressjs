@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "main": "src/main.js",
   "description": "Drinaluza, seafood business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -22,7 +22,6 @@
     "config:new-prod": "cp src/config/default.config.js src/config/production.config.js",
     "config:prod": "cp -n src/config/default.config.js src/config/production.config.js",
     "ver": "npm version patch --no-git-tag-version",
-    "build": "npm run config:new-prod && npm run clean:prod",
     "build:prod": "npm run config:new-prod && npm run clean:prod",
     "build:run": "npm run build && npm run start:prod",
     "first-run:local": "cp src/config/default.config.js src/config/local.config.js && npm run i && npm run start:local",
@@ -59,6 +58,7 @@
     "ncu": "npm i -D npm-check-updates && ncu -u"
   },
   "dependencies": {
+    "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
     "cli-color": "^2.0.4",
     "compression": "^1.8.1",
@@ -75,7 +75,6 @@
     "inquirer": "^13.1.0",
     "ip": "^2.0.1",
     "jsonwebtoken": "^9.0.3",
-    "lodash-es": "^4.17.22",
     "mongoose": "^8.20.4",
     "mongoose-unique-validator": "^5.0.1",
     "morgan": "^1.10.1",

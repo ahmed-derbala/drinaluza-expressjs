@@ -10,8 +10,8 @@ export const findOneBusinessSrvc = async ({ match }) => {
 	}
 }
 
-export const createBusinessSrvc = async ({ owner }) => {
-	return await createBusinessRepo({ owner })
+export const createBusinessSrvc = async ({ owner, name }) => {
+	return createBusinessRepo({ owner, name })
 }
 
 export const addShopToBusinessSrvc = async ({ shop, businessId }) => {
@@ -35,10 +35,5 @@ export const findManyBusinessesSrvc = async ({ match, select, page, limit }) => 
 }
 
 export const updateBusinessSrvc = async ({ match, newData }) => {
-	try {
-		const business = await updateBusinessRepo({ match, newData })
-		return business
-	} catch (err) {
-		errorHandler({ err })
-	}
+	return updateBusinessRepo({ match, newData })
 }

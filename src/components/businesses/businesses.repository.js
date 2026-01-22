@@ -2,6 +2,7 @@ import { BusinessModel } from './businesses.schema.js'
 import { errorHandler } from '../../core/error/index.js'
 import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
 import { flattenObject } from '../../core/helpers/filters.js'
+import { log } from '../../core/log/index.js'
 
 export const findOneBusinessRepo = async ({ match, select }) => {
 	try {
@@ -30,9 +31,8 @@ export const findManyBusinessesRepo = async ({ match, select, page, limit, count
 	}
 }
 
-export const createBusinessRepo = async ({ owner }) => {
-	const name = { en: owner.name.en + ' New Business' }
-	return await BusinessModel.create({ owner, name, state: { code: 'pending' } })
+export const createBusinessRepo = async ({ owner, name }) => {
+	return BusinessModel.create({ owner, name, state: { code: 'pending' } })
 }
 
 export const addShopToBusinessRepo = async ({ match, select, page, limit, count }) => {
@@ -51,10 +51,8 @@ export const addShopToBusinessRepo = async ({ match, select, page, limit, count 
 }
 
 export const updateBusinessRepo = async ({ match, newData }) => {
-	try {
-		const updatedBusiness = await BusinessModel.findByIdAndUpdate(match._id, { $set: newData }, { new: true })
-		return updatedBusiness
-	} catch (err) {
-		errorHandler({ err })
-	}
+	log({ level: 'debug', data: { match, newData }, message: 'updateBusinessRepo' })
+	const flattenedMatch = flattenObject(match)
+
+	return BusinessModel.findOneAndUpdate(flattenedMatch, { $set: newData }, { new: true })
 }

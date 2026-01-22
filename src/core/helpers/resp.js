@@ -1,6 +1,6 @@
 import { log } from '../log/index.js'
 import { errorHandler } from '../error/index.js'
-import { inRange } from 'lodash-es'
+import { inRange } from './randoms.js'
 
 export const resp = ({ level, status, label, message, req, data, pagination, res }) => {
 	if (!res) return errorHandler({ label: 'res_object_null', req, res, err: 'res is required' })

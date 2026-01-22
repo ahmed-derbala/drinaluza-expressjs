@@ -38,8 +38,11 @@ export const generateTunisianPhone = (options = {}) => {
 	return number
 }
 
-// Examples
-console.log(generateTunisianPhone())
-console.log(generateTunisianPhone({ countryCode: true }))
-console.log(generateTunisianPhone({ formatted: true, countryCode: true }))
-console.log(generateTunisianPhone({ mobileOnly: false }))
+export const inRange = (value, start, end) => {
+	if (end === undefined) {
+		end = start
+		start = 0
+	}
+
+	return value >= Math.min(start, end) && value < Math.max(start, end)
+}

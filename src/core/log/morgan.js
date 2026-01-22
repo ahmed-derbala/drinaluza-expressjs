@@ -1,7 +1,7 @@
 import morgan from 'morgan'
 import config from '../../config/index.js'
 import { log } from './index.js'
-import { inRange } from 'lodash-es'
+import { inRange } from '../helpers/randoms.js'
 import { errorHandler } from '../error/index.js'
 morgan.token('user', (req) => {
 	if (!req.user) return '{}'
