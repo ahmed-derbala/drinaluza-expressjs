@@ -3,7 +3,7 @@ import os from 'os'
 export const apps = [
 	{
 		name: packagejson.name,
-		script: 'src/main.js',
+		script: 'src/index.js',
 		instances: os.cpus().length, //a number, 0 to disable,
 		exec_mode: 'cluster', // Run in cluster mode for better performance
 		autorestart: true,
