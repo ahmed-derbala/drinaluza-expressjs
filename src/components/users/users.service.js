@@ -36,8 +36,8 @@ export const findOneCustomerSrvc = async ({ match, select }) => {
 }
 
 export const findUsersSrvc = async ({ match, select, page, limit, count }) => {
-	//log({ level: 'debug', data: { match, select } })
-	return await findUsersRepo({ match, select, page, limit, count })
+	//log({ level: 'debug', data: { match, select, page, limit, count }, label: 'findUsersSrvc' })
+	return findUsersRepo({ match, select, page, limit, count })
 }
 
 export const findOneProfileSrvc = async ({ match }) => {

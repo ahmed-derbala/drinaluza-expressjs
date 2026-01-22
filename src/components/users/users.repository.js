@@ -21,15 +21,12 @@ export const findOneUserRepo = async ({ match, select }) => {
 }
 
 export const findUsersRepo = async ({ match, select, page, limit, count }) => {
-	try {
-		if (count) {
-			const usersCount = await UserModel.countDocuments(match)
-			return usersCount
-		}
-		return await paginateMongodb({ model: UserModel, match, select, page, limit })
-	} catch (err) {
-		return errorHandler({ err })
+	log({ level: 'debug', data: { match, select, page, limit, count }, label: 'findUsersRepo' })
+	if (count) {
+		const usersCount = await UserModel.countDocuments(match)
+		return usersCount
 	}
+	return paginateMongodb({ model: UserModel, match, select, page, limit })
 }
 
 export const createUserRepo = async ({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos }) => {
@@ -53,7 +50,7 @@ export const createUserRepo = async ({ slug, name, role, contact, address, locat
 export const addShopToUserRepo = async ({ shop, userId }) => {
 	try {
 		const updatedUser = await UserModel.updateOne({ _id: userId }, { $push: { shops: shop } })
-		log({ level: 'debug', message: 'addShopToUserRepo', data: updatedUser })
+		//log({ level: 'debug', message: 'addShopToUserRepo', data: updatedUser })
 		return updatedUser
 	} catch (err) {
 		return errorHandler({ err })

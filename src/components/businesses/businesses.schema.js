@@ -6,12 +6,13 @@ import { businessesCollection } from './businesses.constant.js'
 import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
 import { UserRefSchema } from '../users/schemas/user-ref.schema.js'
 import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
+
 const BusinessSchema = new mongoose.Schema(
 	{
 		shops: [{ type: ShopRefSchema, required: true }],
 		owner: { type: UserRefSchema, required: true },
 		slug: { type: String, required: true },
-		name: MultiLangNameSchema,
+		name: { type: MultiLangNameSchema, required: true },
 		description: { type: String, required: false },
 		state: { type: StateSchema, required: true },
 		media: MediaSchema
@@ -19,6 +20,6 @@ const BusinessSchema = new mongoose.Schema(
 	{ timestamps: true, collection: businessesCollection }
 )
 
-BusinessSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en' })
-//BusinessSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
+BusinessSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
+
 export const BusinessModel = mongoose.model(businessesCollection, BusinessSchema)

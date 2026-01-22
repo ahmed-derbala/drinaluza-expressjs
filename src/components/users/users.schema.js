@@ -30,7 +30,7 @@ export const UserBasicInfosSchema = new mongoose.Schema(
 
 const UserSchema = new mongoose.Schema(
 	{
-		business: { type: BusinessRefSchema, required: false },
+		business: BusinessRefSchema,
 		shops: {
 			type: [ShopRefSchema],
 			required: false,

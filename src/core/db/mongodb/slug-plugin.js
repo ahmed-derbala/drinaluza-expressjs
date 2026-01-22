@@ -12,6 +12,7 @@ export const slugPlugin = (schema, options = {}) => {
 
 	if (unique) {
 		fieldConfig.unique = true
+		fieldConfig.sparse = true
 	}
 
 	schema.add({ [target]: fieldConfig })

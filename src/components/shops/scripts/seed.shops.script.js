@@ -30,7 +30,6 @@ const country = 'Tunisia'
 const longitudeRange = [8.5, 11.5] // Approx. longitude range for Tunisia
 const latitudeRange = [33.5, 37.5] // Approx. latitude range for Tunisia
 const shopNames = [
-	's1',
 	's2',
 	's3',
 	's4',
@@ -97,7 +96,7 @@ const generateRandomShop = async (owner, index) => {
 let manualShops = [
 	{
 		owner: { slug: 'so1' },
-		name: { en: 'Drinaluza' },
+		name: { en: 's1' },
 		address: {
 			street: 'ellouza',
 			city: 'Sfax',
@@ -167,8 +166,12 @@ const processScript = async () => {
 	for (let i = 0; i < 10; i++) {
 		const owner = shopOwners.docs[i % shopOwners.docs.length] // Cycle through owners
 		const s = await generateRandomShop(owner, i)
-		console.log(s.media)
 		shopsToInsert.push(s)
+	}
+
+	for (let ms of manualShops) {
+		const owner = shopOwners.docs[Math.floor(Math.random() * shopOwners.docs.length)]
+		ms.owner = owner
 	}
 	shopsToInsert = [...shopsToInsert, ...manualShops]
 	// Insert the documents
