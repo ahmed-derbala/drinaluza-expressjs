@@ -8,7 +8,7 @@ import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
-import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
+import { MultiLangSchema } from '../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 import { SocialMediaSchema } from '../../core/db/mongodb/shared-schemas/social-media.schema.js'
 import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
 import { ContactSchema } from '../../core/db/mongodb/shared-schemas/contact.schema.js'
@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema(
 			select: false
 		},
 		slug: { type: String, required: true },
-		name: MultiLangNameSchema,
+		name: MultiLangSchema,
 		role: {
 			type: String,
 			enum: userRolesEnum.ALL,

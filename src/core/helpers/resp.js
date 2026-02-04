@@ -17,8 +17,8 @@ export const resp = ({ level, status, label, message, req, data, pagination, res
 	log({
 		level,
 		label,
-		message,
-		data,
+		message
+		/*data,
 		req: {
 			status,
 			method: req.method,
@@ -27,7 +27,7 @@ export const resp = ({ level, status, label, message, req, data, pagination, res
 			ip: req.ip,
 			body: req.body,
 			headers: { tid: req.headers.tid }
-		}
+		}*/
 	})
 	return res.status(status).json({ level, status, label, message, pagination, data, req: { /*user: req.user,*/ headers: { tid: req.headers.tid } } })
 }

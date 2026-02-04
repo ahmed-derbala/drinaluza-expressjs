@@ -4,7 +4,7 @@ import { PriceSchema } from './schemas/price.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { DefaultProductRefSchema } from '../default-products/schemas/default-product-ref.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
-import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
+import { MultiLangSchema } from '../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 import { UnitSchema } from './schemas/unit.schema.js'
 import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
 import { searchKeywordsField } from '../../core/db/mongodb/search-keywords.field.js'
@@ -15,7 +15,7 @@ const ProductSchema = new mongoose.Schema(
 		shop: { type: ShopRefSchema, required: true },
 		defaultProduct: { type: DefaultProductRefSchema, required: true },
 		slug: { type: String, required: true },
-		name: MultiLangNameSchema,
+		name: MultiLangSchema,
 		price: { type: PriceSchema, required: true },
 		unit: { type: UnitSchema, required: true },
 		searchKeywords: searchKeywordsField,

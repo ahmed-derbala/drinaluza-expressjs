@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { usersCollection } from '../users.constant.js'
-import { MultiLangNameSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
+import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 import { AddressSchema } from '../../../core/db/mongodb/shared-schemas/address.schema.js'
 import { LocationSchema } from '../../../core/db/mongodb/shared-schemas/location.schema.js'
 import { ContactSchema } from '../../../core/db/mongodb/shared-schemas/contact.schema.js'
@@ -17,7 +17,7 @@ export const CustomerSchema = new mongoose.Schema(
 		},
 		role: { type: String, required: true },
 		slug: { type: String, required: true },
-		name: MultiLangNameSchema,
+		name: MultiLangSchema,
 		address: AddressSchema,
 		location: LocationSchema,
 		contact: ContactSchema,

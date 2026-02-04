@@ -1,5 +1,6 @@
 import { errorHandler } from '../error/index.js'
 import { findNotificationsRepo, findOneNotificationRepo, updateOneNotificationRepo, createNotificationRepo } from './notifications.repository.js'
+import { log } from '../log/index.js'
 
 export const findNotificationsSrvc = async ({ match, page, limit, select }) => {
 	try {
@@ -11,11 +12,13 @@ export const findNotificationsSrvc = async ({ match, page, limit, select }) => {
 }
 
 export const findOneNotificationSrvc = async ({ match }) => {
-	try {
-		return await findOneNotificationRepo({ match })
-	} catch (err) {
-		errorHandler({ err })
+	let notification = await findOneNotificationRepo({ match })
+	if (notification) {
+		if (!notification.seenAt) {
+			notification = await updateOneNotificationRepo({ match, newData: { seenAt: Date.now() } })
+		}
 	}
+	return notification
 }
 
 export const updateOneNotificationSrvc = async ({ match, newData }) => {
@@ -26,6 +29,7 @@ export const updateOneNotificationSrvc = async ({ match, newData }) => {
 	}
 }
 
-export const createNotificationSrvc = async ({ user, kind, at, title, content }) => {
-	return await createNotificationRepo({ user, kind, at, title, content })
+export const createNotificationSrvc = async ({ user, template, kind, at, title, content }) => {
+	log({ level: 'debug', message: 'create notification', data: { user, template, kind, at, title, content } })
+	return createNotificationRepo({ user, template, kind, at, title, content })
 }

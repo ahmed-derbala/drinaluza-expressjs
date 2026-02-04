@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { usersCollection } from '../users.constant.js'
 import { userRolesEnum } from '../users.enum.js'
-import { MultiLangNameSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
+import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 
 export const UserRefSchema = new mongoose.Schema(
 	{
@@ -11,7 +11,7 @@ export const UserRefSchema = new mongoose.Schema(
 			required: true
 		},
 		slug: { type: String, required: true },
-		name: MultiLangNameSchema,
+		name: MultiLangSchema,
 		role: {
 			type: String,
 			enum: userRolesEnum.ALL,

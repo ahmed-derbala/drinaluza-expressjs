@@ -1,7 +1,7 @@
 import express from 'express'
 import { validate } from '../validation/index.js'
 import { resp } from '../helpers/resp.js'
-import { findNotificationsSrvc, createNotificationSrvc, updateOneNotificationSrvc } from './notifications.service.js'
+import { findNotificationsSrvc, createNotificationSrvc, updateOneNotificationSrvc, findOneNotificationSrvc } from './notifications.service.js'
 import { authenticate } from '../auth/index.js'
 import { errorHandler } from '../error/index.js'
 import { patchNotificationVld } from './notifications.validator.js'
@@ -10,9 +10,8 @@ const router = express.Router()
 router
 	.route('/')
 	.get(authenticate(), async (req, res) => {
-		const userId = req.user._id
 		const { page = 1, limit = 10 } = req.query
-		const notifications = await findNotificationsSrvc({ match: { user: { _id: userId } }, page, limit })
+		const notifications = await findNotificationsSrvc({ match: { user: { _id: req.user._id } }, page, limit })
 		return resp({ status: 200, data: notifications, req, res })
 	})
 	.post(authenticate(), async (req, res) => {
@@ -28,10 +27,8 @@ router
 router
 	.route('/:notificationId')
 	.get(authenticate(), async (req, res) => {
-		const userId = req.user._id
-		const { page = 1, limit = 10 } = req.query
-		const notifications = await findNotificationsSrvc({ match: { user: { _id: userId }, _id: req.params.notificationId }, page, limit })
-		return resp({ status: 200, data: notifications, req, res })
+		const notification = await findOneNotificationSrvc({ match: { user: { _id: req.user._id }, _id: req.params.notificationId } })
+		return resp({ status: 200, data: notification, req, res })
 	})
 	.patch(authenticate(), validate(patchNotificationVld), async (req, res) => {
 		const { seenAt } = req.body

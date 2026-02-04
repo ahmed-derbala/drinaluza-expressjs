@@ -4,6 +4,7 @@ import config from '../../config/index.js'
 import { findOneOrderRepo, patchOrderStatusRepo, appendProductsToOrderRepo } from './purchases.repository.js'
 import { orderStatusEnum } from '../orders/orders.enum.js'
 import { createdOrderRepo } from '../orders/orders.repository.js'
+import { notify } from '../../core/notifications/index.js'
 
 export const findOneOrderSrvc = async ({ match, select }) => {
 	const fetchedOrder = await findOneOrderRepo({ match, select })
@@ -12,6 +13,7 @@ export const findOneOrderSrvc = async ({ match, select }) => {
 
 export const createPurchaseSrvc = async ({ customer, shop, products, status, price }) => {
 	log({ level: 'debug', message: 'create purchase', data: { customer, shop, products, status, price } })
+	notify({ users: [customer], template: { slug: 'purchase_created' }, kind: 'push', at: 'now' })
 	return createdOrderRepo({ customer, shop, products, status, price })
 }
 

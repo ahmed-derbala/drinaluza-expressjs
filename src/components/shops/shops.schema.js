@@ -4,7 +4,7 @@ import { LocationSchema } from '../../core/db/mongodb/shared-schemas/location.sc
 import { OwnerSchema } from '../users/schemas/owner.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
-import { MultiLangNameSchema } from '../../core/db/mongodb/shared-schemas/multi-lang-name.schema.js'
+import { MultiLangSchema } from '../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
 import { ContactSchema } from '../../core/db/mongodb/shared-schemas/contact.schema.js'
 export const shopsCollection = 'shops'
@@ -13,7 +13,7 @@ const shopSchema = new mongoose.Schema(
 	{
 		owner: { type: OwnerSchema, required: true },
 		slug: { type: String, required: true },
-		name: MultiLangNameSchema,
+		name: MultiLangSchema,
 		address: {
 			type: AddressSchema
 		},

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export const MultiLangNameSchema = new mongoose.Schema(
+export const MultiLangSchema = new mongoose.Schema(
 	{
 		en: {
 			type: String,
