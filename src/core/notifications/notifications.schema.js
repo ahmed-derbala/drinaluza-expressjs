@@ -11,8 +11,6 @@ const NotificationSchema = new mongoose.Schema(
 		template: { slug: { type: String, required: true } },
 		title: MultiLangSchema,
 		content: MultiLangSchema,
-		at: { type: String, enum: ['now', 'date', 'later'], default: 'now', select: false },
-		sendAt: { type: Date, default: Date.now, select: false },
 		seenAt: { type: Date },
 		kind: { type: String, enum: ['push', 'email', 'sms'], default: 'push', required: true, select: false },
 		state: StateSchema,

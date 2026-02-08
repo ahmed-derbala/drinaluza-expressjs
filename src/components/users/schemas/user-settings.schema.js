@@ -17,7 +17,11 @@ export const UserSettingsSchema = new mongoose.Schema(
 				enum: config.lang.supported
 			}
 		},
-		currency: { type: String, required: true, default: config.currency.default, enum: config.currency.supported }
+		currency: { type: String, required: true, default: config.currency.default, enum: config.currency.supported },
+		//notifications: { type: String, required: true, default: config.notifications.default, enum: config.notifications.supported }
+		notifications: {
+			isEnabled: { type: Boolean, required: true, default: true }
+		}
 	},
 	{ _id: false, timestamps: false, select: false }
 )

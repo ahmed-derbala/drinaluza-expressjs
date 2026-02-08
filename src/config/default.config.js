@@ -159,6 +159,11 @@ const currency = {
 	supported: ['tnd', 'usd', 'eur']
 }
 
+const notifications = {
+	default: 'push',
+	supported: ['push', 'email', 'sms']
+}
+
 const defaultConfig = {
 	NODE_ENV: process.env.NODE_ENV || 'local',
 	app,
@@ -271,6 +276,7 @@ const defaultConfig = {
 	performance,
 	lang,
 	currency,
+	notifications,
 	defaults: {
 		users: {
 			settings: {
@@ -278,7 +284,8 @@ const defaultConfig = {
 					app: lang.default,
 					content: lang.default
 				},
-				currency: currency.default
+				currency: currency.default,
+				notifications: notifications.default
 			}
 		},
 		shops: { media: { thumbnail: { url: `${backend.url}/public/default-thumbnails/shop.png` } } }

@@ -29,7 +29,7 @@ export const updateOneNotificationSrvc = async ({ match, newData }) => {
 	}
 }
 
-export const createNotificationSrvc = async ({ user, template, kind, at, title, content }) => {
-	log({ level: 'debug', message: 'create notification', data: { user, template, kind, at, title, content } })
-	return createNotificationRepo({ user, template, kind, at, title, content })
+export const createNotificationSrvc = async ({ user, template, kind, title, content }) => {
+	log({ level: 'debug', message: 'create notification', data: { user, template, kind, title, content } })
+	return createNotificationRepo({ user, template, kind, title, content })
 }
