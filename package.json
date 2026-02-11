@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.0.30",
+  "version": "1.0.32",
   "main": "src/main.js",
   "description": "Drinaluza, seafood business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -43,8 +43,8 @@
     "delete": "pm2 delete all",
     "monit": "pm2 monit",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "push": "npm run format && git add . && git commit -m",
-    "postpush": "git push && npm run ver",
+    "push": "npm run ver && npm run format && git add . && git commit -m",
+    "postpush": "git push",
     "pull": "git pull origin main && npm run i && npm run start:local",
     "i": "npm i",
     "i:prod": "NODE_ENV=production npm ci --omit=dev",
