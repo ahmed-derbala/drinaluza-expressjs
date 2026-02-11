@@ -149,6 +149,7 @@ const processScript = async () => {
 	}
 
 	products = products.map((p) => {
+		const defaultProduct = pickRandom(defaultProducts.docs)
 		return {
 			...p,
 			unit: {
@@ -156,11 +157,13 @@ const processScript = async () => {
 				measure: pickRandom(UNITS)
 			},
 			shop: shops.docs[0], //pickRandom(shops.docs),
-			defaultProduct: pickRandom(defaultProducts.docs)
+			defaultProduct: defaultProduct,
+			searchKeywords: defaultProduct.searchKeywords
 		}
 	})
 
 	for (const product of products) {
+		console.log('p', product)
 		await createProductSrvc(product)
 	}
 	log({ message: `completed ${scriptFilename}`, level: 'info' })

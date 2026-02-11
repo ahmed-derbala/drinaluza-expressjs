@@ -13,7 +13,7 @@ export const AddressSchema = new mongoose.Schema(
 			trim: true,
 			default: 'El bosten'
 		},
-		state: {
+		region: {
 			type: String,
 			required: true,
 			trim: true,

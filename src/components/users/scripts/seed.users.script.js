@@ -42,7 +42,23 @@ const users = [
 			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
 			city: 'Ellouza',
 			country: 'Tunisia',
-			state: 'Sfax'
+			region: 'Sfax'
+		},
+		contact: {
+			phone: {
+				countryCode: '216',
+				localNumber: Math.floor(Math.random() * 900000000) + 100000000,
+				fullNumber: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
+			},
+			backupPhones: [
+				{
+					countryCode: '216',
+					localNumber: Math.floor(Math.random() * 900000000) + 100000000,
+					fullNumber: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
+				}
+			],
+			email: randomEmail(),
+			whatsapp: generateTunisianPhone()
 		}
 	},
 	{
@@ -54,7 +70,7 @@ const users = [
 			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
 			city: 'Ellouza',
 			country: 'Tunisia',
-			state: 'Sfax'
+			region: 'Sfax'
 		}
 	},
 	{
@@ -70,7 +86,7 @@ const users = [
 			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
 			city: 'Ellouza',
 			country: 'Tunisia',
-			state: 'Sfax'
+			region: 'Sfax'
 		},
 		name: { en: 'c1' },
 		location: {

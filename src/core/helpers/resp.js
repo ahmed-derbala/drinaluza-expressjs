@@ -2,7 +2,7 @@ import { log } from '../log/index.js'
 import { errorHandler } from '../error/index.js'
 import { inRange } from './randoms.js'
 
-export const resp = ({ level, status, label, message, req, data, pagination, res }) => {
+export const resp = ({ level, status, label, message, req, data, res }) => {
 	if (!res) return errorHandler({ label: 'res_object_null', req, res, err: 'res is required' })
 	if (!level) {
 		if (inRange(status, 200, 399)) level = 'verbose'
@@ -29,5 +29,5 @@ export const resp = ({ level, status, label, message, req, data, pagination, res
 			headers: { tid: req.headers.tid }
 		}*/
 	})
-	return res.status(status).json({ level, status, label, message, pagination, data, req: { /*user: req.user,*/ headers: { tid: req.headers.tid } } })
+	return res.status(status).json({ level, status, label, message, data, req: { /*user: req.user,*/ headers: { tid: req.headers.tid } } })
 }

@@ -53,6 +53,7 @@ export const paginateMongodb = async ({ model, page, limit, match = {}, select =
 		populate
 	}
 	const docs = await model.find(match, select, options)
+
 	return {
 		pagination: {
 			totalDocs,
@@ -68,6 +69,7 @@ export const paginateMongodb = async ({ model, page, limit, match = {}, select =
 		docs
 	}
 }
+
 export const aggregatePaginate = async ({ model, page, limit, pipeline = [] }) => {
 	page = processPage(page)
 	limit = processLimit(limit)

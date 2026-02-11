@@ -1,10 +1,9 @@
-import { UserModel } from './users.schema.js'
 import { errorHandler } from '../../core/error/index.js'
-import mongoose from 'mongoose'
 import { log } from '../../core/log/index.js'
 import { createUserRepo, findOneUserRepo, updateUserRepo, addShopToUserRepo, findMyProfileRepo, updateMyProfileRepo, findUsersRepo } from './users.repository.js'
 import { createBusinessSrvc } from '../businesses/businesses.service.js'
 import { customerSelect } from './schemas/customer.schema.js'
+import { createFeedSrvc } from '../feed/feed.service.js'
 
 export const updateMyProfileSrvc = async ({ user, newData }) => {
 	if (newData.location && newData.location.sharingEnabled == false) {
@@ -56,6 +55,7 @@ export const createUserSrvc = async ({ slug, name, role, contact, address, locat
 	if (user.role === 'shop_owner') {
 		const business = await createBusinessSrvc({ owner: user })
 		await addBusinessToUserSrvc({ business, user })
+		createFeedSrvc({ targetData: user, targetResource: 'user', card: { kind: 'user' } })
 	}
 	return user
 }

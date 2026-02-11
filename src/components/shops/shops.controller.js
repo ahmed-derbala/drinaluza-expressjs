@@ -98,11 +98,11 @@ router.route('/my-shops/:shopSlug/products').get(authenticate(), async (req, res
 router.route('/my-shops/:shopId/products/create').post(authenticate(), async (req, res) => {
 	try {
 		const shopId = req.params.shopId
-		const { name, price, photos, searchTerms, availability, stock } = req.body
+		const { name, price, photos, searchKeywords, availability, stock } = req.body
 		const shop = await findMyShopSrvc({ match: { _id: shopId, owner: { _id: req.user._id } }, select: '' })
 		if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
 
-		const data = { shop, owner: req.user, name, price, photos, searchTerms, availability, stock }
+		const data = { shop, owner: req.user, name, price, photos, searchKeywords, availability, stock }
 		const shopProduct = await createProductSrvc({ data })
 		return resp({ status: shopProduct.status || 200, data: shopProduct, req, res })
 	} catch (err) {

@@ -1,8 +1,8 @@
 import { errorHandler } from '../../core/error/index.js'
 import { findOneProductRepo, findManyProductsRepo, createdProductRepo } from './products.repository.js'
 import { log } from '../../core/log/index.js'
-import config from '../../config/index.js'
 import { findMyProductsRepo } from './products.repository.js'
+import { createFeedSrvc } from '../feed/feed.service.js'
 
 export const findOneProductSrvc = async ({ match, select }) => {
 	const fetchedProduct = await findOneProductRepo({ match, select })
@@ -21,7 +21,7 @@ export const findManyProductsSrvc = async ({ match, select, page, limit }) => {
 	}
 }
 
-export const createProductSrvc = async ({ shop, name, slug, defaultProduct, price, unit, state, media }) => {
+export const createProductSrvc = async ({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords }) => {
 	if (!state || !state.code) {
 		state = { code: 'active' }
 	}
@@ -34,7 +34,11 @@ export const createProductSrvc = async ({ shop, name, slug, defaultProduct, pric
 	if (!name) {
 		name = defaultProduct.name
 	}
-	return createdProductRepo({ shop, name, slug, defaultProduct, price, unit, state, media })
+	const product = await createdProductRepo({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords })
+	if (product) {
+		await createFeedSrvc({ targetData: product, targetResource: 'product', card: { kind: 'product' } })
+	}
+	return product
 }
 
 export const findMyProductsSrvc = async ({ match, select, page, limit, count }) => {

@@ -8,7 +8,7 @@ export const searchProductsRepo = async ({ text, select, page, limit }) => {
 	try {
 		log({ level: 'debug', message: 'searchProductsRepo', data: { text } })
 
-		const match = { searchTerms: { $regex: text, $options: 'i' } }
+		const match = { searchKeywords: { $regex: text, $options: 'i' } }
 		const fetchedProducts = paginateMongodb({ model: ProductModel, match, select, page, limit })
 
 		return fetchedProducts
