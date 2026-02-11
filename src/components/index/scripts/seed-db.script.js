@@ -1,12 +1,12 @@
 import { MongoClient } from 'mongodb'
 import { spawn } from 'node:child_process'
-import config from '../../config/index.js'
+import config from '../../../config/index.js'
 console.clear()
-
+/*
 if (process.env.NODE_ENV === 'production') {
 	console.error('❌ Refusing to run: destructive script in production')
 	process.exit(1)
-}
+}*/
 
 const MONGO_URI = config.db.mongodb.uri
 

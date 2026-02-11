@@ -7,7 +7,7 @@ const backend = {
 	host: `${ip.address()}`,
 	protocol: 'http://',
 	get url() {
-		return `${this.protocol}${this.host}:${this.port}`
+		return process.env.BACKEND_URL || `${this.protocol}${this.host}:${this.port}`
 	}
 }
 /**

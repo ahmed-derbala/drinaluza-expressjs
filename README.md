@@ -9,6 +9,10 @@ Backend of drinaluza. Small businesses management application
 # web app
 
 [netlify](https://drinaluza.netlify.app/)
+[vercel](https://drinaluza.vercel.app/)
+
+CTRL+click to open in new tab
+
 
 
 # features

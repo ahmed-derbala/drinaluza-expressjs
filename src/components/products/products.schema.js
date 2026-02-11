@@ -53,6 +53,5 @@ const ProductSchema = new mongoose.Schema(
 
 ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: false })
 //ProductSchema.index({ slug: 1 }, { unique: true, collation: { locale: 'en', strength: 2 } })
-ProductSchema.index({ searchKeywords: 1 })
 
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)

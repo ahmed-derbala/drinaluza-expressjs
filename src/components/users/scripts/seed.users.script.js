@@ -15,13 +15,13 @@ const latitudeRange = [33.5, 37.5] // Approx. latitude range for Tunisia
 // Sample owner data
 const users = [
 	{
-		slug: 'so1',
+		slug: 'abir',
 		password: '123',
 		role: 'shop_owner',
-		name: { en: 'so1' },
+		name: { en: 'Abir Othmen' },
 		media: {
 			thumbnail: {
-				url: `https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/491802149_9937094896377254_7813699953526702305_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=HHDaDL3wXwkQ7kNvwHOUXQw&_nc_oc=Adk6a87QreUctp498uVjNO2KkTyPfJHYokq5g7WfCk5XIOXoEj75J_LZE0hZwjAk7iw&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=XJtYtuv8qf9bVQ3pcWtCqg&oh=00_Afq_pV8sqtxHPAsPesfLq4rAlDBznIjlDYxNlqO8Rb0tEw&oe=6973B853`
+				url: `https://media.licdn.com/dms/image/v2/D4E35AQFF9g5SK9_wEg/profile-framedphoto-shrink_800_800/B4EZi3e2nCGUAg-/0/1755424975610?e=1771455600&v=beta&t=-_YJE1W5b5AAEXSf-Lc09TRfRC71jWNW2qzdVNm2FGs`
 			}
 		},
 		location: {
@@ -59,6 +59,11 @@ const users = [
 			],
 			email: randomEmail(),
 			whatsapp: generateTunisianPhone()
+		},
+		media: {
+			thumbnail: {
+				url: 'https://media.licdn.com/dms/image/v2/D4E03AQGrOYTGzw2t2A/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1699886542647?e=1772668800&v=beta&t=f4Isz3Znyg-QR9DvjSTbnQx23QSTaITtramAnRyuebM'
+			}
 		}
 	},
 	{
@@ -74,7 +79,7 @@ const users = [
 		}
 	},
 	{
-		slug: 'c1',
+		slug: 'safwen',
 		password: '123',
 		media: {
 			thumbnail: {
@@ -88,7 +93,7 @@ const users = [
 			country: 'Tunisia',
 			region: 'Sfax'
 		},
-		name: { en: 'c1' },
+		name: { en: 'Safwen Baklouti' },
 		location: {
 			sharingEnabled: true,
 			coordinates: [
@@ -114,30 +119,29 @@ const users = [
 		}
 	},
 	{
-		slug: 'abir-othmen',
+		slug: 'hana',
 		password: '123',
 		role: 'customer',
-		name: { en: 'Abir Othmen' }
+		name: { en: 'Hana Derbala' }
 	},
 	{
-		slug: 'souha-derbala',
+		slug: 'souha',
 		password: '123',
 		role: 'customer',
 		name: { en: 'Souha Derbala' }
 	},
 	{
-		slug: 'serra-aloui',
+		slug: 'serra',
 		password: '123',
 		role: 'customer',
 		name: { en: 'Serra Aloui' }
 	},
 	{
-		slug: 'rached-fourati',
+		slug: 'rached',
 		password: '123',
 		role: 'customer',
 		name: { en: 'Rached Fourati' },
 		location: {
-			//type: 'Point',
 			sharingEnabled: true,
 			coordinates: [
 				parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
