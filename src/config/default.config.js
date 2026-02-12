@@ -183,16 +183,16 @@ const defaultConfig = {
 				return `${this.protocol}${this.host}:${this.port}`
 			},
 			version: {
-				latest: expoProject.version,
-				min: '1.0.70',
-				resetApp: false
+				latest: process.env.EXPO_WEB_VERSION_LATEST || expoProject.version,
+				min: process.env.EXPO_WEB_VERSION_MIN || '1.0.70',
+				resetApp: process.env.EXPO_WEB_VERSION_RESET_APP || false
 			}
 		},
 		android: {
 			version: {
-				latest: expoProject.version,
-				min: '1.0.70',
-				resetApp: false
+				latest: EXPO_ANDROID_VERSION_LATEST || expoProject.version,
+				min: EXPO_ANDROID_VERSION_MIN || '1.0.70',
+				resetApp: EXPO_ANDROID_VERSION_RESET_APP || false
 			}
 		}
 	},
