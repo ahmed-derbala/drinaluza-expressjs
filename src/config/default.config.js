@@ -11,7 +11,7 @@ let expoPackagejsonPath = null,
 	expoPackagejson = { version: frontEndMinVersion }
 if (NODE_ENV == 'local') {
 	expoPackagejsonPath = path.resolve('../drinaluza-expo/package.json')
-	expoPackagejson = JSON.parse(fs.readFileSync(expoProjectPath, 'utf-8'))
+	expoPackagejson = JSON.parse(fs.readFileSync(expoPackagejsonPath, 'utf-8'))
 }
 
 const backend = {
