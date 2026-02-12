@@ -5,8 +5,14 @@ import fs from 'fs'
 import { format, transports } from 'winston'
 import 'winston-mongodb'
 
-const expoProjectPath = path.resolve('../drinaluza-expo/package.json')
-const expoProject = JSON.parse(fs.readFileSync(expoProjectPath, 'utf-8'))
+const NODE_ENV = process.env.NODE_ENV || 'local'
+const frontEndMinVersion = '1.0.70'
+let expoPackagejsonPath = null,
+	expoPackagejson = { version: frontEndMinVersion }
+if (NODE_ENV == 'local') {
+	expoPackagejsonPath = path.resolve('../drinaluza-expo/package.json')
+	expoPackagejson = JSON.parse(fs.readFileSync(expoProjectPath, 'utf-8'))
+}
 
 const backend = {
 	port: process.env.PORT || 5001,
@@ -171,7 +177,7 @@ const notifications = {
 }
 
 const defaultConfig = {
-	NODE_ENV: process.env.NODE_ENV || 'local',
+	NODE_ENV,
 	app,
 	backend,
 	frontend: {
@@ -183,16 +189,16 @@ const defaultConfig = {
 				return `${this.protocol}${this.host}:${this.port}`
 			},
 			version: {
-				latest: process.env.EXPO_WEB_VERSION_LATEST || expoProject.version,
-				min: process.env.EXPO_WEB_VERSION_MIN || '1.0.70',
+				latest: process.env.EXPO_WEB_VERSION_LATEST || expoPackagejson.version,
+				min: process.env.EXPO_WEB_VERSION_MIN || frontEndMinVersion,
 				resetApp: process.env.EXPO_WEB_VERSION_RESET_APP || false
 			}
 		},
 		android: {
 			version: {
-				latest: EXPO_ANDROID_VERSION_LATEST || expoProject.version,
-				min: EXPO_ANDROID_VERSION_MIN || '1.0.70',
-				resetApp: EXPO_ANDROID_VERSION_RESET_APP || false
+				latest: process.env.EXPO_ANDROID_VERSION_LATEST || expoPackagejson.version,
+				min: process.env.EXPO_ANDROID_VERSION_MIN || frontEndMinVersion,
+				resetApp: process.env.EXPO_ANDROID_VERSION_RESET_APP || false
 			}
 		}
 	},
