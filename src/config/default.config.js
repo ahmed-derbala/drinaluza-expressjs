@@ -1,7 +1,13 @@
 import packagejson from '../../package.json' with { type: 'json' }
 import ip from 'ip'
+import path from 'path'
+import fs from 'fs'
 import { format, transports } from 'winston'
 import 'winston-mongodb'
+
+const expoProjectPath = path.resolve('../drinaluza-expo/package.json')
+const expoProject = JSON.parse(fs.readFileSync(expoProjectPath, 'utf-8'))
+
 const backend = {
 	port: process.env.PORT || 5001,
 	host: `${ip.address()}`,
@@ -169,11 +175,25 @@ const defaultConfig = {
 	app,
 	backend,
 	frontend: {
-		port: 5000,
-		host: `${ip.address()}`,
-		protocol: 'http://',
-		get url() {
-			return `${this.protocol}${this.host}:${this.port}`
+		web: {
+			port: 5000,
+			host: `${ip.address()}`,
+			protocol: 'http://',
+			get url() {
+				return `${this.protocol}${this.host}:${this.port}`
+			},
+			version: {
+				latest: expoProject.version,
+				min: '1.0.70',
+				resetApp: false
+			}
+		},
+		android: {
+			version: {
+				latest: expoProject.version,
+				min: '1.0.70',
+				resetApp: false
+			}
 		}
 	},
 	auth: {
