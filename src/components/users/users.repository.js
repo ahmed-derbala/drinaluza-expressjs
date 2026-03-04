@@ -4,11 +4,11 @@ import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
 import { log } from '../../core/log/index.js'
 
 export const updateMyProfileRepo = async ({ user, newData }) => {
-	return UserModel.findOneAndUpdate({ slug: user.slug }, { $set: newData }, { new: true }).select('+address +location +basicInfos +settings +contact +socialMedia +media')
+	return UserModel.findOneAndUpdate({ slug: user.slug }, { $set: newData }, { returnDocument: 'after' }).select('+address +location +basicInfos +settings +contact +socialMedia +media')
 }
 
 export const updateUserRepo = async ({ match, newData }) => {
-	return await UserModel.findOneAndUpdate(match, { $set: newData }, { new: true })
+	return await UserModel.findOneAndUpdate(match, { $set: newData }, { returnDocument: 'after' })
 }
 
 export const findMyProfileRepo = async ({ user, select }) => {

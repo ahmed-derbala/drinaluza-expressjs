@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import config from '../../../config/index.js'
-import { stateEnum } from '../../../core/db/mongodb/shared-schemas/state.schema.js'
 import { findUsersSrvc, addShopToUserSrvc } from '../../users/users.service.js'
 import { log } from '../../../core/log/index.js'
 import { createShopSrvc } from '../shops.service.js'
@@ -24,108 +23,20 @@ export async function getRandomProductImage() {
 
 	return randomProduct.image
 }
-const cityNames = ['Sfax', 'Tunis', 'Sousse', 'Djerba', 'Hammamet']
-const randomCityIndex = Math.floor(Math.random() * cityNames.length)
-const country = 'Tunisia'
-const longitudeRange = [8.5, 11.5] // Approx. longitude range for Tunisia
-const latitudeRange = [33.5, 37.5] // Approx. latitude range for Tunisia
-const shopNames = [
-	's2',
-	's3',
-	's4',
-	'D',
-	'The Oyster Bar',
-	'Fresh Fish & Co.',
-	'Aqua Harvest',
-	"Poseidon's Platter",
-	'The Gilded Clam',
-	'Coral Cove',
-	"Triton's Treasure",
-	'Lighthouse Seafood',
-	'The Catch of the Day',
-	'Deep Blue Deli'
-]
-
-const generateRandomShop = async (owner, index) => {
-	// Updated cities to be in Tunisia
-	// Set the country to Tunisia for all shops
-	const randomName = shopNames[index % shopNames.length]
-	const randomState = stateEnum.ALL[index % stateEnum.ALL.length]
-
-	return {
-		owner,
-		name: { en: randomName },
-		address: {
-			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
-			city: cityNames[randomCityIndex],
-			country: country
-		},
-		location: {
-			type: 'Point',
-			coordinates: [
-				parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
-				parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
-			]
-		},
-		media: { thumbnail: { url: await getRandomProductImage() } },
-		operatingHours: {
-			monday: '9:00 AM - 5:00 PM',
-			sunday: 'Closed'
-		},
-		deliveryRadiusKm: Math.floor(Math.random() * 20) + 5, // 5-25 km
-		state: { code: randomState },
-		contact: {
-			phone: {
-				countryCode: '216',
-				localNumber: Math.floor(Math.random() * 900000000) + 100000000,
-				fullNumber: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
-			},
-			backupPhones: [
-				{
-					countryCode: '216',
-					localNumber: Math.floor(Math.random() * 900000000) + 100000000,
-					fullNumber: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
-				}
-			],
-			email: `shop${index}@example.com`,
-			whatsapp: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
-		}
-	}
-}
+const country = 'Tunisia',
+	city = 'Sfax'
 
 let manualShops = [
-	{
-		owner: { slug: 'so1' },
-		name: { en: 's1' },
-		address: {
-			street: 'ellouza',
-			city: 'Sfax',
-			country: 'Tunisia'
-		},
-		location: {
-			coordinates: [10.18, 36.8]
-		},
-		operatingHours: {
-			monday: '9:00 AM - 8:00 PM',
-			sunday: 'Closed'
-		},
-		deliveryRadiusKm: 10,
-		state: { code: 'active' }
-	},
 	{
 		owner: { slug: 'ahmed' },
 		name: { en: 'Drinaluza' },
 		address: {
 			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
-			city: cityNames[randomCityIndex],
+			city: 'Sfax',
 			country: country
 		},
 		location: {
-			type: 'Point',
-			coordinates: [
-				parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
-				parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
-			]
+			coordinates: [10.18, 36.8]
 		},
 		operatingHours: {
 			monday: '9:00 AM - 5:00 PM',
@@ -148,7 +59,26 @@ let manualShops = [
 			],
 			email: `drinaluza@gmail.com`,
 			whatsapp: `+21699112619`
-		}
+		},
+		media: { thumbnail: { url: await getRandomProductImage() } }
+	},
+	{
+		owner: { slug: 'mahdi-akid' },
+		name: { en: 'Drayen Ellouza' },
+		address: {
+			street: 'ellouza',
+			city: 'Sfax',
+			country: 'Tunisia'
+		},
+		location: {
+			coordinates: [10.18, 36.8]
+		},
+		operatingHours: {
+			monday: '9:00 AM - 8:00 PM',
+			sunday: 'Closed'
+		},
+		deliveryRadiusKm: 10,
+		state: { code: 'active' }
 	}
 ]
 
@@ -161,21 +91,12 @@ const processScript = async () => {
 	}
 	log({ message: `Found ${shopOwners.docs.length} shop owners`, level: 'info' })
 
-	// Generate shop documents - distribute shops among available owners
-	let shopsToInsert = []
-	for (let i = 0; i < 10; i++) {
-		const owner = shopOwners.docs[i % shopOwners.docs.length] // Cycle through owners
-		const s = await generateRandomShop(owner, i)
-		shopsToInsert.push(s)
-	}
-
 	for (let ms of manualShops) {
-		const owner = shopOwners.docs[Math.floor(Math.random() * shopOwners.docs.length)]
+		const owner = shopOwners.docs.find((o) => o.slug === ms.owner.slug)
 		ms.owner = owner
 	}
-	shopsToInsert = [...shopsToInsert, ...manualShops]
 	// Insert the documents
-	for (const shop of shopsToInsert) {
+	for (const shop of manualShops) {
 		const newShop = await createShopSrvc(shop)
 		if (newShop) {
 			await addShopToUserSrvc({ shop: newShop, userId: shop.owner._id })
@@ -183,7 +104,7 @@ const processScript = async () => {
 			await addShopToBusinessSrvc({ businessId: shop.owner.business._id, shop: newShop })
 		}
 	}
-	log({ message: `Inserted ${shopsToInsert.length} shops`, level: 'info' })
+	log({ message: `Inserted ${manualShops.length} shops`, level: 'info' })
 }
 
 async function run() {

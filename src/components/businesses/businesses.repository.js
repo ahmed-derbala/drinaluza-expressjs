@@ -54,5 +54,5 @@ export const updateBusinessRepo = async ({ match, newData }) => {
 	log({ level: 'debug', data: { match, newData }, message: 'updateBusinessRepo' })
 	const flattenedMatch = flattenObject(match)
 
-	return BusinessModel.findOneAndUpdate(flattenedMatch, { $set: newData }, { new: true })
+	return BusinessModel.findOneAndUpdate(flattenedMatch, { $set: newData }, { returnDocument: 'after' })
 }

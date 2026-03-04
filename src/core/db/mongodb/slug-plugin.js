@@ -1,61 +1,61 @@
 /**
- * Mongoose plugin for intelligent slug generation with manual override support.
+ * Mongoose plugin for intelligent slug generation
+ * with manual override support and optional uniqueness enforcement.
  */
+
 export const slugPlugin = (schema, options = {}) => {
 	const { source = 'name', target = 'slug', sub = 'en', unique = true } = options
 
-	// 1. Define the field and index
+	// ------------------------------------------------------------------
+	// 1. Define slug field
+	// ------------------------------------------------------------------
 	const fieldConfig = {
 		type: String,
 		trim: true
 	}
 
 	if (unique) {
+		// Note: This creates a MongoDB unique index (not a validator)
 		fieldConfig.unique = true
 		fieldConfig.sparse = true
 	}
 
 	schema.add({ [target]: fieldConfig })
 
-	schema.pre('validate', async function (next) {
-		// --- NEW LOGIC: MANUAL OVERRIDE CHECK ---
-		// If a slug is already provided manually on a new document,
-		// or if it's being manually updated, we skip generating it from "name".
+	// ------------------------------------------------------------------
+	// 2. Pre-validate hook (Promise style — no next())
+	// ------------------------------------------------------------------
+	schema.pre('validate', async function () {
+		// --- Manual override case ---
 		if (this.isModified(target) && this[target]) {
-			// We still need to check if the manually passed slug is unique
-			return await validateUniqueness.call(this, this[target], next)
+			await validateUniqueness.call(this, this[target])
+			return
 		}
 
-		// Standard logic: skip if source hasn't changed and slug exists
+		// Skip regeneration if source unchanged and slug exists
 		if (!this.isModified(source) && this[target]) {
-			return next()
+			return
 		}
 
-		// 2. Extract value
+		// Extract raw source value
 		let rawValue = this.get(source)
+
+		// Handle i18n object case
 		if (rawValue && typeof rawValue === 'object') {
 			rawValue = rawValue[sub] || Object.values(rawValue)[0]
 		}
 
-		if (!rawValue) return next()
+		if (!rawValue) return
 
-		// 3. Generate Base Slug
-		const baseSlug = rawValue
-			.toString()
-			.toLowerCase()
-			.trim()
-			.replace(/[^\w\s-]/g, '')
-			.replace(/[\s_-]+/g, '-')
-			.replace(/^-+|-+$/g, '')
+		const baseSlug = processSlug(rawValue)
 
-		// 4. Run the uniqueness loop
-		await validateUniqueness.call(this, baseSlug, next)
+		await validateUniqueness.call(this, baseSlug)
 	})
 
-	/**
-	 * Helper function to handle the database lookup loop
-	 */
-	async function validateUniqueness(baseSlug, next) {
+	// ------------------------------------------------------------------
+	// 3. Uniqueness validator (internal helper)
+	// ------------------------------------------------------------------
+	async function validateUniqueness(baseSlug) {
 		let currentSlug = baseSlug
 		let counter = 0
 
@@ -67,32 +67,39 @@ export const slugPlugin = (schema, options = {}) => {
 
 			const exists = await this.constructor.findOne(query).select('_id').lean()
 
+			// If no conflict → assign and exit
 			if (!exists) {
 				this[target] = currentSlug
-				break
+				return
 			}
 
+			// If strict unique mode → throw immediately
 			if (unique) {
 				const error = new Error(`Slug "${currentSlug}" already exists.`)
 				error.name = 'ValidationError'
-				return next(error)
-			} else {
-				counter++
-				currentSlug = `${baseSlug}-${counter}`
+				throw error
 			}
 
-			if (counter > 100) return next(new Error('Too many slug collisions.'))
+			// Otherwise append counter
+			counter++
+			currentSlug = `${baseSlug}-${counter}`
+
+			if (counter > 100) {
+				throw new Error('Too many slug collisions.')
+			}
 		}
-		next()
 	}
 }
 
+// ----------------------------------------------------------------------
+// Utility: Pure slug processor (can be reused externally)
+// ----------------------------------------------------------------------
 export const processSlug = (value) => {
 	return value
 		.toString()
 		.toLowerCase()
 		.trim()
-		.replace(/[^\w\s-]/g, '') // Remove special chars
-		.replace(/[\s_-]+/g, '-') // Spaces/underscores to hyphens
-		.replace(/^-+|-+$/g, '') // Trim hyphens from ends
+		.replace(/[^\w\s-]/g, '') // Remove special characters
+		.replace(/[\s_-]+/g, '-') // Replace spaces/underscores with hyphen
+		.replace(/^-+|-+$/g, '') // Trim hyphens
 }

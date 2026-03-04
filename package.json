@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "main": "src/main.js",
   "description": "Drinaluza, seafood business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -58,7 +58,7 @@
     "ncu": "npm i -D npm-check-updates && ncu -u"
   },
   "dependencies": {
-    "axios": "^1.13.5",
+    "axios": "^1.13.6",
     "bcrypt": "^6.0.0",
     "cli-color": "^2.0.4",
     "compression": "^1.8.1",
@@ -70,13 +70,13 @@
     "express-useragent": "^2.1.0",
     "express-validator": "^7.3.1",
     "express-winston": "^4.2.0",
-    "glob": "^13.0.2",
+    "glob": "^13.0.6",
     "helmet": "^8.1.0",
-    "inquirer": "^13.2.2",
+    "inquirer": "^13.3.0",
     "ip": "^2.0.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^8.0.0",
-    "mongoose-unique-validator": "^5.0.2",
+    "mongoose": "^9.2.4",
+    "mongoose-unique-validator": "^6.1.0",
     "morgan": "^1.10.1",
     "prettier": "^3.8.1",
     "socket.io": "^4.8.3",
@@ -86,9 +86,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.0.0",
-    "globals": "^17.3.0",
-    "npm-check-updates": "^19.3.2",
+    "eslint": "^10.0.2",
+    "globals": "^17.4.0",
+    "npm-check-updates": "^19.6.3",
     "pm2": "^6.0.14"
   }
 }

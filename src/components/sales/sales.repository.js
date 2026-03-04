@@ -35,7 +35,7 @@ export const createdOrderRepo = async ({ data }) => {
 export const patchOrderStatusRepo = async ({ match, status }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
-		const patchedOrder = await OrderModel.findOneAndUpdate({ ...flattenedMatch }, { status }, { new: true })
+		const patchedOrder = await OrderModel.findOneAndUpdate({ ...flattenedMatch }, { status }, { returnDocument: 'after' })
 		return patchedOrder
 	} catch (err) {
 		throw errorHandler({ err })

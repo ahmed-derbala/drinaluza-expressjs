@@ -28,7 +28,7 @@ export const findOneNotificationRepo = async ({ match }) => {
 export const updateOneNotificationRepo = async ({ match, newData }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
-		return await NotificationModel.findOneAndUpdate(flattenedMatch, { $set: newData }, { new: true })
+		return await NotificationModel.findOneAndUpdate(flattenedMatch, { $set: newData }, { returnDocument: 'after' })
 	} catch (err) {
 		errorHandler({ err })
 	}

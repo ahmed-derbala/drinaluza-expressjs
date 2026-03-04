@@ -18,7 +18,7 @@ export const findOneOrderRepo = async ({ match, select }) => {
 export const patchOrderStatusRepo = async ({ match, status }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
-		const patchedOrder = await OrderModel.findOneAndUpdate({ ...flattenedMatch }, { status }, { new: true })
+		const patchedOrder = await OrderModel.findOneAndUpdate({ ...flattenedMatch }, { status }, { returnDocument: 'after' })
 		return patchedOrder
 	} catch (err) {
 		throw errorHandler({ err })
@@ -26,5 +26,5 @@ export const patchOrderStatusRepo = async ({ match, status }) => {
 }
 
 export const appendProductsToOrderRepo = async ({ orderId, products }) => {
-	return OrderModel.findByIdAndUpdate(orderId, { $push: { products } }, { new: true })
+	return OrderModel.findByIdAndUpdate(orderId, { $push: { products } }, { returnDocument: 'after' })
 }
