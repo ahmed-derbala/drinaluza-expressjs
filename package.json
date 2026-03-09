@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "main": "src/main.js",
   "description": "Drinaluza, seafood business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -66,7 +66,7 @@
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "express-ejs-layouts": "^2.5.1",
-    "express-rate-limit": "^8.2.1",
+    "express-rate-limit": "^8.3.1",
     "express-useragent": "^2.1.0",
     "express-validator": "^7.3.1",
     "express-winston": "^4.2.0",
@@ -86,7 +86,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.0.2",
+    "eslint": "^10.0.3",
     "globals": "^17.4.0",
     "npm-check-updates": "^19.6.3",
     "pm2": "^6.0.14"
