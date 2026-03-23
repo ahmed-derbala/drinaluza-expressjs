@@ -10,19 +10,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 const __filename = fileURLToPath(import.meta.url)
 const scriptFilename = path.basename(__filename)
-import axios from 'axios'
 
-export async function getRandomProductImage() {
-	const { data: products } = await axios.get('https://fakestoreapi.com/products')
-
-	if (!Array.isArray(products) || products.length === 0) {
-		throw new Error('No products returned from API')
-	}
-
-	const randomProduct = products[Math.floor(Math.random() * products.length)]
-
-	return randomProduct.image
-}
 const country = 'Tunisia',
 	city = 'Sfax'
 
@@ -60,7 +48,11 @@ let manualShops = [
 			email: `drinaluza@gmail.com`,
 			whatsapp: `+21699112619`
 		},
-		media: { thumbnail: { url: await getRandomProductImage() } }
+		media: {
+			thumbnail: {
+				url: `https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-6/566200084_1281876597315347_4989063260266431536_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=IbrnxUXCVEIQ7kNvwEeLyb0&_nc_oc=Adm0tSPjKADKEso1hU9hgV2khnZTlj4Mz0CErYEvpuTg4Je5yXj7Ne8lkoI9HxNMoiA&_nc_zt=23&_nc_ht=scontent.ftun14-1.fna&_nc_gid=sFJ-fE0Ho0eeXDbxcv4YoQ&_nc_ss=8&oh=00_AfxSOEqFaLXVnlZ2AUPno_Aa-b_bonOLMATnvTFK2ExqyQ&oe=69B4F823`
+			}
+		}
 	},
 	{
 		owner: { slug: 'mahdi-akid' },
@@ -78,7 +70,12 @@ let manualShops = [
 			sunday: 'Closed'
 		},
 		deliveryRadiusKm: 10,
-		state: { code: 'active' }
+		state: { code: 'active' },
+		media: {
+			thumbnail: {
+				url: `https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-6/605233204_122149397024949667_5232592259142035782_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=p5BZ-Z6oBJcQ7kNvwHdbd8L&_nc_oc=Adm0Ju8hd_kWv3KWiZySgXe9B9tcBeyyxOymLGGJWTFZZFXFnn3oBo2WyzSB-iVNSVg&_nc_zt=23&_nc_ht=scontent.ftun14-1.fna&_nc_gid=Sw6x0Ei6vXijEC327zbyhw&_nc_ss=8&oh=00_AfyVPB6Gh_N3CF1Kkyp-pv_8erycnIpz74VgpKN56sqDRg&oe=69B51A72`
+			}
+		}
 	}
 ]
 
