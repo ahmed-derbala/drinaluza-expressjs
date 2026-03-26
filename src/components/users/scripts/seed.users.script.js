@@ -17,7 +17,7 @@ const users = [
 	{
 		slug: 'abir',
 		password: '123',
-		role: 'shop_owner',
+		role: 'customer',
 		name: { en: 'Abir Othmen' },
 		media: {
 			thumbnail: {
