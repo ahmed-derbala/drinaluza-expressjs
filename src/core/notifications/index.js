@@ -28,7 +28,7 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 		console.log(sessions)
 
 		if (!sessions || sessions.length === 0) {
-			log({ level: 'debug', message: 'No sessions found for user', data: { user } })
+			log({ level: 'debug', message: `No sessions found for user ${user.slug}`, data: { user } })
 			return
 		}
 		const messages = []
