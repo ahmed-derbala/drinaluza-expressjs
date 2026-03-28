@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { SessionsModel } from '../sessions/sessions.schema.js'
+import { SessionModel } from '../sessions/sessions.schema.js'
 import { errorHandler } from '../error/index.js'
 import config from '../../config/index.js'
 import { resp } from '../helpers/resp.js'
@@ -35,7 +35,7 @@ export const authenticate = (params) => {
 					return errorHandler({ err, req, res, next })
 				}
 				//check if token is in session
-				const session = await SessionsModel.findOne({ token: token }).select('token').lean()
+				const session = await SessionModel.findOne({ token: token }).select('token').lean()
 				if (session == null) {
 					return resp({ message: 'No session created with provided token', data: null, status: 401, req, res })
 				}
@@ -77,7 +77,7 @@ export const authenticate = (params) => {
 }
 export const createNewSession = ({ user, req }) => {
 	const token = jwt.sign({ user, req: { ip: req.ip, headers: { 'user-agent': req.headers['user-agent'] } } }, config.auth.jwt.privateKey, { expiresIn: config.auth.jwt.expiresIn })
-	SessionsModel.create({
+	SessionModel.create({
 		token,
 		user,
 		req: {

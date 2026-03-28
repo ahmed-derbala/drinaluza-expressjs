@@ -27,4 +27,4 @@ const schema = new mongoose.Schema(
 	{ timestamps: true, collection: sessionsCollection }
 )
 
-export const SessionsModel = mongoose.model(sessionsCollection, schema)
+export const SessionModel = mongoose.model(sessionsCollection, schema)

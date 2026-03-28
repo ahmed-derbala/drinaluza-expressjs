@@ -7,7 +7,7 @@ import { errorHandler } from '../error/index.js'
 import { resp } from '../helpers/resp.js'
 import { findOneUserSrvc, createUserSrvc } from '../../components/users/users.service.js'
 import { createAuthSrvc, findOneAuthSrvc } from './auth.service.js'
-import { SessionsModel } from '../sessions/sessions.schema.js'
+import { SessionModel } from '../sessions/sessions.schema.js'
 import { log } from '../log/index.js'
 import bcrypt from 'bcrypt'
 
@@ -49,7 +49,7 @@ router.post('/signin', validate(signinVld), async (req, res) => {
 })
 
 router.post('/signout', authenticate(), async (req, res) => {
-	return SessionsModel.deleteOne({ token: req.headers.token })
+	return SessionModel.deleteOne({ token: req.headers.token })
 		.then((deletedSession) => {
 			return res.status(200).json({ message: 'singedout', data: deletedSession })
 		})
