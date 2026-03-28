@@ -7,7 +7,7 @@ import { errorHandler } from '../error/index.js'
 import { resp } from '../helpers/resp.js'
 import { findOneUserSrvc, createUserSrvc } from '../../components/users/users.service.js'
 import { createAuthSrvc, findOneAuthSrvc } from './auth.service.js'
-import { SessionsModel } from './sessions.schema.js'
+import { SessionsModel } from '../sessions/sessions.schema.js'
 import { log } from '../log/index.js'
 import bcrypt from 'bcrypt'
 

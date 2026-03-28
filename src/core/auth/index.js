@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { SessionsModel } from './sessions.schema.js'
+import { SessionsModel } from '../sessions/sessions.schema.js'
 import { errorHandler } from '../error/index.js'
 import config from '../../config/index.js'
 import { resp } from '../helpers/resp.js'

@@ -54,8 +54,9 @@ if (config.app.views) {
 await loaders.load({ app, rootDir: '/components', urlPrefix: '/api/', fileSuffix: '.controller.js' }) //load api
 await loaders.load({ app, rootDir: '/components/index', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load "/"
 await loaders.load({ app, rootDir: '/core/auth', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
-await loaders.load({ app, rootDir: '/core/health', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load health
-await loaders.load({ app, rootDir: '/core/notifications', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
+await loaders.load({ app, rootDir: '/core/health', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false })
+await loaders.load({ app, rootDir: '/core/notifications', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
+await loaders.load({ app, rootDir: '/core/sessions', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
 
 //when no api route matched
 app.use((req, res, next) => {

@@ -9,6 +9,10 @@ const schema = new mongoose.Schema(
 			type: String,
 			required: true
 		},
+		expoPushToken: {
+			type: String,
+			required: false
+		},
 		user: UserRefSchema,
 		req: {
 			headers: {
