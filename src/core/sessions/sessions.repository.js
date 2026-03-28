@@ -11,7 +11,7 @@ export const findSessionsRepo = async ({ match, select }) => {
 }
 export const findOneSessionRepo = async ({ match }) => {
 	const flattenedMatch = flattenObject(match)
-	return SessionModel.findOne(flattenedMatch).lean()
+	return SessionModel.findOne(flattenedMatch)
 }
 /*
 export const findOneNotificationRepo = async ({ match }) => {
