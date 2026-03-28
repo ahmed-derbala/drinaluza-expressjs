@@ -13,7 +13,8 @@ router
 	.route('/expo-push-token')
 	.post(authenticate(), validate(expoPushTokenVld), async (req, res) => {
 		const { expoPushToken, token } = req.body
-		let session = await SessionsModel.findOne({ user: req.user._id, token })
+		console.log(req.user)
+		let session = await SessionsModel.findOne({ token })
 		if (!session) {
 			return resp({ status: 404, message: 'Session not found', data: null, req, res })
 		}
