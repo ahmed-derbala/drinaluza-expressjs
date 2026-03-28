@@ -24,7 +24,7 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 	// Handle Push Logic
 	if (kind === 'push') {
 		//fecth sessions
-		const sessions = await findSessionsSrvc({ match: { 'user._id': user._id }, select: 'expoPushToken' })
+		const sessions = await findSessionsSrvc({ match: { 'user._id': user._id, expoPushToken: { $exists: true } }, select: 'expoPushToken' })
 		console.log(sessions)
 
 		if (!sessions || sessions.length === 0) {
