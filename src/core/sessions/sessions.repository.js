@@ -1,5 +1,7 @@
 import { SessionModel } from './sessions.schema.js'
 import { flattenObject } from '../helpers/filters.js'
+import { log } from '../log/index.js'
+
 /*
 export const createNotificationRepo = async ({ user, template, kind, title, content }) => {
 	return NotificationModel.create({ user, template, kind, title, content })
