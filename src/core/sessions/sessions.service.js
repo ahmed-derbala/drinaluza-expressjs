@@ -11,9 +11,5 @@ export const findSessionsSrvc = async ({ match, select }) => {
 	}
 }
 export const findOneSessionSrvc = async ({ match }) => {
-	try {
-		return (session = await findOneSessionRepo({ match }))
-	} catch (err) {
-		errorHandler({ err })
-	}
+	return findOneSessionRepo({ match })
 }
