@@ -6,10 +6,12 @@ export const createNotificationRepo = async ({ user, template, kind, title, cont
 }*/
 
 export const findSessionsRepo = async ({ match, select }) => {
+	log({ level: 'debug', message: 'findSessionsRepo', data: { match, select } })
 	const flattenedMatch = flattenObject(match)
-	return SessionModel.find(flattenedMatch).select(select).lean()
+	return SessionModel.find(flattenedMatch).select(select)
 }
 export const findOneSessionRepo = async ({ match }) => {
+	log({ level: 'debug', message: 'findOneSessionRepo', data: { match } })
 	const flattenedMatch = flattenObject(match)
 	return SessionModel.findOne(flattenedMatch)
 }
