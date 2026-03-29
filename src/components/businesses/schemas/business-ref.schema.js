@@ -17,5 +17,5 @@ export const BusinessRefSchema = new mongoose.Schema(
 		name: { type: MultiLangSchema, required: true },
 		state: { type: StateSchema, required: true }
 	},
-	{ _id: false }
+	{ _id: false, timestamps: true }
 )

@@ -18,5 +18,5 @@ export const StateSchema = new mongoose.Schema(
 			required: true
 		}
 	},
-	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }
+	{ _id: false, timestamps: true }
 )

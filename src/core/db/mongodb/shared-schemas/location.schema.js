@@ -23,7 +23,7 @@ export const LocationSchema = new mongoose.Schema(
 			default: false
 		}
 	},
-	{ _id: false, timestamps: { updatedAt: true, createdAt: false }, select: false }
+	{ _id: false, timestamps: true, select: false }
 )
 
 // Create 2dsphere index for geospatial queries

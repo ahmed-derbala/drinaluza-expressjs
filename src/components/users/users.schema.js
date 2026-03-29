@@ -25,7 +25,7 @@ export const UserBasicInfosSchema = new mongoose.Schema(
 			required: false
 		}
 	},
-	{ _id: false }
+	{ _id: false, timestamps: true }
 )
 
 const UserSchema = new mongoose.Schema(

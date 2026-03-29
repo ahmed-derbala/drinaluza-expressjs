@@ -47,5 +47,5 @@ export const ContactSchema = new mongoose.Schema(
 			}
 		}
 	},
-	{ _id: false, timestamps: false, select: false }
+	{ _id: false, timestamps: true, select: false }
 )

@@ -23,6 +23,6 @@ export const CustomerSchema = new mongoose.Schema(
 		contact: ContactSchema,
 		media: MediaThumbnailSchema
 	},
-	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }
+	{ _id: false, timestamps: true }
 )
 CustomerSchema.index({ location: '2dsphere' })

@@ -20,5 +20,5 @@ export const MultiLangSchema = new mongoose.Schema(
 			required: false
 		}
 	},
-	{ _id: false, timestamps: false, required: true }
+	{ _id: false, required: true }
 )

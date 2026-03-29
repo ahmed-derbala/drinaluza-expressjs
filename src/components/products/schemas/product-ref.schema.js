@@ -19,5 +19,5 @@ export const ProductRefSchema = new mongoose.Schema(
 		unit: { type: UnitSchema, required: true },
 		media: { type: MediaThumbnailSchema, required: false }
 	},
-	{ timestamps: { createdAt: false, updatedAt: true } }
+	{ timestamps: true }
 )

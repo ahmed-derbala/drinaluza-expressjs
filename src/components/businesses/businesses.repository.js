@@ -32,7 +32,7 @@ export const findManyBusinessesRepo = async ({ match, select, page, limit, count
 }
 
 export const createBusinessRepo = async ({ owner, name }) => {
-	return BusinessModel.create({ owner, name, state: { code: 'pending' } })
+	return BusinessModel.create({ owner, name, state: { code: 'active' } })
 }
 
 export const addShopToBusinessRepo = async ({ match, select, page, limit, count }) => {

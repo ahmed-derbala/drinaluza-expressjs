@@ -14,5 +14,5 @@ export const OwnerSchema = new mongoose.Schema(
 		slug: { type: String, required: true },
 		name: MultiLangSchema
 	},
-	{ _id: false, timestamps: { createdAt: false, updatedAt: true } }
+	{ _id: false, timestamps: true }
 )

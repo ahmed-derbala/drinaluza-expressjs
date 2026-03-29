@@ -7,5 +7,5 @@ export const MediaSchema = new mongoose.Schema(
 			url: { type: String, required: true, default: `${config.backend.url}/public/favicon.ico` }
 		}
 	},
-	{ _id: false, timestamps: { updatedAt: true, createdAt: false } }
+	{ _id: false, timestamps: true }
 )
