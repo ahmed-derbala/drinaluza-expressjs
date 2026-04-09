@@ -24,7 +24,7 @@ const schema = new mongoose.Schema(
 			ip: { type: String, required: true }
 		}
 	},
-	{ collection: sessionsCollection, timestamps: true }
+	{ collection: sessionsCollection }
 )
 
 export const SessionModel = mongoose.model(sessionsCollection, schema)

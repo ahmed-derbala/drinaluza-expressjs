@@ -29,5 +29,12 @@ export const resp = ({ level, status, label, message, req, data, res }) => {
 			headers: { tid: req.headers.tid }
 		}*/
 	})
-	return res.status(status).json({ level, status, label, message, data, req: { /*user: req.user,*/ headers: { tid: req.headers.tid } } })
+	return res.status(status).json({
+		level,
+		status,
+		label,
+		message,
+		data
+		//req: {  headers: { tid: req.headers.tid } }
+	})
 }

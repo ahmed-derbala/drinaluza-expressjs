@@ -25,52 +25,49 @@ export const UserBasicInfosSchema = new mongoose.Schema(
 			required: false
 		}
 	},
-	{ _id: false, timestamps: true }
+	{ _id: false }
 )
 
-const UserSchema = new mongoose.Schema(
-	{
-		business: BusinessRefSchema,
-		shops: {
-			type: [ShopRefSchema],
-			required: false,
-			select: false
-		},
-		slug: { type: String, required: true },
-		name: MultiLangSchema,
-		role: {
-			type: String,
-			enum: userRolesEnum.ALL,
-			default: userRolesEnum.CUSTOMER
-		},
-		contact: {
-			type: ContactSchema,
-			select: false,
-			required: false
-		},
-		address: {
-			type: AddressSchema,
-			select: false
-		},
-		location: LocationSchema,
-		settings: {
-			type: UserSettingsSchema,
-			select: false
-		},
-		media: MediaSchema,
-		socialMedia: SocialMediaSchema,
-		basicInfos: {
-			type: UserBasicInfosSchema,
-			select: false
-		},
-		state: {
-			type: StateSchema,
-			required: true,
-			default: () => ({})
-		}
+const UserSchema = new mongoose.Schema({
+	business: BusinessRefSchema,
+	shops: {
+		type: [ShopRefSchema],
+		required: false,
+		select: false
 	},
-	{ timestamps: true }
-)
+	slug: { type: String, required: true },
+	name: MultiLangSchema,
+	role: {
+		type: String,
+		enum: userRolesEnum.ALL,
+		default: userRolesEnum.CUSTOMER
+	},
+	contact: {
+		type: ContactSchema,
+		select: false,
+		required: false
+	},
+	address: {
+		type: AddressSchema,
+		select: false
+	},
+	location: LocationSchema,
+	settings: {
+		type: UserSettingsSchema,
+		select: false
+	},
+	media: MediaSchema,
+	socialMedia: SocialMediaSchema,
+	basicInfos: {
+		type: UserBasicInfosSchema,
+		select: false
+	},
+	state: {
+		type: StateSchema,
+		required: true,
+		default: () => ({})
+	}
+})
 
 UserSchema.post('findOneAndUpdate', async function (doc, next) {
 	// 1. Get the update object from the query that was executed

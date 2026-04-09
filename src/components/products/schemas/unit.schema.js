@@ -30,5 +30,5 @@ export const UnitSchema = new mongoose.Schema(
 			min: 0.01
 		}
 	},
-	{ _id: false, timestamps: true }
+	{ _id: false }
 )

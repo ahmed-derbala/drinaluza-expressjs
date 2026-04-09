@@ -12,6 +12,6 @@ const AuthSchema = new mongoose.Schema(
 			select: false
 		}
 	},
-	{ timestamps: true, collection: authCollection }
+	{ collection: authCollection }
 )
 export const AuthModel = mongoose.model(authCollection, AuthSchema)

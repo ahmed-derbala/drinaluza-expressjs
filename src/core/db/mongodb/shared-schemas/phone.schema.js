@@ -5,5 +5,5 @@ export const PhoneSchema = new mongoose.Schema(
 		countryCode: { type: String, required: false },
 		localNumber: { type: String, required: false }
 	},
-	{ _id: false, timestamps: true }
+	{ _id: false }
 )

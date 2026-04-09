@@ -5,17 +5,11 @@ import { log } from '../../core/log/index.js'
 import { flattenObject } from '../../core/helpers/filters.js'
 
 export const findOneProductRepo = async ({ match, select }) => {
-	try {
-		const flattenedMatch = flattenObject(match)
-		log({ level: 'debug', message: 'findOneProductRepo', data: { match, select } })
-
-		const fetchedProduct = await ProductModel.findOne({ ...flattenedMatch })
-			.select(select)
-			.lean()
-		return fetchedProduct
-	} catch (err) {
-		errorHandler({ err })
-	}
+	const flattenedMatch = flattenObject(match)
+	log({ level: 'debug', message: 'findOneProductRepo', data: { match, select } })
+	return ProductModel.findOne({ ...flattenedMatch })
+		.select(select)
+		.lean()
 }
 
 export const findManyProductsRepo = async ({ match, select, page, limit }) => {

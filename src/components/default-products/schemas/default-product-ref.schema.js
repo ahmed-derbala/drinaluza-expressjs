@@ -14,5 +14,5 @@ export const DefaultProductRefSchema = new mongoose.Schema(
 		name: { type: MultiLangSchema, required: true },
 		media: MediaSchema
 	},
-	{ _id: false, timestamps: true }
+	{ _id: false }
 )

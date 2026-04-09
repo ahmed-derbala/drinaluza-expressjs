@@ -14,7 +14,7 @@ const DefaultProductSchema = new mongoose.Schema(
 		media: MediaSchema,
 		state: StateSchema
 	},
-	{ timestamps: true, collection: defaultProductsCollection }
+	{ collection: defaultProductsCollection }
 )
 
 DefaultProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })

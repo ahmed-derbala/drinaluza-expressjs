@@ -25,7 +25,7 @@ const shopSchema = new mongoose.Schema(
 		media: { type: MediaSchema, required: false, default: () => ({}) },
 		contact: ContactSchema
 	},
-	{ timestamps: true, collection: shopsCollection }
+	{ collection: shopsCollection }
 )
 shopSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
 export const ShopModel = mongoose.model(shopsCollection, shopSchema)

@@ -16,6 +16,6 @@ const FeedSchema = new mongoose.Schema(
 		card: { kind: { type: String, enum: ['shop', 'product', 'user'], default: 'product', required: true } },
 		score: { type: Number, default: 0, select: false }
 	},
-	{ timestamps: true, collection: feedCollection }
+	{ collection: feedCollection }
 )
 export const FeedModel = mongoose.model(feedCollection, FeedSchema)

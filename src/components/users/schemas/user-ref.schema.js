@@ -18,5 +18,5 @@ export const UserRefSchema = new mongoose.Schema(
 			default: userRolesEnum.CUSTOMER
 		}
 	},
-	{ _id: false, timestamps: true }
+	{ _id: false }
 )

@@ -17,7 +17,7 @@ const BusinessSchema = new mongoose.Schema(
 		state: { type: StateSchema, required: true },
 		media: MediaSchema
 	},
-	{ timestamps: true, collection: businessesCollection }
+	{ collection: businessesCollection }
 )
 
 BusinessSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })

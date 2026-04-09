@@ -25,7 +25,6 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 	if (kind === 'push') {
 		//fecth sessions
 		const sessions = await findSessionsSrvc({ match: { 'user.slug': user.slug, expoPushToken: { $exists: true } }, select: '-_id expoPushToken' })
-		console.log(sessions)
 
 		if (!sessions || sessions.length === 0) {
 			log({ level: 'debug', message: `No expoPushToken found for user ${user.slug}`, data: { user } })

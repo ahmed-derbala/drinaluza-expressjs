@@ -37,7 +37,7 @@ router
 			shop = await findOneShopSrvc({ match: { slug: shop.slug } })
 			if (!shop) return resp({ status: 404, message: 'shop not found', data: null, req, res })
 			const customer = await findOneCustomerSrvc({ match: { slug: req.user.slug } })
-			log({ level: 'debug', message: 'create purchase', data: { customer, shop } })
+			//log({ level: 'debug', message: 'create purchase', data: { customer, shop } })
 			//shop_owner cannot purchase from his shops
 			if (customer.role === userRolesEnum.SHOP_OWNER) {
 				const ownedShop = await findOneShopSrvc({ match: { owner: { _id: customer._id }, slug: shop.slug }, select: '_id' })
@@ -76,7 +76,6 @@ router
 				//return resp({ status: 200, data: updatedOrder, req, res })
 			}
 			const data = { customer, shop, products, price, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
-			//console.log(data.products[0].finalPrice,'data')
 			const createPurchase = await createPurchaseSrvc(data)
 			return resp({ status: 201, data: createPurchase, req, res })
 		} catch (err) {

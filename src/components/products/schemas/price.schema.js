@@ -21,7 +21,7 @@ export const CurrenciesSchema = new mongoose.Schema(
 			min: 0
 		}
 	},
-	{ _id: false, timestamps: true }
+	{ _id: false }
 )
 
 export const PriceSchema = new mongoose.Schema(
@@ -32,5 +32,5 @@ export const PriceSchema = new mongoose.Schema(
 		shipping: Number,
 		total: { type: CurrenciesSchema, required: true } // final payable amount
 	},
-	{ _id: false, timestamps: true }
+	{ _id: false }
 )

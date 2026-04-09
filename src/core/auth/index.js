@@ -4,10 +4,12 @@ import { errorHandler } from '../error/index.js'
 import config from '../../config/index.js'
 import { resp } from '../helpers/resp.js'
 import { log } from '../log/index.js'
+import { findOneSessionSrvc } from '../sessions/sessions.service.js'
 
 export const authenticate = (params) => {
 	return function (req, res, next) {
 		try {
+			console.log('1')
 			//check params
 			if (params == null) params = {}
 			if (params.tokenRequired == null) params.tokenRequired = true
@@ -25,18 +27,30 @@ export const authenticate = (params) => {
 				return resp({ message: 'No token found on headers, cookies or query', status: 401, data: null, req, res })
 			}
 			token = token?.replace('Bearer ', '')
+			console.log('2')
+
 			//verify token
 			return jwt.verify(token, config.auth.jwt.privateKey, async (err, decoded) => {
+				console.log('3')
+
 				if (err) {
+					console.log('4')
+
 					//if token is not required move on
 					if (params.tokenRequired == false) {
 						return next()
 					}
 					return errorHandler({ err, req, res, next })
 				}
+				console.log('5')
+
 				//check if token is in session
-				const session = await SessionModel.findOne({ token: token }).select('token').lean()
+				const session = await findOneSessionSrvc({ match: { token } })
+				console.log('6')
+
 				if (session == null) {
+					console.log('7')
+
 					return resp({ message: 'No session created with provided token', data: null, status: 401, req, res })
 				}
 				//console.log(decoded, 'decoded');
@@ -75,6 +89,7 @@ export const authenticate = (params) => {
 		}
 	}
 }
+
 export const createNewSession = ({ user, req }) => {
 	const token = jwt.sign({ user, req: { ip: req.ip, headers: { 'user-agent': req.headers['user-agent'] } } }, config.auth.jwt.privateKey, { expiresIn: config.auth.jwt.expiresIn })
 	SessionModel.create({

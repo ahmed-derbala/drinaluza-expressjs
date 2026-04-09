@@ -28,7 +28,7 @@ const OrderSchema = new mongoose.Schema(
 		},
 		price: { type: PriceSchema, required: true }
 	},
-	{ timestamps: true, collection: ordersCollection }
+	{ collection: ordersCollection }
 )
 
 export const OrderModel = mongoose.model(ordersCollection, OrderSchema)
