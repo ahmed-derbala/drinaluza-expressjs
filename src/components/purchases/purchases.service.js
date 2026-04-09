@@ -13,7 +13,7 @@ export const findOneOrderSrvc = async ({ match, select }) => {
 
 export const createPurchaseSrvc = async ({ customer, shop, products, status, price }) => {
 	log({ level: 'debug', message: 'create purchase', data: { customer, shop, products, status, price } })
-	notify({ user: customer, template: { slug: 'purchase_created' }, kind: 'push', at: 'now' })
+	notify({ user: shop.owner, template: { slug: 'purchase_created' }, kind: 'push', at: 'now' })
 	return createdOrderRepo({ customer, shop, products, status, price })
 }
 
