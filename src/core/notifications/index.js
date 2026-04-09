@@ -24,17 +24,19 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 	// Handle Push Logic
 	if (kind === 'push') {
 		//fecth sessions
-		const sessions = await findSessionsSrvc({ match: { 'user.slug': user.slug, expoPushToken: { $exists: true } }, select: 'expoPushToken' })
+		const sessions = await findSessionsSrvc({ match: { 'user.slug': user.slug, expoPushToken: { $exists: true } }, select: '-_id expoPushToken' })
 		console.log(sessions)
 
 		if (!sessions || sessions.length === 0) {
-			log({ level: 'debug', message: `No sessions found for user ${user.slug}`, data: { user } })
+			log({ level: 'debug', message: `No expoPushToken found for user ${user.slug}`, data: { user } })
 			return
 		}
 		const messages = []
 
 		for (let s of sessions) {
+			if (!s.expoPushToken) continue
 			// Check that all your push tokens appear to be valid Expo push tokens
+			console.log('Checking Expo push token:', s.expoPushToken)
 			if (!Expo.isExpoPushToken(s.expoPushToken)) {
 				console.error(`Push token ${s.expoPushToken} is not a valid Expo push token`)
 				continue
@@ -43,17 +45,21 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 			messages.push({
 				to: s.expoPushToken,
 				sound: 'default',
-				title: title,
-				body: content,
-				data: data // Custom data for your frontend to handle
+				title: title.en,
+				body: content.en,
+				data: { hi: 'hello' }, // Custom data for your frontend to handle
+				channelId: 'default',
+				priority: 'high'
 			})
 		}
 
 		// Chunk the messages to stay within Expo's limits
 		let chunks = expo.chunkPushNotifications(messages)
 		for (let chunk of chunks) {
+			console.log('Sending push notification chunk:', chunk)
 			try {
-				await expo.sendPushNotificationsAsync(chunk)
+				let ticket = await expo.sendPushNotificationsAsync(chunk)
+				console.log('Push notification ticket:', ticket)
 			} catch (error) {
 				console.error('Error sending push notification chunk:', error)
 			}
