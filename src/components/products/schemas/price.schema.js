@@ -1,36 +1,28 @@
-import mongoose from 'mongoose'
-
-export const CurrenciesSchema = new mongoose.Schema(
-	{
-		tnd: {
-			type: Number,
-			required: true,
-			default: 0,
-			min: 0
-		},
-		eur: {
-			type: Number,
-			required: false,
-			default: null,
-			min: 0
-		},
-		usd: {
-			type: Number,
-			required: false,
-			default: null,
-			min: 0
-		}
+export const CurrenciesSubSchema = {
+	tnd: {
+		type: Number,
+		required: true,
+		default: 0,
+		min: 0
 	},
-	{ _id: false }
-)
-
-export const PriceSchema = new mongoose.Schema(
-	{
-		subtotal: { type: CurrenciesSchema, required: false },
-		discount: Number,
-		tax: Number,
-		shipping: Number,
-		total: { type: CurrenciesSchema, required: true } // final payable amount
+	eur: {
+		type: Number,
+		required: false,
+		default: null,
+		min: 0
 	},
-	{ _id: false }
-)
+	usd: {
+		type: Number,
+		required: false,
+		default: null,
+		min: 0
+	}
+}
+
+export const PriceSubSchema = {
+	subtotal: { type: CurrenciesSubSchema, required: false },
+	discount: Number,
+	tax: Number,
+	shipping: Number,
+	total: { type: CurrenciesSubSchema, required: true } // final payable amount
+}

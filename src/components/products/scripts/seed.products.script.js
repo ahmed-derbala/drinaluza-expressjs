@@ -163,7 +163,6 @@ const processScript = async () => {
 	})
 
 	for (const product of products) {
-		console.log('p', product)
 		await createProductSrvc(product)
 	}
 	log({ message: `completed ${scriptFilename}`, level: 'info' })

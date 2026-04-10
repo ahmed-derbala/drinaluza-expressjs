@@ -1,5 +1,3 @@
-import mongoose from 'mongoose'
-
 export const stateEnum = {
 	PENDING: 'pending',
 	ACTIVE: 'active',
@@ -9,14 +7,11 @@ export const stateEnum = {
 	ALL: ['pending', 'active', 'inactive', 'suspended', 'deleted']
 }
 
-export const StateSchema = new mongoose.Schema(
-	{
-		code: {
-			type: String,
-			enum: stateEnum.ALL,
-			default: stateEnum.ACTIVE,
-			required: true
-		}
-	},
-	{ _id: false }
-)
+export const StateSchema = {
+	code: {
+		type: String,
+		enum: stateEnum.ALL,
+		default: stateEnum.ACTIVE,
+		required: true
+	}
+}

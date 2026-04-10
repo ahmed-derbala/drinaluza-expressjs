@@ -86,7 +86,7 @@ const processScript = async () => {
 		console.error('No owners found in the database. Please run the users seed script first.')
 		return
 	}
-	log({ message: `Found ${shopOwners.docs.length} shop owners`, level: 'info' })
+	//log({ message: `Found ${shopOwners.docs.length} shop owners`, level: 'info' })
 
 	for (let ms of manualShops) {
 		const owner = shopOwners.docs.find((o) => o.slug === ms.owner.slug)

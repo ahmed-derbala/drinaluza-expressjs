@@ -5,14 +5,14 @@ import { shopsCollection } from '../shops.constants.js'
 import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 import { OwnerSchema } from '../../users/schemas/owner.schema.js'
 
-export const ShopRefSchema = new mongoose.Schema({
+export const ShopRefSchema = {
 	_id: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: shopsCollection,
 		required: true
 	},
 	owner: { type: OwnerSchema, required: true },
-	name: MultiLangSchema,
+	name: { type: MultiLangSchema, required: true },
 	slug: {
 		type: String,
 		required: true,
@@ -22,7 +22,5 @@ export const ShopRefSchema = new mongoose.Schema({
 	address: {
 		type: AddressSchema
 	},
-	location: {
-		type: LocationSchema
-	}
-})
+	location: LocationSchema
+}

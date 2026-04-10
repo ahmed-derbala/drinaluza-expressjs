@@ -52,6 +52,7 @@ const scripts = [
 
 ;(async () => {
 	try {
+		console.clear()
 		await dropDatabase()
 
 		for (const script of scripts) {

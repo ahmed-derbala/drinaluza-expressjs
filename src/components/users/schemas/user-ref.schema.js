@@ -3,20 +3,17 @@ import { usersCollection } from '../users.constant.js'
 import { userRolesEnum } from '../users.enum.js'
 import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 
-export const UserRefSchema = new mongoose.Schema(
-	{
-		_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: usersCollection,
-			required: true
-		},
-		slug: { type: String, required: true },
-		name: MultiLangSchema,
-		role: {
-			type: String,
-			enum: userRolesEnum.ALL,
-			default: userRolesEnum.CUSTOMER
-		}
+export const UserRefSchema = {
+	_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: usersCollection,
+		required: true
 	},
-	{ _id: false }
-)
+	slug: { type: String, required: true },
+	name: MultiLangSchema,
+	role: {
+		type: String,
+		enum: userRolesEnum.ALL,
+		default: userRolesEnum.CUSTOMER
+	}
+}

@@ -4,7 +4,7 @@ import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { userRolesEnum } from './users.enum.js'
-import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
+import { BusinessRefSubSchema } from '../businesses/business.subschema.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
@@ -29,7 +29,7 @@ export const UserBasicInfosSchema = new mongoose.Schema(
 )
 
 const UserSchema = new mongoose.Schema({
-	business: BusinessRefSchema,
+	business: { type: BusinessRefSubSchema, required: false },
 	shops: {
 		type: [ShopRefSchema],
 		required: false,
@@ -95,5 +95,7 @@ UserSchema.post('findOneAndUpdate', async function (doc, next) {
 	}
 	next()
 })
+
+UserSchema.index({ location: '2dsphere' })
 UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
 export const UserModel = mongoose.model(usersCollection, UserSchema)

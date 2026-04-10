@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
-import { PriceSchema } from './schemas/price.schema.js'
+import { PriceSubSchema } from './schemas/price.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
-import { DefaultProductRefSchema } from '../default-products/schemas/default-product-ref.schema.js'
+import { DefaultProductRefSubSchema } from '../default-products/schemas/default-product-ref.subschema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { MultiLangSchema } from '../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 import { UnitSchema } from './schemas/unit.schema.js'
@@ -11,11 +11,11 @@ import { searchKeywordsField } from '../../core/db/mongodb/search-keywords.field
 export const productsCollection = 'products'
 
 const ProductSchema = new mongoose.Schema({
-	shop: { type: ShopRefSchema, required: true },
-	defaultProduct: { type: DefaultProductRefSchema, required: true },
+	shop: ShopRefSchema,
+	defaultProduct: { type: DefaultProductRefSubSchema, required: true },
 	slug: { type: String, required: true },
 	name: MultiLangSchema,
-	price: { type: PriceSchema, required: true },
+	price: { type: PriceSubSchema, required: true },
 	unit: { type: UnitSchema, required: true },
 	searchKeywords: searchKeywordsField,
 	state: StateSchema,

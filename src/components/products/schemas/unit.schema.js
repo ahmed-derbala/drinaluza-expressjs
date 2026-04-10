@@ -8,27 +8,24 @@ const UNIT = {
 
 export const UNITS = Object.values(UNIT)
 
-export const UnitSchema = new mongoose.Schema(
-	{
-		measure: {
-			type: String,
-			required: true,
-			enum: UNITS,
-			default: UNIT.KG
-		},
-		min: {
-			//when the seller wants a minimum quantity to sell
-			type: Number,
-			required: true,
-			default: 1,
-			min: 0.01
-		},
-		max: {
-			type: Number,
-			required: true,
-			default: 10,
-			min: 0.01
-		}
+export const UnitSchema = {
+	measure: {
+		type: String,
+		required: true,
+		enum: UNITS,
+		default: UNIT.KG
 	},
-	{ _id: false }
-)
+	min: {
+		//when the seller wants a minimum quantity to sell
+		type: Number,
+		required: true,
+		default: 1,
+		min: 0.01
+	},
+	max: {
+		type: Number,
+		required: true,
+		default: 10,
+		min: 0.01
+	}
+}

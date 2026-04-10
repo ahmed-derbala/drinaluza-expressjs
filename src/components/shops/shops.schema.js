@@ -17,9 +17,7 @@ const shopSchema = new mongoose.Schema(
 		address: {
 			type: AddressSchema
 		},
-		location: {
-			type: LocationSchema
-		},
+		location: LocationSchema,
 		deliveryRadiusKm: Number,
 		state: StateSchema,
 		media: { type: MediaSchema, required: false, default: () => ({}) },

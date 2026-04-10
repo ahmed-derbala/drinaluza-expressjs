@@ -8,21 +8,17 @@ import { MediaThumbnailSchema } from '../../../core/db/mongodb/shared-schemas/me
 
 export const customerSelect = '+slug +name +address +location +contact +media +role'
 
-export const CustomerSchema = new mongoose.Schema(
-	{
-		_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: usersCollection,
-			required: true
-		},
-		role: { type: String, required: true },
-		slug: { type: String, required: true },
-		name: MultiLangSchema,
-		address: AddressSchema,
-		location: LocationSchema,
-		contact: ContactSchema,
-		media: MediaThumbnailSchema
+export const CustomerSchema = {
+	_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: usersCollection,
+		required: true
 	},
-	{ _id: false }
-)
-CustomerSchema.index({ location: '2dsphere' })
+	role: { type: String, required: true },
+	slug: { type: String, required: true },
+	name: MultiLangSchema,
+	address: AddressSchema,
+	location: LocationSchema,
+	contact: ContactSchema,
+	media: MediaThumbnailSchema
+}

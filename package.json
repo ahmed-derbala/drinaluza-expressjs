@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.0.63",
+  "version": "1.1.1",
   "main": "src/main.js",
   "description": "Drinaluza, seafood business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -77,7 +77,7 @@
     "mongoose": "^9.4.1",
     "mongoose-unique-validator": "^6.1.1",
     "morgan": "^1.10.1",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.2",
     "socket.io": "^4.8.3",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.19.0",
