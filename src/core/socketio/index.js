@@ -1,37 +1,30 @@
 import { log } from '../log/index.js'
 import config from '../../config/index.js'
 import { Server } from 'socket.io'
-import { batchRequire } from '../utils/loaders.js'
 
-export const socketio = () => {
-	const io = new Server(config.socketio.options)
-	batchRequire({ fileSuffix: '.socketio.js', rootDir: '/components', params: io })
+// 1. Export a placeholder that will hold the IO instance
+export let io = null
 
-	io.on('error', (error) => {
-		log({ level: 'error', message: error })
-	})
-	io.on('disconnect', (reason) => {
-		log({ level: 'warn', message: reason })
-	})
+export const socketio = (server) => {
+	// 2. Assign the instance to the exported variable
+	io = new Server(server, config.socketio.options)
+
 	io.on('connection', (socket) => {
-		socket.emit('hi', 'ee')
-
 		log({
 			level: 'info',
-			message: `socketId=${socket.id} connected | ip=${socket.handshake.address} | userAgent=${socket.handshake.headers['user-agent']}`
+			message: `socketId=${socket.id} connected`
 		})
-		socket.broadcast.emit('welcome', { message: `${socket.id} joined` })
-		socket.on('hi', (msg) => {
-			console.log('hi event received:', msg)
-			socket.to(msg.to).emit('hi', msg.data)
-			socket.emit('hi', { data: { message: msg.data } })
-		})
-	})
 
-	io.on('hi', (msg) => {
-		console.log('hi event received:', msg)
-		socket.to(msg.to).emit('hi', msg.data)
-		socket.emit('hi', { data: { message: msg.data } })
+		// Capture slug from connection query
+		const userSlug = socket.handshake.query?.user?.slug
+		if (userSlug) {
+			socket.join(userSlug)
+			log({ level: 'info', message: `User ${userSlug} joined room.` })
+		}
+
+		socket.on('disconnect', (reason) => {
+			log({ level: 'warn', message: reason })
+		})
 	})
-	io.listen(config.socketio.port)
+	return io
 }

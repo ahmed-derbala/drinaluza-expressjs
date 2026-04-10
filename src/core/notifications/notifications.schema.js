@@ -16,6 +16,6 @@ const NotificationSchema = new mongoose.Schema(
 		state: StateSchema,
 		priority: { type: String, enum: ['low', 'medium', 'high'], default: 'medium', required: true }
 	},
-	{ collection: notificationsCollection }
+	{ collection: notificationsCollection, timestamps: true }
 )
 export const NotificationModel = mongoose.model(notificationsCollection, NotificationSchema)

@@ -3,6 +3,7 @@ import { log } from '../log/index.js'
 import app from './app.js'
 import http from 'http'
 import cluster from 'cluster'
+import { socketio } from '../socketio/index.js'
 
 /**
  * Get port from environment
@@ -12,6 +13,7 @@ app.set('port', config.backend.port)
  * Create HTTP server.
  */
 export const server = http.createServer(app)
+socketio(server)
 /**
  * Listen on provided port, on all network interfaces.
  */

@@ -3,6 +3,7 @@ import { templateRegistry } from './templates.helper.js'
 import { log } from '../log/index.js'
 import { findSessionsSrvc } from '../sessions/sessions.service.js'
 import { Expo } from 'expo-server-sdk'
+import { io } from '../socketio/index.js'
 
 const expo = new Expo()
 
@@ -18,8 +19,18 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 	}
 
 	const templateFn = templateRegistry[template.slug]
-	const { title, content } = templateFn({ user })
+	const { title, content } = templateFn(data)
 	createNotificationSrvc({ user, title, content, template, kind })
+	if (io) {
+		console.log('hhhhhhhhhhhhhhhhh')
+		console.log(user.slug)
+		io.to(user.slug).emit('new_notification', {
+			message: 'hiiii',
+			title: title.en,
+			content: content.en,
+			data: data
+		})
+	}
 
 	// Handle Push Logic
 	if (kind === 'push') {

@@ -10,7 +10,7 @@ export const ordersCollection = 'orders'
 const OrderProductsSchema = [
 	{
 		product: { type: ProductRefSchema, required: true },
-		lineTotal: { type: CurrenciesSubSchema, required: true }, //basically quantity * price
+		lineTotal: CurrenciesSubSchema, //basically quantity * price
 		quantity: { type: Number, required: true, default: 1, min: 0.05 }
 	}
 ]
@@ -19,16 +19,16 @@ const OrderSchema = new mongoose.Schema(
 	{
 		shop: { type: ShopRefSchema, required: true },
 		customer: { type: CustomerSchema, required: true },
-		products: { type: OrderProductsSchema, required: true, _id: false },
+		products: OrderProductsSchema,
 		status: {
 			type: String,
 			enum: orderStatusEnum,
 			default: orderStatusEnum.PENDING_SHOP_CONFIRMATION,
 			required: true
 		},
-		price: { type: PriceSubSchema, required: true }
+		price: PriceSubSchema
 	},
-	{ collection: ordersCollection }
+	{ collection: ordersCollection, timestamps: true }
 )
 
 OrderSchema.index({ 'customer.location': '2dsphere' })
