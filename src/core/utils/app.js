@@ -70,5 +70,5 @@ app.use((err, req, res, next) => {
 	return errorHandler({ err, req, res })
 })
 console.log(process.env.BACKEND_URL)
-console.log(config.BACKEND_URL)
+console.log(config.backend.url)
 export default app
