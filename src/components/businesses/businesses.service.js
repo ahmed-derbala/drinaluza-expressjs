@@ -12,7 +12,7 @@ export const findOneBusinessSrvc = async ({ match }) => {
 
 export const createBusinessSrvc = async ({ owner, name }) => {
 	if (!name) {
-		name = { en: `${owner.name.en} new business` }
+		name = { en: `${owner.name.en} business` }
 	}
 	return createBusinessRepo({ owner, name })
 }
