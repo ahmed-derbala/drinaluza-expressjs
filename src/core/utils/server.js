@@ -3,7 +3,7 @@ import { log } from '../log/index.js'
 import app from './app.js'
 import http from 'http'
 import cluster from 'cluster'
-import { socketio } from '../socketio/index.js'
+import { initSocketio } from '../socketio/index.js'
 
 /**
  * Get port from environment
@@ -13,7 +13,7 @@ app.set('port', config.backend.port)
  * Create HTTP server.
  */
 export const server = http.createServer(app)
-socketio(server)
+initSocketio(server)
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -60,7 +60,7 @@ if (config.app.cluster > 0) {
 	server.on('listening', onListening)
 }
 server.setTimeout(0) //make sure timeout is disabled , wait forever
-process.on('SIGINT', () => {
+process.once('SIGINT', () => {
 	log({ level: 'info', message: 'Received SIGINT signal. Gracefully shutting down...', label: 'server' })
 	// Close server connections
 	server.close(() => {

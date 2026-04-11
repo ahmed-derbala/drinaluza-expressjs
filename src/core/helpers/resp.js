@@ -14,21 +14,11 @@ export const resp = ({ level, status, label, message, req, data, res }) => {
 		if (data.user) delete data.user.password //just for safety
 		if (data.auth) delete data.auth.password
 	}
-	log({
+	/*log({
 		level,
 		label,
 		message
-		/*data,
-		req: {
-			status,
-			method: req.method,
-			originalUrl: req.originalUrl,
-			user: req.user,
-			ip: req.ip,
-			body: req.body,
-			headers: { tid: req.headers.tid }
-		}*/
-	})
+	})*/
 	return res.status(status).json({
 		level,
 		status,

@@ -40,23 +40,38 @@ export const appendProductsToOrderSrvc = async ({ orderId, products }) => {
 }
 
 /**
- * Validates a status transition for an purchase.
+ * Validates a status transition for a purchase.
  * @param {string} oldStatus The current status of the purchase.
  * @param {string} newStatus The new status to transition to.
  * @returns {boolean} True if the transition is valid, false otherwise.
  */
-function validateSaleStatusTransition(oldStatus, newStatus) {
-	// A list of the valid statuses in their correct progressive purchase.
-	const orderedStatuses = [orderStatusEnum.PENDING_SHOP_CONFIRMATION, orderStatusEnum.DELIVERING_TO_USER, orderStatusEnum.DELIVERED_TO_USER, orderStatusEnum.CANCELLED_BY_SHOP]
+export function validateSaleStatusTransition(oldStatus, newStatus) {
+	const allowedTransitions = {
+		[orderStatusEnum.PENDING_SHOP_CONFIRMATION]: [orderStatusEnum.CONFIRMED_BY_SHOP, orderStatusEnum.CANCELLED_BY_SHOP, orderStatusEnum.CANCELLED_BY_CUSTOMER],
+		[orderStatusEnum.CONFIRMED_BY_SHOP]: [
+			orderStatusEnum.RESERVED_BY_SHOP_FOR_PICKUP_BY_CUSTOMER,
+			orderStatusEnum.DELIVERING_TO_CUSTOMER,
+			orderStatusEnum.CANCELLED_BY_SHOP,
+			orderStatusEnum.CANCELLED_BY_CUSTOMER // <--- Added this line
+		],
+		[orderStatusEnum.RESERVED_BY_SHOP_FOR_PICKUP_BY_CUSTOMER]: [
+			orderStatusEnum.RECEIVED_BY_CUSTOMER,
+			orderStatusEnum.RESERVATION_EXPIRED,
+			orderStatusEnum.CANCELLED_BY_CUSTOMER // Often allowed if they haven't picked it up yet
+		],
+		[orderStatusEnum.DELIVERING_TO_CUSTOMER]: [orderStatusEnum.DELIVERED_TO_CUSTOMER, orderStatusEnum.CANCELLED_BY_SHOP],
+		[orderStatusEnum.DELIVERED_TO_CUSTOMER]: [orderStatusEnum.RECEIVED_BY_CUSTOMER],
+		[orderStatusEnum.RECEIVED_BY_CUSTOMER]: [],
+		[orderStatusEnum.RESERVATION_EXPIRED]: [],
+		[orderStatusEnum.CANCELLED_BY_CUSTOMER]: [],
+		[orderStatusEnum.CANCELLED_BY_SHOP]: []
+	}
 
-	if (oldStatus === orderStatusEnum.CANCELLED_BY_USER && newStatus === orderStatusEnum.CANCELLED_BY_SHOP) return false
-	const oldStatusIndex = orderedStatuses.indexOf(oldStatus)
-	const newStatusIndex = orderedStatuses.indexOf(newStatus)
+	const validNextSteps = allowedTransitions[oldStatus]
 
-	// If either status is not in the ordered list, it's an invalid transition.
-	if (oldStatusIndex === -1 || newStatusIndex === -1) {
+	if (!validNextSteps) {
 		return false
 	}
-	// A valid transition means the new status's index must be greater than the old status's index.
-	return newStatusIndex > oldStatusIndex
+
+	return validNextSteps.includes(newStatus)
 }

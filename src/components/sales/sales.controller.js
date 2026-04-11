@@ -48,40 +48,6 @@ router
 		}
 	})
 
-router.route('/:orderId/status').patch(
-	authenticate(),
-	/*validate(createOrderVld),*/ async (req, res) => {
-		try {
-			const owner = req.body?.owner || req.user
-			const { products } = req.body
-			//process products
-			for (p of products) {
-				p = await findOneProductSrvc({ match: { _id: p.product._id } })
-			}
-			const shop = products[0].product.shop
-			const data = { owner, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
-			//console.log('data',data)
-			const createdOrder = await createOrderSrvc({ data })
-			//console.log(createdOrder)
-			return resp({ status: 201, data: createdOrder, req, res })
-		} catch (err) {
-			errorHandler({ err, req, res })
-		}
-	}
-)
-
-router.route('/sales').get(authenticate({ role: 'shop_owner' }), async (req, res) => {
-	try {
-		const match = { shop: { owner: { _id: req.user._id } } }
-		const select = ''
-		let { page = 1, limit = 10 } = req.query
-		const fetchedOrders = await findOrdersSrvc({ match, select, page, limit })
-		return resp({ status: 200, data: fetchedOrders, req, res })
-	} catch (err) {
-		errorHandler({ err, req, res })
-	}
-})
-
 router.route('/:orderId').patch(authenticate({ role: userRolesEnum.SHOP_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
 	try {
 		const { orderId } = req.params
@@ -96,4 +62,5 @@ router.route('/:orderId').patch(authenticate({ role: userRolesEnum.SHOP_OWNER })
 		errorHandler({ err, req, res })
 	}
 })
+
 export default router

@@ -6,7 +6,7 @@ import { flattenObject } from '../../core/helpers/filters.js'
 
 export const findOneProductRepo = async ({ match, select }) => {
 	const flattenedMatch = flattenObject(match)
-	log({ level: 'debug', message: 'findOneProductRepo', data: { match, select } })
+	//log({ level: 'debug', message: 'findOneProductRepo', data: { match, select } })
 	return ProductModel.findOne({ ...flattenedMatch })
 		.select(select)
 		.lean()

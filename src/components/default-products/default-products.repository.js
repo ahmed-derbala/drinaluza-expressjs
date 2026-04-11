@@ -5,13 +5,8 @@ import { log } from '../../core/log/index.js'
 import { flattenObject } from '../../core/helpers/filters.js'
 
 export const findOneDefaultProductRepo = async ({ match, select }) => {
-	try {
-		const fetchedDefaultProduct = await DefaultProductModel.findOne(match).select(select).lean()
-		log({ level: 'debug', message: 'fetchedDefaultProduct', data: JSON.stringify(fetchedDefaultProduct) })
-		return fetchedDefaultProduct
-	} catch (err) {
-		errorHandler({ err })
-	}
+	//log({ level: 'debug', message: 'fetchedDefaultProduct', data: JSON.stringify(fetchedDefaultProduct) })
+	return DefaultProductModel.findOne(match).select(select).lean()
 }
 export const findDefaultProductsRepo = async ({ page, limit }) => {
 	try {

@@ -5,8 +5,7 @@ import { findMyProductsRepo } from './products.repository.js'
 import { createFeedSrvc } from '../feed/feed.service.js'
 
 export const findOneProductSrvc = async ({ match, select }) => {
-	const fetchedProduct = await findOneProductRepo({ match, select })
-	return fetchedProduct
+	return findOneProductRepo({ match, select })
 }
 
 export const findManyProductsSrvc = async ({ match, select, page, limit }) => {

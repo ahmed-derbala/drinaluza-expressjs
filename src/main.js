@@ -1,8 +1,7 @@
 import { log } from './core/log/index.js'
 import config from './config/index.js'
 import { connectMongodb } from './core/db/index.js'
-import { server } from './core/utils/server.js'
-import { socketio } from './core/socketio/index.js'
+import { server } from './core/utils/server.js' //important to run the server
 ;('use strict')
 /**
  * connect dbs
@@ -13,4 +12,3 @@ if (config.db.mongodb.isActive) {
 process.on('warning', (err) => log({ message: err.stack, level: 'warn', label: 'process' })) //print out memory leak errors
 process.on('uncaughtException', (err) => log({ message: err.stack, level: 'warn', label: 'process' }))
 process.on('unhandledRejection', (err) => log({ message: err.stack, level: 'warn', label: 'process' }))
-socketio({ server })
