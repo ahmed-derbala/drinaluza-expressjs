@@ -182,12 +182,6 @@ const defaultConfig = {
 	backend,
 	frontend: {
 		web: {
-			port: 5000,
-			host: `${ip.address()}`,
-			protocol: 'http://',
-			get url() {
-				return `${this.protocol}${this.host}:${this.port}`
-			},
 			version: {
 				latest: process.env.EXPO_WEB_VERSION_LATEST || expoPackagejson.version,
 				min: process.env.EXPO_WEB_VERSION_MIN || frontEndMinVersion,
