@@ -21,7 +21,9 @@ router.post('/signup', validate(signupVld), async (req, res) => {
 		return resp({ status: 409, message: 'user already exist', data: null, req, res })
 	}
 	if (!settings) settings = config.defaults.users.settings
-
+	console.log('settings', settings)
+	console.log('address', address)
+	console.log('socialMedia', socialMedia)
 	const user = await createUserSrvc({ slug, role, settings, address, socialMedia })
 	if (!user) return resp({ status: 400, data: null, message: 'no user was created', req, res })
 	await createAuthSrvc({ user, password })

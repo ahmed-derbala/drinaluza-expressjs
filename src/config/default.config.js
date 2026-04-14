@@ -172,7 +172,9 @@ const currency = {
 }
 
 const notifications = {
-	default: 'push',
+	default: {
+		isEnabled: true
+	},
 	supported: ['push', 'email', 'sms']
 }
 
