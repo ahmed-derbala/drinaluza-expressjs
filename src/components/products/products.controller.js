@@ -4,7 +4,7 @@ import { findManyProductsSrvc, createProductSrvc, findOneProductSrvc } from './p
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { validate } from '../../core/validation/index.js'
-import { createProductVld } from './products.validator.js'
+import { createProductVld, findOneProductVld } from './products.validator.js'
 import { findOneShopRepo } from '../shops/shops.repository.js'
 import { log } from '../../core/log/index.js'
 import { findOneDefaultProductSrvc } from '../default-products/default-products.service.js'
@@ -66,10 +66,9 @@ router
 		}
 	})
 
-router.route('/:productSlug').get(async (req, res) => {
+router.route('/:productSlug').get(validate(findOneProductVld), async (req, res) => {
 	try {
-		const { match, select } = req.body || {}
-		const product = await findOneProductSrvc({ match, select })
+		const product = await findOneProductSrvc({ match: { slug: req.params.productSlug } })
 		return resp({ status: 200, data: product, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })

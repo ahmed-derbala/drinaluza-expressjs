@@ -15,25 +15,6 @@ const latitudeRange = [33.5, 37.5] // Approx. latitude range for Tunisia
 // Sample owner data
 const users = [
 	{
-		slug: 'abir',
-		password: '123',
-		role: 'customer',
-		name: { en: 'Abir Othmen' },
-		media: {
-			thumbnail: {
-				url: `https://media.licdn.com/dms/image/v2/D4E35AQFF9g5SK9_wEg/profile-framedphoto-shrink_800_800/B4EZi3e2nCGUAg-/0/1755424975610?e=1771455600&v=beta&t=-_YJE1W5b5AAEXSf-Lc09TRfRC71jWNW2qzdVNm2FGs`
-			}
-		},
-		location: {
-			//type: 'Point',
-			sharingEnabled: true,
-			coordinates: [
-				parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
-				parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
-			]
-		}
-	},
-	{
 		slug: 'ahmed',
 		password: '123',
 		role: 'shop_owner',
@@ -67,15 +48,28 @@ const users = [
 		}
 	},
 	{
-		slug: 'mahdi-akid',
+		slug: 'majed-akid',
 		password: '123',
 		role: 'shop_owner',
-		name: { en: 'Mahdi Akid' },
-		address: {
-			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
-			city: 'Ellouza',
-			country: 'Tunisia',
-			region: 'Sfax'
+		name: { en: 'Majed Akid' }
+	},
+	{
+		slug: 'abir',
+		password: '123',
+		role: 'customer',
+		name: { en: 'Abir Othmen' },
+		media: {
+			thumbnail: {
+				url: `https://media.licdn.com/dms/image/v2/D4E35AQFF9g5SK9_wEg/profile-framedphoto-shrink_800_800/B4EZi3e2nCGUAg-/0/1755424975610?e=1771455600&v=beta&t=-_YJE1W5b5AAEXSf-Lc09TRfRC71jWNW2qzdVNm2FGs`
+			}
+		},
+		location: {
+			//type: 'Point',
+			sharingEnabled: true,
+			coordinates: [
+				parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
+				parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
+			]
 		}
 	},
 	{
