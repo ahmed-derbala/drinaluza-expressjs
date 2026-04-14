@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findManyProductsSrvc, createProductSrvc } from './products.service.js'
+import { findManyProductsSrvc, createProductSrvc, findOneProductSrvc } from './products.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { validate } from '../../core/validation/index.js'
@@ -65,4 +65,15 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
+
+router.route('/:productSlug').get(async (req, res) => {
+	try {
+		const { match, select } = req.body || {}
+		const product = await findOneProductSrvc({ match, select })
+		return resp({ status: 200, data: product, req, res })
+	} catch (err) {
+		errorHandler({ err, req, res })
+	}
+})
+
 export default router
