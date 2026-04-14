@@ -16,8 +16,8 @@ const ProductSchema = new mongoose.Schema(
 		defaultProduct: { type: DefaultProductRefSubSchema, required: true },
 		slug: { type: String, required: true },
 		name: MultiLangSchema,
-		price: { type: PriceSubSchema, required: true },
-		unit: { type: UnitSchema, required: true },
+		price: { type: PriceSubSchema, required: true, _id: false },
+		unit: { type: UnitSchema, required: true, _id: false },
 		searchKeywords: searchKeywordsField,
 		state: StateSchema,
 		availability: {

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 export const AddressSchema = {
+	_id: false,
 	street: {
 		type: String,
 		required: false,

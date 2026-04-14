@@ -6,7 +6,7 @@ import { format, transports } from 'winston'
 import 'winston-mongodb'
 
 const NODE_ENV = process.env.NODE_ENV || 'local'
-const frontEndMinVersion = '1.2.0'
+const frontEndMinVersion = '1.2.3'
 let expoPackagejsonPath = null,
 	expoPackagejson = { version: frontEndMinVersion }
 if (NODE_ENV == 'local') {

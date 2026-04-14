@@ -24,5 +24,5 @@ export const PriceSubSchema = {
 	discount: Number,
 	tax: Number,
 	shipping: Number,
-	total: { type: CurrenciesSubSchema, required: true } // final payable amount
+	total: { type: CurrenciesSubSchema, required: true, _id: false } // final payable amount
 }

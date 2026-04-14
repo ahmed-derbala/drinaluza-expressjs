@@ -17,5 +17,6 @@ export const MultiLangSchema = {
 		type: String,
 		trim: true,
 		required: false
-	}
+	},
+	_id: false
 }

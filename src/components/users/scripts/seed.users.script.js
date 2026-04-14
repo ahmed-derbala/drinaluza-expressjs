@@ -148,6 +148,12 @@ const users = [
 				parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
 			]
 		}
+	},
+	{
+		slug: 'brahim',
+		password: '123',
+		role: 'customer',
+		name: { en: 'Brahim Haj Mohamed' }
 	}
 ]
 
