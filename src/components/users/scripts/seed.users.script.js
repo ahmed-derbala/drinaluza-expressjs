@@ -113,12 +113,6 @@ const users = [
 		}
 	},
 	{
-		slug: 'hana',
-		password: '123',
-		role: 'customer',
-		name: { en: 'Hana Derbala' }
-	},
-	{
 		slug: 'souha',
 		password: '123',
 		role: 'customer',

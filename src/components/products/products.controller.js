@@ -66,6 +66,7 @@ router
 		}
 	})
 
+//this should be always after GET '/products/'
 router.route('/:productSlug').get(validate(findOneProductVld), async (req, res) => {
 	try {
 		const product = await findOneProductSrvc({ match: { slug: req.params.productSlug } })

@@ -4,8 +4,8 @@ import { findFeedSrvc } from './feed.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { cardTypeEnum } from './feed.enum.js'
 import { authenticate } from '../../core/auth/index.js'
-
 const router = express.Router()
+
 router
 	.route('/')
 	.get(authenticate({ tokenRequired: false }), async (req, res) => {
@@ -32,4 +32,5 @@ router
 		}
 	})
 	.post(() => {})
+
 export default router
