@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export const LocationSchema = {
+export const LocationSchema = new mongoose.Schema({
 	type: {
 		type: String,
 		enum: ['Point'], // only allow 'Point'
@@ -21,8 +21,7 @@ export const LocationSchema = {
 		type: Boolean,
 		default: false
 	}
-}
-/*
+})
+
 // Create 2dsphere index for geospatial queries
 LocationSchema.index({ coordinates: '2dsphere' })
-*/
