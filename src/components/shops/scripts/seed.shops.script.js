@@ -19,16 +19,12 @@ let manualShops = [
 		owner: { slug: 'ahmed' },
 		name: { en: 'Drinaluza' },
 		address: {
-			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
+			street: `ellouza, tri9 douar`,
 			city: 'Sfax',
 			country: country
 		},
 		location: {
 			coordinates: [10.18, 36.8]
-		},
-		operatingHours: {
-			monday: '9:00 AM - 5:00 PM',
-			sunday: 'Closed'
 		},
 		deliveryRadiusKm: Math.floor(Math.random() * 20) + 5, // 5-25 km
 		state: { code: 'active' },
@@ -41,8 +37,8 @@ let manualShops = [
 			backupPhones: [
 				{
 					countryCode: '216',
-					localNumber: Math.floor(Math.random() * 900000000) + 100000000,
-					fullNumber: `+216${Math.floor(Math.random() * 900000000) + 100000000}`
+					localNumber: '99111222',
+					fullNumber: `+21699111222`
 				}
 			],
 			email: `drinaluza@gmail.com`,
@@ -51,6 +47,18 @@ let manualShops = [
 		media: {
 			thumbnail: {
 				url: `https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-6/566200084_1281876597315347_4989063260266431536_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=IbrnxUXCVEIQ7kNvwEeLyb0&_nc_oc=Adm0tSPjKADKEso1hU9hgV2khnZTlj4Mz0CErYEvpuTg4Je5yXj7Ne8lkoI9HxNMoiA&_nc_zt=23&_nc_ht=scontent.ftun14-1.fna&_nc_gid=sFJ-fE0Ho0eeXDbxcv4YoQ&_nc_ss=8&oh=00_AfxSOEqFaLXVnlZ2AUPno_Aa-b_bonOLMATnvTFK2ExqyQ&oe=69B4F823`
+			}
+		},
+		rating: {
+			average: 0,
+			count: 0,
+			total: 0,
+			breakdown: {
+				1: 0,
+				2: 0,
+				3: 0,
+				4: 0,
+				5: 0
 			}
 		}
 	}

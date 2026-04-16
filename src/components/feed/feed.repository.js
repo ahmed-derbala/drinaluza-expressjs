@@ -1,8 +1,8 @@
 import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
 import { FeedModel } from './feed.schema.js'
 
-export const createFeedRepo = async ({ targetData, targetResource, card }) => {
-	return FeedModel.create({ targetData, targetResource, card })
+export const createFeedRepo = async ({ targetData, targetResource, targetId, card }) => {
+	return FeedModel.create({ targetData, targetResource, targetId, card })
 }
 
 export const findFeedRepo = async ({ match, select, page, limit }) => {

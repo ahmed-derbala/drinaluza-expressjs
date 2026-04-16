@@ -8,6 +8,8 @@ import { MultiLangSchema } from '../../core/db/mongodb/shared-schemas/multi-lang
 import { UnitSchema } from './schemas/unit.schema.js'
 import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
 import { searchKeywordsField } from '../../core/db/mongodb/search-keywords.field.js'
+import { RatingSubschema } from '../reviews/subschemas/rating.subschema.js'
+import { FeedModel } from '../feed/feed.schema.js'
 export const productsCollection = 'products'
 
 const ProductSchema = new mongoose.Schema(
@@ -46,10 +48,30 @@ const ProductSchema = new mongoose.Schema(
 				}
 			}
 		},
-		media: MediaSchema
+		media: MediaSchema,
+		rating: { type: RatingSubschema, required: false, _id: false, default: () => ({}) }
 	},
 	{ timestamps: true, collection: productsCollection }
 )
 
 ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: false })
+
+ProductSchema.post('findOneAndUpdate', async function (doc) {
+	if (!doc) return
+	try {
+		await FeedModel.updateMany(
+			{
+				targetId: doc._id,
+				targetResource: productsCollection
+			},
+			{
+				$set: {
+					'targetData.rating': doc.rating
+				}
+			}
+		)
+	} catch (error) {
+		console.error('Failed to sync Shop rating to Feed:', error)
+	}
+})
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)

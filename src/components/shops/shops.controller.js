@@ -136,4 +136,5 @@ router.route('/:shopSlug/products').get(async (req, res) => {
 		errorHandler({ err, req, res })
 	}
 })
+
 export default router

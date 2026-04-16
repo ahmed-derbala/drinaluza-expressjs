@@ -1,8 +1,9 @@
 import { errorHandler } from '../../core/error/index.js'
-import { findOneProductRepo, findManyProductsRepo, createdProductRepo } from './products.repository.js'
+import { findOneProductRepo, findManyProductsRepo, createdProductRepo, updateProductRepo } from './products.repository.js'
 import { log } from '../../core/log/index.js'
 import { findMyProductsRepo } from './products.repository.js'
 import { createFeedSrvc } from '../feed/feed.service.js'
+import { productsCollection } from './products.schema.js'
 
 export const findOneProductSrvc = async ({ match, select }) => {
 	return findOneProductRepo({ match, select })
@@ -20,7 +21,7 @@ export const findManyProductsSrvc = async ({ match, select, page, limit }) => {
 	}
 }
 
-export const createProductSrvc = async ({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords }) => {
+export const createProductSrvc = async ({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating }) => {
 	if (!state || !state.code) {
 		state = { code: 'active' }
 	}
@@ -33,9 +34,9 @@ export const createProductSrvc = async ({ shop, name, slug, defaultProduct, pric
 	if (!name) {
 		name = defaultProduct.name
 	}
-	const product = await createdProductRepo({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords })
+	const product = await createdProductRepo({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating })
 	if (product) {
-		await createFeedSrvc({ targetData: product, targetResource: 'product', card: { kind: 'product' } })
+		await createFeedSrvc({ targetData: product, targetResource: productsCollection, targetId: product._id, card: { kind: 'product' } })
 	}
 	return product
 }
@@ -47,4 +48,14 @@ export const findMyProductsSrvc = async ({ match, select, page, limit, count }) 
 	} catch (err) {
 		return errorHandler({ err })
 	}
+}
+
+export const patchRatingProductSrvc = async ({ productId, stars, rating }) => {
+	let count = rating.count + 1
+	let total = rating.total + stars
+	let average = total / count
+	let breakdown = rating.breakdown
+	breakdown[stars] = breakdown[stars] + 1
+	const newRating = { count, total, average, breakdown }
+	return updateProductRepo({ match: { _id: productId }, newData: { rating: newRating } })
 }

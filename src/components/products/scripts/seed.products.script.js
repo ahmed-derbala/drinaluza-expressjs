@@ -22,13 +22,37 @@ let products = [
 		searchKeywords: ['shrimp', 'crevet', 'crevette', 'قمرون', 'جمبري', 'prawn', 'seafood'],
 		price: { total: { tnd: 25 } },
 		unit: { measure: 'kg', min: 1 },
-		stock: { quantity: 50, minThreshold: 5 }
+		stock: { quantity: 50, minThreshold: 5 },
+		rating: {
+			average: 5,
+			count: 1,
+			total: 5,
+			breakdown: {
+				1: 0,
+				2: 0,
+				3: 0,
+				4: 0,
+				5: 1
+			}
+		}
 	},
 	{
 		//name: { en: 'Tuna', tn_latn: 'Thon', tn_arab: 'تونة' },
 		searchKeywords: ['tuna', 'bluefin tuna', 'thon', 'تونة', 'fish', 'seafood'],
 		price: { total: { tnd: 25 } },
-		unit: { measure: 'kg', min: 1 }
+		unit: { measure: 'kg', min: 1 },
+		rating: {
+			average: 5,
+			count: 1,
+			total: 5,
+			breakdown: {
+				1: 0,
+				2: 0,
+				3: 0,
+				4: 0,
+				5: 1
+			}
+		}
 	},
 	{
 		//name: { en: 'Salmon', tn_latn: 'Salmon', tn_arab: 'سلمون' },

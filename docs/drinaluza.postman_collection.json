@@ -50,7 +50,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    //\"email\":\"derbala.ahmed531992@gmail.com\",\n    \"slug\": \"ahmed\",\n    \"password\": \"123\"\n}",
+              "raw": "{\n    //\"email\":\"derbala.ahmed531992@gmail.com\",\n    \"slug\": \"abir\",\n    \"password\": \"123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -412,13 +412,13 @@
             "header": [
               {
                 "key": "token",
-                "value": "{{token}}",
+                "value": "{{ahmed_token}}",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"status\":\"cancelled_by_shop\"\n}",
+              "raw": "{\n    \"status\":\"confirmed_by_shop\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -426,14 +426,14 @@
               }
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/sales/69384cfe14909206d4788a2c",
+              "raw": "{{drinaluza_url}}/api/sales/69d959994957e7ce49b84d36",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "sales",
-                "69384cfe14909206d4788a2c"
+                "69d959994957e7ce49b84d36"
               ]
             }
           },
@@ -549,7 +549,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"products\": [\n        {\n            \"product\": {\n                \"slug\": \"dorade\"\n            },\n            \"quantity\":3\n            \n        }\n    ],\n    \"shop\":{\n        \"slug\":\"s1\",\n        \"_id\":\"456\"\n    }\n}",
+              "raw": "{\n    \"products\": [\n        {\n            \"product\": {\n                \"slug\": \"drinaluza-sardine\"\n            },\n            \"quantity\":3\n            \n        }\n    ],\n    \"shop\":{\n        \"slug\":\"drinaluza\",\n        \"_id\":\"456\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -579,13 +579,13 @@
             "header": [
               {
                 "key": "token",
-                "value": "{{token}}",
+                "value": "{{abir_token}}",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"status\":\"cancelled_by_shop\"\n}",
+              "raw": "{\n    \"status\":\"cancelled_by_customer\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -593,14 +593,14 @@
               }
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/purchases/69384cfe14909206d4788a2c",
+              "raw": "{{drinaluza_url}}/api/purchases/69d959994957e7ce49b84d36",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "purchases",
-                "69384cfe14909206d4788a2c"
+                "69d959994957e7ce49b84d36"
               ]
             }
           },
@@ -1151,69 +1151,71 @@
       ]
     },
     {
-      "name": "New Request",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "token",
-            "value": "{{token}}",
-            "type": "text"
-          }
-        ],
-        "url": {
-          "raw": "{{drinaluza_url}}/api/shops/my-shops",
-          "host": [
-            "{{drinaluza_url}}"
-          ],
-          "path": [
-            "api",
-            "shops",
-            "my-shops"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "New Request",
-      "request": {
-        "method": "GET",
-        "header": []
-      },
-      "response": []
-    },
-    {
-      "name": "New Request",
-      "request": {
-        "method": "GET",
-        "header": []
-      },
-      "response": []
-    },
-    {
-      "name": "New Request",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{drinaluza_url}}/api/search?q=seafood",
-          "host": [
-            "{{drinaluza_url}}"
-          ],
-          "path": [
-            "api",
-            "search"
-          ],
-          "query": [
-            {
-              "key": "q",
-              "value": "seafood"
+      "name": "reviews",
+      "item": [
+        {
+          "name": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "shops",
+                "69e0370016020526ae36d58a"
+              ]
             }
-          ]
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"comment\":\"dd\",\n    \"stars\":2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "shops",
+                "69e0370016020526ae36d58a"
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     }
   ]
 }

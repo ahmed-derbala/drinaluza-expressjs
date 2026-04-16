@@ -1,13 +1,16 @@
 import mongoose from 'mongoose'
-import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
+import { AuthorSubschema } from '../users/schemas/author.subschema.js'
 import { usersCollection } from '../users/users.constant.js'
 import { shopsCollection } from '../shops/shops.constants.js'
 import { productsCollection } from '../products/products.schema.js'
 
-export const feedCollection = 'feed'
+export const reviewsCollection = 'reviews'
 
-const FeedSchema = new mongoose.Schema(
+const ReviewSchema = new mongoose.Schema(
 	{
+		stars: { type: Number, required: true, min: 1, max: 5 },
+		comment: { type: String, trim: true },
+		author: { type: AuthorSubschema, required: false },
 		targetId: {
 			type: mongoose.Schema.Types.ObjectId,
 			required: true,
@@ -21,11 +24,9 @@ const FeedSchema = new mongoose.Schema(
 		targetData: {
 			type: mongoose.Schema.Types.Mixed,
 			required: false
-		},
-		state: StateSchema,
-		card: { kind: { type: String, enum: ['shop', 'product', 'user'], default: 'product', required: true } },
-		score: { type: Number, default: 0, select: false }
+		}
 	},
-	{ collection: feedCollection, timestamps: true }
+	{ timestamps: true, collection: reviewsCollection }
 )
-export const FeedModel = mongoose.model(feedCollection, FeedSchema)
+
+export const ReviewModel = mongoose.model(reviewsCollection, ReviewSchema)
