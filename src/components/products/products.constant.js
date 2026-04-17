@@ -1,0 +1,1 @@
+export const productsCollection = 'products'

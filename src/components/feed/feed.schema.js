@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { usersCollection } from '../users/users.constant.js'
 import { shopsCollection } from '../shops/shops.constants.js'
-import { productsCollection } from '../products/products.schema.js'
+import { productsCollection } from '../products/products.constant.js'
 
 export const feedCollection = 'feed'
 

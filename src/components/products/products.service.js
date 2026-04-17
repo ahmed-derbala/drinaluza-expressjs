@@ -3,7 +3,7 @@ import { findOneProductRepo, findManyProductsRepo, createdProductRepo, updatePro
 import { log } from '../../core/log/index.js'
 import { findMyProductsRepo } from './products.repository.js'
 import { createFeedSrvc } from '../feed/feed.service.js'
-import { productsCollection } from './products.schema.js'
+import { productsCollection } from './products.constant.js'
 
 export const findOneProductSrvc = async ({ match, select }) => {
 	return findOneProductRepo({ match, select })

@@ -11,7 +11,7 @@ import { patchRatingShopSrvc } from '../shops/shops.service.js'
 import { findOneShopSrvc } from '../shops/shops.service.js'
 import { usersCollection } from '../users/users.constant.js'
 import { findOneUserSrvc } from '../users/users.service.js'
-import { productsCollection } from '../products/products.schema.js'
+import { productsCollection } from '../products/products.constant.js'
 import { findOneProductSrvc } from '../products/products.service.js'
 import { patchRatingProductSrvc } from '../products/products.service.js'
 

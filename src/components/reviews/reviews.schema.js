@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { AuthorSubschema } from '../users/schemas/author.subschema.js'
 import { usersCollection } from '../users/users.constant.js'
 import { shopsCollection } from '../shops/shops.constants.js'
-import { productsCollection } from '../products/products.schema.js'
+import { productsCollection } from '../products/products.constant.js'
 
 export const reviewsCollection = 'reviews'
 

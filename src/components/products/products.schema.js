@@ -10,7 +10,7 @@ import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.j
 import { searchKeywordsField } from '../../core/db/mongodb/search-keywords.field.js'
 import { RatingSubschema } from '../reviews/subschemas/rating.subschema.js'
 import { FeedModel } from '../feed/feed.schema.js'
-export const productsCollection = 'products'
+import { productsCollection } from './products.constant.js'
 
 const ProductSchema = new mongoose.Schema(
 	{
