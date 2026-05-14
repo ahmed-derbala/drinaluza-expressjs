@@ -16,7 +16,7 @@ router
 	.route('/')
 	.post(authenticate({ role: 'shop_owner' }), validate(createShopVld), async (req, res) => {
 		try {
-			const { name, address, location } = req.body
+			const { name, address, location, kind } = req.body
 			const owner = req.user
 
 			//create new business if not exists
@@ -30,7 +30,7 @@ router
 			}
 
 			owner.business = myBusiness
-			const newShop = await createShopSrvc({ name, address, location, owner })
+			const newShop = await createShopSrvc({ name, address, location, owner, kind })
 
 			if (newShop) {
 				addShopToUserSrvc({ shop: newShop, userId: req.user._id })

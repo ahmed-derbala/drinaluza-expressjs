@@ -1,3 +1,5 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import packagejson from '../../package.json' with { type: 'json' }
 import ip from 'ip'
 import path from 'path'
@@ -178,6 +180,11 @@ const notifications = {
 	supported: ['push', 'email', 'sms']
 }
 
+const cloudinary = {
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET
+}
 const defaultConfig = {
 	NODE_ENV,
 	app,
@@ -314,7 +321,8 @@ const defaultConfig = {
 	},
 	businesses: {
 		autoApprove: true
-	}
+	},
+	cloudinary
 }
 export default {
 	...defaultConfig

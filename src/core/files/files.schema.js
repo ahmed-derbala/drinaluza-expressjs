@@ -1,10 +1,11 @@
 import mongoose from 'mongoose'
-import { OwnerSchema } from '../../components/users/schemas/owner.schema.js'
+import { UserRefSchema } from '#users/schemas/user-ref.schema.js'
 
 export const FilesSchema = new mongoose.Schema({
-	owner: { type: OwnerSchema, required: true },
+	user: { type: UserRefSchema, required: true },
 	name: { type: String, required: true }, // name without extension
 	originalname: { type: String, required: false }, // name + . + extension
+	filename: { type: String, required: false }, // name + . + extension
 	extension: { type: String, required: false }, // the extension prefixed with a dot
 	url: { type: String, required: true }, //download file
 	path: { type: String, required: false }, //local file path
@@ -26,7 +27,7 @@ export const FilesSchema = new mongoose.Schema({
 })
 
 export const FileRefSchema = new mongoose.Schema({
-	owner: { type: OwnerSchema, required: true },
+	user: { type: UserRefSchema, required: true },
 	name: { type: String, required: true }, // name without extension
 	originalname: { type: String, required: false }, // name + . + extension
 	extension: { type: String, required: false }, // the extension prefixed with a dot

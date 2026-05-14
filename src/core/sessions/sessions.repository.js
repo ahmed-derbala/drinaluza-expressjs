@@ -15,7 +15,7 @@ export const findSessionsRepo = async ({ match, select }) => {
 }
 
 export const findOneSessionRepo = async ({ match }) => {
-	log({ level: 'debug', message: 'findOneSessionRepo', data: { match } })
+	//log({ level: 'debug', message: 'findOneSessionRepo', data: { match } })
 	const flattenedMatch = flattenObject(match)
 	return SessionModel.findOne(flattenedMatch)
 }

@@ -9,7 +9,8 @@ import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.j
 import { ContactSchema } from '../../core/db/mongodb/shared-schemas/contact.schema.js'
 import { RatingSubschema } from '../reviews/subschemas/rating.subschema.js'
 import { FeedModel } from '../feed/feed.schema.js'
-export const shopsCollection = 'shops'
+import { SHOP_KINDS, shopsCollection } from './shops.constant.js'
+import { RestaurantSchema } from './restaurants/restaurants.schema.js'
 
 const shopSchema = new mongoose.Schema(
 	{
@@ -24,23 +25,22 @@ const shopSchema = new mongoose.Schema(
 		state: StateSchema,
 		media: { type: MediaSchema, required: false, default: () => ({}) },
 		contact: ContactSchema,
-		rating: { type: RatingSubschema, required: false, _id: false }
-		/*rating: {
-			average: { type: Number, required: true, min: 0, max: 5, default: 0 },
-			count: { type: Number, required: true, min: 0, default: 0 },
-			total: { type: Number, required: true, min: 0, default: 0 },
-			breakdown: {
-				1: { type: Number, required: true, min: 0, default: 0 },
-				2: { type: Number, required: true, min: 0, default: 0 },
-				3: { type: Number, required: true, min: 0, default: 0 },
-				4: { type: Number, required: true, min: 0, default: 0 },
-				5: { type: Number, required: true, min: 0, default: 0 },
-			}
-
-		}*/
+		rating: { type: RatingSubschema, required: false, _id: false },
+		kind: { type: String, enum: SHOP_KINDS.ALL, required: true, default: SHOP_KINDS.RESTAURANT }
 	},
-	{ timestamps: true, collection: shopsCollection }
+	{ timestamps: true, collection: shopsCollection, discriminatorKey: 'kind' }
 )
+
+shopSchema.discriminator(SHOP_KINDS.RESTAURANT, RestaurantSchema)
+
+shopSchema.discriminator(
+	SHOP_KINDS.SEAFOOD_MARKET,
+	new mongoose.Schema({
+		appointmentSlots: [Date],
+		services: [{ name: String, duration: Number }]
+	})
+)
+
 shopSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
 
 // Post-hook for findOneAndUpdate

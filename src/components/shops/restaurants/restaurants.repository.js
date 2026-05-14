@@ -1,8 +1,9 @@
-import { ShopModel } from './shops.schema.js'
-import { errorHandler } from '../../core/error/index.js'
-import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
-import { log } from '../../core/log/index.js'
-import { flattenObject } from '../../core/helpers/filters.js'
+import { ShopModel } from '#shops/shops.schema.js'
+import { errorHandler } from '#core/error/index.js'
+import { paginateMongodb } from '#core/db/mongodb/pagination.js'
+import { log } from '#core/log/index.js'
+import { flattenObject } from '#core/helpers/filters.js'
+import { SHOP_KINDS } from '#shops/shops.constant.js'
 
 export const updateShopRepo = async ({ match, newData }) => {
 	return ShopModel.findOneAndUpdate(match, newData, { returnDocument: 'after' })
@@ -25,7 +26,9 @@ export const findMyShopsRepo = async ({ match, select, page, limit, count }) => 
 	}
 }
 
-export const findShopsRepo = async ({ match, select, page, limit, count }) => {
+export const findRestaurantsRepo = async ({ match, select, page, limit, count }) => {
+	if (!match) match = {}
+	match.kind = SHOP_KINDS.RESTAURANT
 	const flattenedMatch = flattenObject(match)
 	match = { ...flattenedMatch }
 	if (count) {
@@ -36,14 +39,14 @@ export const findShopsRepo = async ({ match, select, page, limit, count }) => {
 	return await paginateMongodb({ model: ShopModel, match, select, page, limit })
 }
 
-export const findOneShopRepo = async ({ match, select }) => {
+export const findOneRestaurantRepo = async ({ match, select }) => {
 	const flattenedMatch = flattenObject(match)
-	log({ level: 'debug', message: 'findOneShopRepo flattenedMatch', data: flattenedMatch })
-	const shop = await ShopModel.findOne({ ...flattenedMatch })
+	log({ level: 'debug', message: 'findOneRestaurantRepo flattenedMatch', data: flattenedMatch })
+	const restaurant = await ShopModel.findOne({ ...flattenedMatch })
 		.select(select)
 		.lean()
-	//log({ level: 'debug', message: 'findOneShopRepo', data: shop })
-	return shop
+	//log({ level: 'debug', message: 'findOneShopRepo', data: restaurant })
+	return restaurant
 }
 
 export const createShopRepo = async ({ name, address, location, owner, media, contact, rating, kind }) => {

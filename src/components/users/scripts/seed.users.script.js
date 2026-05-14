@@ -54,6 +54,12 @@ const users = [
 		name: { en: 'Majed Akid' }
 	},
 	{
+		slug: 'asma',
+		password: '123',
+		role: 'shop_owner',
+		name: { en: 'Asma Akid' }
+	},
+	{
 		slug: 'abir',
 		password: '123',
 		role: 'customer',
