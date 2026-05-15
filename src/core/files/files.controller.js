@@ -23,10 +23,10 @@ router.route('/upload').post(
           },*/
 	async (req, res) => {
 		try {
-			console.log('filesController', req.files)
+			//console.log('filesController', req.files)
 			// If it gets here, the file passed validation
 			const files = await createFilesSrvc({ user: req.user, files: req.files })
-			console.log('files', files)
+			//console.log('files', files)
 			return resp({ status: 200, data: files, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })

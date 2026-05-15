@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findMyShopsSrvc, createShopSrvc, findMyShopSrvc, findOneShopSrvc, findShopsSrvc } from './shops.service.js'
+import { findMyShopsSrvc, createShopSrvc, findMyShopSrvc, findOneShopSrvc, findShopsSrvc, updateMyShopSrvc } from './shops.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
@@ -64,15 +64,13 @@ router.route('/my-shops').get(authenticate({ role: 'shop_owner' }), async (req, 
 	}
 })
 
-router.route('/my-shops/:shopSlug/').get(authenticate(), async (req, res) => {
+router.route('/:shopSlug/').get(async (req, res) => {
 	try {
 		let match = {}
-		match.owner = { _id: req.user._id }
 		const shopSlug = req.params.shopSlug
-		//match.shop = {}
 		match.slug = shopSlug
-		const myShopProducts = await findOneShopSrvc({ match })
-		return resp({ status: 200, data: myShopProducts, req, res })
+		const shop = await findOneShopSrvc({ match })
+		return resp({ status: 200, data: shop, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}
@@ -110,17 +108,33 @@ router.route('/my-shops/:shopId/products/create').post(authenticate(), async (re
 	}
 })
 
-router.route('/:shopSlug').get(async (req, res) => {
-	try {
-		const shopSlug = req.params.shopSlug
-		let match = {}
-		match.slug = shopSlug
-		const shop = await findOneShopSrvc({ match })
-		return resp({ status: 200, data: shop, req, res })
-	} catch (err) {
-		errorHandler({ err, req, res })
-	}
-})
+router
+	.route('/my-shops/:shopSlug/')
+	.get(authenticate({ role: 'shop_owner' }), async (req, res) => {
+		try {
+			let match = {}
+			match.owner = { _id: req.user._id }
+			const shopSlug = req.params.shopSlug
+			//match.shop = {}
+			match.slug = shopSlug
+			const shop = await findOneShopSrvc({ match })
+			return resp({ status: 200, data: shop, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
+	.patch(authenticate({ role: 'shop_owner' }), async (req, res) => {
+		try {
+			let match = {}
+			match.owner = { _id: req.user._id }
+			const shopSlug = req.params.shopSlug
+			match.slug = shopSlug
+			const shop = await updateMyShopSrvc({ match, newData: req.body })
+			return resp({ status: 200, data: shop, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
 
 router.route('/:shopSlug/products').get(async (req, res) => {
 	try {

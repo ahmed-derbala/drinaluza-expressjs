@@ -3,3 +3,5 @@ export const ALLOWED_EXTENSIONS = {
 	document: ['.pdf', '.doc', '.docx', '.pdf'],
 	video: ['.mp4', '.mkv', '.mov']
 }
+
+export const filesCollection = 'files'

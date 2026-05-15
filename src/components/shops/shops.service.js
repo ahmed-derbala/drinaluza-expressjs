@@ -4,14 +4,10 @@ import { findMyShopsRepo, findShopsRepo, createShopRepo, findMyShopProductsRepo,
 import config from '../../config/index.js'
 import { createFeedSrvc } from '../feed/feed.service.js'
 import { shopsCollection } from './shops.constant.js'
+import { updateOneCardFeedRepo } from '../feed/feed.repository.js'
 
 export const findMyShopsSrvc = async ({ match, select, page, limit, count }) => {
-	try {
-		const myShops = await findMyShopsRepo({ match, select, page, limit, count })
-		return myShops
-	} catch (err) {
-		return errorHandler({ err })
-	}
+	return findMyShopsRepo({ match, select, page, limit, count })
 }
 
 export const findShopsSrvc = async ({ match, select, page, limit, count }) => {
@@ -19,6 +15,10 @@ export const findShopsSrvc = async ({ match, select, page, limit, count }) => {
 }
 export const findOneShopSrvc = async ({ match, select }) => {
 	return await findOneShopRepo({ match, select })
+}
+export const updateMyShopSrvc = async ({ match, newData }) => {
+	const updatedFeedCard = await updateOneCardFeedRepo({ match: { 'targetData.slug': match.slug }, newData })
+	return await updateShopRepo({ match, newData })
 }
 export const createShopSrvc = async ({ name, address, location, owner, media, contact, rating, kind }) => {
 	if (!media) media = config.defaults.shops.media

@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb'
 import { spawn } from 'node:child_process'
 import config from '../../../config/index.js'
-console.clear()
+//console.clear()
 /*
 if (process.env.NODE_ENV === 'production') {
 	console.error('❌ Refusing to run: destructive script in production')
@@ -52,7 +52,7 @@ const scripts = [
 
 ;(async () => {
 	try {
-		console.clear()
+		//console.clear()
 		await dropDatabase()
 
 		for (const script of scripts) {

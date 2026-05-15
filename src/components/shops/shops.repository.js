@@ -5,24 +5,27 @@ import { log } from '../../core/log/index.js'
 import { flattenObject } from '../../core/helpers/filters.js'
 
 export const updateShopRepo = async ({ match, newData }) => {
-	return ShopModel.findOneAndUpdate(match, newData, { returnDocument: 'after' })
+	const flattenedMatch = flattenObject(match)
+	match = { ...flattenedMatch }
+	const updateFields = {}
+	for (const key in newData) {
+		updateFields[`${key}`] = newData[key]
+	}
+	log({ level: 'debug', message: 'updateShopRepo', data: { match, newData } })
+	return ShopModel.findOneAndUpdate(match, { $set: updateFields }, { returnDocument: 'after' })
 }
 
 export const findMyShopsRepo = async ({ match, select, page, limit, count }) => {
-	try {
-		const flattenedMatch = flattenObject(match)
-		match = { ...flattenedMatch }
-		if (count) {
-			const shopsCount = await ShopModel.countDocuments(match)
-			return shopsCount
-		}
-		//log({ level: 'debug', message: 'findMyShopsRepo flattenedMatch', data: flattenedMatch })
-		const myShops = await paginateMongodb({ model: ShopModel, match, select, page, limit })
-		//log({ level: 'debug', message: 'findMyShopsRepo', data: myShops })
-		return myShops
-	} catch (err) {
-		errorHandler({ err })
+	const flattenedMatch = flattenObject(match)
+	match = { ...flattenedMatch }
+	if (count) {
+		const shopsCount = await ShopModel.countDocuments(match)
+		return shopsCount
 	}
+	log({ level: 'debug', message: 'findMyShopsRepo flattenedMatch', data: flattenedMatch })
+	const myShops = await paginateMongodb({ model: ShopModel, match, select, page, limit })
+	log({ level: 'debug', message: 'findMyShopsRepo', data: myShops })
+	return myShops
 }
 
 export const findShopsRepo = async ({ match, select, page, limit, count }) => {

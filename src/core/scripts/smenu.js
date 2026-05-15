@@ -22,7 +22,7 @@ async function startMenu() {
 	let keepRunning = true
 
 	while (keepRunning) {
-		console.clear() // Keeps the UI clean
+		//console.clear() // Keeps the UI clean
 		console.log(`
     💡 NAVIGATION:
     • Enter a NUMBER to select.

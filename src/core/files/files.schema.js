@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { UserRefSchema } from '#users/schemas/user-ref.schema.js'
+import { filesCollection } from './files.constant.js'
 
 export const FilesSchema = new mongoose.Schema({
 	user: { type: UserRefSchema, required: true },
@@ -26,9 +27,4 @@ export const FilesSchema = new mongoose.Schema({
 	] //if the file is associated to multiple models , kind refers to collections. makes it so easy to share the same file between multiple collections
 })
 
-export const FileRefSchema = new mongoose.Schema({
-	name: { type: String, required: true }, // name without extension
-	url: { type: String, required: true } //download file
-})
-export const filesCollection = 'files'
 export const FileModel = mongoose.model(filesCollection, FilesSchema)

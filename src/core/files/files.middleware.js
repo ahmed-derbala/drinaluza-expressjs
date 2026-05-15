@@ -36,8 +36,6 @@ export const uploadMW = multer({
 		if (!allowedExtensions.includes(ext)) {
 			return cb(new Error(`Only ${allowedExtensions.join(', ')} files are allowed`))
 		}
-		console.log('fileMW', file)
-
 		cb(null, true)
 	}
 }).array('files', 5)
