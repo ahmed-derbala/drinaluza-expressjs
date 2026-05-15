@@ -5,12 +5,17 @@ import { createBusinessSrvc } from '../businesses/businesses.service.js'
 import { customerSelect } from './schemas/customer.schema.js'
 import { createFeedSrvc } from '../feed/feed.service.js'
 import { usersCollection } from './users.constant.js'
+import { updateOneCardFeedRepo } from '../feed/feed.repository.js'
 
 export const updateMyProfileSrvc = async ({ user, newData }) => {
 	if (newData.location && newData.location.sharingEnabled == false) {
 		newData.location = {}
 	}
-	return updateMyProfileRepo({ user, newData })
+	const updatedProfile = await updateMyProfileRepo({ user, newData })
+	//sync with feed
+	const updatedFeedCard = await updateOneCardFeedRepo({ match: { targetId: user._id }, newData })
+	console.log({ level: 'debug', message: 'updateMyProfileSrvc updatedFeedCard', data: { updatedFeedCard } })
+	return updatedProfile
 }
 
 export const findMyProfileSrvc = async ({ user }) => {
