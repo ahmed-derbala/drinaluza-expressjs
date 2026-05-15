@@ -4,6 +4,7 @@ import { LocationSchema } from '../../../core/db/mongodb/shared-schemas/location
 import { shopsCollection } from '../shops.constant.js'
 import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 import { OwnerSchema } from '../../users/schemas/owner.schema.js'
+import { MediaSchema } from '../../../core/db/mongodb/shared-schemas/media.schema.js'
 
 export const ShopRefSchema = {
 	_id: {
@@ -22,5 +23,6 @@ export const ShopRefSchema = {
 	address: {
 		type: AddressSchema
 	},
-	location: LocationSchema
+	location: LocationSchema,
+	media: { type: MediaSchema, required: false, default: () => ({}) }
 }

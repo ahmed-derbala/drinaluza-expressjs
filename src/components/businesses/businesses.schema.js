@@ -14,7 +14,7 @@ const BusinessSchema = new mongoose.Schema(
 		slug: { type: String, required: true },
 		name: { type: MultiLangSchema, required: true },
 		description: { type: String, required: false },
-		state: { type: String, enum: BUSINESS_STATES_ALL(), required: true },
+		state: StateSchema,
 		media: MediaSchema
 	},
 	{ collection: businessesCollection }

@@ -21,3 +21,14 @@ export const updateOneCardFeedRepo = async ({ match, newData }) => {
 	log({ level: 'debug', message: 'updateOneCardFeedRepo', data: { match, newData } })
 	return FeedModel.findOneAndUpdate(match, { $set: updateFields }, { returnDocument: 'after' })
 }
+
+export const updateCardsFeedRepo = async ({ match, newData }) => {
+	const flattenedMatch = flattenObject(match)
+	match = { ...flattenedMatch }
+	const updateFields = {}
+	for (const key in newData) {
+		updateFields[`targetData.${key}`] = newData[key]
+	}
+	log({ level: 'debug', message: 'updateCardsFeedRepo', data: { match, newData } })
+	return FeedModel.updateMany(match, { $set: updateFields })
+}
