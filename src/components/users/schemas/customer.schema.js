@@ -4,7 +4,7 @@ import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-l
 import { AddressSchema } from '../../../core/db/mongodb/shared-schemas/address.schema.js'
 import { LocationSchema } from '../../../core/db/mongodb/shared-schemas/location.schema.js'
 import { ContactSchema } from '../../../core/db/mongodb/shared-schemas/contact.schema.js'
-import { MediaThumbnailSchema } from '../../../core/db/mongodb/shared-schemas/media-thumbnail.schema.js'
+import { MediaSchema } from '../../../core/db/mongodb/shared-schemas/media.schema.js'
 
 export const customerSelect = '+slug +name +address +location +contact +media +role'
 
@@ -20,5 +20,5 @@ export const CustomerSchema = {
 	address: AddressSchema,
 	location: LocationSchema,
 	contact: ContactSchema,
-	media: MediaThumbnailSchema
+	media: MediaSchema
 }

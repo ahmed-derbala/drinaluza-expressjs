@@ -8,7 +8,6 @@ export const createFeedSrvc = async ({ targetData, targetResource, targetId, car
 
 export const findFeedSrvc = async ({ match, select, page, limit }) => {
 	if (!select) select = '-state'
-	limit = 50
-	log({ level: 'debug', message: 'findFeedSrvc', data: { match, select, page, limit } })
+	//log({ level: 'debug', message: 'findFeedSrvc', data: { match, select, page, limit } })
 	return findFeedRepo({ match, select, page, limit })
 }

@@ -27,15 +27,8 @@ export const FilesSchema = new mongoose.Schema({
 })
 
 export const FileRefSchema = new mongoose.Schema({
-	user: { type: UserRefSchema, required: true },
 	name: { type: String, required: true }, // name without extension
-	originalname: { type: String, required: false }, // name + . + extension
-	extension: { type: String, required: false }, // the extension prefixed with a dot
-	url: { type: String, required: true }, //download file
-	path: { type: String, required: false }, //local file path
-	encoding: { type: String, required: false },
-	mimetype: String,
-	size: Number // in bytes, 1 million ~ 1 mb
+	url: { type: String, required: true } //download file
 })
 export const filesCollection = 'files'
 export const FileModel = mongoose.model(filesCollection, FilesSchema)

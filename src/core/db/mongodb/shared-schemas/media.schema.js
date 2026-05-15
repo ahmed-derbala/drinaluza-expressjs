@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'
-import config from '../../../../config/index.js'
+import { FileRefSchema } from '#core/files/files.schema.js'
 
 export const MediaSchema = {
-	thumbnail: {
+	/*thumbnail: {
 		url: { type: String, required: true, default: `${config.backend.url}/public/favicon.ico` }
-	}
+	}*/
+	thumbnail: FileRefSchema
 }
