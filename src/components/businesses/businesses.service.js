@@ -1,42 +1,53 @@
 import { errorHandler } from '../../core/error/index.js'
-import { findManyBusinessesRepo, findOneBusinessRepo, createBusinessRepo, addShopToBusinessRepo, updateBusinessRepo } from './businesses.repository.js'
+import { log } from '../../core/log/index.js'
+import { findMyBusinessesRepo, findBusinessesRepo, createBusinessRepo, findMyBusinessProductsRepo, findMyBusinessRepo, findOneBusinessRepo, updateBusinessRepo } from './businesses.repository.js'
+import config from '../../config/index.js'
+import { createFeedSrvc } from '../feed/feed.service.js'
+import { businessesCollection } from './businesses.constant.js'
+import { updateOneCardFeedRepo } from '../feed/feed.repository.js'
 
-export const findOneBusinessSrvc = async ({ match }) => {
-	try {
-		const business = await findOneBusinessRepo({ match })
-		return business
-	} catch (err) {
-		errorHandler({ err })
-	}
+export const findMyBusinessesSrvc = async ({ match, select, page, limit, count }) => {
+	return findMyBusinessesRepo({ match, select, page, limit, count })
 }
 
-export const createBusinessSrvc = async ({ owner, name }) => {
+export const findBusinessesSrvc = async ({ match, select, page, limit, count }) => {
+	return await findBusinessesRepo({ match, select, page, limit, count })
+}
+export const findOneBusinessSrvc = async ({ match, select }) => {
+	return await findOneBusinessRepo({ match, select })
+}
+export const updateMyBusinessSrvc = async ({ match, newData }) => {
+	const updatedFeedCard = await updateOneCardFeedRepo({ match: { 'targetData.slug': match.slug }, newData })
+	return await updateBusinessRepo({ match, newData })
+}
+export const createBusinessSrvc = async ({ name, address, location, owner, media, contact, rating, kind }) => {
+	if (!media) media = config.defaults.businesses.media
 	if (!name) {
 		name = { en: `${owner.name.en} business` }
 	}
-	return createBusinessRepo({ owner, name })
+	log({ level: 'debug', message: 'createBusinessSrvc', data: { name, address, location, owner, media } })
+	const business = await createBusinessRepo({ name, address, location, owner, media, contact, rating, kind })
+	if (business) {
+		createFeedSrvc({ targetData: business, targetResource: businessesCollection, targetId: business._id, card: { kind: 'business' } })
+	}
+	return business
 }
 
-export const addShopToBusinessSrvc = async ({ shop, businessId }) => {
+export const findMyBusinessSrvc = async ({ match, select }) => {
 	try {
-		const updatedBusiness = await addShopToBusinessRepo({ shop, businessId })
-		return updatedBusiness
+		const myBusiness = await findMyBusinessRepo({ match, select })
+		return myBusiness
 	} catch (err) {
 		errorHandler({ err })
 	}
 }
 
-export const findManyBusinessesSrvc = async ({ match, select, page, limit }) => {
-	try {
-		page = parseInt(page, 10)
-		limit = parseInt(limit, 10)
-		const businesses = await findManyBusinessesRepo({ match, select, page, limit })
-		return businesses
-	} catch (err) {
-		errorHandler({ err })
-	}
-}
-
-export const updateBusinessSrvc = async ({ match, newData }) => {
-	return updateBusinessRepo({ match, newData })
+export const patchRatingBusinessSrvc = async ({ businessId, stars, rating }) => {
+	let count = rating.count + 1
+	let total = rating.total + stars
+	let average = total / count
+	let breakdown = rating.breakdown
+	breakdown[stars] = breakdown[stars] + 1
+	const newRating = { count, total, average, breakdown }
+	return updateBusinessRepo({ match: { _id: businessId }, newData: { rating: newRating } })
 }

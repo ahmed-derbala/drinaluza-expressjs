@@ -45,7 +45,7 @@ function runScript(script) {
 
 const scripts = [
 	'src/components/users/scripts/seed.users.script.js',
-	'src/components/shops/scripts/seed.shops.script.js',
+	'src/components/businesses/scripts/seed.businesses.script.js',
 	'src/components/default-products/scripts/seed.default-products.script.js',
 	'src/components/products/scripts/seed.products.script.js'
 ]

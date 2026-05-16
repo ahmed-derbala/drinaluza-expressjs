@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { usersCollection } from '../users/users.constant.js'
-import { shopsCollection } from '../shops/shops.constant.js'
+import { businessesCollection } from '../businesses/businesses.constant.js'
 import { productsCollection } from '../products/products.constant.js'
 
 export const feedCollection = 'feed'
@@ -16,14 +16,14 @@ const FeedSchema = new mongoose.Schema(
 		targetResource: {
 			type: String,
 			required: true,
-			enum: [usersCollection, shopsCollection, productsCollection]
+			enum: [usersCollection, businessesCollection, productsCollection]
 		},
 		targetData: {
 			type: mongoose.Schema.Types.Mixed,
 			required: false
 		},
 		state: StateSchema,
-		card: { kind: { type: String, enum: ['shop', 'product', 'user'], default: 'product', required: true } },
+		card: { kind: { type: String, enum: ['business', 'product', 'user'], default: 'product', required: true } },
 		score: { type: Number, default: 0, select: false }
 	},
 	{ collection: feedCollection, timestamps: true }

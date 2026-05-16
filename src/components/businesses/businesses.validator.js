@@ -1,6 +1,6 @@
 import * as expressValidator from 'express-validator'
 const { checkSchema, body, query, oneOf } = expressValidator
-export const createShopVld = [
+export const createBusinessVld = [
 	body('name').isObject().notEmpty(),
 	body('name.en').trim().isString().notEmpty(),
 	body('address').isObject().notEmpty(),

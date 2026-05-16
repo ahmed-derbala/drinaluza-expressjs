@@ -5,10 +5,10 @@ import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { validate } from '../../core/validation/index.js'
 import { createReviewVld } from './reviews.validator.js'
-import { shopsCollection } from '../shops/shops.constant.js'
+import { businessesCollection } from '../businesses/businesses.constant.js'
 import mongoose from 'mongoose'
-import { patchRatingShopSrvc } from '../shops/shops.service.js'
-import { findOneShopSrvc } from '../shops/shops.service.js'
+import { patchRatingBusinessSrvc } from '../businesses/businesses.service.js'
+import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { usersCollection } from '../users/users.constant.js'
 import { findOneUserSrvc } from '../users/users.service.js'
 import { productsCollection } from '../products/products.constant.js'
@@ -37,9 +37,9 @@ router
 			if (req.user) author = req.user
 			//fetch resource
 			switch (targetResource) {
-				case shopsCollection:
-					resource = await findOneShopSrvc({ match: { _id: targetId }, select: 'rating' })
-					await patchRatingShopSrvc({ shopId: targetId, stars, rating: resource.rating })
+				case businessesCollection:
+					resource = await findOneBusinessSrvc({ match: { _id: targetId }, select: 'rating' })
+					await patchRatingBusinessSrvc({ businessId: targetId, stars, rating: resource.rating })
 					break
 				case usersCollection:
 					resource = await findOneUserSrvc({ match: { _id: targetId }, select: 'rating' })

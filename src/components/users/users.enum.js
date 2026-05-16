@@ -1,10 +1,10 @@
 const CUSTOMER = 'customer',
-	SHOP_OWNER = 'shop_owner',
+	BUSINESS_OWNER = 'business_owner',
 	SUPER = 'super'
 
 export const userRolesEnum = {
 	CUSTOMER,
-	SHOP_OWNER,
+	BUSINESS_OWNER,
 	SUPER,
-	ALL: [CUSTOMER, SHOP_OWNER, SUPER]
+	ALL: [CUSTOMER, BUSINESS_OWNER, SUPER]
 }

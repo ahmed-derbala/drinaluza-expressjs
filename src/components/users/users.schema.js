@@ -1,10 +1,8 @@
 import mongoose from 'mongoose'
 import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
-import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
 import { usersCollection } from './users.constant.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { userRolesEnum } from './users.enum.js'
-import { BusinessRefSubSchema } from '#businesses/business.subschema.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
@@ -29,12 +27,6 @@ export const UserBasicInfosSchema = new mongoose.Schema(
 )
 
 const UserSchema = new mongoose.Schema({
-	business: { type: BusinessRefSubSchema, required: false },
-	shops: {
-		type: [ShopRefSchema],
-		required: false,
-		select: false
-	},
 	slug: { type: String, required: true },
 	name: MultiLangSchema,
 	role: {

@@ -1,34 +1,34 @@
-import { BusinessModel } from './businesses.schema.js'
-import { errorHandler } from '../../core/error/index.js'
-import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
-import { log } from '../../core/log/index.js'
-import { flattenObject } from '../../core/helpers/filters.js'
+import { BusinessModel } from '#businesses/businesses.schema.js'
+import { errorHandler } from '#core/error/index.js'
+import { paginateMongodb } from '#core/db/mongodb/pagination.js'
+import { log } from '#core/log/index.js'
+import { flattenObject } from '#core/helpers/filters.js'
+import { BUSINESS_KINDS } from '#businesses/businesses.constant.js'
 
 export const updateBusinessRepo = async ({ match, newData }) => {
-	const flattenedMatch = flattenObject(match)
-	match = { ...flattenedMatch }
-	const updateFields = {}
-	for (const key in newData) {
-		updateFields[`${key}`] = newData[key]
-	}
-	log({ level: 'debug', message: 'updateBusinessRepo', data: { match, newData } })
-	return BusinessModel.findOneAndUpdate(match, { $set: updateFields }, { returnDocument: 'after' })
+	return BusinessModel.findOneAndUpdate(match, newData, { returnDocument: 'after' })
 }
 
 export const findMyBusinessesRepo = async ({ match, select, page, limit, count }) => {
-	const flattenedMatch = flattenObject(match)
-	match = { ...flattenedMatch }
-	if (count) {
-		const businessesCount = await BusinessModel.countDocuments(match)
-		return businessesCount
+	try {
+		const flattenedMatch = flattenObject(match)
+		match = { ...flattenedMatch }
+		if (count) {
+			const businessesCount = await BusinessModel.countDocuments(match)
+			return businessesCount
+		}
+		//log({ level: 'debug', message: 'findMyBusinessesRepo flattenedMatch', data: flattenedMatch })
+		const myBusinesses = await paginateMongodb({ model: BusinessModel, match, select, page, limit })
+		//log({ level: 'debug', message: 'findMyBusinessesRepo', data: myBusinesses })
+		return myBusinesses
+	} catch (err) {
+		errorHandler({ err })
 	}
-	log({ level: 'debug', message: 'findMyBusinessesRepo flattenedMatch', data: flattenedMatch })
-	const myBusinesses = await paginateMongodb({ model: BusinessModel, match, select, page, limit })
-	log({ level: 'debug', message: 'findMyBusinessesRepo', data: myBusinesses })
-	return myBusinesses
 }
 
-export const findBusinessesRepo = async ({ match, select, page, limit, count }) => {
+export const findRestaurantsRepo = async ({ match, select, page, limit, count }) => {
+	if (!match) match = {}
+	match.kind = BUSINESS_KINDS.RESTAURANT
 	const flattenedMatch = flattenObject(match)
 	match = { ...flattenedMatch }
 	if (count) {
@@ -39,14 +39,14 @@ export const findBusinessesRepo = async ({ match, select, page, limit, count }) 
 	return await paginateMongodb({ model: BusinessModel, match, select, page, limit })
 }
 
-export const findOneBusinessRepo = async ({ match, select }) => {
+export const findOneRestaurantRepo = async ({ match, select }) => {
 	const flattenedMatch = flattenObject(match)
-	log({ level: 'debug', message: 'findOneBusinessRepo flattenedMatch', data: flattenedMatch })
-	const business = await BusinessModel.findOne({ ...flattenedMatch })
+	log({ level: 'debug', message: 'findOneRestaurantRepo flattenedMatch', data: flattenedMatch })
+	const restaurant = await BusinessModel.findOne({ ...flattenedMatch })
 		.select(select)
 		.lean()
-	//log({ level: 'debug', message: 'findOneBusinessRepo', data: business })
-	return business
+	//log({ level: 'debug', message: 'findOneBusinessRepo', data: restaurant })
+	return restaurant
 }
 
 export const createBusinessRepo = async ({ name, address, location, owner, media, contact, rating, kind }) => {

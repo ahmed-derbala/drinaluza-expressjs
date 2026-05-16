@@ -1,14 +1,14 @@
 import mongoose from 'mongoose'
 import { AddressSchema } from '#address'
 import { LocationSchema } from '#location'
-import { shopsCollection } from '#shops/shops.constant.js'
+import { businessesCollection } from '#businesses/businesses.constant.js'
 import { MultiLangSchema } from '#multilang'
 import { OwnerSchema } from '#users/schemas/owner.schema.js'
 
 export const RestaurantRefSchema = {
 	_id: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: shopsCollection,
+		ref: businessesCollection,
 		required: true
 	},
 	owner: { type: OwnerSchema, required: true },

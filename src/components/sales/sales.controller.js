@@ -7,7 +7,7 @@ import { createOrderVld, patchOrderStatusVld } from './sales.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
 import { orderStatusEnum } from '../orders/orders.enum.js'
-import { findOneShopSrvc } from '../shops/shops.service.js'
+import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { calculateFinalPriceSrvc } from './sales.service.js'
 import { log } from '../../core/log/index.js'
 import { userRolesEnum } from '../users/users.enum.js'
@@ -17,7 +17,7 @@ router
 	.route('/')
 	.get(authenticate(), async (req, res) => {
 		try {
-			const match = { shop: { owner: { _id: req.user._id } } }
+			const match = { business: { owner: { _id: req.user._id } } }
 			let { page = 1, limit = 10, status } = req.query
 			if (status) {
 				match.status = status
@@ -31,16 +31,16 @@ router
 	.post(authenticate(), validate(createOrderVld), async (req, res) => {
 		try {
 			const customer = req.user
-			let { products, shop } = req.body
+			let { products, business } = req.body
 			//process products
 			for (let p of products) {
 				p.product = await findOneProductSrvc({ match: { slug: p.product.slug } })
 				p.finalPrice = calculateFinalPriceSrvc({ price: p.product.price, quantity: p.quantity })
 				log({ level: 'debug', message: 'process products', data: p })
 			}
-			shop = await findOneShopSrvc({ match: { slug: shop.slug }, select: '' })
-			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
-			const data = { customer, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			business = await findOneBusinessSrvc({ match: { slug: business.slug }, select: '' })
+			if (!business) return resp({ status: 202, message: 'business not found', data: null, req, res })
+			const data = { customer, business, products, status: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION }
 			const createdOrder = await createOrderSrvc({ data })
 			return resp({ status: 201, data: createdOrder, req, res })
 		} catch (err) {
@@ -48,11 +48,11 @@ router
 		}
 	})
 
-router.route('/:orderId').patch(authenticate({ role: userRolesEnum.SHOP_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
+router.route('/:orderId').patch(authenticate({ role: userRolesEnum.BUSINESS_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
 	try {
 		const { orderId } = req.params
 		const { status } = req.body
-		const match = { _id: orderId, shop: { owner: { _id: req.user._id } } }
+		const match = { _id: orderId, business: { owner: { _id: req.user._id } } }
 		const sale = await findOneOrderSrvc({ match })
 		if (!sale) return resp({ status: 404, message: `sale not found ${JSON.stringify(match)}`, data: null, req, res })
 		const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: sale.status, newStatus: status })

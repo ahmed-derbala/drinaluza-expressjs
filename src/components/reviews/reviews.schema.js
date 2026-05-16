@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { AuthorSubschema } from '../users/schemas/author.subschema.js'
 import { usersCollection } from '../users/users.constant.js'
-import { shopsCollection } from '../shops/shops.constant.js'
+import { businessesCollection } from '../businesses/businesses.constant.js'
 import { productsCollection } from '../products/products.constant.js'
 
 export const reviewsCollection = 'reviews'
@@ -19,7 +19,7 @@ const ReviewSchema = new mongoose.Schema(
 		targetResource: {
 			type: String,
 			required: true,
-			enum: [usersCollection, shopsCollection, productsCollection]
+			enum: [usersCollection, businessesCollection, productsCollection]
 		},
 		targetData: {
 			type: mongoose.Schema.Types.Mixed,

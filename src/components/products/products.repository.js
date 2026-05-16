@@ -21,8 +21,8 @@ export const findManyProductsRepo = async ({ match, select, page, limit }) => {
 	return paginateMongodb({ model: ProductModel, match: { ...flattenedMatch }, select, page, limit })
 }
 
-export const createdProductRepo = async ({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating }) => {
-	return ProductModel.create({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating })
+export const createdProductRepo = async ({ business, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating }) => {
+	return ProductModel.create({ business, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating })
 }
 
 export const findMyProductsRepo = async ({ match, select, page, limit, count }) => {

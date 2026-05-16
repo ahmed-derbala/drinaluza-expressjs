@@ -47,10 +47,10 @@ export const createUserRepo = async ({ slug, name, role, contact, address, locat
 	return singedupUser
 }
 
-export const addShopToUserRepo = async ({ shop, userId }) => {
+export const addBusinessToUserRepo = async ({ business, userId }) => {
 	try {
-		const updatedUser = await UserModel.updateOne({ _id: userId }, { $push: { shops: shop } })
-		//log({ level: 'debug', message: 'addShopToUserRepo', data: updatedUser })
+		const updatedUser = await UserModel.updateOne({ _id: userId }, { $push: { businesses: business } })
+		//log({ level: 'debug', message: 'addBusinessToUserRepo', data: updatedUser })
 		return updatedUser
 	} catch (err) {
 		return errorHandler({ err })

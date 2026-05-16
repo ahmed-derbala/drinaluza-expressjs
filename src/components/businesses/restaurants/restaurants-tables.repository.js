@@ -3,7 +3,7 @@ import { paginateMongodb } from '#core/db/mongodb/pagination.js'
 import { flattenObject } from '#core/helpers/filters.js'
 import { errorHandler } from '#core/error/index.js'
 import { log } from '#core/log/index.js'
-import { SHOP_KINDS } from '#shops/shops.constant.js'
+import { BUSINESS_KINDS } from '#businesses/businesses.constant.js'
 
 export const findRestaurantTablesRepo = async ({ match, select, page, limit, count }) => {
 	const flattenedMatch = flattenObject(match)
@@ -12,7 +12,7 @@ export const findRestaurantTablesRepo = async ({ match, select, page, limit, cou
 		const tablesCount = await TableModel.countDocuments(match)
 		return tablesCount
 	}
-	//log({ level: 'debug', message: 'findMyShopsRepo flattenedMatch', data: flattenedMatch })
+	//log({ level: 'debug', message: 'findMyBusinessesRepo flattenedMatch', data: flattenedMatch })
 	const tables = await paginateMongodb({ model: TableModel, match, select, page, limit })
 	log({ level: 'debug', message: 'findRestaurantTablesRepo', data: { match, select, page, limit, count } })
 	return tables

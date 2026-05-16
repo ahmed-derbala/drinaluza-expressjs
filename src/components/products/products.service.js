@@ -21,12 +21,12 @@ export const findManyProductsSrvc = async ({ match, select, page, limit }) => {
 	}
 }
 
-export const createProductSrvc = async ({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating }) => {
+export const createProductSrvc = async ({ business, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating }) => {
 	if (!state || !state.code) {
 		state = { code: 'active' }
 	}
 	if (!slug) {
-		slug = shop.slug + '-' + defaultProduct.slug
+		slug = business.slug + '-' + defaultProduct.slug
 	}
 	if (!media) {
 		media = defaultProduct.media
@@ -34,7 +34,7 @@ export const createProductSrvc = async ({ shop, name, slug, defaultProduct, pric
 	if (!name) {
 		name = defaultProduct.name
 	}
-	const product = await createdProductRepo({ shop, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating })
+	const product = await createdProductRepo({ business, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating })
 	if (product) {
 		await createFeedSrvc({ targetData: product, targetResource: productsCollection, targetId: product._id, card: { kind: 'product' } })
 	}

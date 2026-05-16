@@ -317,7 +317,7 @@ const defaultConfig = {
 				notifications: notifications.default
 			}
 		},
-		shops: { media: { thumbnail: { url: `${backend.url}/public/default-thumbnails/shop.png` } } }
+		businesses: { media: { thumbnail: { url: `${backend.url}/public/default-thumbnails/business.png` } } }
 	},
 	businesses: {
 		autoApprove: true

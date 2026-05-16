@@ -5,7 +5,7 @@ import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { validate } from '../../core/validation/index.js'
 import { createProductVld, findOneProductVld } from './products.validator.js'
-import { findOneShopRepo } from '../shops/shops.repository.js'
+import { findOneBusinessRepo } from '../businesses/businesses.repository.js'
 import { log } from '../../core/log/index.js'
 import { findOneDefaultProductSrvc } from '../default-products/default-products.service.js'
 const router = express.Router()
@@ -25,13 +25,13 @@ router
 	.post(authenticate(), validate(createProductVld), async (req, res) => {
 		try {
 			const { price, unit } = req.body
-			let { shop, defaultProduct, name } = req.body
+			let { business, defaultProduct, name } = req.body
 
 			defaultProduct = await findOneDefaultProductSrvc({ slug: defaultProduct.slug })
-			shop = await findOneShopRepo({ match: { slug: shop.slug }, select: '' })
-			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
+			business = await findOneBusinessRepo({ match: { slug: business.slug }, select: '' })
+			if (!business) return resp({ status: 202, message: 'business not found', data: null, req, res })
 
-			const data = { shop, name, defaultProduct, price, unit }
+			const data = { business, name, defaultProduct, price, unit }
 			log({ level: 'debug', message: 'createdProduct data', data })
 			const createdProduct = await createProductSrvc(data)
 			return resp({ status: 201, data: createdProduct, req, res })
@@ -45,7 +45,7 @@ router
 	.get(authenticate(), async (req, res) => {
 		try {
 			let match = {}
-			match.shop = { owner: { _id: req.user._id } }
+			match.business = { owner: { _id: req.user._id } }
 			const select = ''
 			let { page = 1, limit = 10 } = req.query
 			const fetchedManyProducts = await findManyProductsSrvc({ match, select, page, limit })
@@ -57,8 +57,8 @@ router
 	.post(authenticate(), async (req, res) => {
 		try {
 			const owner = req.user
-			const { shop, name, defaultProduct, price } = req.body
-			const data = { shop, owner, name, defaultProduct, price }
+			const { business, name, defaultProduct, price } = req.body
+			const data = { business, owner, name, defaultProduct, price }
 			const createdProduct = await createProductSrvc({ data })
 			return resp({ status: 201, data: createdProduct, req, res })
 		} catch (err) {

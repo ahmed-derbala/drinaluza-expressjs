@@ -6,35 +6,35 @@ import { orderStatusEnum } from '../orders/orders.enum.js'
  */
 const validTransitions = {
 	// Initial and main progression states
-	[orderStatusEnum.PENDING_SHOP_CONFIRMATION]: [
-		orderStatusEnum.CONFIRMED_BY_SHOP,
-		orderStatusEnum.CANCELLED_BY_SHOP,
-		// Allow user to cancel before shop confirms
+	[orderStatusEnum.PENDING_BUSINESS_CONFIRMATION]: [
+		orderStatusEnum.CONFIRMED_BY_BUSINESS,
+		orderStatusEnum.CANCELLED_BY_BUSINESS,
+		// Allow user to cancel before business confirms
 		orderStatusEnum.CANCELLED_BY_CUSTOMER
 	],
 
-	[orderStatusEnum.CONFIRMED_BY_SHOP]: [
-		orderStatusEnum.RESERVED_BY_SHOP_FOR_PICKUP_BY_CUSTOMER,
+	[orderStatusEnum.CONFIRMED_BY_BUSINESS]: [
+		orderStatusEnum.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER,
 		orderStatusEnum.DELIVERING_TO_CUSTOMER,
-		orderStatusEnum.CANCELLED_BY_SHOP,
-		// Allow user to cancel after shop confirms
+		orderStatusEnum.CANCELLED_BY_BUSINESS,
+		// Allow user to cancel after business confirms
 		orderStatusEnum.CANCELLED_BY_CUSTOMER
 	],
 
 	// Pickup flow states
-	[orderStatusEnum.RESERVED_BY_SHOP_FOR_PICKUP_BY_CUSTOMER]: [
+	[orderStatusEnum.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER]: [
 		orderStatusEnum.RECEIVED_BY_CUSTOMER, // Pickup successful
 		orderStatusEnum.RESERVATION_EXPIRED,
-		orderStatusEnum.CANCELLED_BY_SHOP,
+		orderStatusEnum.CANCELLED_BY_BUSINESS,
 		orderStatusEnum.CANCELLED_BY_CUSTOMER
 	],
 
 	// Delivery flow states
-	[orderStatusEnum.DELIVERING_TO_CUSTOMER]: [orderStatusEnum.DELIVERED_TO_CUSTOMER, orderStatusEnum.CANCELLED_BY_SHOP, orderStatusEnum.CANCELLED_BY_CUSTOMER],
+	[orderStatusEnum.DELIVERING_TO_CUSTOMER]: [orderStatusEnum.DELIVERED_TO_CUSTOMER, orderStatusEnum.CANCELLED_BY_BUSINESS, orderStatusEnum.CANCELLED_BY_CUSTOMER],
 
 	[orderStatusEnum.DELIVERED_TO_CUSTOMER]: [
 		orderStatusEnum.RECEIVED_BY_CUSTOMER, // Customer confirmed receipt
-		orderStatusEnum.CANCELLED_BY_SHOP // Shop cancels even after delivery attempt (e.g., failed delivery, return initiated)
+		orderStatusEnum.CANCELLED_BY_BUSINESS // Business cancels even after delivery attempt (e.g., failed delivery, return initiated)
 	],
 
 	// Final successful state
@@ -51,7 +51,7 @@ const validTransitions = {
 		// No further transitions from a final cancellation state
 	],
 
-	[orderStatusEnum.CANCELLED_BY_SHOP]: [
+	[orderStatusEnum.CANCELLED_BY_BUSINESS]: [
 		// No further transitions from a final cancellation state
 	]
 }
@@ -64,7 +64,7 @@ const validTransitions = {
  */
 export const validateSaleStatusTransition = (oldStatus, newStatus) => {
 	// If the old status is not in the map, it's an unrecognized or final state
-	// from which no progression is possible (e.g., RECEIVED_BY_CUSTOMER, CANCELLED_BY_SHOP).
+	// from which no progression is possible (e.g., RECEIVED_BY_CUSTOMER, CANCELLED_BY_BUSINESS).
 	const possibleNextStatuses = validTransitions[oldStatus]
 
 	if (!possibleNextStatuses) {

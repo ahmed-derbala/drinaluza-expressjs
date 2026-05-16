@@ -1,9 +1,8 @@
 import mongoose from 'mongoose'
 import config from '../../../config/index.js'
-import { findUsersSrvc, addShopToUserSrvc } from '../../users/users.service.js'
+import { findUsersSrvc } from '../../users/users.service.js'
 import { log } from '../../../core/log/index.js'
-import { createShopSrvc } from '../shops.service.js'
-import { addShopToBusinessSrvc } from '../../businesses/businesses.service.js'
+import { createBusinessSrvc } from '../businesses.service.js'
 import { errorHandler } from '../../../core/error/index.js'
 
 import { fileURLToPath } from 'node:url'
@@ -14,7 +13,7 @@ const scriptFilename = path.basename(__filename)
 const country = 'Tunisia',
 	city = 'Sfax'
 
-let manualShops = [
+let manualBusinesses = [
 	{
 		owner: { slug: 'ahmed' },
 		name: { en: 'Drinaluza' },
@@ -113,27 +112,22 @@ let manualShops = [
 
 const processScript = async () => {
 	log({ message: `running ${scriptFilename}`, level: 'info' })
-	const shopOwners = await findUsersSrvc({ match: { role: 'shop_owner' }, select: 'slug _id name business' })
-	if (shopOwners.docs.length === 0) {
+	const businessOwners = await findUsersSrvc({ match: { role: 'business_owner' }, select: 'slug _id name business' })
+	if (businessOwners.docs.length === 0) {
 		console.error('No owners found in the database. Please run the users seed script first.')
 		return
 	}
-	//log({ message: `Found ${shopOwners.docs.length} shop owners`, level: 'info' })
+	//log({ message: `Found ${businessOwners.docs.length} business owners`, level: 'info' })
 
-	for (let ms of manualShops) {
-		const owner = shopOwners.docs.find((o) => o.slug === ms.owner.slug)
+	for (let ms of manualBusinesses) {
+		const owner = businessOwners.docs.find((o) => o.slug === ms.owner.slug)
 		ms.owner = owner
 	}
 	// Insert the documents
-	for (const shop of manualShops) {
-		const newShop = await createShopSrvc(shop)
-		if (newShop) {
-			await addShopToUserSrvc({ shop: newShop, userId: shop.owner._id })
-			//add shop to business
-			await addShopToBusinessSrvc({ businessId: shop.owner.business._id, shop: newShop })
-		}
+	for (const business of manualBusinesses) {
+		const newBusiness = await createBusinessSrvc(business)
 	}
-	log({ message: `Inserted ${manualShops.length} shops`, level: 'info' })
+	log({ message: `Inserted ${manualBusinesses.length} businesses`, level: 'info' })
 }
 
 async function run() {

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
+import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
 import { PriceSubSchema } from './schemas/price.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { DefaultProductRefSubSchema } from '../default-products/schemas/default-product-ref.subschema.js'
@@ -14,7 +14,7 @@ import { productsCollection } from './products.constant.js'
 
 const ProductSchema = new mongoose.Schema(
 	{
-		shop: ShopRefSchema,
+		business: BusinessRefSchema,
 		defaultProduct: { type: DefaultProductRefSubSchema, required: true },
 		slug: { type: String, required: true },
 		name: MultiLangSchema,
@@ -71,7 +71,7 @@ ProductSchema.post('findOneAndUpdate', async function (doc) {
 			}
 		)
 	} catch (error) {
-		console.error('Failed to sync Shop rating to Feed:', error)
+		console.error('Failed to sync Business rating to Feed:', error)
 	}
 })
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)

@@ -343,7 +343,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"shop\":{\n        \"slug\":\"shop1\"\n    },\n    \"DefaultProduct\":{\n        \"slug\":\"shrimp\"\n    },\n    \"name\":\"shrimp\",\n    \"price\":{\n        \"value\":{\n            \"tnd\":5\n        },\n        \"unit\":{\n            \"name\":\"KG\"\n        }\n    }\n}",
+              "raw": "{\n    \"business\":{\n        \"slug\":\"business1\"\n    },\n    \"DefaultProduct\":{\n        \"slug\":\"shrimp\"\n    },\n    \"name\":\"shrimp\",\n    \"price\":{\n        \"value\":{\n            \"tnd\":5\n        },\n        \"unit\":{\n            \"name\":\"KG\"\n        }\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -418,7 +418,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"status\":\"confirmed_by_shop\"\n}",
+              "raw": "{\n    \"status\":\"confirmed_by_business\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -549,7 +549,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"products\": [\n        {\n            \"product\": {\n                \"slug\": \"drinaluza-sardine\"\n            },\n            \"quantity\":3\n            \n        }\n    ],\n    \"shop\":{\n        \"slug\":\"drinaluza\",\n        \"_id\":\"456\"\n    }\n}",
+              "raw": "{\n    \"products\": [\n        {\n            \"product\": {\n                \"slug\": \"drinaluza-sardine\"\n            },\n            \"quantity\":3\n            \n        }\n    ],\n    \"business\":{\n        \"slug\":\"drinaluza\",\n        \"_id\":\"456\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -609,13 +609,13 @@
       ]
     },
     {
-      "name": "shops",
+      "name": "businesses",
       "item": [
         {
-          "name": "my-shops",
+          "name": "my-businesses",
           "item": [
             {
-              "name": "{{drinaluza_url}}/api/shops/my-shops/68bc90c8c7021fb548d0c3e8/orders/",
+              "name": "{{drinaluza_url}}/api/businesses/my-businesses/68bc90c8c7021fb548d0c3e8/orders/",
               "request": {
                 "auth": {
                   "type": "noauth"
@@ -629,14 +629,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{drinaluza_url}}/api/shops/my-shops/s2",
+                  "raw": "{{drinaluza_url}}/api/businesses/my-businesses/s2",
                   "host": [
                     "{{drinaluza_url}}"
                   ],
                   "path": [
                     "api",
-                    "shops",
-                    "my-shops",
+                    "businesses",
+                    "my-businesses",
                     "s2"
                   ]
                 }
@@ -644,7 +644,7 @@
               "response": []
             },
             {
-              "name": "{{drinaluza_url}}/api/shops/my-shops",
+              "name": "{{drinaluza_url}}/api/businesses/my-businesses",
               "request": {
                 "auth": {
                   "type": "noauth"
@@ -658,21 +658,21 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{drinaluza_url}}/api/shops/my-shops",
+                  "raw": "{{drinaluza_url}}/api/businesses/my-businesses",
                   "host": [
                     "{{drinaluza_url}}"
                   ],
                   "path": [
                     "api",
-                    "shops",
-                    "my-shops"
+                    "businesses",
+                    "my-businesses"
                   ]
                 }
               },
               "response": []
             },
             {
-              "name": "{{drinaluza_url}}/api/shops/my-shops/68be1718f9ae59d0a910bc8c/products",
+              "name": "{{drinaluza_url}}/api/businesses/my-businesses/68be1718f9ae59d0a910bc8c/products",
               "request": {
                 "auth": {
                   "type": "noauth"
@@ -686,14 +686,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{drinaluza_url}}/api/shops/my-shops/68be1718f9ae59d0a910bc8c/products",
+                  "raw": "{{drinaluza_url}}/api/businesses/my-businesses/68be1718f9ae59d0a910bc8c/products",
                   "host": [
                     "{{drinaluza_url}}"
                   ],
                   "path": [
                     "api",
-                    "shops",
-                    "my-shops",
+                    "businesses",
+                    "my-businesses",
                     "68be1718f9ae59d0a910bc8c",
                     "products"
                   ]
@@ -718,13 +718,13 @@
               }
             ],
             "url": {
-              "raw": "{{drinaluza_url}}/api/shops/",
+              "raw": "{{drinaluza_url}}/api/businesses/",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
-                "shops",
+                "businesses",
                 ""
               ]
             }
@@ -732,7 +732,7 @@
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/shops/create",
+          "name": "{{drinaluza_url}}/api/businesses/create",
           "request": {
             "auth": {
               "type": "noauth"
@@ -747,7 +747,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"shop1\",\n    \"address\": {\n        \"street\": \"street 1\",\n        \"city\": \"ellouza\",\n        \"state\": \"sfax\",\n        \"postalCode\": \"3016\",\n        \"country\": \"Tunisia\"\n    },\n    \"location\": {\n        \"coordinates\": [\n            2.2945, \n            48.8584 \n        ]\n    },\n    \"deliveryRadiusKm\":5\n}\n",
+              "raw": "{\n    \"name\": \"business1\",\n    \"address\": {\n        \"street\": \"street 1\",\n        \"city\": \"ellouza\",\n        \"state\": \"sfax\",\n        \"postalCode\": \"3016\",\n        \"country\": \"Tunisia\"\n    },\n    \"location\": {\n        \"coordinates\": [\n            2.2945, \n            48.8584 \n        ]\n    },\n    \"deliveryRadiusKm\":5\n}\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -755,13 +755,13 @@
               }
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/shops/",
+              "raw": "{{drinaluza_url}}/api/businesses/",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
-                "shops",
+                "businesses",
                 ""
               ]
             }
@@ -769,7 +769,7 @@
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/shops/6925c300293cef0f8f44fc02/products",
+          "name": "{{drinaluza_url}}/api/businesses/6925c300293cef0f8f44fc02/products",
           "request": {
             "auth": {
               "type": "noauth"
@@ -777,13 +777,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{drinaluza_url}}/api/shops/6925c300293cef0f8f44fc02/products",
+              "raw": "{{drinaluza_url}}/api/businesses/6925c300293cef0f8f44fc02/products",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
-                "shops",
+                "businesses",
                 "6925c300293cef0f8f44fc02",
                 "products"
               ]
@@ -792,7 +792,7 @@
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/shops/s1",
+          "name": "{{drinaluza_url}}/api/businesses/s1",
           "request": {
             "auth": {
               "type": "noauth"
@@ -800,13 +800,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{drinaluza_url}}/api/shops/s1",
+              "raw": "{{drinaluza_url}}/api/businesses/s1",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
-                "shops",
+                "businesses",
                 "s1"
               ]
             }
@@ -814,7 +814,7 @@
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/shops/s1/products",
+          "name": "{{drinaluza_url}}/api/businesses/s1/products",
           "request": {
             "auth": {
               "type": "noauth"
@@ -822,13 +822,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{drinaluza_url}}/api/shops/s1/products",
+              "raw": "{{drinaluza_url}}/api/businesses/s1/products",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
-                "shops",
+                "businesses",
                 "s1",
                 "products"
               ]
@@ -934,7 +934,7 @@
               }
             ],
             "url": {
-              "raw": "{{drinaluza_url}}/api/purchases?status=cancelled_by_shop",
+              "raw": "{{drinaluza_url}}/api/purchases?status=cancelled_by_business",
               "host": [
                 "{{drinaluza_url}}"
               ],
@@ -945,7 +945,7 @@
               "query": [
                 {
                   "key": "status",
-                  "value": "cancelled_by_shop"
+                  "value": "cancelled_by_business"
                 }
               ]
             }
@@ -1154,7 +1154,7 @@
       "name": "reviews",
       "item": [
         {
-          "name": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
+          "name": "{{drinaluza_url}}/api/reviews/businesses/69e0370016020526ae36d58a",
           "request": {
             "auth": {
               "type": "noauth"
@@ -1162,14 +1162,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
+              "raw": "{{drinaluza_url}}/api/reviews/businesses/69e0370016020526ae36d58a",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "reviews",
-                "shops",
+                "businesses",
                 "69e0370016020526ae36d58a"
               ]
             }
@@ -1177,7 +1177,7 @@
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
+          "name": "{{drinaluza_url}}/api/reviews/businesses/69e0370016020526ae36d58a",
           "request": {
             "auth": {
               "type": "noauth"
@@ -1201,14 +1201,14 @@
               }
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
+              "raw": "{{drinaluza_url}}/api/reviews/businesses/69e0370016020526ae36d58a",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "reviews",
-                "shops",
+                "businesses",
                 "69e0370016020526ae36d58a"
               ]
             }

@@ -56,16 +56,16 @@ router
 	.post(authenticate(), async (req, res) => {
 		try {
 			const customer = req.user
-			let { products, shop } = req.body
+			let { products, business } = req.body
 			//process products
 			for (let p of products) {
 				p.product = await findOneProductSrvc({ match: { slug: p.product.slug } })
 				p.finalPrice = calculateFinalPriceSrvc({ price: p.product.price, quantity: p.quantity })
 				log({ level: 'debug', message: 'process products', data: p })
 			}
-			shop = await findOneShopSrvc({ match: { slug: shop.slug }, select: '' })
-			if (!shop) return resp({ status: 202, message: 'shop not found', data: null, req, res })
-			const data = { customer, shop, products, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			business = await findOneBusinessSrvc({ match: { slug: business.slug }, select: '' })
+			if (!business) return resp({ status: 202, message: 'business not found', data: null, req, res })
+			const data = { customer, business, products, status: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION }
 			const createdOrder = await createOrderSrvc({ data })
 			return resp({ status: 201, data: createdOrder, req, res })
 		} catch (err) {

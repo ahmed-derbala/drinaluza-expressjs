@@ -7,7 +7,7 @@ import { createPurchaseVld, patchOrderStatusVld } from './purchases.validator.js
 import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
 import { orderStatusEnum } from '../orders/orders.enum.js'
-import { findOneShopSrvc } from '../shops/shops.service.js'
+import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { processLineTotalSrvc, createPurchaseSrvc } from './purchases.service.js'
 import { log } from '../../core/log/index.js'
 import { userRolesEnum } from '../users/users.enum.js'
@@ -32,16 +32,16 @@ router
 	})
 	.post(authenticate(), validate(createPurchaseVld), async (req, res) => {
 		try {
-			let { products, shop } = req.body
-			//check shop
-			shop = await findOneShopSrvc({ match: { slug: shop.slug } })
-			if (!shop) return resp({ status: 404, message: 'shop not found', data: null, req, res })
+			let { products, business } = req.body
+			//check business
+			business = await findOneBusinessSrvc({ match: { slug: business.slug } })
+			if (!business) return resp({ status: 404, message: 'business not found', data: null, req, res })
 			const customer = await findOneCustomerSrvc({ match: { slug: req.user.slug } })
-			//log({ level: 'debug', message: 'create purchase', data: { customer, shop } })
-			//shop_owner cannot purchase from his shops
-			if (customer.role === userRolesEnum.SHOP_OWNER) {
-				const ownedShop = await findOneShopSrvc({ match: { owner: { _id: customer._id }, slug: shop.slug }, select: '_id' })
-				if (ownedShop) return resp({ status: 409, message: 'shop owners cannot purchase from their own shops', data: null, req, res })
+			//log({ level: 'debug', message: 'create purchase', data: { customer, business } })
+			//business_owner cannot purchase from his businesses
+			if (customer.role === userRolesEnum.BUSINESS_OWNER) {
+				const ownedBusiness = await findOneBusinessSrvc({ match: { owner: { _id: customer._id }, slug: business.slug }, select: '_id' })
+				if (ownedBusiness) return resp({ status: 409, message: 'business owners cannot purchase from their own businesses', data: null, req, res })
 			}
 			let match = {},
 				price = { total: { tnd: 0, eur: null, usd: null } }
@@ -62,8 +62,8 @@ router
 				price.total.usd += p.lineTotal.usd
 			}
 
-			//check if there is alreay pending purchases from that shop
-			const purchases = await findOrdersSrvc({ match: { customer: { _id: customer._id }, shop: { _id: shop._id }, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION } })
+			//check if there is alreay pending purchases from that business
+			const purchases = await findOrdersSrvc({ match: { customer: { _id: customer._id }, business: { _id: business._id }, status: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION } })
 			if (purchases.docs.length > 0) {
 				//TODO: check each product has the still the same price as in db
 				//if yes just add quantity
@@ -75,7 +75,7 @@ router
 				//const updatedOrder = await updateOrderSrvc({ orderId: purchase._id, data: { products } })
 				//return resp({ status: 200, data: updatedOrder, req, res })
 			}
-			const data = { customer, shop, products, price, status: orderStatusEnum.PENDING_SHOP_CONFIRMATION }
+			const data = { customer, business, products, price, status: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION }
 			const createPurchase = await createPurchaseSrvc(data)
 			return resp({ status: 201, data: createPurchase, req, res })
 		} catch (err) {
@@ -83,9 +83,9 @@ router
 		}
 	})
 
-router.route('/sales').get(authenticate({ role: 'shop_owner' }), async (req, res) => {
+router.route('/sales').get(authenticate({ role: 'business_owner' }), async (req, res) => {
 	try {
-		const match = { shop: { owner: { _id: req.user._id } } }
+		const match = { business: { owner: { _id: req.user._id } } }
 		const select = ''
 		let { page = 1, limit = 10 } = req.query
 		const fetchedOrders = await findOrdersSrvc({ match, select, page, limit })

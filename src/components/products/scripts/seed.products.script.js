@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { createProductSrvc } from '../products.service.js'
-import { findShopsSrvc } from '../../shops/shops.service.js'
+import { findBusinessesSrvc } from '../../businesses/businesses.service.js'
 import { log } from '../../../core/log/index.js'
 import config from '../../../config/index.js'
 import { pickRandom } from '../../../core/helpers/filters.js'
@@ -145,11 +145,11 @@ let products = [
 const processScript = async () => {
 	log({ message: `running ${scriptFilename}`, level: 'info' })
 
-	// Check Shops
-	const shops = await findShopsSrvc({})
-	//console.log(shops)
-	if (shops.docs.length === 0) {
-		log({ message: 'No shops found. Please run shops seed first.', level: 'warn' })
+	// Check Businesses
+	const businesses = await findBusinessesSrvc({})
+	//console.log(businesses)
+	if (businesses.docs.length === 0) {
+		log({ message: 'No businesses found. Please run businesses seed first.', level: 'warn' })
 		return
 	}
 	// Check default-products
@@ -168,7 +168,7 @@ const processScript = async () => {
 				...p.unit,
 				measure: pickRandom(UNITS)
 			},
-			shop: shops.docs[0], //pickRandom(shops.docs),
+			business: businesses.docs[0], //pickRandom(businesses.docs),
 			defaultProduct: defaultProduct,
 			searchKeywords: defaultProduct.searchKeywords
 		}

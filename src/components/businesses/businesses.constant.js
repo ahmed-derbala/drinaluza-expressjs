@@ -1,8 +1,6 @@
 export const businessesCollection = 'businesses'
-export const BUSINESS_STATES = {
-	IN_REVIEW: 'in_review',
-	ACTIVE: 'active',
-	INACTIVE: 'inactive'
+export const BUSINESS_KINDS = {
+	RESTAURANT: 'restaurant',
+	SEAFOOD_MARKET: 'seafood_market',
+	ALL: ['restaurant', 'seafood_market']
 }
-
-export const BUSINESS_STATES_ALL = () => Object.values(BUSINESS_STATES)

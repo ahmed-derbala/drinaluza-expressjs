@@ -5,11 +5,11 @@ import { errorHandler } from '../../../core/error/index.js'
 import { authenticate } from '../../../core/auth/index.js'
 import { createRestaurantVld } from './restaurants.validator.js'
 import { validate } from '../../../core/validation/index.js'
-import { SHOP_KINDS } from '../shops.constant.js'
+import { BUSINESS_KINDS } from '../businesses.constant.js'
 import { findOneBusinessSrvc } from '#businesses/businesses.service.js'
-import { BUSINESS_STATES_ALL, BUSINESS_STATES } from '#businesses/businesses.constant.js'
 import { findOneRestaurantSrvc } from './restaurants.service.js'
 import { findRestaurantTablesSrvc, createRestaurantTableSrvc } from './restaurants-tables.service.js'
+import { stateEnum } from '../../../core/db/mongodb/shared-schemas/state.schema.js'
 const router = express.Router()
 
 router
@@ -17,21 +17,21 @@ router
 	.get(async (req, res) => {
 		try {
 			const { page, limit } = req.query
-			const match = { kind: SHOP_KINDS.RESTAURANT }
+			const match = { kind: BUSINESS_KINDS.RESTAURANT }
 			const restaurants = await findRestaurantsSrvc({ match, page, limit })
 			return resp({ status: 200, data: restaurants, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}
 	})
-	.post(validate(createRestaurantVld), authenticate({ role: 'shop_owner' }), async (req, res) => {
+	.post(validate(createRestaurantVld), authenticate({ role: 'business_owner' }), async (req, res) => {
 		try {
 			const business = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id } } })
 			if (!business) return resp({ status: 202, message: 'Business not found', data: null, req, res })
-			if (business.state.code != BUSINESS_STATES.ACTIVE) return resp({ status: 409, message: `Business is ${business.state.code}`, data: null, req, res })
+			if (business.state.code != stateEnum.ACTIVE) return resp({ status: 409, message: `Business is ${business.state.code}`, data: null, req, res })
 			let owner = req.user
 			owner.business = business
-			const restaurant = await createRestaurantSrvc({ ...req.body, kind: SHOP_KINDS.RESTAURANT, owner })
+			const restaurant = await createRestaurantSrvc({ ...req.body, kind: BUSINESS_KINDS.RESTAURANT, owner })
 			return resp({ status: 200, data: restaurant, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
@@ -52,7 +52,7 @@ router
 	})
 	.post(
 		//validate(createRestaurantVld),
-		authenticate({ role: 'shop_owner' }),
+		authenticate({ role: 'business_owner' }),
 		async (req, res) => {
 			try {
 				const business = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id } } })

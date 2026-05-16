@@ -17,7 +17,7 @@ const users = [
 	{
 		slug: 'ahmed',
 		password: '123',
-		role: 'shop_owner',
+		role: 'business_owner',
 		name: { en: 'Ahmed Derbala' },
 		address: {
 			street: `Main Street ${Math.floor(Math.random() * 1000) + 1}`,
@@ -50,13 +50,13 @@ const users = [
 	{
 		slug: 'majed-akid',
 		password: '123',
-		role: 'shop_owner',
+		role: 'business_owner',
 		name: { en: 'Majed Akid' }
 	},
 	{
 		slug: 'asma',
 		password: '123',
-		role: 'shop_owner',
+		role: 'business_owner',
 		name: { en: 'Asma Akid' }
 	},
 	{

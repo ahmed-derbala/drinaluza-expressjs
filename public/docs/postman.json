@@ -337,7 +337,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"shop\":{\n        \"slug\":\"shop1\"\n    },\n    \"DefaultProduct\":{\n        \"slug\":\"shrimp\"\n    },\n    \"name\":\"shrimp\",\n    \"price\":{\n        \"value\":{\n            \"tnd\":5\n        },\n        \"unit\":{\n            \"name\":\"KG\"\n        }\n    }\n}",
+							"raw": "{\n    \"business\":{\n        \"slug\":\"business1\"\n    },\n    \"DefaultProduct\":{\n        \"slug\":\"shrimp\"\n    },\n    \"name\":\"shrimp\",\n    \"price\":{\n        \"value\":{\n            \"tnd\":5\n        },\n        \"unit\":{\n            \"name\":\"KG\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -412,7 +412,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"status\":\"cancelled_by_shop\"\n}",
+							"raw": "{\n    \"status\":\"cancelled_by_business\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -543,7 +543,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"products\": [\n        {\n            \"product\": {\n                \"slug\": \"whole-octopus\"\n            },\n            \"quantity\":3\n            \n        }\n    ],\n    \"shop\":{\n        \"slug\":\"the-seafood-shack\",\n        \"_id\":\"456\"\n    }\n}",
+							"raw": "{\n    \"products\": [\n        {\n            \"product\": {\n                \"slug\": \"whole-octopus\"\n            },\n            \"quantity\":3\n            \n        }\n    ],\n    \"business\":{\n        \"slug\":\"the-seafood-shack\",\n        \"_id\":\"456\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -579,7 +579,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"status\":\"cancelled_by_shop\"\n}",
+							"raw": "{\n    \"status\":\"cancelled_by_business\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -603,13 +603,13 @@
 			]
 		},
 		{
-			"name": "shops",
+			"name": "businesses",
 			"item": [
 				{
-					"name": "my-shops",
+					"name": "my-businesses",
 					"item": [
 						{
-							"name": "{{drinaluza_url}}/api/shops/my-shops/68bc90c8c7021fb548d0c3e8/orders/",
+							"name": "{{drinaluza_url}}/api/businesses/my-businesses/68bc90c8c7021fb548d0c3e8/orders/",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -617,14 +617,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{drinaluza_url}}/api/shops/my-shops/68bc90c8c7021fb548d0c3e8/orders/",
+									"raw": "{{drinaluza_url}}/api/businesses/my-businesses/68bc90c8c7021fb548d0c3e8/orders/",
 									"host": [
 										"{{drinaluza_url}}"
 									],
 									"path": [
 										"api",
-										"shops",
-										"my-shops",
+										"businesses",
+										"my-businesses",
 										"68bc90c8c7021fb548d0c3e8",
 										"orders",
 										""
@@ -634,7 +634,7 @@
 							"response": []
 						},
 						{
-							"name": "{{drinaluza_url}}/api/shops/my-shops",
+							"name": "{{drinaluza_url}}/api/businesses/my-businesses",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -648,21 +648,21 @@
 									}
 								],
 								"url": {
-									"raw": "{{drinaluza_url}}/api/shops/my-shops",
+									"raw": "{{drinaluza_url}}/api/businesses/my-businesses",
 									"host": [
 										"{{drinaluza_url}}"
 									],
 									"path": [
 										"api",
-										"shops",
-										"my-shops"
+										"businesses",
+										"my-businesses"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "{{drinaluza_url}}/api/shops/my-shops/68be1718f9ae59d0a910bc8c/products",
+							"name": "{{drinaluza_url}}/api/businesses/my-businesses/68be1718f9ae59d0a910bc8c/products",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -676,14 +676,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{drinaluza_url}}/api/shops/my-shops/68be1718f9ae59d0a910bc8c/products",
+									"raw": "{{drinaluza_url}}/api/businesses/my-businesses/68be1718f9ae59d0a910bc8c/products",
 									"host": [
 										"{{drinaluza_url}}"
 									],
 									"path": [
 										"api",
-										"shops",
-										"my-shops",
+										"businesses",
+										"my-businesses",
 										"68be1718f9ae59d0a910bc8c",
 										"products"
 									]
@@ -708,21 +708,21 @@
 							}
 						],
 						"url": {
-							"raw": "{{drinaluza_url}}/api/shops/my-shops",
+							"raw": "{{drinaluza_url}}/api/businesses/my-businesses",
 							"host": [
 								"{{drinaluza_url}}"
 							],
 							"path": [
 								"api",
-								"shops",
-								"my-shops"
+								"businesses",
+								"my-businesses"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "{{drinaluza_url}}/api/shops/create",
+					"name": "{{drinaluza_url}}/api/businesses/create",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -737,7 +737,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"shop1\",\n    \"address\": {\n        \"street\": \"street 1\",\n        \"city\": \"ellouza\",\n        \"state\": \"sfax\",\n        \"postalCode\": \"3016\",\n        \"country\": \"Tunisia\"\n    },\n    \"location\": {\n        \"coordinates\": [\n            2.2945, \n            48.8584 \n        ]\n    },\n    \"deliveryRadiusKm\":5\n}\n",
+							"raw": "{\n    \"name\": \"business1\",\n    \"address\": {\n        \"street\": \"street 1\",\n        \"city\": \"ellouza\",\n        \"state\": \"sfax\",\n        \"postalCode\": \"3016\",\n        \"country\": \"Tunisia\"\n    },\n    \"location\": {\n        \"coordinates\": [\n            2.2945, \n            48.8584 \n        ]\n    },\n    \"deliveryRadiusKm\":5\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -745,13 +745,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{drinaluza_url}}/api/shops/",
+							"raw": "{{drinaluza_url}}/api/businesses/",
 							"host": [
 								"{{drinaluza_url}}"
 							],
 							"path": [
 								"api",
-								"shops",
+								"businesses",
 								""
 							]
 						}
@@ -759,7 +759,7 @@
 					"response": []
 				},
 				{
-					"name": "{{drinaluza_url}}/api/shops/6925c300293cef0f8f44fc02/products",
+					"name": "{{drinaluza_url}}/api/businesses/6925c300293cef0f8f44fc02/products",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -767,13 +767,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{drinaluza_url}}/api/shops/6925c300293cef0f8f44fc02/products",
+							"raw": "{{drinaluza_url}}/api/businesses/6925c300293cef0f8f44fc02/products",
 							"host": [
 								"{{drinaluza_url}}"
 							],
 							"path": [
 								"api",
-								"shops",
+								"businesses",
 								"6925c300293cef0f8f44fc02",
 								"products"
 							]
@@ -811,7 +811,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{drinaluza_url}}/api/feed?components=[products,shops]&x=y",
+							"raw": "{{drinaluza_url}}/api/feed?components=[products,businesses]&x=y",
 							"host": [
 								"{{drinaluza_url}}"
 							],
@@ -822,7 +822,7 @@
 							"query": [
 								{
 									"key": "components",
-									"value": "[products,shops]"
+									"value": "[products,businesses]"
 								},
 								{
 									"key": "x",
@@ -883,7 +883,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{drinaluza_url}}/api/purchases?status=cancelled_by_shop",
+							"raw": "{{drinaluza_url}}/api/purchases?status=cancelled_by_business",
 							"host": [
 								"{{drinaluza_url}}"
 							],
@@ -894,7 +894,7 @@
 							"query": [
 								{
 									"key": "status",
-									"value": "cancelled_by_shop"
+									"value": "cancelled_by_business"
 								}
 							]
 						}
@@ -1019,14 +1019,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{drinaluza_url}}/api/shops/my-shops",
+					"raw": "{{drinaluza_url}}/api/businesses/my-businesses",
 					"host": [
 						"{{drinaluza_url}}"
 					],
 					"path": [
 						"api",
-						"shops",
-						"my-shops"
+						"businesses",
+						"my-businesses"
 					]
 				}
 			},

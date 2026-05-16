@@ -3,7 +3,7 @@ const { checkSchema, body, query, oneOf } = expressValidator
 
 export const createDefaultProductVld = [
 	//body('price').isObject().notEmpty(),
-	//oneOf([body('shop._id').isMongoId(), body('shop.slug').isString()])
+	//oneOf([body('business._id').isMongoId(), body('business.slug').isString()])
 	//body('photos').trim().isString().notEmpty(),
 	//body('searchKeywords').trim().isString().notEmpty(),
 	//body('availability').trim().isString().notEmpty(),

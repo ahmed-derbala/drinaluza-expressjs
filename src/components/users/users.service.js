@@ -1,6 +1,6 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
-import { createUserRepo, findOneUserRepo, updateUserRepo, addShopToUserRepo, findMyProfileRepo, updateMyProfileRepo, findUsersRepo } from './users.repository.js'
+import { createUserRepo, findOneUserRepo, updateUserRepo, addBusinessToUserRepo, findMyProfileRepo, updateMyProfileRepo, findUsersRepo } from './users.repository.js'
 import { createBusinessSrvc } from '../businesses/businesses.service.js'
 import { customerSelect } from './schemas/customer.schema.js'
 import { createFeedSrvc } from '../feed/feed.service.js'
@@ -58,23 +58,9 @@ export const createUserSrvc = async ({ slug, name, role, contact, address, locat
 	if (!slug && !name) return null
 	const user = await createUserRepo({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos })
 	if (!user) return null
-	if (user.role === 'shop_owner') {
+	if (user.role === 'business_owner') {
 		const business = await createBusinessSrvc({ owner: user })
-		await addBusinessToUserSrvc({ business, user })
 		createFeedSrvc({ targetData: user, targetResource: usersCollection, targetId: user._id, card: { kind: 'user' } })
 	}
 	return user
-}
-
-export const addShopToUserSrvc = async ({ shop, userId }) => {
-	try {
-		const updatedUser = await addShopToUserRepo({ shop, userId })
-		return updatedUser
-	} catch (err) {
-		errorHandler({ err })
-	}
-}
-
-export const addBusinessToUserSrvc = async ({ business, user }) => {
-	return await updateUserRepo({ match: { _id: user._id }, newData: { business } })
 }

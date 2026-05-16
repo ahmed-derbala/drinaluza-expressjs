@@ -2,7 +2,7 @@ const makeFeedCardItemFromProduct = ({ product }) => {
 	product.cardType = 'product'
 	return product
 }
-export const makeFeedCards = ({ products, shops, users, posts, news }) => {
+export const makeFeedCards = ({ products, businesses, users, posts, news }) => {
 	let feedCards = []
 	if (products && products.length > 0) {
 		products = products.map((product) => {

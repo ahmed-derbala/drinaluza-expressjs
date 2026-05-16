@@ -18,8 +18,8 @@ router
 				if (f.card.kind == 'product') {
 					//user conencted
 					if (req.user) {
-						//if user is owner of the shop
-						if (f.targetData.shop.owner._id.toString() === req.user._id.toString()) {
+						//if user is owner of the business
+						if (f.targetData.business.owner._id.toString() === req.user._id.toString()) {
 							f.card.purchase = { allowed: false }
 						}
 					}

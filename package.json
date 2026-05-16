@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.2.8",
+  "version": "1.3.1",
   "main": "src/main.js",
   "description": "Drinaluza, seafood business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -23,7 +23,6 @@
     "#mongodb/*": "./src/core/db/mongodb/*",
     "#core": "./src/core/index.js",
     "#core/*": "./src/core/*",
-    "#shops/*": "./src/components/shops/*",
     "#products/*": "./src/components/products/*",
     "#feed/*": "./src/components/feed/*",
     "#orders/*": "./src/components/orders/*",

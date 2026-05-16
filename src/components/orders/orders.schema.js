@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { CustomerSchema } from '../users/schemas/customer.schema.js'
 import { ProductRefSchema } from '../products/schemas/product-ref.schema.js'
-import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
+import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
 import { orderStatusEnum } from './orders.enum.js'
 import { CurrenciesSubSchema } from '../products/schemas/price.schema.js'
 import { PriceSubSchema } from '../products/schemas/price.schema.js'
@@ -20,13 +20,13 @@ const OrderProductsSchema = [
 
 const OrderSchema = new mongoose.Schema(
 	{
-		shop: { type: ShopRefSchema, required: true },
+		business: { type: BusinessRefSchema, required: true },
 		customer: { type: CustomerSchema, required: true },
 		products: OrderProductsSchema,
 		status: {
 			type: String,
 			enum: orderStatusEnum,
-			default: orderStatusEnum.PENDING_SHOP_CONFIRMATION,
+			default: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION,
 			required: true
 		},
 		price: PriceSubSchema,

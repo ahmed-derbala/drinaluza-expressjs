@@ -1,25 +1,70 @@
 import mongoose from 'mongoose'
-import { ShopRefSchema } from '../shops/schemas/shop-ref.schema.js'
+import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
+import { LocationSchema } from '../../core/db/mongodb/shared-schemas/location.schema.js'
+import { OwnerSchema } from '../users/schemas/owner.schema.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
-import { businessesCollection, BUSINESS_STATES_ALL } from './businesses.constant.js'
 import { MultiLangSchema } from '../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
-import { UserRefSchema } from '../users/schemas/user-ref.schema.js'
 import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
+import { ContactSchema } from '../../core/db/mongodb/shared-schemas/contact.schema.js'
+import { RatingSubschema } from '../reviews/subschemas/rating.subschema.js'
+import { FeedModel } from '../feed/feed.schema.js'
+import { BUSINESS_KINDS, businessesCollection } from './businesses.constant.js'
+import { RestaurantSchema } from './restaurants/restaurants.schema.js'
 
-const BusinessSchema = new mongoose.Schema(
+const businessSchema = new mongoose.Schema(
 	{
-		shops: [{ type: ShopRefSchema, required: true }],
-		owner: { type: UserRefSchema, required: true },
+		owner: { type: OwnerSchema, required: true },
 		slug: { type: String, required: true },
-		name: { type: MultiLangSchema, required: true },
-		description: { type: String, required: false },
+		name: MultiLangSchema,
+		address: {
+			type: AddressSchema
+		},
+		location: LocationSchema,
+		deliveryRadiusKm: Number,
 		state: StateSchema,
-		media: MediaSchema
+		media: { type: MediaSchema, required: false, default: () => ({}) },
+		contact: ContactSchema,
+		rating: { type: RatingSubschema, required: false, _id: false },
+		kind: { type: String, enum: BUSINESS_KINDS.ALL, required: true, default: BUSINESS_KINDS.RESTAURANT }
 	},
-	{ collection: businessesCollection }
+	{ timestamps: true, collection: businessesCollection, discriminatorKey: 'kind' }
 )
 
-BusinessSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
+businessSchema.discriminator(BUSINESS_KINDS.RESTAURANT, RestaurantSchema)
 
-export const BusinessModel = mongoose.model(businessesCollection, BusinessSchema)
+businessSchema.discriminator(
+	BUSINESS_KINDS.SEAFOOD_MARKET,
+	new mongoose.Schema({
+		appointmentSlots: [Date],
+		services: [{ name: String, duration: Number }]
+	})
+)
+
+businessSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
+
+// Post-hook for findOneAndUpdate
+businessSchema.post('findOneAndUpdate', async function (doc) {
+	// doc is the updated business because you use returnDocument: 'after'
+	if (!doc) return
+
+	try {
+		// Update all feeds associated with this business
+		await FeedModel.updateMany(
+			{
+				targetId: doc._id,
+				targetResource: businessesCollection
+			},
+			{
+				$set: {
+					'targetData.rating': doc.rating
+				}
+			}
+		)
+	} catch (error) {
+		// Log error but don't necessarily crash the process
+		// depending on your error handling strategy
+		console.error('Failed to sync Business rating to Feed:', error)
+	}
+})
+export const BusinessModel = mongoose.model(businessesCollection, businessSchema)

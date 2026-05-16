@@ -7,6 +7,6 @@ export const findOrdersRepo = async ({ match, page, limit }) => {
 	return paginateMongodb({ model: OrderModel, match: { ...flattenedMatch }, select: '', page, limit })
 }
 
-export const createdOrderRepo = async ({ customer, shop, products, status, price }) => {
-	return OrderModel.create({ customer, shop, products, status, price })
+export const createdOrderRepo = async ({ customer, business, products, status, price }) => {
+	return OrderModel.create({ customer, business, products, status, price })
 }
