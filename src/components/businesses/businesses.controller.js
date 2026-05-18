@@ -50,7 +50,7 @@ router.route('/my-businesses').get(authenticate({ role: 'business_owner' }), asy
 		match.owner = { _id: req.user._id }
 		const select = ''
 		let { page = 1, limit = 10 } = req.query
-		const myBusinesses = await findMyBusinessesSrvc({ match, select, page, limit })
+		const myBusinesses = await findMyBusinessesSrvc({ match, owner: req.user, select, page, limit })
 		return resp({ status: 200, data: myBusinesses, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })

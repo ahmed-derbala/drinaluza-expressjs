@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
-import { PriceSubSchema } from './schemas/price.schema.js'
+import { PriceSubSchema } from '#core'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { DefaultProductRefSubSchema } from '../default-products/schemas/default-product-ref.subschema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'

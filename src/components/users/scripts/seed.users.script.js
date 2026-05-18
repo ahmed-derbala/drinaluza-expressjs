@@ -54,10 +54,10 @@ const users = [
 		name: { en: 'Majed Akid' }
 	},
 	{
-		slug: 'asma',
+		slug: 'serra',
 		password: '123',
 		role: 'business_owner',
-		name: { en: 'Asma Akid' }
+		name: { en: 'Serra Aloui' }
 	},
 	{
 		slug: 'abir',
@@ -123,12 +123,6 @@ const users = [
 		password: '123',
 		role: 'customer',
 		name: { en: 'Souha Derbala' }
-	},
-	{
-		slug: 'serra',
-		password: '123',
-		role: 'customer',
-		name: { en: 'Serra Aloui' }
 	},
 	{
 		slug: 'rached',

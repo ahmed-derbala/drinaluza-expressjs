@@ -6,8 +6,11 @@ import { createFeedSrvc } from '../feed/feed.service.js'
 import { businessesCollection } from './businesses.constant.js'
 import { updateOneCardFeedRepo } from '../feed/feed.repository.js'
 
-export const findMyBusinessesSrvc = async ({ match, select, page, limit, count }) => {
-	return findMyBusinessesRepo({ match, select, page, limit, count })
+export const findMyBusinessesSrvc = async ({ match, owner, select, page, limit, count }) => {
+	const myBusinesses = await findMyBusinessesRepo({ match, select, page, limit, count })
+	//owner double check
+	//if(owner._id !=)
+	return myBusinesses
 }
 
 export const findBusinessesSrvc = async ({ match, select, page, limit, count }) => {

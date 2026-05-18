@@ -62,10 +62,10 @@ let manualBusinesses = [
 		}
 	},
 	{
-		owner: { slug: 'asma' },
-		name: { en: 'Cafe el bort' },
+		owner: { slug: 'serra' },
+		name: { en: 'Cafe' },
 		address: {
-			street: `el bort, ellouza`,
+			street: `plage, ellouza`,
 			city: 'Sfax',
 			country
 		},
@@ -87,7 +87,7 @@ let manualBusinesses = [
 					fullNumber: `+21699111222`
 				}
 			],
-			email: `cafe_el_bort@gmail.com`,
+			email: `cafe@gmail.com`,
 			whatsapp: `+21699112619`
 		},
 		media: {
