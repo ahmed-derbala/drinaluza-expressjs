@@ -21,6 +21,7 @@ export const load = async ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = tr
 					loadedFilesCount++
 					endpoint_root = file.substring(0, file.indexOf(fileSuffix))
 					app.use(`${urlPrefix}${endpoint_root}`, (await import(`${process.cwd()}/src${rootDir}/${file}`)).default)
+
 					if (endpoint_root === 'index') {
 						app.use(`${urlPrefix}`, (await import(`${process.cwd()}/src${rootDir}/${file}`)).default)
 					}

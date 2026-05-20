@@ -1,13 +1,14 @@
 import express from 'express'
 import { errorHandler, authenticate, resp } from '#core'
 import { findMyBusinessesSrvc } from '#businesses/businesses.service.js'
-
+import { findOneDashboard } from './dashboard.service.js'
 const router = express.Router()
 
-router.route('/personal').get(authenticate(), async (req, res) => {
+router.route('/').get(authenticate(), async (req, res) => {
 	try {
 		let dashboard = {}
-
+		if (req.user.role == 'customer') dashboard = await findOneDashboard({ match: { 'user._id': req.user._id, kind: 'personal' } })
+		else dashboard = await findOneDashboard({ match: { 'user._id': req.user._id, kind: 'business' } })
 		return resp({ status: 200, data: dashboard, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
@@ -32,10 +33,19 @@ router.route('/profiles').get(authenticate(), async (req, res) => {
 	}
 })
 
+router.route('/personal').get(authenticate(), async (req, res) => {
+	try {
+		let dashboard = await findOneDashboard({ match: { 'user._id': req.user._id, kind: 'personal' } })
+
+		return resp({ status: 200, data: dashboard, req, res })
+	} catch (err) {
+		errorHandler({ err, req, res })
+	}
+})
+
 router.route('/business/:businessSlug').get(authenticate(), async (req, res) => {
 	try {
-		let dashboard = {}
-
+		let dashboard = await findOneDashboard({ match: { 'user._id': req.user._id, kind: 'business' } })
 		return resp({ status: 200, data: dashboard, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })

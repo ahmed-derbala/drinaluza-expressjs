@@ -6,6 +6,7 @@ import { customerSelect } from './schemas/customer.schema.js'
 import { createFeedSrvc } from '../feed/feed.service.js'
 import { usersCollection } from './users.constant.js'
 import { updateOneCardFeedRepo } from '../feed/feed.repository.js'
+import { createBusinessDashboardSrvc, createPersonalDashboardSrvc } from '../dashboard/dashboard.service.js'
 
 export const updateMyProfileSrvc = async ({ user, newData }) => {
 	if (newData.location && newData.location.sharingEnabled == false) {
@@ -61,6 +62,8 @@ export const createUserSrvc = async ({ slug, name, role, contact, address, locat
 	if (user.role === 'business_owner') {
 		const business = await createBusinessSrvc({ owner: user })
 		createFeedSrvc({ targetData: user, targetResource: usersCollection, targetId: user._id, card: { kind: 'user' } })
+		createBusinessDashboardSrvc({ user, business, kind: 'business' })
 	}
+	createPersonalDashboardSrvc({ user, kind: 'personal' })
 	return user
 }
