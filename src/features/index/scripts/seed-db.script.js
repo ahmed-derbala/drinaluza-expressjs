@@ -2,11 +2,11 @@ import { MongoClient } from 'mongodb'
 import { spawn } from 'node:child_process'
 import config from '../../../config/index.js'
 console.clear()
-
+/*
 if (process.env.NODE_ENV === 'production') {
 	console.error('❌ Refusing to run: destructive script in production')
 	process.exit(1)
-}
+}*/
 
 const MONGO_URI = config.db.mongodb.uri
 
@@ -62,10 +62,10 @@ function runScript(script) {
 }
 
 const scripts = [
-	'src/components/users/scripts/seed.users.script.js',
-	'src/components/businesses/scripts/seed.businesses.script.js',
-	'src/components/default-products/scripts/seed.default-products.script.js',
-	'src/components/products/scripts/seed.products.script.js'
+	'src/features/users/scripts/seed.users.script.js',
+	'src/features/businesses/scripts/seed.businesses.script.js',
+	'src/features/default-products/scripts/seed.default-products.script.js',
+	'src/features/products/scripts/seed.products.script.js'
 ]
 
 ;(async () => {

@@ -6,16 +6,9 @@ import { resp } from '../../core/helpers/resp.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneProfileSrvc, updateMyProfileSrvc, findMyProfileSrvc } from './users.service.js'
 import { patchMyProfileVld } from './users.validator.js'
-const router = express.Router()
+import { findOneUserSrvc } from './users.service.js'
 
-/*
-router.get('/:slug', async (req, res) => {
-	const { slug } = req.params
-	const user = await findOneUserSrvc({ match: { slug } })
-	if (!user) return resp({ status: 202, message: 'user not found', data: null, req, res })
-	return resp({ status: 200, message: 'user found', data: user, req, res })
-})
-*/
+const router = express.Router()
 
 router
 	.route('/my-profile')
@@ -73,4 +66,14 @@ router
 		}
 	})
 
+/**
+ * should be always the last endpoint
+ * to avoid conflicts with other routes
+ */
+router.get('/:slug', async (req, res) => {
+	const { slug } = req.params
+	const user = await findOneUserSrvc({ match: { slug } })
+	if (!user) return resp({ status: 202, message: 'user not found', data: null, req, res })
+	return resp({ status: 200, message: 'user found', data: user, req, res })
+})
 export default router

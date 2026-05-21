@@ -10,7 +10,7 @@ import { orderStatusEnum } from '../orders/orders.enum.js'
 import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { calculateFinalPriceSrvc } from './sales.service.js'
 import { log } from '../../core/log/index.js'
-import { userRolesEnum } from '../users/users.enum.js'
+import { USER_ROLES } from '../users/users.enum.js'
 
 const router = express.Router()
 router
@@ -48,7 +48,7 @@ router
 		}
 	})
 
-router.route('/:orderId').patch(authenticate({ role: userRolesEnum.BUSINESS_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
+router.route('/:orderId').patch(authenticate({ role: USER_ROLES.BUSINESS_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
 	try {
 		const { orderId } = req.params
 		const { status } = req.body

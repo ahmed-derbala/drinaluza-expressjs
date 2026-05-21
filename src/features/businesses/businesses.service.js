@@ -32,7 +32,7 @@ export const createBusinessSrvc = async ({ name, address, location, owner, media
 	log({ level: 'debug', message: 'createBusinessSrvc', data: { name, address, location, owner, media } })
 	const business = await createBusinessRepo({ name, address, location, owner, media, contact, rating, kind })
 	if (business) {
-		createFeedSrvc({ targetData: business, targetResource: businessesCollection, targetId: business._id, card: { kind: 'business' } })
+		await createFeedSrvc({ targetData: business, targetResource: businessesCollection, targetId: business._id, card: { kind: 'business' } })
 		await createBusinessDashboardSrvc({ user: owner, business, kind: 'business' })
 	}
 	return business
@@ -55,4 +55,8 @@ export const patchRatingBusinessSrvc = async ({ businessId, stars, rating }) => 
 	breakdown[stars] = breakdown[stars] + 1
 	const newRating = { count, total, average, breakdown }
 	return updateBusinessRepo({ match: { _id: businessId }, newData: { rating: newRating } })
+}
+
+export const updateBusinessSrvc = async ({ match, newData }) => {
+	return updateBusinessRepo({ match, newData })
 }

@@ -10,7 +10,7 @@ import { orderStatusEnum } from '../orders/orders.enum.js'
 import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { processLineTotalSrvc, createPurchaseSrvc } from './purchases.service.js'
 import { log } from '../../core/log/index.js'
-import { userRolesEnum } from '../users/users.enum.js'
+import { USER_ROLES } from '../users/users.enum.js'
 import { findOrdersSrvc } from '../orders/orders.service.js'
 import { findOneCustomerSrvc } from '../users/users.service.js'
 
@@ -39,7 +39,7 @@ router
 			const customer = await findOneCustomerSrvc({ match: { slug: req.user.slug } })
 			//log({ level: 'debug', message: 'create purchase', data: { customer, business } })
 			//business_owner cannot purchase from his businesses
-			if (customer.role === userRolesEnum.BUSINESS_OWNER) {
+			if (customer.role === USER_ROLES.BUSINESS_OWNER) {
 				const ownedBusiness = await findOneBusinessSrvc({ match: { owner: { _id: customer._id }, slug: business.slug }, select: '_id' })
 				if (ownedBusiness) return resp({ status: 409, message: 'business owners cannot purchase from their own businesses', data: null, req, res })
 			}
@@ -95,7 +95,7 @@ router.route('/sales').get(authenticate({ role: 'business_owner' }), async (req,
 	}
 })
 
-router.route('/:orderId/').patch(authenticate({ role: userRolesEnum.CUSTOMER }), validate(patchOrderStatusVld), async (req, res) => {
+router.route('/:orderId/').patch(authenticate({ role: USER_ROLES.CUSTOMER }), validate(patchOrderStatusVld), async (req, res) => {
 	try {
 		const { orderId } = req.params
 		const { status } = req.body

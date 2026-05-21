@@ -4,7 +4,7 @@ import { execSync } from 'child_process'
 import config from '../../config/index.js'
 
 async function startMenu() {
-	const files = globSync('src/components/**/*.script.js', {
+	const files = globSync('src/features/**/*.script.js', {
 		ignore: 'node_modules/**',
 		posix: true
 	})
@@ -15,7 +15,7 @@ async function startMenu() {
 	}
 
 	const choices = files.map((file) => ({
-		name: file.replace('src/components/', ''),
+		name: file.replace('src/features/', ''),
 		value: file
 	}))
 

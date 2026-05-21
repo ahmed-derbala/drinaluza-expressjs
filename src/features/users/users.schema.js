@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
 import { usersCollection } from './users.constant.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
-import { userRolesEnum } from './users.enum.js'
+import { USER_ROLES } from './users.enum.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
@@ -31,8 +31,8 @@ const UserSchema = new mongoose.Schema({
 	name: MultiLangSchema,
 	role: {
 		type: String,
-		enum: userRolesEnum.ALL,
-		default: userRolesEnum.CUSTOMER
+		enum: USER_ROLES.ALL,
+		default: USER_ROLES.CUSTOMER
 	},
 	contact: {
 		type: ContactSchema,

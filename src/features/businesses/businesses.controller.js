@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findMyBusinessesSrvc, createBusinessSrvc, findMyBusinessSrvc, findOneBusinessSrvc, findBusinessesSrvc, updateMyBusinessSrvc } from './businesses.service.js'
+import { findMyBusinessesSrvc, createBusinessSrvc, findMyBusinessSrvc, findOneBusinessSrvc, findBusinessesSrvc, updateMyBusinessSrvc, updateBusinessSrvc } from './businesses.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
@@ -8,7 +8,44 @@ import { createBusinessVld } from './businesses.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { stateEnum } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { log } from '../../core/log/index.js'
+import { USER_ROLES } from '../users/users.enum.js'
+import config from '#config'
+import { updateUserSrvc } from '../users/users.service.js'
+import { destroyUserSessionsSrvc } from '../../core/auth/auth.service.js'
+import { createBusinessDashboardSrvc } from '#dashboard/dashboard.service.js'
 const router = express.Router()
+
+router
+	.route('/requests')
+	.get(authenticate({ role: USER_ROLES.SUPER }), async (req, res) => {
+		try {
+			const requests = await findManyBusinessesSrvc({ match: { state: { code: 'pending' } }, select: '' })
+			return resp({ status: 200, data: requests, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
+	.post(authenticate({ roles: [USER_ROLES.CUSTOMER, USER_ROLES.BUSINESS_OWNER] }), validate(createBusinessVld), async (req, res) => {
+		try {
+			const owner = req.user
+			//const fetchedBusiness = await findOneBusinessSrvc({ match: { owner: { _id: owner._id } }, select: '' })
+			//if (fetchedBusiness) return resp({ status: 409, message: 'Business already exists for this owner', req, res })
+			const { name } = req.body
+			let business = await createBusinessSrvc({ owner, name })
+			if (config.businesses.autoApprove) {
+				const state = { code: 'active' }
+				if (state && state.code === 'active') {
+					updateUserSrvc({ match: { _id: business.owner._id }, newData: { role: USER_ROLES.BUSINESS_OWNER } })
+					destroyUserSessionsSrvc({ user: business.owner })
+					createBusinessDashboardSrvc({ user: business.owner, business, kind: 'business' })
+				}
+				business = await updateBusinessSrvc({ match: { _id: business._id }, newData: { state } })
+			}
+			return resp({ status: 200, data: business, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
 
 router
 	.route('/')

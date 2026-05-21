@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserRefSchema } from '../../components/users/schemas/user-ref.schema.js'
+import { UserRefSchema } from '../../features/users/schemas/user-ref.schema.js'
 
 export const sessionsCollection = 'sessions'
 

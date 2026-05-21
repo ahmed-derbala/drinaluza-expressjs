@@ -46,14 +46,14 @@ app.use(config.docs.swagger.endpoint, swaggerUi.serve, swaggerUi.setup(swaggerSp
 if (config.app.views) {
 	app.use(expressLayouts)
 	app.set('layout', './index/views/layout', { author: 'app' })
-	app.set('views', `${process.cwd()}/src/components`)
+	app.set('views', `${process.cwd()}/src/features`)
 	app.set('view engine', 'ejs')
 	//app.use(express.static(`public`))
-	loaders.load({ app, rootDir: '/components', urlPrefix: '/', fileSuffix: '.render.js' }) //load views
+	loaders.load({ app, rootDir: '/features', urlPrefix: '/', fileSuffix: '.render.js' }) //load views
 }
-await loaders.load({ app, rootDir: '/components', urlPrefix: '/api/', fileSuffix: '.controller.js' }) //load api
-await loaders.load({ app, rootDir: '/components/index', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load "/"
-await loaders.load({ app, rootDir: '/components/businesses/restaurants', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
+await loaders.load({ app, rootDir: '/features', urlPrefix: '/api/', fileSuffix: '.controller.js' }) //load api
+await loaders.load({ app, rootDir: '/features/index', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load "/"
+await loaders.load({ app, rootDir: '/features/businesses/restaurants', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
 await loaders.load({ app, rootDir: '/core/auth', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
 await loaders.load({ app, rootDir: '/core/health', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false })
 await loaders.load({ app, rootDir: '/core/notifications', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })

@@ -12,7 +12,7 @@ export const authenticate = (params) => {
 			//check params
 			if (params == null) params = {}
 			if (params.tokenRequired == null) params.tokenRequired = true
-			if (params.role == null) params.role = null
+			//if (params.roles == null) params.roles = []
 			//search for token
 			let token = checkStringForContent(req.headers.token)
 			if (token == null) {
@@ -61,9 +61,9 @@ export const authenticate = (params) => {
 				req.user = decoded.user
 
 				// Check role-based access if role is specified
-				if (params.role && req.user.role !== params.role) {
+				if (params.roles && params.roles.length > 0 && !params.roles.includes(req.user.role)) {
 					return resp({
-						message: `Access denied for user ${req.user.slug}. Required role: ${params.role}, user role: ${req.user.role || 'none'}`,
+						message: `Access denied for user ${req.user.slug}. Required role: ${params.roles.join(', ')}, user role: ${req.user.role || 'none'}`,
 						status: 403,
 						data: null,
 						req,
