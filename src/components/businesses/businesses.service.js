@@ -5,6 +5,7 @@ import config from '../../config/index.js'
 import { createFeedSrvc } from '../feed/feed.service.js'
 import { businessesCollection } from './businesses.constant.js'
 import { updateOneCardFeedRepo } from '../feed/feed.repository.js'
+import { createBusinessDashboardSrvc } from '../dashboard/dashboard.service.js'
 
 export const findMyBusinessesSrvc = async ({ match, owner, select, page, limit, count }) => {
 	const myBusinesses = await findMyBusinessesRepo({ match, select, page, limit, count })
@@ -32,6 +33,7 @@ export const createBusinessSrvc = async ({ name, address, location, owner, media
 	const business = await createBusinessRepo({ name, address, location, owner, media, contact, rating, kind })
 	if (business) {
 		createFeedSrvc({ targetData: business, targetResource: businessesCollection, targetId: business._id, card: { kind: 'business' } })
+		await createBusinessDashboardSrvc({ user: owner, business, kind: 'business' })
 	}
 	return business
 }

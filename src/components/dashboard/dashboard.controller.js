@@ -6,9 +6,9 @@ const router = express.Router()
 
 router.route('/').get(authenticate(), async (req, res) => {
 	try {
-		let dashboard = {}
-		if (req.user.role == 'customer') dashboard = await findOneDashboard({ match: { 'user._id': req.user._id, kind: 'personal' } })
-		else dashboard = await findOneDashboard({ match: { 'user._id': req.user._id, kind: 'business' } })
+		let dashboard = null
+		if (req.user.role == 'business_owner') dashboard = await findOneDashboard({ match: { 'user.slug': req.user.slug, kind: 'business' } })
+		if (!dashboard) dashboard = await findOneDashboard({ match: { 'user.slug': req.user.slug, kind: 'personal' } })
 		return resp({ status: 200, data: dashboard, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })

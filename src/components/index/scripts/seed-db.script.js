@@ -1,12 +1,12 @@
 import { MongoClient } from 'mongodb'
 import { spawn } from 'node:child_process'
 import config from '../../../config/index.js'
-//console.clear()
-/*
+console.clear()
+
 if (process.env.NODE_ENV === 'production') {
 	console.error('❌ Refusing to run: destructive script in production')
 	process.exit(1)
-}*/
+}
 
 const MONGO_URI = config.db.mongodb.uri
 
@@ -15,19 +15,37 @@ if (!MONGO_URI?.includes('/drinaluza')) {
 	process.exit(1)
 }
 
-async function dropDatabase() {
-	console.log('⚠ Dropping MongoDB database "drinaluza"')
+/**
+ * Drops all collections in the database except for the specified ones.
+ * @param {string[]} preservedCollections - Array of collection names to keep (e.g., ['users', 'roles'])
+ */
+async function dropDatabase(preservedCollections = []) {
+	console.log('⚠ Cleaning MongoDB database "drinaluza" (preserving specific collections)...')
 
 	const client = new MongoClient(MONGO_URI)
 
 	try {
 		await client.connect()
-
-		// Uses DB name from URI (drinaluza)
 		const db = client.db()
-		await db.dropDatabase()
 
-		console.log('✔ Database "drinaluza" deleted')
+		// 1. Fetch all existing collections
+		const collections = await db.listCollections().toArray()
+
+		// 2. Iterate and drop only if they aren't in the preservation list
+		for (const collection of collections) {
+			const collectionName = collection.name
+
+			if (preservedCollections.includes(collectionName)) {
+				console.log(`- Preserved: ${collectionName}`)
+			} else {
+				await db.collection(collectionName).drop()
+				console.log(`✔ Dropped:   ${collectionName}`)
+			}
+		}
+
+		console.log('✔ Database cleanup complete!')
+	} catch (error) {
+		console.error('❌ Error during database cleanup:', error)
 	} finally {
 		await client.close()
 	}
@@ -52,8 +70,8 @@ const scripts = [
 
 ;(async () => {
 	try {
-		//console.clear()
-		await dropDatabase()
+		console.clear()
+		await dropDatabase(['sessions', 'files'])
 
 		for (const script of scripts) {
 			console.log(`\n▶ Running ${script}`)

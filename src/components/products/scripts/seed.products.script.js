@@ -142,6 +142,7 @@ let products = [
 	}
 		*/
 ]
+
 const processScript = async () => {
 	log({ message: `running ${scriptFilename}`, level: 'info' })
 
@@ -168,7 +169,7 @@ const processScript = async () => {
 				...p.unit,
 				measure: pickRandom(UNITS)
 			},
-			business: businesses.docs[0], //pickRandom(businesses.docs),
+			business: businesses.docs.find((b) => b.slug === 'drinaluza') || businesses.docs[0], //business with slug=drinaluza
 			defaultProduct: defaultProduct,
 			searchKeywords: defaultProduct.searchKeywords
 		}
