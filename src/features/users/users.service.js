@@ -25,6 +25,7 @@ export const findMyProfileSrvc = async ({ user }) => {
 }
 
 export const findOneUserSrvc = async ({ match, select }) => {
+	select = select || '+basicInfos +settings +address +location +contact +socialMedia +media'
 	//log({ level: 'debug', data: { match, select } })
 	return findOneUserRepo({ match, select })
 }

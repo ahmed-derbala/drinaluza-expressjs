@@ -27,5 +27,11 @@ export const UnitSchema = {
 		required: true,
 		default: 10,
 		min: 0.01
+	},
+	step: {
+		type: Number,
+		required: true,
+		default: 1,
+		min: 0.01
 	}
 }
