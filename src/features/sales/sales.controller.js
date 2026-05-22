@@ -3,7 +3,7 @@ import { resp } from '../../core/helpers/resp.js'
 import { findOrdersSrvc, createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './sales.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
-import { createOrderVld, patchOrderStatusVld } from './sales.validator.js'
+import { createOrderVld, patchOrderStatusVld, getSalesVld } from './sales.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
 import { orderStatusEnum } from '../orders/orders.enum.js'
@@ -13,11 +13,13 @@ import { log } from '../../core/log/index.js'
 import { USER_ROLES } from '../users/users.enum.js'
 
 const router = express.Router()
+
 router
 	.route('/')
-	.get(authenticate(), async (req, res) => {
+	.get(authenticate(), validate(getSalesVld), async (req, res) => {
 		try {
-			const match = { business: { owner: { _id: req.user._id } } }
+			const { businessSlug } = req.query
+			const match = { business: { slug: businessSlug, owner: { _id: req.user._id } } }
 			let { page = 1, limit = 10, status } = req.query
 			if (status) {
 				match.status = status

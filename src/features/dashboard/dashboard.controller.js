@@ -45,7 +45,7 @@ router.route('/personal').get(authenticate(), async (req, res) => {
 
 router.route('/business/:businessSlug').get(authenticate(), async (req, res) => {
 	try {
-		let dashboard = await findOneDashboard({ match: { 'user._id': req.user._id, kind: 'business' } })
+		let dashboard = await findOneDashboard({ match: { 'user._id': req.user._id, kind: 'business', 'business.slug': req.params.businessSlug } })
 		return resp({ status: 200, data: dashboard, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
