@@ -11,6 +11,7 @@ import { RatingSubschema } from '../reviews/subschemas/rating.subschema.js'
 import { FeedModel } from '../feed/feed.schema.js'
 import { BUSINESS_KINDS, businessesCollection } from './businesses.constant.js'
 import { RestaurantSchema } from './restaurants/restaurants.schema.js'
+import { FileRefSchema } from '#core/files/schemas/files-ref.schema.js'
 
 const businessSchema = new mongoose.Schema(
 	{
@@ -26,7 +27,8 @@ const businessSchema = new mongoose.Schema(
 		media: { type: MediaSchema, required: false, default: () => ({}) },
 		contact: ContactSchema,
 		rating: { type: RatingSubschema, required: false, _id: false },
-		kind: { type: String, enum: BUSINESS_KINDS.ALL, required: true, default: BUSINESS_KINDS.SEAFOOD_MARKET }
+		kind: { type: String, enum: BUSINESS_KINDS.ALL, required: true, default: BUSINESS_KINDS.SEAFOOD_MARKET },
+		qrcode: FileRefSchema
 	},
 	{ timestamps: true, collection: businessesCollection, discriminatorKey: 'kind' }
 )

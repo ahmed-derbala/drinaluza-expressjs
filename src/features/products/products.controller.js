@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findManyProductsSrvc, createProductSrvc, findOneProductSrvc } from './products.service.js'
+import { findManyProductsSrvc, createProductSrvc, findOneProductSrvc, updateProductSrvc } from './products.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { validate } from '../../core/validation/index.js'
@@ -8,6 +8,7 @@ import { createProductVld, findOneProductVld } from './products.validator.js'
 import { findOneBusinessRepo } from '../businesses/businesses.repository.js'
 import { log } from '../../core/log/index.js'
 import { findOneDefaultProductSrvc } from '../default-products/default-products.service.js'
+import { USER_ROLES } from '#users/users.enum.js'
 const router = express.Router()
 
 router
@@ -67,13 +68,27 @@ router
 	})
 
 //this should be always after GET '/products/'
-router.route('/:productSlug').get(validate(findOneProductVld), async (req, res) => {
-	try {
-		const product = await findOneProductSrvc({ match: { slug: req.params.productSlug } })
-		return resp({ status: 200, data: product, req, res })
-	} catch (err) {
-		errorHandler({ err, req, res })
-	}
-})
+router
+	.route('/:productSlug')
+	.get(validate(findOneProductVld), async (req, res) => {
+		try {
+			const product = await findOneProductSrvc({ match: { slug: req.params.productSlug } })
+			return resp({ status: 200, data: product, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
+	.patch(
+		//validate(findOneProductVld),
+		authenticate({ roles: [USER_ROLES.BUSINESS_OWNER] }),
+		async (req, res) => {
+			try {
+				const product = await updateProductSrvc({ match: { slug: req.params.productSlug }, newData: req.body })
+				return resp({ status: 200, data: product, req, res })
+			} catch (err) {
+				errorHandler({ err, req, res })
+			}
+		}
+	)
 
 export default router

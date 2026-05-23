@@ -71,6 +71,7 @@ const scripts = [
 ;(async () => {
 	try {
 		console.clear()
+		//await dropDatabase()
 		await dropDatabase(['sessions', 'files'])
 
 		for (const script of scripts) {

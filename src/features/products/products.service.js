@@ -41,6 +41,10 @@ export const createProductSrvc = async ({ business, name, slug, defaultProduct, 
 	return product
 }
 
+export const updateProductSrvc = async ({ match, newData }) => {
+	return updateProductRepo({ match, newData })
+}
+
 export const findMyProductsSrvc = async ({ match, select, page, limit, count }) => {
 	try {
 		const myProducts = await findMyProductsRepo({ match, select, page, limit, count })

@@ -94,17 +94,27 @@ router.route('/my-businesses').get(authenticate({ role: 'business_owner' }), asy
 	}
 })
 
-router.route('/:businessSlug/').get(async (req, res) => {
-	try {
-		let match = {}
-		const businessSlug = req.params.businessSlug
-		match.slug = businessSlug
-		const business = await findOneBusinessSrvc({ match })
-		return resp({ status: 200, data: business, req, res })
-	} catch (err) {
-		errorHandler({ err, req, res })
-	}
-})
+router
+	.route('/:businessSlug/')
+	.get(async (req, res) => {
+		try {
+			let match = {}
+			const businessSlug = req.params.businessSlug
+			match.slug = businessSlug
+			const business = await findOneBusinessSrvc({ match })
+			return resp({ status: 200, data: business, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
+	.patch(authenticate({ role: 'business_owner' }), async (req, res) => {
+		try {
+			const business = await updateBusinessSrvc({ match: { owner: { _id: req.user._id } }, newData: req.body })
+			return resp({ status: 200, data: business, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
 
 router.route('/my-businesses/:businessSlug/products').get(authenticate(), async (req, res) => {
 	try {
