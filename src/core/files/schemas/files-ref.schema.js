@@ -8,5 +8,7 @@ export const FileRefSchema = new mongoose.Schema({
 		required: false
 	},
 	name: { type: String, required: false }, // name without extension
-	url: { type: String, required: true } //download file
+	url: { type: String, required: true }, //download file
+	updatedAt: { type: Date, required: false },
+	createdAt: { type: Date, required: false }
 })
