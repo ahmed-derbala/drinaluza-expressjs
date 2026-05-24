@@ -4,11 +4,14 @@ import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
 import { resp } from '../../core/helpers/resp.js'
 import { validate } from '../../core/validation/index.js'
-import { findOneProfileSrvc, updateMyProfileSrvc, findMyProfileSrvc } from './users.service.js'
+import { findOneProfileSrvc, updateMyProfileSrvc, findMyProfileSrvc, findUsersSrvc, findOneUserSrvc } from './users.service.js'
 import { patchMyProfileVld } from './users.validator.js'
-import { findOneUserSrvc } from './users.service.js'
-
 const router = express.Router()
+
+router.get('/', async (req, res) => {
+	const users = await findUsersSrvc({})
+	return resp({ status: 200, message: 'users found', data: users, req, res })
+})
 
 router
 	.route('/my-profile')
