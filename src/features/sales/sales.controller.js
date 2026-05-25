@@ -16,12 +16,25 @@ const router = express.Router()
 
 router
 	.route('/')
-	.get(authenticate(), validate(getSalesVld), async (req, res) => {
+	.get(authenticate({ roles: [USER_ROLES.BUSINESS_OWNER] }), validate(getSalesVld), async (req, res) => {
 		try {
-			const { businessSlug } = req.query
-			const match = { business: { slug: businessSlug, owner: { _id: req.user._id } } }
-			let { page = 1, limit = 10, status } = req.query
+			const { businessSlug, productSlug, customerSlug, page = 1, limit = 10, status } = req.query
+
+			let match = { business: { owner: { _id: req.user._id } } }
+			if (businessSlug) {
+				match.business.slug = businessSlug
+			}
+			if (productSlug) {
+				match.products = {}
+				match.products.product = {}
+				match.products.product.slug = productSlug
+			}
+			if (customerSlug) {
+				match.customer = {}
+				match.customer.slug = customerSlug
+			}
 			if (status) {
+				match.status = {}
 				match.status = status
 			}
 			const fetchedOrders = await findOrdersSrvc({ match, page, limit })

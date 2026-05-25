@@ -12,6 +12,7 @@ export const ProductRefSchema = {
 		ref: productsCollection,
 		required: true
 	},
+	slug: { type: String, required: true },
 	defaultProduct: { type: DefaultProductRefSubSchema, required: true },
 	name: MultiLangSchema,
 	price: { type: PriceSubSchema, required: true },

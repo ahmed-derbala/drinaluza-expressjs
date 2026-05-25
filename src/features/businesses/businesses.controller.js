@@ -13,6 +13,8 @@ import config from '#config'
 import { updateUserSrvc } from '../users/users.service.js'
 import { destroyUserSessionsSrvc } from '../../core/auth/auth.service.js'
 import { createBusinessDashboardSrvc } from '#dashboard/dashboard.service.js'
+import { findBusinessCustomersSrvc } from '#orders/orders.service.js'
+
 const router = express.Router()
 
 router
@@ -186,6 +188,21 @@ router.route('/:businessSlug/products').get(async (req, res) => {
 		match.business.slug = businessSlug
 		const businessProducts = await findManyProductsSrvc({ match, select, page, limit })
 		return resp({ status: 200, data: businessProducts, req, res })
+	} catch (err) {
+		errorHandler({ err, req, res })
+	}
+})
+
+router.route('/:businessSlug/customers').get(async (req, res) => {
+	try {
+		let match = {}
+		const select = 'customer'
+		let { page = 1, limit = 10 } = req.query
+		const businessSlug = req.params.businessSlug
+		match.business = {}
+		match.business.slug = businessSlug
+		const businessCustomers = await findBusinessCustomersSrvc({ match, select, page, limit })
+		return resp({ status: 200, data: businessCustomers, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}

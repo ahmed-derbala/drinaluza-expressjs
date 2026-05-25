@@ -9,14 +9,8 @@ export const findOneOrderSrvc = async ({ match, select }) => {
 	return fetchedOrder
 }
 export const findOrdersSrvc = async ({ match, page, limit }) => {
-	try {
-		page = parseInt(page, 10)
-		limit = parseInt(limit, 10)
-		const fetchedOrders = await findOrdersRepo({ match, page, limit })
-		return fetchedOrders
-	} catch (err) {
-		errorHandler({ err })
-	}
+	const fetchedOrders = await findOrdersRepo({ match, page, limit })
+	return fetchedOrders
 }
 export const createOrderSrvc = async ({ data }) => {
 	try {
