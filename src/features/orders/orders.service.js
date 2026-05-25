@@ -1,4 +1,4 @@
-import { findOrdersRepo } from './orders.repository.js'
+import { findOrdersRepo, findBusinessCustomersRepo } from './orders.repository.js'
 
 export const findOrdersSrvc = async ({ match, page, limit }) => {
 	page = parseInt(page, 10)
@@ -7,5 +7,6 @@ export const findOrdersSrvc = async ({ match, page, limit }) => {
 }
 
 export const findBusinessCustomersSrvc = async ({ match, select, page, limit }) => {
-	return findOrdersRepo({ match, select, page, limit })
+	//return findOrdersRepo({ match, select, page, limit })
+	return findBusinessCustomersRepo({ match, select, page, limit })
 }
