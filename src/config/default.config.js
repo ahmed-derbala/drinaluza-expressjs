@@ -192,16 +192,16 @@ const defaultConfig = {
 	frontend: {
 		web: {
 			version: {
-				latest: process.env.EXPO_WEB_VERSION_LATEST || expoPackagejson.version,
-				min: process.env.EXPO_WEB_VERSION_MIN || frontEndMinVersion,
-				resetApp: process.env.EXPO_WEB_VERSION_RESET_APP || false
+				latest: process.env.FRONTEND_WEB_VERSION_LATEST || expoPackagejson.version,
+				min: process.env.FRONTEND_WEB_VERSION_MIN || frontEndMinVersion,
+				destroyAppStorage: process.env.FRONTEND_WEB_VERSION_DESTROY_APP_STORAGE || false
 			}
 		},
 		android: {
 			version: {
-				latest: process.env.EXPO_ANDROID_VERSION_LATEST || expoPackagejson.version,
-				min: process.env.EXPO_ANDROID_VERSION_MIN || frontEndMinVersion,
-				resetApp: process.env.EXPO_ANDROID_VERSION_RESET_APP || false
+				latest: process.env.FRONTEND_ANDROID_VERSION_LATEST || expoPackagejson.version,
+				min: process.env.FRONTEND_ANDROID_VERSION_MIN || frontEndMinVersion,
+				destroyAppStorage: process.env.FRONTEND_ANDROID_VERSION_DESTROY_APP_STORAGE || false
 			}
 		}
 	},
