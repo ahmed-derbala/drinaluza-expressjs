@@ -9,6 +9,7 @@ router.get('/', function (req, res, next) {
 	const NODE_VERSION = process.version
 	const uptime = formatUptime(process.uptime())
 	const data = { NODE_ENV, app, NODE_VERSION, uptime, frontend }
+	console.log(frontend)
 	return resp({ status: 200, label: 'success', message: 'success', data, req, res })
 })
 
