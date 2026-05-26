@@ -43,7 +43,11 @@ const UserSchema = new mongoose.Schema({
 		type: AddressSchema,
 		select: false
 	},
-	location: LocationSchema,
+	location: {
+		type: LocationSchema,
+		required: false,
+		default: undefined
+	}, // 👈 CRITICAL: Prevents Mongoose from creating an empty object {}
 	settings: {
 		type: UserSettingsSchema,
 		select: false

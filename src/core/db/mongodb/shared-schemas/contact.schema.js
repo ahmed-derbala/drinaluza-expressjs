@@ -3,6 +3,7 @@ import validator from 'validator'
 import { PhoneSchema } from './phone.schema.js'
 
 export const ContactSchema = {
+	_id: false,
 	phone: {
 		type: PhoneSchema,
 		required: false

@@ -7,6 +7,7 @@ import { createFeedSrvc } from '../feed/feed.service.js'
 import { usersCollection } from './users.constant.js'
 import { updateOneCardFeedRepo } from '../feed/feed.repository.js'
 import { createPersonalDashboardSrvc } from '../dashboard/dashboard.service.js'
+import { USER_ROLES } from './users.enum.js'
 
 export const updateMyProfileSrvc = async ({ user, newData }) => {
 	if (newData.location && newData.location.sharingEnabled == false) {
@@ -58,6 +59,14 @@ export const updateUserSrvc = async ({ match, newData }) => {
 
 export const createUserSrvc = async ({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos }) => {
 	if (!slug && !name) return null
+	if (!role) role = USER_ROLES.CUSTOMER
+	if (!settings) settings = {}
+	if (!media) media = {}
+	if (!socialMedia) socialMedia = {}
+	if (!basicInfos) basicInfos = {}
+	if (!contact) contact = {}
+	if (!address) address = {}
+	if (!location) location = {}
 	const user = await createUserRepo({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos })
 	if (!user) return null
 	if (user.role === 'business_owner') {

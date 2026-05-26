@@ -15,13 +15,11 @@ const router = express.Router()
 
 router.post('/signup', validate(signupVld), async (req, res) => {
 	const { slug, password, role } = req.body
-	let { settings, address = {}, socialMedia = {} } = req.body
 	const existedUser = await findOneUserSrvc({ match: { slug }, select: '_id' })
 	if (existedUser) {
 		return resp({ status: 409, message: 'user already exist', data: null, req, res })
 	}
-	if (!settings) settings = config.defaults.users.settings
-	const user = await createUserSrvc({ slug, role, settings, address, socialMedia })
+	const user = await createUserSrvc({ slug, role })
 	if (!user) return resp({ status: 400, data: null, message: 'no user was created', req, res })
 	await createAuthSrvc({ user, password })
 	const token = createNewSession({ user, req })

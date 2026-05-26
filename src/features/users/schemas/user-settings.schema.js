@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import config from '../../../config/default.config.js'
 
 export const UserSettingsSchema = {
+	_id: false,
 	lang: {
 		app: {
 			type: String,

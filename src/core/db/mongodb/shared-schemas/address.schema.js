@@ -11,7 +11,7 @@ export const AddressSchema = {
 		type: String,
 		required: false,
 		trim: true,
-		default: 'El bosten'
+		default: 'Ellouza'
 	},
 	region: {
 		type: String,
