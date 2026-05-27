@@ -67,7 +67,7 @@ router
 		}
 	})
 
-//this should be always after GET '/products/'
+//this should be always the last router to avoid conflicts
 router
 	.route('/:productSlug')
 	.get(validate(findOneProductVld), async (req, res) => {

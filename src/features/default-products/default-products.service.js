@@ -27,7 +27,7 @@ export const createDefaultProductSrvc = async ({ name, slug, media, searchKeywor
 		if (!media.thumbnail) {
 			media.thumbnail = {}
 			if (!media.thumbnail.url) {
-				media.thumbnail.url = `${config.backend.url}/public/default-products/${slug}/thumbnail.jpeg`
+				media.thumbnail.url = `${config.backend.url}/public/default-products/${slug}/thumbnail.png`
 			}
 		}
 	}
