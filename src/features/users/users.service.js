@@ -66,7 +66,6 @@ export const createUserSrvc = async ({ slug, name, role, contact, address, locat
 	if (!basicInfos) basicInfos = {}
 	if (!contact) contact = {}
 	if (!address) address = {}
-	if (!location) location = {}
 	const user = await createUserRepo({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos })
 	if (!user) return null
 	if (user.role === 'business_owner') {

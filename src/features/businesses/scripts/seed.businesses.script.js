@@ -43,11 +43,10 @@ let manualBusinesses = [
 			email: `drinaluza@gmail.com`,
 			whatsapp: `+21699112619`
 		},
-		media: {
+		/*media: {
 			thumbnail: {
-				url: `https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-6/566200084_1281876597315347_4989063260266431536_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=IbrnxUXCVEIQ7kNvwEeLyb0&_nc_oc=Adm0tSPjKADKEso1hU9hgV2khnZTlj4Mz0CErYEvpuTg4Je5yXj7Ne8lkoI9HxNMoiA&_nc_zt=23&_nc_ht=scontent.ftun14-1.fna&_nc_gid=sFJ-fE0Ho0eeXDbxcv4YoQ&_nc_ss=8&oh=00_AfxSOEqFaLXVnlZ2AUPno_Aa-b_bonOLMATnvTFK2ExqyQ&oe=69B4F823`
 			}
-		},
+		},*/
 		rating: {
 			average: 0,
 			count: 0,
@@ -90,11 +89,10 @@ let manualBusinesses = [
 			email: `cafe@gmail.com`,
 			whatsapp: `+21699112619`
 		},
-		media: {
+		/*media: {
 			thumbnail: {
-				url: `https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-6/566200084_1281876597315347_4989063260266431536_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=IbrnxUXCVEIQ7kNvwEeLyb0&_nc_oc=Adm0tSPjKADKEso1hU9hgV2khnZTlj4Mz0CErYEvpuTg4Je5yXj7Ne8lkoI9HxNMoiA&_nc_zt=23&_nc_ht=scontent.ftun14-1.fna&_nc_gid=sFJ-fE0Ho0eeXDbxcv4YoQ&_nc_ss=8&oh=00_AfxSOEqFaLXVnlZ2AUPno_Aa-b_bonOLMATnvTFK2ExqyQ&oe=69B4F823`
 			}
-		},
+		},*/
 		rating: {
 			average: 0,
 			count: 0,
