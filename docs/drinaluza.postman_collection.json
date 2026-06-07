@@ -19,7 +19,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"slug\": \"c28\",\n    \"password\": \"123\"\n}",
+              "raw": "{\n    \"slug\": \"hana\",\n    \"password\": \"123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -47,10 +47,17 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "token",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    //\"email\":\"derbala.ahmed531992@gmail.com\",\n    \"slug\": \"abir\",\n    \"password\": \"123\"\n}",
+              "raw": "{\n    \"slug\": \"ahmed\",\n    \"password\": \"123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -81,7 +88,7 @@
             "header": [
               {
                 "key": "token",
-                "value": "{{token}}",
+                "value": "{{ahmed_token}}",
                 "type": "text"
               }
             ],
@@ -119,14 +126,14 @@
               }
             ],
             "url": {
-              "raw": "{{drinaluza_url}}/api/users/ahmed",
+              "raw": "{{drinaluza_url}}/api/users/",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "users",
-                "ahmed"
+                ""
               ]
             }
           },
@@ -235,19 +242,19 @@
             "header": [
               {
                 "key": "token",
-                "value": "{{c1_token}}",
-                "type": "text",
-                "disabled": true
+                "value": "{{ahmed_token}}",
+                "type": "text"
               },
               {
                 "key": "token",
                 "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InNsdWciOiJjMjciLCJuYW1lIjp7ImVuIjoiYzI3In0sInJvbGUiOiJjdXN0b21lciIsImFkZHJlc3MiOnsiY2l0eSI6IkVsIGJvc3RlbiIsInN0YXRlIjoiU2ZheCIsImNvdW50cnkiOiJUdW5pc2lhIn0sInNldHRpbmdzIjp7ImxhbmciOnsiYXBwIjoiZW4iLCJjb250ZW50IjoiZW4ifSwiY3VycmVuY3kiOiJ0bmQifSwiX2lkIjoiNjk2NDBlNjE3ZmQwOTU5Mjg5MGIzZTAzIiwic2hvcHMiOltdLCJiYWNrdXBQaG9uZXMiOltdLCJzdGF0ZSI6eyJjb2RlIjoiYWN0aXZlIiwidXBkYXRlZEF0IjoiMjAyNi0wMS0xMVQyMDo1NjowMS42ODBaIn0sImNyZWF0ZWRBdCI6IjIwMjYtMDEtMTFUMjA6NTY6MDEuNjgwWiIsInVwZGF0ZWRBdCI6IjIwMjYtMDEtMTFUMjA6NTY6MDEuNjgwWiIsIl9fdiI6MH0sInJlcSI6eyJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjEuMTEiLCJoZWFkZXJzIjp7InVzZXItYWdlbnQiOiJQb3N0bWFuUnVudGltZS83LjUxLjAifX0sImlhdCI6MTc2ODE2NDk2MSwiZXhwIjoxNzc1OTQwOTYxfQ.lMrV1CoHdwfQqyss8kK7vPsNoLuC0iEdW6I9R4vQs0I",
-                "type": "text"
+                "type": "text",
+                "disabled": true
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"basicInfos\": {\n        \"birthDate\": \"2025-12-20\",\n        \"biography\": \"hello im ahmed\"\n    },\n    \"contact\": {\n        \"phone\": {\n            \"fullNumber\": \"+21699112619\",\n            \"countryCode\": \"+216\",\n            \"shortNumber\": \"99112619\"\n        },\n        \"whatsapp\": \"+21699112619\",\n        \"backupPhones\": [\n            {\n                \"fullNumber\": \"+21699112645\",\n                \"countryCode\": \"+216\",\n                \"shortNumber\": \"99112645\"\n            }\n        ],\n        \"email\": \"derbala.ahmed531992@gmail.com\"\n    },\n    \"media\": {\n        \"thumbnail\": {\n            \"url\": \"https://scontent.ftun15-1.fna.fbcdn.net/v/t39.30808-6/480797900_9563147623771985_8782635803627400360_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=2-gC3oPiHS4Q7kNvwFY3O0G&_nc_oc=AdmlH6InV5Si-4qeF4tOdXPqDRv6f_GrylbaxqQ2BIWnM-nefUUvYmboLWW4yXXO8fO9OfHYQMtXrijmgv4CCldc&_nc_zt=23&_nc_ht=scontent.ftun15-1.fna&_nc_gid=hQZOtp4ueA685l1wgw6vsg&oh=00_AfqjHnRQKmgGRP9fMFwy4UPgBhMurmGTS8_afENErKefgQ&oe=6969E901\"\n        }\n    },\n    \"socialMedia\": {\n        \"facebook\": {\n            \"url\": \"https://www.facebook.com/derbala.ahmed92\",\n            \"username\": \"derbala.ahmed92\"\n        },\n        \"instagram\": {\n            \"url\": \"https://www.instagram.com/derbala.ahmed92/\",\n            \"username\": \"derbala.ahmed92\"\n        }\n    },\n    \"address\": {\n        \"street\": \"street 1\",\n        \"city\": \"ellouza\",\n        \"state\": \"sfax\",\n        \"postalCode\": \"3016\",\n        \"country\": \"Tunisia\"\n    },\n    \"settings\": {\n        \"lang\": \"en\",\n        \"currency\": \"tnd\"\n    }\n}",
+              "raw": "{\n    \"location\": {\n  \"type\": \"Point\",\n  \"coordinates\": [\n    9.8928,\n    35.9453\n  ],\n  \"sharingEnabled\": true,\n  \"createdAt\": {\n    \"$date\": \"2026-05-21T20:45:00.802Z\"\n  },\n  \"updatedAt\": {\n    \"$date\": \"2026-05-21T20:45:00.802Z\"\n  }\n}\n    /*\"media\": {\n        \"thumbnail\": {\n            \"user\": {\n                \"_id\": \"69e3e4e61cccf8cf64fb621e\",\n                \"slug\": \"ahmed\",\n                \"name\": {\n                    \"en\": \"Ahmed Derbala\"\n                },\n                \"role\": \"shop_owner\"\n            },\n            \"name\": \"drinaluza_liste_prix_13_19_avril_2026\",\n            \"originalname\": \"drinaluza_liste_prix_13_19_avril_2026.png\",\n            \"filename\": \"uploads/ptmfhjdpz2k9zi1mshcx\",\n            \"extension\": \"png\",\n            \"url\": \"https://res.cloudinary.com/dyhvqubig/image/upload/v1778845369/uploads/ptmfhjdpz2k9zi1mshcx.png\",\n            \"path\": \"https://res.cloudinary.com/dyhvqubig/image/upload/v1778845369/uploads/ptmfhjdpz2k9zi1mshcx.png\",\n            \"encoding\": \"7bit\",\n            \"mimetype\": \"image/png\",\n            \"size\": 2196205,\n            \"_id\": \"6a0706ba33751a1bf21ff961\",\n            \"linkedData\": [],\n            \"__v\": 0\n        }\n    }*/\n    /*\"basicInfos\": {\n        \"birthDate\": \"2025-12-20\",\n        \"biography\": \"hello im ahmed\"\n    },\n    \"contact\": {\n        \"phone\": {\n            \"fullNumber\": \"+21699112619\",\n            \"countryCode\": \"+216\",\n            \"shortNumber\": \"99112619\"\n        },\n        \"whatsapp\": \"+21699112619\",\n        \"backupPhones\": [\n            {\n                \"fullNumber\": \"+21699112645\",\n                \"countryCode\": \"+216\",\n                \"shortNumber\": \"99112645\"\n            }\n        ],\n        \"email\": \"derbala.ahmed531992@gmail.com\"\n    },\n    \n    \"socialMedia\": {\n        \"facebook\": {\n            \"url\": \"https://www.facebook.com/derbala.ahmed92\",\n            \"username\": \"derbala.ahmed92\"\n        },\n        \"instagram\": {\n            \"url\": \"https://www.instagram.com/derbala.ahmed92/\",\n            \"username\": \"derbala.ahmed92\"\n        }\n    },\n    \"address\": {\n        \"street\": \"street 1\",\n        \"city\": \"ellouza\",\n        \"state\": \"sfax\",\n        \"postalCode\": \"3016\",\n        \"country\": \"Tunisia\"\n    },\n    \"settings\": {\n        \"lang\": \"en\",\n        \"currency\": \"tnd\"\n    }*/\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -315,13 +322,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{drinaluza_url}}/api/products",
+              "raw": "{{drinaluza_url}}/api/products/drinaluza-octopus",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
-                "products"
+                "products",
+                "drinaluza-octopus"
               ]
             }
           },
@@ -343,7 +351,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"business\":{\n        \"slug\":\"business1\"\n    },\n    \"DefaultProduct\":{\n        \"slug\":\"shrimp\"\n    },\n    \"name\":\"shrimp\",\n    \"price\":{\n        \"value\":{\n            \"tnd\":5\n        },\n        \"unit\":{\n            \"name\":\"KG\"\n        }\n    }\n}",
+              "raw": "{\n    \"shop\":{\n        \"slug\":\"shop1\"\n    },\n    \"DefaultProduct\":{\n        \"slug\":\"shrimp\"\n    },\n    \"name\":\"shrimp\",\n    \"price\":{\n        \"value\":{\n            \"tnd\":5\n        },\n        \"unit\":{\n            \"name\":\"KG\"\n        }\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -359,6 +367,80 @@
                 "api",
                 "products",
                 ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/products/drinaluza-octopus",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": {\n        \"en\": \"octop\",\n        \"tn_latn\": \"Garnit\",\n        \"tn_arab\": \"قرنيط\"\n    },\n    \"availability\": {\n        \"endDate\": null,\n        \"startDate\": \"2026-05-22T19:41:34.832Z\"\n    },\n    \"stock\": {\n        \"quantity\": 1000,\n        \"minThreshold\": 100\n    },\n    \"media\": {\n        \"thumbnail\": {\n            \"url\": \"http://192.168.1.11:5001/public/default-products/octopus/thumbnail.jpeg\"\n        }\n    },\n    \"defaultProduct\": {\n        \"_id\": \"6a0f6ece7c9a0ab89c942a9a\",\n        \"slug\": \"octopus\"\n    },\n    \"slug\": \"drinaluza-octopus\",\n    \"price\": {\n        \"total\": {\n            \"tnd\": 10,\n            \"eur\": null,\n            \"usd\": null\n        }\n    },\n    \"unit\": {\n        \"measure\": \"kg\",\n        \"min\": 1,\n        \"max\": 10,\n        \"step\": 6\n    },\n    \"searchKeywords\": [\n        \"karnit\"\n    ],\n    \"state\": {\n        \"code\": \"active\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{drinaluza_url}}/api/products/drinaluza-octopus",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "drinaluza-octopus"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/products/drinaluza-octopus",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"qrcode\": {\n        \"user\": {\n            \"_id\": \"6a0f6ecccf226709fad8f0e9\",\n            \"slug\": \"ahmed\",\n            \"name\": {\n                \"en\": \"Ahmed Derbala\"\n            },\n            \"role\": \"business_owner\"\n        },\n        \"name\": \"crevette\",\n        \"originalname\": \"crevette.jpg\",\n        \"filename\": \"uploads/xa3zrbhc3fn2sxdzcwdo\",\n        \"extension\": \"jpg\",\n        \"url\": \"https://res.cloudinary.com/dyhvqubig/image/upload/v1779546921/uploads/xa3zrbhc3fn2sxdzcwdo.jpg\",\n        \"path\": \"https://res.cloudinary.com/dyhvqubig/image/upload/v1779546921/uploads/xa3zrbhc3fn2sxdzcwdo.jpg\",\n        \"encoding\": \"7bit\",\n        \"mimetype\": \"image/jpeg\",\n        \"size\": 1133807,\n        \"_id\": \"6a11bb29822461126d3542f6\",\n        \"linkedData\": [],\n        \"__v\": 0\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{drinaluza_url}}/api/products/drinaluza-octopus",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "drinaluza-octopus"
               ]
             }
           },
@@ -426,14 +508,47 @@
               }
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/sales/69d959994957e7ce49b84d36",
+              "raw": "{{drinaluza_url}}/api/sales/6a1456002223c50f8be80602",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "sales",
-                "69d959994957e7ce49b84d36"
+                "6a1456002223c50f8be80602"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/sales",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{drinaluza_url}}/api/sales?businessSlug=drinaluza",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "sales"
+              ],
+              "query": [
+                {
+                  "key": "businessSlug",
+                  "value": "drinaluza"
+                }
               ]
             }
           },
@@ -516,18 +631,24 @@
             "header": [
               {
                 "key": "token",
-                "value": "{{token_customer1}}",
+                "value": "{{abir_token}}",
                 "type": "text"
               }
             ],
             "url": {
-              "raw": "{{drinaluza_url}}/api/purchases",
+              "raw": "{{drinaluza_url}}/api/purchases?status=confirmed_by_business",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "purchases"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "confirmed_by_business"
+                }
               ]
             }
           },
@@ -543,7 +664,7 @@
             "header": [
               {
                 "key": "token",
-                "value": "{{c1_token}}",
+                "value": "{{abir_token}}",
                 "type": "text"
               }
             ],
@@ -612,10 +733,10 @@
       "name": "businesses",
       "item": [
         {
-          "name": "my-businesses",
+          "name": "my-shops",
           "item": [
             {
-              "name": "{{drinaluza_url}}/api/businesses/my-businesses/68bc90c8c7021fb548d0c3e8/orders/",
+              "name": "{{drinaluza_url}}/api/shops/my-shops/68bc90c8c7021fb548d0c3e8/orders/",
               "request": {
                 "auth": {
                   "type": "noauth"
@@ -629,14 +750,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{drinaluza_url}}/api/businesses/my-businesses/s2",
+                  "raw": "{{drinaluza_url}}/api/shops/my-shops/s2",
                   "host": [
                     "{{drinaluza_url}}"
                   ],
                   "path": [
                     "api",
-                    "businesses",
-                    "my-businesses",
+                    "shops",
+                    "my-shops",
                     "s2"
                   ]
                 }
@@ -644,7 +765,7 @@
               "response": []
             },
             {
-              "name": "{{drinaluza_url}}/api/businesses/my-businesses",
+              "name": "{{drinaluza_url}}/api/shops/my-shops",
               "request": {
                 "auth": {
                   "type": "noauth"
@@ -653,26 +774,26 @@
                 "header": [
                   {
                     "key": "token",
-                    "value": "{{token}}",
+                    "value": "{{ahmed_token}}",
                     "type": "text"
                   }
                 ],
                 "url": {
-                  "raw": "{{drinaluza_url}}/api/businesses/my-businesses",
+                  "raw": "{{drinaluza_url}}/api/shops/my-shops",
                   "host": [
                     "{{drinaluza_url}}"
                   ],
                   "path": [
                     "api",
-                    "businesses",
-                    "my-businesses"
+                    "shops",
+                    "my-shops"
                   ]
                 }
               },
               "response": []
             },
             {
-              "name": "{{drinaluza_url}}/api/businesses/my-businesses/68be1718f9ae59d0a910bc8c/products",
+              "name": "{{drinaluza_url}}/api/shops/my-shops/68be1718f9ae59d0a910bc8c/products",
               "request": {
                 "auth": {
                   "type": "noauth"
@@ -686,14 +807,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{drinaluza_url}}/api/businesses/my-businesses/68be1718f9ae59d0a910bc8c/products",
+                  "raw": "{{drinaluza_url}}/api/shops/my-shops/68be1718f9ae59d0a910bc8c/products",
                   "host": [
                     "{{drinaluza_url}}"
                   ],
                   "path": [
                     "api",
-                    "businesses",
-                    "my-businesses",
+                    "shops",
+                    "my-shops",
                     "68be1718f9ae59d0a910bc8c",
                     "products"
                   ]
@@ -732,7 +853,7 @@
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/businesses/create",
+          "name": "{{drinaluza_url}}/api/shops/create",
           "request": {
             "auth": {
               "type": "noauth"
@@ -747,7 +868,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"business1\",\n    \"address\": {\n        \"street\": \"street 1\",\n        \"city\": \"ellouza\",\n        \"state\": \"sfax\",\n        \"postalCode\": \"3016\",\n        \"country\": \"Tunisia\"\n    },\n    \"location\": {\n        \"coordinates\": [\n            2.2945, \n            48.8584 \n        ]\n    },\n    \"deliveryRadiusKm\":5\n}\n",
+              "raw": "{\n    \"name\": \"shop1\",\n    \"address\": {\n        \"street\": \"street 1\",\n        \"city\": \"ellouza\",\n        \"state\": \"sfax\",\n        \"postalCode\": \"3016\",\n        \"country\": \"Tunisia\"\n    },\n    \"location\": {\n        \"coordinates\": [\n            2.2945, \n            48.8584 \n        ]\n    },\n    \"deliveryRadiusKm\":5\n}\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -755,13 +876,13 @@
               }
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/businesses/",
+              "raw": "{{drinaluza_url}}/api/shops/",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
-                "businesses",
+                "shops",
                 ""
               ]
             }
@@ -769,7 +890,7 @@
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/businesses/6925c300293cef0f8f44fc02/products",
+          "name": "{{drinaluza_url}}/api/shops/6925c300293cef0f8f44fc02/products",
           "request": {
             "auth": {
               "type": "noauth"
@@ -777,13 +898,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{drinaluza_url}}/api/businesses/6925c300293cef0f8f44fc02/products",
+              "raw": "{{drinaluza_url}}/api/shops/6925c300293cef0f8f44fc02/products",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
-                "businesses",
+                "shops",
                 "6925c300293cef0f8f44fc02",
                 "products"
               ]
@@ -792,7 +913,7 @@
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/businesses/s1",
+          "name": "{{drinaluza_url}}/api/businesses/drinaluza",
           "request": {
             "auth": {
               "type": "noauth"
@@ -800,21 +921,21 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{drinaluza_url}}/api/businesses/s1",
+              "raw": "{{drinaluza_url}}/api/businesses/drinaluza",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "businesses",
-                "s1"
+                "drinaluza"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/businesses/s1/products",
+          "name": "{{drinaluza_url}}/api/shops/s1/products",
           "request": {
             "auth": {
               "type": "noauth"
@@ -822,15 +943,38 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{drinaluza_url}}/api/businesses/s1/products",
+              "raw": "{{drinaluza_url}}/api/businesses/drinaluza/products",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "businesses",
-                "s1",
+                "drinaluza",
                 "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/businesses/drinaluza/customers",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{drinaluza_url}}/api/businesses/drinaluza/customers",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "businesses",
+                "drinaluza",
+                "customers"
               ]
             }
           },
@@ -851,7 +995,7 @@
             "header": [
               {
                 "key": "token",
-                "value": "{{token}}",
+                "value": "{{ahmed_token}}",
                 "type": "text",
                 "disabled": true
               }
@@ -866,19 +1010,13 @@
               }
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/feed?filter=user",
+              "raw": "{{drinaluza_url}}/api/feed",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "feed"
-              ],
-              "query": [
-                {
-                  "key": "filter",
-                  "value": "user"
-                }
               ]
             }
           },
@@ -934,7 +1072,7 @@
               }
             ],
             "url": {
-              "raw": "{{drinaluza_url}}/api/purchases?status=cancelled_by_business",
+              "raw": "{{drinaluza_url}}/api/purchases?status=cancelled_by_shop",
               "host": [
                 "{{drinaluza_url}}"
               ],
@@ -945,7 +1083,7 @@
               "query": [
                 {
                   "key": "status",
-                  "value": "cancelled_by_business"
+                  "value": "cancelled_by_shop"
                 }
               ]
             }
@@ -955,7 +1093,7 @@
       ]
     },
     {
-      "name": "businesses",
+      "name": "businesses_old",
       "item": [
         {
           "name": "{{drinaluza_url}}/api/businesses/requests",
@@ -967,19 +1105,19 @@
             "header": [
               {
                 "key": "token",
-                "value": "{{token_customer1}}",
-                "type": "text",
-                "disabled": true
+                "value": "{{ahmed_token}}",
+                "type": "text"
               },
               {
                 "key": "token",
                 "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InNsdWciOiJjMiIsIm5hbWUiOiJjMiIsInJvbGUiOiJjdXN0b21lciIsImlzQWN0aXZlIjp0cnVlLCJzZXR0aW5ncyI6eyJsYW5nIjoiZW4iLCJjdXJyZW5jeSI6InRuZCIsInVwZGF0ZWRBdCI6IjIwMjUtMTItMTNUMTQ6MTE6MTguNzg1WiJ9LCJfaWQiOiI2OTNkNzQwNjIyMWJiOTI3YzcwZGI0MGUiLCJzaG9wcyI6W10sImNyZWF0ZWRBdCI6IjIwMjUtMTItMTNUMTQ6MTE6MTguNzg1WiIsInVwZGF0ZWRBdCI6IjIwMjUtMTItMTNUMTQ6MTE6MTguNzg1WiIsIl9fdiI6MH0sInJlcSI6eyJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjEuMTEiLCJoZWFkZXJzIjp7InVzZXItYWdlbnQiOiJQb3N0bWFuUnVudGltZS83LjQ5LjEifX0sImlhdCI6MTc2NTYzNTA3OCwiZXhwIjoxNzczNDExMDc4fQ.7jd9quss5-fMXEyNZN5S7-Z6dS2UkGN0QUYbYVlbJAc",
-                "type": "text"
+                "type": "text",
+                "disabled": true
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "",
+              "raw": "{\n    \"name\":{\n        \"en\":\"ahmed tabounet dalilsa2d2gk\"\n    },\n    \"address\":{\n        \"street\":\"ellouza\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1066,13 +1204,13 @@
             "header": [
               {
                 "key": "token",
-                "value": "{{so1_token}}",
+                "value": "{{ahmed_token}}",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\":{\n        \"en\":\"busi\"\n    }\n}",
+              "raw": "{\n    \"name\": {\n        \"en\": \"Drinaluza\",\n        \"tn_arab\": \"درينالوزا\",\n        \"tn_latn\": \"drinaluza\"\n    },\n    \"address\": {\n        \"street\": \"ellouza, tri9 douar\",\n        \"city\": \"Sfax\",\n        \"region\": \"Sfax\",\n        \"country\": \"Tunisia\"\n    },\n    \"location\": {\n        \"type\": \"Point\",\n        \"coordinates\": [\n            10.18,\n            36.8\n        ],\n        \"sharingEnabled\": false\n    },\n    \"media\": {\n        \"thumbnail\": {\n            \"user\": {\n                \"_id\": \"6a0f6ecccf226709fad8f0e9\",\n                \"slug\": \"ahmed\",\n                \"name\": {\n                    \"en\": \"Ahmed Derbala\"\n                },\n                \"role\": \"business_owner\"\n            },\n            \"name\": \"crevette\",\n            \"originalname\": \"crevette.jpg\",\n            \"filename\": \"uploads/egynfka6sgooo1gkn79b\",\n            \"extension\": \"jpg\",\n            \"url\": \"https://res.cloudinary.com/dyhvqubig/image/upload/v1779576233/uploads/egynfka6sgooo1gkn79b.jpg\",\n            \"path\": \"https://res.cloudinary.com/dyhvqubig/image/upload/v1779576233/uploads/egynfka6sgooo1gkn79b.jpg\",\n            \"encoding\": \"7bit\",\n            \"mimetype\": \"image/jpeg\",\n            \"size\": 1133807,\n            \"_id\": \"6a122daa4660b65263279b8d\"\n        }\n    },\n    \"contact\": {\n        \"phone\": {\n            \"fullNumber\": \"+21699112619\",\n            \"countryCode\": \"216\",\n            \"localNumber\": \"99112619\"\n        },\n        \"backupPhones\": [\n            {\n                \"fullNumber\": \"+21699111222\",\n                \"countryCode\": \"216\",\n                \"localNumber\": \"99111222\"\n            }\n        ],\n        \"whatsapp\": \"+21699112619\",\n        \"email\": \"drinaluza@gmail.com\"\n    },\n    \"qrcode\": {\n        \"_id\": \"6a1229604660b65263279b8b\",\n        \"name\": \"drinaluza_drinaluza_qrcode\",\n        \"url\": \"https://res.cloudinary.com/dyhvqubig/image/upload/v1779575136/uploads/f212rgwkiearczzdkyev.png\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1080,14 +1218,14 @@
               }
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/businesses/my-business",
+              "raw": "{{drinaluza_url}}/api/businesses/drinaluza",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "businesses",
-                "my-business"
+                "drinaluza"
               ]
             }
           },
@@ -1154,7 +1292,7 @@
       "name": "reviews",
       "item": [
         {
-          "name": "{{drinaluza_url}}/api/reviews/businesses/69e0370016020526ae36d58a",
+          "name": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
           "request": {
             "auth": {
               "type": "noauth"
@@ -1162,14 +1300,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{drinaluza_url}}/api/reviews/businesses/69e0370016020526ae36d58a",
+              "raw": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "reviews",
-                "businesses",
+                "shops",
                 "69e0370016020526ae36d58a"
               ]
             }
@@ -1177,7 +1315,7 @@
           "response": []
         },
         {
-          "name": "{{drinaluza_url}}/api/reviews/businesses/69e0370016020526ae36d58a",
+          "name": "{{drinaluza_url}}/api/reviews/shops/69e0370016020526ae36d58a",
           "request": {
             "auth": {
               "type": "noauth"
@@ -1201,21 +1339,332 @@
               }
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/reviews/businesses/69e0370016020526ae36d58a",
+              "raw": "{{drinaluza_url}}/api/reviews/shops/69e0e93e85fac1a9c66092db",
               "host": [
                 "{{drinaluza_url}}"
               ],
               "path": [
                 "api",
                 "reviews",
-                "businesses",
-                "69e0370016020526ae36d58a"
+                "shops",
+                "69e0e93e85fac1a9c66092db"
               ]
             }
           },
           "response": []
         }
       ]
+    },
+    {
+      "name": "restaurants",
+      "item": [
+        {
+          "name": "{{drinaluza_url}}/api/restaurants/restaurant1/tables",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\":{\n        \"en\":\"t2\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{drinaluza_url}}/api/restaurants/restaurant1/tables",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "restaurants",
+                "restaurant1",
+                "tables"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "files",
+      "item": [
+        {
+          "name": "New Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "files",
+                  "type": "file",
+                  "uuid": "3f265b03-b976-4396-847f-21a6416cc00a",
+                  "src": "/home/ahmed/Pictures/abir.png"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "uuid": "434e8b83-9ded-4624-90c3-12568128f0d9",
+                  "src": "/home/ahmed/Pictures/plate_1.jpg",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{drinaluza_url}}/api/files/upload?fileType=image",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "files",
+                "upload"
+              ],
+              "query": [
+                {
+                  "key": "fileType",
+                  "value": "image"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "item": [
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{drinaluza_url}}/api/dashboard/business/ahmed-tabounet-dalilsa2d2gk",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "dashboard",
+                "business",
+                "ahmed-tabounet-dalilsa2d2gk"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/dashboard/",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{drinaluza_url}}/api/dashboard/",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "dashboard",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/dashboard/profiles",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{drinaluza_url}}/api/dashboard/profiles",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "dashboard",
+                "profiles"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/dashboard/personal",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{drinaluza_url}}/api/dashboard/personal",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "dashboard",
+                "personal"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "New Folder",
+      "item": []
+    },
+    {
+      "name": "restaurants",
+      "item": [
+        {
+          "name": "{{drinaluza_url}}/api/restaurants/",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{drinaluza_url}}/api/restaurants/",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "restaurants",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/restaurants/",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{ahmed_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": {\"en\":\"restaurant2\"},\n    \"address\": {\n        \"street\": \"street 1\",\n        \"city\": \"ellouza\",\n        \"state\": \"sfax\",\n        \"postalCode\": \"3016\",\n        \"country\": \"Tunisia\"\n    },\n    \"location\": {\n        \"coordinates\": [\n            2.2945, \n            48.8584 \n        ]\n    },\n    \"deliveryRadiusKm\":5\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{drinaluza_url}}/api/restaurants/",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "restaurants",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{drinaluza_url}}/api/restaurants/restaurant1/tables",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{drinaluza_url}}/api/restaurants/restaurant1/tables",
+              "host": [
+                "{{drinaluza_url}}"
+              ],
+              "path": [
+                "api",
+                "restaurants",
+                "restaurant1",
+                "tables"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
     }
   ]
 }
