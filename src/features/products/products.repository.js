@@ -5,7 +5,10 @@ import { log } from '../../core/log/index.js'
 import { flattenObject } from '../../core/helpers/filters.js'
 
 export const updateProductRepo = async ({ match, newData }) => {
-	return ProductModel.findOneAndUpdate(match, newData, { returnDocument: 'after' })
+	const flattenedMatch = flattenObject(match)
+	match = { ...flattenedMatch }
+	const updatedProduct = await ProductModel.findOneAndUpdate(match, newData, { returnDocument: 'after' })
+	return updatedProduct
 }
 
 export const findOneProductRepo = async ({ match, select }) => {

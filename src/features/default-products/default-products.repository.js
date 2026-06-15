@@ -9,15 +9,9 @@ export const findOneDefaultProductRepo = async ({ match, select }) => {
 	return DefaultProductModel.findOne(match).select(select).lean()
 }
 export const findDefaultProductsRepo = async ({ page, limit }) => {
-	try {
-		//const flattenedMatch = flattenObject({ obj: match })
-		//const fetchedManyDefaultProducts = paginateMongodb({ model: DefaultProductModel, match: { ...flattenedMatch }, select, page, limit })
-		const fetchedManyDefaultProducts = paginateMongodb({ model: DefaultProductModel, page, limit })
-
-		return fetchedManyDefaultProducts
-	} catch (err) {
-		errorHandler({ err })
-	}
+	//const flattenedMatch = flattenObject({ obj: match })
+	//const fetchedManyDefaultProducts = paginateMongodb({ model: DefaultProductModel, match: { ...flattenedMatch }, select, page, limit })
+	return paginateMongodb({ model: DefaultProductModel, page, limit })
 }
 
 export const createDefaultProductRepo = async ({ name, slug, media, searchKeywords }) => {

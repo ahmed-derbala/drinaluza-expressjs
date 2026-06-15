@@ -17,7 +17,7 @@ export const findDefaultProductsSrvc = async ({ page, limit }) => {
 		errorHandler({ err })
 	}
 }
-console.log(`${config.backend.url}`)
+
 export const createDefaultProductSrvc = async ({ name, slug, media, searchKeywords }) => {
 	if (!slug) {
 		slug = processSlug(name.en)

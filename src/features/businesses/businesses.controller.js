@@ -6,7 +6,6 @@ import { authenticate } from '../../core/auth/index.js'
 import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
 import { createBusinessVld } from './businesses.validator.js'
 import { validate } from '../../core/validation/index.js'
-import { stateEnum } from '../../core/db/mongodb/shared-schemas/state.schema.js'
 import { log } from '../../core/log/index.js'
 import { USER_ROLES } from '../users/users.enum.js'
 import config from '#config'
@@ -62,7 +61,7 @@ router
 			if (!myBusiness) {
 				myBusiness = await createBusinessSrvc({ owner })
 			}
-			if (myBusiness && myBusiness.state.code != stateEnum.ACTIVE) {
+			if (myBusiness && myBusiness.state.code != STATES.ACTIVE) {
 				return resp({ status: 409, data: { message: `Business is ${myBusiness.state.code}` }, req, res })
 			}
 

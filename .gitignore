@@ -1,6 +1,9 @@
-#envs
+#env
+envs/
 .env
-
+.env.prod
+.env.dev
+.env.local
 
 #uploaded files
 uploads/

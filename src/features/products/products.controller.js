@@ -83,8 +83,10 @@ router
 		authenticate({ roles: [USER_ROLES.BUSINESS_OWNER] }),
 		async (req, res) => {
 			try {
-				const product = await updateProductSrvc({ match: { slug: req.params.productSlug }, newData: req.body })
-				return resp({ status: 200, data: product, req, res })
+				let statusCode = 200
+				const product = await updateProductSrvc({ match: { slug: req.params.productSlug, business: { owner: { _id: req.user._id } } }, newData: req.body })
+				if (!product) statusCode = 409
+				return resp({ status: statusCode, data: product, req, res })
 			} catch (err) {
 				errorHandler({ err, req, res })
 			}

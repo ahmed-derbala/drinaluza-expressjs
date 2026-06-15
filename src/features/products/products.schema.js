@@ -50,8 +50,7 @@ const ProductSchema = new mongoose.Schema(
 			}
 		},
 		media: MediaSchema,
-		rating: { type: RatingSubschema, required: false, _id: false, default: () => ({}) },
-		qrcode: FileRefSchema
+		rating: { type: RatingSubschema, required: false, _id: false, default: () => ({}) }
 	},
 	{ timestamps: true, collection: productsCollection }
 )

@@ -1,26 +1,22 @@
 import mongoose from 'mongoose'
 
-export const stateEnum = {
+export const STATES = {
 	PENDING: 'pending',
 	ACTIVE: 'active',
-	INACTIVE: 'inactive',
 	SUSPENDED: 'suspended',
 	DELETED: 'deleted',
-	AVAILABLE: 'available',
-	OCCUPIED: 'occupied',
-	CANCELLED: 'cancelled',
 	REJECTED: 'rejected',
-	APPROVED: 'approved',
-	RESERVED: 'reserved',
-	ALL: ['pending', 'active', 'inactive', 'suspended', 'deleted', 'available', 'occupied', 'cancelled', 'rejected', 'approved', 'reserved']
+	APPROVED: 'approved'
 }
+
+const STATES_ALL = Object.freeze(Object.values(STATES))
 
 export const StateSchema = new mongoose.Schema(
 	{
 		code: {
 			type: String,
-			enum: stateEnum.ALL,
-			default: stateEnum.ACTIVE,
+			enum: STATES_ALL,
+			default: STATES.ACTIVE,
 			required: true
 		}
 	},
