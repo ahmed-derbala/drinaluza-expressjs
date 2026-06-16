@@ -1,6 +1,6 @@
 import * as expressValidator from 'express-validator'
 const { checkSchema, body, query, oneOf, param } = expressValidator
-import { orderStatusEnum } from '../orders/orders.enum.js'
+import { ORDER_STATUSES } from '#orders/orders.constant.js'
 
 export const createOrderVld = [
 	//body('business').isObject().notEmpty(),
@@ -12,4 +12,4 @@ export const createOrderVld = [
 
 export const getSalesVld = [query('businessSlug').notEmpty().isString().trim()]
 
-export const patchOrderStatusVld = [body('status').isIn(Object.values(orderStatusEnum))]
+export const patchOrderStatusVld = [body('status').isIn(Object.values(ORDER_STATUSES))]

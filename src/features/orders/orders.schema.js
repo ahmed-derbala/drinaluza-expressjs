@@ -2,9 +2,8 @@ import mongoose from 'mongoose'
 import { CustomerSchema } from '../users/schemas/customer.schema.js'
 import { ProductRefSchema } from '../products/schemas/product-ref.schema.js'
 import { BusinessRefSchema } from '../businesses/schemas/business-ref.schema.js'
-import { orderStatusEnum } from './orders.enum.js'
 import { CurrenciesSubSchema, PriceSubSchema } from '#core'
-import { ORDER_KINDS, ORDER_KINDS_ALL } from './orders.constant.js'
+import { ORDER_KINDS, ORDER_KINDS_ALL, ORDER_STATUSES, ORDER_STATUSES_ALL } from './orders.constant.js'
 import { RestaurantOrderSchema } from './schemas/restaurant-order.schema.js'
 export const ordersCollection = 'orders'
 
@@ -24,12 +23,12 @@ const OrderSchema = new mongoose.Schema(
 		products: OrderProductsSchema,
 		status: {
 			type: String,
-			enum: orderStatusEnum,
-			default: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION,
+			enum: ORDER_STATUSES_ALL(),
+			default: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION,
 			required: true
 		},
 		price: PriceSubSchema,
-		kind: { type: String, enum: ORDER_KINDS_ALL(), required: true, default: ORDER_KINDS.TABLE }
+		kind: { type: String, enum: ORDER_KINDS_ALL(), required: true, default: ORDER_KINDS.PICKUP }
 	},
 	{ collection: ordersCollection, timestamps: true, discriminatorKey: 'kind' }
 )

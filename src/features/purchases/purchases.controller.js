@@ -6,7 +6,7 @@ import { authenticate } from '../../core/auth/index.js'
 import { createPurchaseVld, patchOrderStatusVld } from './purchases.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
-import { orderStatusEnum } from '../orders/orders.enum.js'
+import { ORDER_STATUSES } from '#orders/orders.constant.js'
 import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { processLineTotalSrvc, createPurchaseSrvc } from './purchases.service.js'
 import { log } from '../../core/log/index.js'
@@ -63,7 +63,7 @@ router
 			}
 
 			//check if there is alreay pending purchases from that business
-			const purchases = await findOrdersSrvc({ match: { customer: { _id: customer._id }, business: { _id: business._id }, status: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION } })
+			const purchases = await findOrdersSrvc({ match: { customer: { _id: customer._id }, business: { _id: business._id }, status: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION } })
 			if (purchases.docs.length > 0) {
 				//TODO: check each product has the still the same price as in db
 				//if yes just add quantity
@@ -75,7 +75,7 @@ router
 				//const updatedOrder = await updateOrderSrvc({ orderId: purchase._id, data: { products } })
 				//return resp({ status: 200, data: updatedOrder, req, res })
 			}
-			const data = { customer, business, products, price, status: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION }
+			const data = { customer, business, products, price, status: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION }
 			const createPurchase = await createPurchaseSrvc(data)
 			return resp({ status: 201, data: createPurchase, req, res })
 		} catch (err) {

@@ -61,7 +61,7 @@ router
 			}
 			business = await findOneBusinessSrvc({ match: { slug: business.slug }, select: '' })
 			if (!business) return resp({ status: 202, message: 'business not found', data: null, req, res })
-			const data = { customer, business, products, status: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION }
+			const data = { customer, business, products, status: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION }
 			const createdOrder = await createOrderSrvc({ data })
 			return resp({ status: 201, data: createdOrder, req, res })
 		} catch (err) {

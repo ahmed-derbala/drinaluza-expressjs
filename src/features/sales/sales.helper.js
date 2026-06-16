@@ -1,4 +1,4 @@
-import { orderStatusEnum } from '../orders/orders.enum.js'
+import { ORDER_STATUSES } from '#orders/orders.constant.js'
 
 /**
  * Defines the complete set of valid sale status transitions.
@@ -6,52 +6,52 @@ import { orderStatusEnum } from '../orders/orders.enum.js'
  */
 const validTransitions = {
 	// Initial and main progression states
-	[orderStatusEnum.PENDING_BUSINESS_CONFIRMATION]: [
-		orderStatusEnum.CONFIRMED_BY_BUSINESS,
-		orderStatusEnum.CANCELLED_BY_BUSINESS,
+	[ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION]: [
+		ORDER_STATUSES.CONFIRMED_BY_BUSINESS,
+		ORDER_STATUSES.CANCELLED_BY_BUSINESS,
 		// Allow user to cancel before business confirms
-		orderStatusEnum.CANCELLED_BY_CUSTOMER
+		ORDER_STATUSES.CANCELLED_BY_CUSTOMER
 	],
 
-	[orderStatusEnum.CONFIRMED_BY_BUSINESS]: [
-		orderStatusEnum.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER,
-		orderStatusEnum.DELIVERING_TO_CUSTOMER,
-		orderStatusEnum.CANCELLED_BY_BUSINESS,
+	[ORDER_STATUSES.CONFIRMED_BY_BUSINESS]: [
+		ORDER_STATUSES.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER,
+		ORDER_STATUSES.DELIVERING_TO_CUSTOMER,
+		ORDER_STATUSES.CANCELLED_BY_BUSINESS,
 		// Allow user to cancel after business confirms
-		orderStatusEnum.CANCELLED_BY_CUSTOMER
+		ORDER_STATUSES.CANCELLED_BY_CUSTOMER
 	],
 
 	// Pickup flow states
-	[orderStatusEnum.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER]: [
-		orderStatusEnum.RECEIVED_BY_CUSTOMER, // Pickup successful
-		orderStatusEnum.RESERVATION_EXPIRED,
-		orderStatusEnum.CANCELLED_BY_BUSINESS,
-		orderStatusEnum.CANCELLED_BY_CUSTOMER
+	[ORDER_STATUSES.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER]: [
+		ORDER_STATUSES.RECEIVED_BY_CUSTOMER, // Pickup successful
+		ORDER_STATUSES.RESERVATION_EXPIRED,
+		ORDER_STATUSES.CANCELLED_BY_BUSINESS,
+		ORDER_STATUSES.CANCELLED_BY_CUSTOMER
 	],
 
 	// Delivery flow states
-	[orderStatusEnum.DELIVERING_TO_CUSTOMER]: [orderStatusEnum.DELIVERED_TO_CUSTOMER, orderStatusEnum.CANCELLED_BY_BUSINESS, orderStatusEnum.CANCELLED_BY_CUSTOMER],
+	[ORDER_STATUSES.DELIVERING_TO_CUSTOMER]: [ORDER_STATUSES.DELIVERED_TO_CUSTOMER, ORDER_STATUSES.CANCELLED_BY_BUSINESS, ORDER_STATUSES.CANCELLED_BY_CUSTOMER],
 
-	[orderStatusEnum.DELIVERED_TO_CUSTOMER]: [
-		orderStatusEnum.RECEIVED_BY_CUSTOMER, // Customer confirmed receipt
-		orderStatusEnum.CANCELLED_BY_BUSINESS // Business cancels even after delivery attempt (e.g., failed delivery, return initiated)
+	[ORDER_STATUSES.DELIVERED_TO_CUSTOMER]: [
+		ORDER_STATUSES.RECEIVED_BY_CUSTOMER, // Customer confirmed receipt
+		ORDER_STATUSES.CANCELLED_BY_BUSINESS // Business cancels even after delivery attempt (e.g., failed delivery, return initiated)
 	],
 
 	// Final successful state
-	[orderStatusEnum.RECEIVED_BY_CUSTOMER]: [
+	[ORDER_STATUSES.RECEIVED_BY_CUSTOMER]: [
 		// No further transitions from a final successful state (unless a return/refund process is introduced)
 	],
 
 	// Final failed/exception states
-	[orderStatusEnum.RESERVATION_EXPIRED]: [
+	[ORDER_STATUSES.RESERVATION_EXPIRED]: [
 		// No further transitions from an expired state
 	],
 
-	[orderStatusEnum.CANCELLED_BY_CUSTOMER]: [
+	[ORDER_STATUSES.CANCELLED_BY_CUSTOMER]: [
 		// No further transitions from a final cancellation state
 	],
 
-	[orderStatusEnum.CANCELLED_BY_BUSINESS]: [
+	[ORDER_STATUSES.CANCELLED_BY_BUSINESS]: [
 		// No further transitions from a final cancellation state
 	]
 }
@@ -69,7 +69,7 @@ export const validateSaleStatusTransition = (oldStatus, newStatus) => {
 
 	if (!possibleNextStatuses) {
 		// Log an error/warning if the oldStatus is not a recognized enum value
-		if (!Object.values(orderStatusEnum).includes(oldStatus)) {
+		if (!Object.values(ORDER_STATUSES).includes(oldStatus)) {
 			console.error(`Unrecognized oldStatus: ${oldStatus}`)
 		}
 		return false

@@ -2,7 +2,7 @@ import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
 import config from '../../config/index.js'
 import { findOneOrderRepo, patchOrderStatusRepo, appendProductsToOrderRepo } from './purchases.repository.js'
-import { orderStatusEnum } from '../orders/orders.enum.js'
+import { ORDER_STATUSES } from '#orders/orders.constant.js'
 import { createdOrderRepo } from '../orders/orders.repository.js'
 import { notify } from '../../core/notifications/index.js'
 
@@ -47,24 +47,24 @@ export const appendProductsToOrderSrvc = async ({ orderId, products }) => {
  */
 export function validateSaleStatusTransition(oldStatus, newStatus) {
 	const allowedTransitions = {
-		[orderStatusEnum.PENDING_BUSINESS_CONFIRMATION]: [orderStatusEnum.CONFIRMED_BY_BUSINESS, orderStatusEnum.CANCELLED_BY_BUSINESS, orderStatusEnum.CANCELLED_BY_CUSTOMER],
-		[orderStatusEnum.CONFIRMED_BY_BUSINESS]: [
-			orderStatusEnum.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER,
-			orderStatusEnum.DELIVERING_TO_CUSTOMER,
-			orderStatusEnum.CANCELLED_BY_BUSINESS,
-			orderStatusEnum.CANCELLED_BY_CUSTOMER // <--- Added this line
+		[ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION]: [ORDER_STATUSES.CONFIRMED_BY_BUSINESS, ORDER_STATUSES.CANCELLED_BY_BUSINESS, ORDER_STATUSES.CANCELLED_BY_CUSTOMER],
+		[ORDER_STATUSES.CONFIRMED_BY_BUSINESS]: [
+			ORDER_STATUSES.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER,
+			ORDER_STATUSES.DELIVERING_TO_CUSTOMER,
+			ORDER_STATUSES.CANCELLED_BY_BUSINESS,
+			ORDER_STATUSES.CANCELLED_BY_CUSTOMER // <--- Added this line
 		],
-		[orderStatusEnum.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER]: [
-			orderStatusEnum.RECEIVED_BY_CUSTOMER,
-			orderStatusEnum.RESERVATION_EXPIRED,
-			orderStatusEnum.CANCELLED_BY_CUSTOMER // Often allowed if they haven't picked it up yet
+		[ORDER_STATUSES.RESERVED_BY_BUSINESS_FOR_PICKUP_BY_CUSTOMER]: [
+			ORDER_STATUSES.RECEIVED_BY_CUSTOMER,
+			ORDER_STATUSES.RESERVATION_EXPIRED,
+			ORDER_STATUSES.CANCELLED_BY_CUSTOMER // Often allowed if they haven't picked it up yet
 		],
-		[orderStatusEnum.DELIVERING_TO_CUSTOMER]: [orderStatusEnum.DELIVERED_TO_CUSTOMER, orderStatusEnum.CANCELLED_BY_BUSINESS],
-		[orderStatusEnum.DELIVERED_TO_CUSTOMER]: [orderStatusEnum.RECEIVED_BY_CUSTOMER],
-		[orderStatusEnum.RECEIVED_BY_CUSTOMER]: [],
-		[orderStatusEnum.RESERVATION_EXPIRED]: [],
-		[orderStatusEnum.CANCELLED_BY_CUSTOMER]: [],
-		[orderStatusEnum.CANCELLED_BY_BUSINESS]: []
+		[ORDER_STATUSES.DELIVERING_TO_CUSTOMER]: [ORDER_STATUSES.DELIVERED_TO_CUSTOMER, ORDER_STATUSES.CANCELLED_BY_BUSINESS],
+		[ORDER_STATUSES.DELIVERED_TO_CUSTOMER]: [ORDER_STATUSES.RECEIVED_BY_CUSTOMER],
+		[ORDER_STATUSES.RECEIVED_BY_CUSTOMER]: [],
+		[ORDER_STATUSES.RESERVATION_EXPIRED]: [],
+		[ORDER_STATUSES.CANCELLED_BY_CUSTOMER]: [],
+		[ORDER_STATUSES.CANCELLED_BY_BUSINESS]: []
 	}
 
 	const validNextSteps = allowedTransitions[oldStatus]

@@ -6,7 +6,7 @@ import { authenticate } from '../../core/auth/index.js'
 import { createOrderVld, patchOrderStatusVld, getSalesVld } from './sales.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
-import { orderStatusEnum } from '../orders/orders.enum.js'
+import { ORDER_STATUSES } from '#orders/orders.constant.js'
 import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { calculateFinalPriceSrvc } from './sales.service.js'
 import { log } from '../../core/log/index.js'
@@ -55,7 +55,7 @@ router
 			}
 			business = await findOneBusinessSrvc({ match: { slug: business.slug }, select: '' })
 			if (!business) return resp({ status: 202, message: 'business not found', data: null, req, res })
-			const data = { customer, business, products, status: orderStatusEnum.PENDING_BUSINESS_CONFIRMATION }
+			const data = { customer, business, products, status: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION }
 			const createdOrder = await createOrderSrvc({ data })
 			return resp({ status: 201, data: createdOrder, req, res })
 		} catch (err) {

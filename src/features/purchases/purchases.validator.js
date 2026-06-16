@@ -1,6 +1,6 @@
 import * as expressValidator from 'express-validator'
 const { checkSchema, body, query, oneOf, param } = expressValidator
-import { orderStatusEnum } from '../orders/orders.enum.js'
+import { ORDER_STATUSES } from '#orders/orders.constant.js'
 
 export const createPurchaseVld = [
 	//body('business').isObject().notEmpty(),
@@ -11,4 +11,4 @@ export const createPurchaseVld = [
 	//body('products.*.product._id').isMongoId().withMessage('Each item must have a valid MongoDB ObjectId in _id field')
 ]
 
-export const patchOrderStatusVld = [body('status').isIn(Object.values(orderStatusEnum))]
+export const patchOrderStatusVld = [body('status').isIn(Object.values(ORDER_STATUSES))]
