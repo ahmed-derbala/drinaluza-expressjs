@@ -3,7 +3,6 @@ import { log } from '../../core/log/index.js'
 import { createUserRepo, findOneUserRepo, updateUserRepo, addBusinessToUserRepo, findMyProfileRepo, updateMyProfileRepo, findUsersRepo } from './users.repository.js'
 import { createBusinessSrvc, findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { customerSelect } from './schemas/customer.schema.js'
-import { createFeedSrvc } from '../feed/feed.service.js'
 import { usersCollection } from './users.constant.js'
 import { updateOneCardFeedRepo } from '../feed/feed.repository.js'
 import { createPersonalDashboardSrvc } from '../dashboard/dashboard.service.js'
@@ -68,14 +67,6 @@ export const createUserSrvc = async ({ slug, name, role, contact, address, locat
 	if (!address) address = {}
 	const user = await createUserRepo({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos })
 	if (!user) return null
-	if (user.role === 'business_owner') {
-		/*let business=await findOneBusinessSrvc({owner:{slug:user.slug}})
-		if(!business){
-		 business = await createBusinessSrvc({ owner: user })
-		}
-				*/
-		createFeedSrvc({ targetData: user, targetResource: usersCollection, targetId: user._id, card: { kind: 'user' } })
-	}
 	await createPersonalDashboardSrvc({ user, kind: 'personal' })
 	return user
 }

@@ -24,19 +24,15 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
-	.patch(
-		authenticate(),
-		//validate(patchMyProfileVld),
-		async (req, res) => {
-			try {
-				const user = req.user
-				const myUpdatedProfile = await updateMyProfileSrvc({ user, newData: req.body })
-				return resp({ status: 200, data: myUpdatedProfile, req, res })
-			} catch (err) {
-				errorHandler({ err, req, res })
-			}
+	.patch(authenticate(), validate(patchMyProfileVld), async (req, res) => {
+		try {
+			const user = req.user
+			const myUpdatedProfile = await updateMyProfileSrvc({ user, newData: req.body })
+			return resp({ status: 200, data: myUpdatedProfile, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
 		}
-	)
+	})
 
 router
 	.route('/:userSlug/profile')

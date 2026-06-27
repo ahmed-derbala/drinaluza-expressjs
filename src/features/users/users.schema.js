@@ -28,7 +28,7 @@ export const UserBasicInfosSchema = new mongoose.Schema(
 
 const UserSchema = new mongoose.Schema({
 	slug: { type: String, required: true },
-	name: MultiLangSchema,
+	name: { type: MultiLangSchema, required: true },
 	role: {
 		type: String,
 		enum: USER_ROLES.ALL,

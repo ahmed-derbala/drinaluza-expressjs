@@ -62,15 +62,16 @@ const users = [
 			}
 		},
 		location: {
-			type: 'Point',
 			sharingEnabled: true,
-			coordinates: [
-				parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
-				parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
-			]
+			geo: {
+				coordinates: [
+					parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
+					parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
+				],
+				type: 'Point'
+			}
 		}
 	},
-
 	{
 		slug: 'souha',
 		password: '123',
@@ -82,13 +83,6 @@ const users = [
 		password: '123',
 		role: 'customer',
 		name: { en: 'Rached Fourati' }
-		/*location: {
-			sharingEnabled: true,
-			coordinates: [
-				parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
-				parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
-			]
-		}*/
 	},
 	{
 		slug: 'brahim',

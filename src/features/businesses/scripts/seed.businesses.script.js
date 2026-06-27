@@ -23,7 +23,10 @@ let manualBusinesses = [
 			country: country
 		},
 		location: {
-			coordinates: [10.18, 36.8]
+			geo: {
+				type: 'Point',
+				coordinates: [10.18, 36.8]
+			}
 		},
 		deliveryRadiusKm: Math.floor(Math.random() * 20) + 5, // 5-25 km
 		state: { code: 'active' },
@@ -69,7 +72,10 @@ let manualBusinesses = [
 			country
 		},
 		location: {
-			coordinates: [10.18, 36.8]
+			geo: {
+				type: 'Point',
+				coordinates: [10.18, 36.8]
+			}
 		},
 		deliveryRadiusKm: Math.floor(Math.random() * 20) + 5, // 5-25 km
 		state: { code: 'active' },
