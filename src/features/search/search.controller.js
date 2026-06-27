@@ -7,22 +7,27 @@ import { searchVld } from './search.validator.js'
 import { searchProductsSrvc } from './search.service.js'
 const router = express.Router()
 
-router.route('/').post(authenticate({ tokenRequired: false }), validate(searchVld), async (req, res) => {
-	try {
-		let { page = 1, limit = 10 } = req.query
+router.route('/').get(
+	//authenticate({ tokenRequired: false }),
+	validate(searchVld),
+	async (req, res) => {
+		try {
+			let { page = 1, limit = 10, q, scopes } = req.query
+			if (!scopes) {
+				scopes = ['products']
+			}
 
-		const { text, components } = req.body
+			let searchResults = {}
+			if (scopes.includes('products')) {
+				const productsSearch = await searchProductsSrvc({ text: q, select: '', page, limit })
+				searchResults = productsSearch
+			}
 
-		let searchResults = {}
-		if (components.includes('products')) {
-			const productsSearch = await searchProductsSrvc({ text, select: '', page, limit })
-			searchResults = productsSearch
+			return resp({ status: 200, data: searchResults, req, res })
+		} catch (err) {
+			return errorHandler({ err, req, res })
 		}
-
-		return resp({ status: 200, data: searchResults, req, res })
-	} catch (err) {
-		return errorHandler({ err, req, res })
 	}
-})
+)
 
 export default router

@@ -2,8 +2,8 @@ import * as expressValidator from 'express-validator'
 const { checkSchema, body, query, oneOf } = expressValidator
 
 export const searchVld = [
-	body('text').trim().isString(),
-	body('components')
+	query('q').trim().isString().notEmpty()
+	/*query('scopes')
 		.trim()
 		.isArray()
 		.notEmpty()
@@ -14,5 +14,5 @@ export const searchVld = [
 				throw new Error(`Invalid components: ${invalidComponents.join(', ')}`)
 			}
 			return true
-		})
+		})*/
 ]
