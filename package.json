@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.3.36",
+  "version": "1.3.37",
   "main": "src/main.js",
   "description": "Drinaluza, business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -68,6 +68,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "push": "npm run format && git add . && git commit -m",
     "postpush": "git push && npm run ver",
+    "pushd":"npm run push",
     "pull": "git pull origin main && npm run i && npm run start:local",
     "i": "npm i",
     "i:prod": "NODE_ENV=production npm ci --omit=dev",

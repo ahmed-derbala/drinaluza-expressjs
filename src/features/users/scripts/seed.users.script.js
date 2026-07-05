@@ -60,16 +60,6 @@ const users = [
 			thumbnail: {
 				url: abir_photo_url
 			}
-		},
-		location: {
-			sharingEnabled: true,
-			geo: {
-				coordinates: [
-					parseFloat((Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0]).toFixed(4)),
-					parseFloat((Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0]).toFixed(4))
-				],
-				type: 'Point'
-			}
 		}
 	},
 	{

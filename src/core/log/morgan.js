@@ -41,6 +41,9 @@ morgan.token('nl', (req) => {
 morgan.token('origin', (req) => {
 	return req.headers.origin
 })
+morgan.token('user-agent', (req) => {
+	return req.headers['user-agent']
+})
 morgan.token('ip', (req) => {
 	return req.ip
 })
