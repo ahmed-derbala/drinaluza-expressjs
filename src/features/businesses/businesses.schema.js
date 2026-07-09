@@ -22,13 +22,11 @@ const businessSchema = new mongoose.Schema(
 			type: AddressSchema
 		},
 		location: LocationSchema,
-		deliveryRadiusKm: Number,
 		state: StateSchema,
 		media: { type: MediaSchema, required: false, default: () => ({}) },
 		contact: ContactSchema,
 		rating: { type: RatingSubschema, required: false, _id: false },
-		kind: { type: String, enum: BUSINESS_KINDS.ALL, required: true, default: BUSINESS_KINDS.SEAFOOD_MARKET },
-		qrcode: FileRefSchema
+		kind: { type: String, enum: BUSINESS_KINDS.ALL, required: true, default: BUSINESS_KINDS.SEAFOOD_MARKET }
 	},
 	{ timestamps: true, collection: businessesCollection, discriminatorKey: 'kind' }
 )

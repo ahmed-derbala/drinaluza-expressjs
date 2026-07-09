@@ -32,7 +32,7 @@ export const createBusinessSrvc = async ({ name, address, location, owner, media
 	log({ level: 'debug', message: 'createBusinessSrvc', data: { name, address, location, owner, media } })
 	const business = await createBusinessRepo({ name, address, location, owner, media, contact, rating, kind })
 	if (business) {
-		await createFeedSrvc({ targetData: business, targetResource: businessesCollection, targetId: business._id, card: { kind: 'business' } })
+		//await createFeedSrvc({ targetData: business, targetResource: businessesCollection, targetId: business._id, card: { kind: 'business' } })
 		await createBusinessDashboardSrvc({ user: owner, business, kind: 'business' })
 	}
 	return business

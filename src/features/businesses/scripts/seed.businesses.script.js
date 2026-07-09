@@ -12,6 +12,7 @@ const scriptFilename = path.basename(__filename)
 
 const country = 'Tunisia',
 	city = 'Sfax'
+const drinaluza_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1783638507/uploads/cdyivmike6xfgfvmzcsx.png'
 
 let manualBusinesses = [
 	{
@@ -46,10 +47,11 @@ let manualBusinesses = [
 			email: `drinaluza@gmail.com`,
 			whatsapp: `+21699112619`
 		},
-		/*media: {
+		media: {
 			thumbnail: {
+				url: drinaluza_logo
 			}
-		},*/
+		},
 		rating: {
 			average: 0,
 			count: 0,
