@@ -4,9 +4,7 @@ export const STATES = {
 	PENDING: 'pending',
 	ACTIVE: 'active',
 	SUSPENDED: 'suspended',
-	DELETED: 'deleted',
-	REJECTED: 'rejected',
-	APPROVED: 'approved'
+	DELETED: 'deleted'
 }
 
 const STATES_ALL = Object.freeze(Object.values(STATES))
