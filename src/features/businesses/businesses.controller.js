@@ -137,11 +137,11 @@ router.route('/my-businesses/:businessSlug/products').get(authenticate(), async 
 router.route('/my-businesses/:businessId/products/create').post(authenticate(), async (req, res) => {
 	try {
 		const businessId = req.params.businessId
-		const { name, price, photos, searchKeywords, availability, stock } = req.body
+		const { name, price, searchKeywords, availability, stock } = req.body
 		const business = await findMyBusinessSrvc({ match: { _id: businessId, owner: { _id: req.user._id } }, select: '' })
 		if (!business) return resp({ status: 202, message: 'business not found', data: null, req, res })
 
-		const data = { business, owner: req.user, name, price, photos, searchKeywords, availability, stock }
+		const data = { business, owner: req.user, name, price, searchKeywords, availability, stock }
 		const businessProduct = await createProductSrvc({ data })
 		return resp({ status: businessProduct.status || 200, data: businessProduct, req, res })
 	} catch (err) {
