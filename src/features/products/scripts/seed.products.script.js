@@ -34,31 +34,96 @@ let products = [
 				4: 0,
 				5: 1
 			}
+		},
+		specs: {
+			singlePieceMetrics: {
+				length: 0.1,
+				weight: 0.01
+			},
+			caliber: 1,
+			origin: {
+				street: 'Sfax',
+				city: 'Sfax',
+				country: 'Tunisia',
+				region: 'Sfax'
+			}
 		}
 	},
 	{
 		//name: { en: 'Tuna', tn_latn: 'Thon', tn_arab: 'تونة' },
 		searchKeywords: ['tuna', 'bluefin tuna', 'thon', 'تونة', 'fish', 'seafood'],
 		price: { total: { tnd: 25 } },
-		unit: { measure: 'kg', min: 1 }
+		unit: { measure: 'kg', min: 1 },
+		specs: {
+			singlePieceMetrics: {
+				length: 0.1,
+				weight: 0.01
+			},
+			caliber: 2,
+			origin: {
+				street: 'Sfax',
+				city: 'Sfax',
+				country: 'Tunisia',
+				region: 'Sfax'
+			}
+		}
 	},
 	{
 		//name: { en: 'Salmon', tn_latn: 'Salmon', tn_arab: 'سلمون' },
 		searchKeywords: ['atlantic salmon', 'salmon', 'سلمون', 'fish', 'seafood'],
 		price: { total: { tnd: randomPrice(10, 300) } },
-		unit: { measure: 'kg', min: 1 }
+		unit: { measure: 'kg', min: 1 },
+		specs: {
+			singlePieceMetrics: {
+				length: 0.1,
+				weight: 0.01
+			},
+			caliber: 3,
+			origin: {
+				street: 'Sfax',
+				city: 'Sfax',
+				country: 'Tunisia',
+				region: 'Sfax'
+			}
+		}
 	},
 	{
 		//name: { en: 'Sardine', tn_latn: 'Sardina', tn_arab: 'سردينة' },
 		searchKeywords: ['sardine', 'sardina', 'سردينة', 'oily fish', 'seafood'],
 		price: { total: { tnd: randomPrice(5, 15) } },
-		unit: { measure: 'kg', min: 1 }
+		unit: { measure: 'kg', min: 1 },
+		specs: {
+			singlePieceMetrics: {
+				length: 0.1,
+				weight: 0.01
+			},
+			caliber: 4,
+			origin: {
+				street: 'Sfax',
+				city: 'Sfax',
+				country: 'Tunisia',
+				region: 'Sfax'
+			}
+		}
 	},
 	{
 		//name: { en: 'Octopus', tn_latn: 'Garnit', tn_arab: 'قرنيط' },
 		searchKeywords: ['octopus', 'garnit', 'قرنيط', 'cephalopod', 'seafood'],
 		price: { total: { tnd: randomPrice(15, 40) } },
-		unit: { measure: 'kg', min: 1 }
+		unit: { measure: 'kg', min: 1 },
+		specs: {
+			singlePieceMetrics: {
+				length: 0.1,
+				weight: 0.01
+			},
+			caliber: 5,
+			origin: {
+				street: 'Sfax',
+				city: 'Sfax',
+				country: 'Tunisia',
+				region: 'Sfax'
+			}
+		}
 	},
 	{
 		//name: { en: 'Squid', tn_latn: 'Calamar', tn_arab: 'كلمار' },

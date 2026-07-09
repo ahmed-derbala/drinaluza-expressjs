@@ -8,13 +8,6 @@ import { format, transports } from 'winston'
 import 'winston-mongodb'
 
 const NODE_ENV = process.env.NODE_ENV || 'local'
-const frontEndMinVersion = '1.2.3'
-let expoPackagejsonPath = null,
-	expoPackagejson = { version: frontEndMinVersion }
-if (NODE_ENV == 'local') {
-	expoPackagejsonPath = path.resolve('../drinaluza-expo/package.json')
-	expoPackagejson = JSON.parse(fs.readFileSync(expoPackagejsonPath, 'utf-8'))
-}
 
 const backend = {
 	port: process.env.PORT || 5001,
@@ -190,20 +183,7 @@ const defaultConfig = {
 	app,
 	backend,
 	frontend: {
-		web: {
-			version: {
-				latest: process.env.FRONTEND_WEB_VERSION_LATEST || expoPackagejson.version,
-				min: process.env.FRONTEND_WEB_VERSION_MIN || frontEndMinVersion,
-				destroyAppStorage: process.env.FRONTEND_WEB_VERSION_DESTROY_APP_STORAGE || false
-			}
-		},
-		android: {
-			version: {
-				latest: process.env.FRONTEND_ANDROID_VERSION_LATEST || expoPackagejson.version,
-				min: process.env.FRONTEND_ANDROID_VERSION_MIN || frontEndMinVersion,
-				destroyAppStorage: process.env.FRONTEND_ANDROID_VERSION_DESTROY_APP_STORAGE || false
-			}
-		}
+		url: 'https://drinaluza.vercel.app/'
 	},
 	auth: {
 		saltRounds: 10,
@@ -277,7 +257,7 @@ const defaultConfig = {
 			isActive: true,
 			//more infos: https://www.npmjs.com/package/morgan
 			//tokenString: `{"status"::status,"method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip","headers"::headers ,"responseTime"::response-time}`,
-			tokenString: `{"status"::status,"method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip", "headers"::headers ,"responseTime"::response-time,"browser":":browser", "os":":os", "platform":":platform" ,"origin":":origin", "isBot":":isBot", "referrer":":referrer"}`,
+			tokenString: `{"status"::status,"method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip", "headers"::headers ,"responseTime"::response-time,"browser":":browser", "os":":os", "platform":":platform" ,"origin":":origin", "isBot":":isBot", "referrer":":referrer", "user-agent":":user-agent"}`,
 			hiddenBodyFields: ['password', 'user.password'] //[] for none, display these keys as *** in terminal
 		}
 	},

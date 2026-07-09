@@ -12,6 +12,7 @@ import { RatingSubschema } from '../reviews/subschemas/rating.subschema.js'
 import { FeedModel } from '../feed/feed.schema.js'
 import { productsCollection } from './products.constant.js'
 import { FileRefSchema } from '#core/files/schemas/files-ref.schema.js'
+import { SpecsSchema } from './schemas/specs.schema.js'
 
 const ProductSchema = new mongoose.Schema(
 	{
@@ -50,7 +51,8 @@ const ProductSchema = new mongoose.Schema(
 			}
 		},
 		media: MediaSchema,
-		rating: { type: RatingSubschema, required: false, _id: false, default: () => ({}) }
+		rating: { type: RatingSubschema, required: false, _id: false, default: () => ({}) },
+		specs: SpecsSchema
 	},
 	{ timestamps: true, collection: productsCollection }
 )

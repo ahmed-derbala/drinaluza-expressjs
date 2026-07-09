@@ -19,14 +19,15 @@ export const AddressSchema = {
 		trim: true,
 		default: 'Sfax'
 	},
-	postalCode: {
-		type: String,
-		trim: true
-	},
 	country: {
 		type: String,
 		required: true,
 		trim: true,
 		default: 'Tunisia'
+	},
+	postalCode: {
+		type: String,
+		trim: true,
+		default: '3016'
 	}
 }
