@@ -9,7 +9,7 @@ import { validate } from '../../core/validation/index.js'
 import { log } from '../../core/log/index.js'
 import { USER_ROLES } from '../users/users.enum.js'
 import config from '#config'
-import { updateUserSrvc } from '../users/users.service.js'
+import { updateUserSrvc, findOneUserSrvc } from '../users/users.service.js'
 import { destroyUserSessionsSrvc } from '../../core/auth/auth.service.js'
 import { createBusinessDashboardSrvc } from '#dashboard/dashboard.service.js'
 import { findBusinessCustomersSrvc } from '#orders/orders.service.js'
@@ -53,8 +53,7 @@ router
 	.post(authenticate({ role: 'business_owner' }), validate(createBusinessVld), async (req, res) => {
 		try {
 			const { name, address, location, kind } = req.body
-			const owner = req.user
-
+			const owner = await findOneUserSrvc({ match: { _id: req.user._id }, select: 'slug name media' })
 			//create new business if not exists
 			let myBusiness = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id } }, select: '' })
 			log({ level: 'debug', data: myBusiness, message: 'myBusiness' })

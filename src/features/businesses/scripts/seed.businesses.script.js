@@ -13,10 +13,23 @@ const scriptFilename = path.basename(__filename)
 const country = 'Tunisia',
 	city = 'Sfax'
 const drinaluza_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1783638507/uploads/cdyivmike6xfgfvmzcsx.png'
+const drayen_ellouza_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1783711900/uploads/uxu89f03yxmgsyhsuvrj.jpg'
+const ahmed_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779924971/uploads/uhkrbhape2mryaxzo3vt.jpg'
+
+const mahdi_phone = {
+	countryCode: '216',
+	localNumber: '95503160',
+	fullNumber: '+21695503160'
+}
+const ahmed_phone = {
+	countryCode: '216',
+	localNumber: '99112619',
+	fullNumber: '+21699112619'
+}
 
 let manualBusinesses = [
 	{
-		owner: { slug: 'ahmed' },
+		owner: { slug: 'ahmed', media: { thumbnail: { url: ahmed_photo_url } } },
 		name: { en: 'Drinaluza' },
 		address: {
 			street: `ellouza, tri9 douar`,
@@ -29,7 +42,6 @@ let manualBusinesses = [
 				coordinates: [10.18, 36.8]
 			}
 		},
-		deliveryRadiusKm: Math.floor(Math.random() * 20) + 5, // 5-25 km
 		state: { code: 'active' },
 		contact: {
 			phone: {
@@ -66,6 +78,39 @@ let manualBusinesses = [
 		}
 	},
 	{
+		owner: { slug: 'mahdi-akid' },
+		name: { en: 'Drayen Ellouza' },
+		address: {
+			street: `ellouza, tri9 douar`,
+			city: 'Sfax',
+			country: country
+		},
+		location: {
+			geo: {
+				type: 'Point',
+				coordinates: [10.18, 36.8]
+			}
+		},
+		state: { code: 'active' },
+		contact: {
+			phone: mahdi_phone,
+			/*backupPhones: [
+				{
+					countryCode: '216',
+					localNumber: '99111222',
+					fullNumber: `+21699111222`
+				}
+			],*/
+			//email: `drinaluza@gmail.com`,
+			whatsapp: mahdi_phone.fullNumber
+		},
+		media: {
+			thumbnail: {
+				url: drayen_ellouza_logo
+			}
+		}
+	}
+	/*{
 		owner: { slug: 'serra' },
 		name: { en: 'Cafe' },
 		address: {
@@ -97,10 +142,10 @@ let manualBusinesses = [
 			email: `cafe@gmail.com`,
 			whatsapp: `+21699112619`
 		},
-		/*media: {
+		media: {
 			thumbnail: {
 			}
-		},*/
+		},
 		rating: {
 			average: 0,
 			count: 0,
@@ -113,7 +158,7 @@ let manualBusinesses = [
 				5: 0
 			}
 		}
-	}
+	}*/
 ]
 
 const processScript = async () => {

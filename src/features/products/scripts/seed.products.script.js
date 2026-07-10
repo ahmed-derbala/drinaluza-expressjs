@@ -137,75 +137,6 @@ let products = [
 		price: { total: { tnd: randomPrice(20, 50) } },
 		unit: { measure: 'kg', min: 1 }
 	}
-
-	/*
-
-
-
-	{
-		name: { en: 'Sea Bream', tn_latn: 'Spares', tn_arab: 'شرغو' },
-		searchKeywords: ['sea bream', 'spares', 'sparus', 'شرغو', 'fish', 'seafood'],
-		price: { total: { tnd: randomPrice(12, 35) } }, unit: { measure: 'kg', min: 1 },
-
-	},
-	{
-		name: { en: 'Sea Bass', tn_latn: 'Loups', tn_arab: 'وراطة' },
-		searchKeywords: ['sea bass', 'loup de mer', 'loups', 'وراطة', 'fish', 'seafood'],
-		price: { total: { tnd: randomPrice(15, 40) } }, unit: { measure: 'kg', min: 1 },
-
-	},
-
-
-
-	{
-		name: { en: 'Cuttlefish', tn_latn: 'Sebbite', tn_arab: 'سبّيط' },
-		searchKeywords: ['cuttlefish', 'sebbite', 'sepia', 'سبّيط', 'seafood'],
-		price: { total: { tnd: randomPrice(10, 25) } }, unit: { measure: 'kg', min: 1 },
-
-	},
-
-	{
-		name: { en: 'Mussels', tn_latn: 'Moules', tn_arab: 'محار' },
-		searchKeywords: ['mussels', 'moules', 'محار', 'shellfish', 'seafood'],
-	},
-	{
-		name: { en: 'Clams', tn_latn: 'Palourde', tn_arab: 'بلاميطا' },
-		searchKeywords: ['clams', 'palourde', 'بلاميطا', 'shellfish', 'seafood']
-	},
-	{
-		name: { en: 'Oysters', tn_latn: 'Huitres', tn_arab: 'محار صَدَفي' },
-		searchKeywords: ['oysters', 'huitres', 'محار', 'shellfish', 'seafood']
-	},
-	{
-		name: { en: 'Red Mullet', tn_latn: 'Trilia', tn_arab: 'بربوني' },
-		searchKeywords: ['red mullet', 'trilia', 'بربوني', 'fish', 'seafood']
-	},
-	{
-		name: { en: 'Anchovies', tn_latn: 'Anchois', tn_arab: 'أنشوفة' },
-		searchKeywords: ['anchovies', 'anchois', 'أنشوفة', 'small fish', 'seafood']
-	},
-	{
-		name: { en: 'Mackerel', tn_latn: 'Maquereau', tn_arab: 'سكمبري' },
-		searchKeywords: ['mackerel', 'maquereau', 'سكمبري', 'oily fish', 'seafood']
-	},
-
-	{
-		name: { en: 'Lobster', tn_latn: 'Homard', tn_arab: 'كركند' },
-		searchKeywords: ['lobster', 'homard', 'كركند', 'shellfish', 'seafood']
-	},
-	{
-		name: { en: 'Gilthead Bream', tn_latn: 'Dorade', tn_arab: 'دوراد' },
-		searchKeywords: ['dorade', 'gilthead bream', 'دوراد', 'fish', 'seafood']
-	},
-	{
-		name: { en: 'Swordfish', tn_latn: 'Espadon', tn_arab: 'سمك أبو سيف' },
-		searchKeywords: ['swordfish', 'espadon', 'أبو سيف', 'fish', 'seafood']
-	},
-	{
-		name: { en: 'Eel', tn_latn: 'Anguille', tn_arab: 'حنكليس' },
-		searchKeywords: ['eel', 'anguille', 'حنكليس', 'fish', 'seafood']
-	}
-		*/
 ]
 
 const processScript = async () => {
@@ -227,16 +158,17 @@ const processScript = async () => {
 	}
 
 	products = products.map((p) => {
-		const defaultProduct = pickRandom(defaultProducts.docs)
+		const randomDefaultProduct = pickRandom(defaultProducts.docs)
+		const randomBusiness = pickRandom(businesses.docs)
 		return {
 			...p,
 			unit: {
 				...p.unit,
 				measure: pickRandom(UNITS)
 			},
-			business: businesses.docs.find((b) => b.slug === 'drinaluza') || businesses.docs[0], //business with slug=drinaluza
-			defaultProduct: defaultProduct,
-			searchKeywords: defaultProduct.searchKeywords
+			business: randomBusiness,
+			defaultProduct: randomDefaultProduct,
+			searchKeywords: randomDefaultProduct.searchKeywords
 		}
 	})
 
