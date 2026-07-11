@@ -68,8 +68,11 @@ ProductSchema.post('findOneAndUpdate', async function (doc) {
 				targetResource: productsCollection
 			},
 			{
-				$set: {
+				/*$set: {
 					'targetData.rating': doc.rating
+				}*/
+				$set: {
+					targetData: doc.toObject()
 				}
 			}
 		)

@@ -14,6 +14,7 @@ router
 			const filterArray = filter ? filter.split(',') : []
 			const match = filterArray.length > 0 ? { targetResource: { $in: filterArray } } : {}
 			let feed = await findFeedSrvc({ match, select, page, limit })
+			//console.log(JSON.stringify(feed, null, 2))
 			feed.docs = feed.docs.map((f) => {
 				if (f.card.kind == 'product') {
 					//user conencted
