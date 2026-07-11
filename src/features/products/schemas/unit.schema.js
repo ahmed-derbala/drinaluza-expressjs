@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const UNIT = {
 	KG: 'kg',
 	PIECE: 'piece',
-	TARA: 'tara'
+	CRATE: 'crate'
 }
 
 export const UNITS = Object.values(UNIT)

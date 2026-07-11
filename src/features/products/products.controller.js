@@ -70,10 +70,14 @@ router
 //this should be always the last router to avoid conflicts
 router
 	.route('/:productSlug')
-	.get(validate(findOneProductVld), async (req, res) => {
+	.get(authenticate({ tokenRequired: false }), validate(findOneProductVld), async (req, res) => {
 		try {
 			const product = await findOneProductSrvc({ match: { slug: req.params.productSlug } })
-			return resp({ status: 200, data: product, req, res })
+			let viewer = { canEdit: false, canCreate: false }
+			if (req.user && product.business.owner.slug == req.user.slug) {
+				viewer = { canEdit: true, canCreate: true }
+			}
+			return resp({ status: 200, viewer, data: product, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}
