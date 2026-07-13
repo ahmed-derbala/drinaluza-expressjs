@@ -2,15 +2,13 @@ import * as expressValidator from 'express-validator'
 const { checkSchema, body, query, oneOf } = expressValidator
 
 export const patchMyProfileVld = [
-	body('name').trim().isString().optional(),
+	body('name').isObject().optional(),
 	body('address').isObject().optional(),
 	body('settings').isObject().optional(),
 	// 1. Mark the top-level location object as optional
 	body('location').optional({ values: 'falsy' }).isObject().withMessage('Location must be an object'),
-
 	// 2. Validate GeoJSON structure if location is present
 	body('location.geo').optional({ values: 'falsy' }).isObject().withMessage('Geo must be an object'),
-
 	body('location.geo.type')
 		.if(body('location.geo').exists()) // Only validate if geo object exists
 		.equals('Point')

@@ -77,6 +77,7 @@ router
 			if (req.user && product.business.owner.slug == req.user.slug) {
 				viewer = { canEdit: true, canCreate: true }
 			}
+			console.log(viewer)
 			return resp({ status: 200, viewer, data: product, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })

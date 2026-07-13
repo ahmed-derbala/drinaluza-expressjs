@@ -107,3 +107,12 @@ function checkStringForContent(inputString) {
 	// If the trimmed string is not empty, return the original string.
 	return inputString
 }
+
+export const authorize = (params) => {
+	return function (req, res, next) {
+		try {
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	}
+}

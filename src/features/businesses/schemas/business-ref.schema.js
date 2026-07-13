@@ -5,6 +5,7 @@ import { businessesCollection } from '../businesses.constant.js'
 import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
 import { OwnerSchema } from '../../users/schemas/owner.schema.js'
 import { MediaSchema } from '../../../core/db/mongodb/shared-schemas/media.schema.js'
+import { ContactSchema } from '#core/db/mongodb/shared-schemas/contact.schema.js'
 
 export const BusinessRefSchema = {
 	_id: {
@@ -24,5 +25,6 @@ export const BusinessRefSchema = {
 		type: AddressSchema
 	},
 	location: LocationSchema,
-	media: { type: MediaSchema, required: false, default: () => ({}) }
+	media: { type: MediaSchema, required: false, default: () => ({}) },
+	contact: ContactSchema
 }
