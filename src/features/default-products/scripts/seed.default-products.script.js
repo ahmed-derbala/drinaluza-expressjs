@@ -17,31 +17,178 @@ const scriptFilename = path.basename(__filename)
 const defaultProducts = [
 	{
 		name: { en: 'Shrimp', tn_latn: 'Crevet', tn_arab: 'كروفات' },
-		searchKeywords: ['shrimp', 'crevet', 'crevette', 'قمرون', 'جمبري', 'prawn', 'seafood', 'كروفات', 'كرفات', 'كرفت']
+		searchKeywords: ['shrimp', 'crevet', 'crevette', 'قمرون', 'جمبري', 'prawn', 'seafood', 'كروفات', 'كرفات', 'كرفت'],
+		price: {
+			total: { tnd: 15 }
+		},
+		unit: {
+			measure: 'kg',
+			min: 1,
+			max: 10,
+			step: 1
+		},
+		state: { code: 'active' },
+		availability: {
+			startDate: Date.now()
+		},
+		stock: {
+			quantity: 100,
+			minThreshold: 10
+		},
+		specs: {
+			caliber: 5,
+			harvest: 'wild'
+		}
 	},
 	{
 		name: { en: 'Tuna', tn_latn: 'Thon', tn_arab: 'تن' },
-		searchKeywords: ['tuna', 'bluefin tuna', 'thon', 'تونة', 'fish', 'seafood', 'تن']
+		searchKeywords: ['tuna', 'bluefin tuna', 'thon', 'تونة', 'fish', 'seafood', 'تن'],
+		price: {
+			total: { tnd: 10 }
+		},
+		unit: {
+			measure: 'kg',
+			min: 1,
+			max: 10,
+			step: 1
+		},
+		state: { code: 'active' },
+		availability: {
+			startDate: Date.now()
+		},
+		stock: {
+			quantity: 100,
+			minThreshold: 10
+		},
+		specs: {
+			caliber: 4,
+			harvest: 'wild'
+		}
 	},
 	{
 		name: { en: 'Salmon', tn_latn: 'Salmon', tn_arab: 'سلمون' },
-		searchKeywords: ['atlantic salmon', 'salmon', 'سلمون', 'fish', 'seafood', 'سومون']
+		searchKeywords: ['atlantic salmon', 'salmon', 'سلمون', 'fish', 'seafood', 'سومون'],
+		price: {
+			total: { tnd: 35 }
+		},
+		unit: {
+			measure: 'kg',
+			min: 1,
+			max: 10,
+			step: 1
+		},
+		state: { code: 'active' },
+		availability: {
+			startDate: Date.now()
+		},
+		stock: {
+			quantity: 100,
+			minThreshold: 10
+		},
+		specs: {
+			caliber: 3,
+			harvest: 'wild'
+		}
 	},
 	{
 		name: { en: 'Sardine', tn_latn: 'Sardina', tn_arab: 'سردينة' },
-		searchKeywords: ['sardine', 'sardina', 'سردينة', 'oily fish', 'seafood']
+		searchKeywords: ['sardine', 'sardina', 'سردينة', 'oily fish', 'seafood'],
+		price: {
+			total: { tnd: 5 }
+		},
+		unit: {
+			measure: 'kg',
+			min: 1,
+			max: 10,
+			step: 1
+		},
+		state: { code: 'active' },
+		availability: {
+			startDate: Date.now()
+		},
+		stock: {
+			quantity: 100,
+			minThreshold: 10
+		},
+		specs: {
+			caliber: 2,
+			harvest: 'wild'
+		}
 	},
 	{
 		name: { en: 'Octopus', tn_latn: 'Garnit', tn_arab: 'قرنيط' },
-		searchKeywords: ['octopus', 'garnit', 'قرنيط', 'cephalopod', 'seafood']
+		searchKeywords: ['octopus', 'garnit', 'قرنيط', 'cephalopod', 'seafood'],
+		price: {
+			total: { tnd: 60 }
+		},
+		unit: {
+			measure: 'kg',
+			min: 1,
+			max: 10,
+			step: 1
+		},
+		state: { code: 'active' },
+		availability: {
+			startDate: Date.now()
+		},
+		stock: {
+			quantity: 100,
+			minThreshold: 10
+		},
+		specs: {
+			caliber: 5,
+			harvest: 'wild'
+		}
 	},
 	{
 		name: { en: 'Squid', tn_latn: 'Calamar', tn_arab: 'كلمار' },
-		searchKeywords: ['squid', 'calamar', 'كلمار', 'cephalopod', 'seafood']
+		searchKeywords: ['squid', 'calamar', 'كلمار', 'cephalopod', 'seafood'],
+		price: {
+			total: { tnd: 24 }
+		},
+		unit: {
+			measure: 'kg',
+			min: 1,
+			max: 10,
+			step: 1
+		},
+		state: { code: 'active' },
+		availability: {
+			startDate: Date.now()
+		},
+		stock: {
+			quantity: 100,
+			minThreshold: 10
+		},
+		specs: {
+			caliber: 4,
+			harvest: 'wild'
+		}
 	},
 	{
 		name: { en: 'Crab', tn_latn: 'Daech', tn_arab: 'داعش' },
-		searchKeywords: ['crab', 'crabe', 'سلطعون', 'shellfish', 'seafood', 'داعش']
+		searchKeywords: ['crab', 'crabe', 'سلطعون', 'shellfish', 'seafood', 'داعش'],
+		price: {
+			total: { tnd: 5 }
+		},
+		unit: {
+			measure: 'kg',
+			min: 1,
+			max: 10,
+			step: 1
+		},
+		state: { code: 'active' },
+		availability: {
+			startDate: Date.now()
+		},
+		stock: {
+			quantity: 100,
+			minThreshold: 10
+		},
+		specs: {
+			caliber: 3,
+			harvest: 'wild'
+		}
 	}
 ]
 
