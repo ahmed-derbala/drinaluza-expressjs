@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findMyBusinessesSrvc, createBusinessSrvc, findMyBusinessSrvc, findOneBusinessSrvc, findBusinessesSrvc, updateMyBusinessSrvc, updateBusinessSrvc } from './businesses.service.js'
+import { findMyBusinessesSrvc, createBusinessSrvc, findMyBusinessSrvc, findOneBusinessSrvc, findBusinessesSrvc, updateBusinessSrvc } from './businesses.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
@@ -169,7 +169,7 @@ router
 			match.owner = { _id: req.user._id }
 			const businessSlug = req.params.businessSlug
 			match.slug = businessSlug
-			const business = await updateMyBusinessSrvc({ match, newData: req.body })
+			const business = await updateBusinessSrvc({ match, newData: req.body })
 			return resp({ status: 200, data: business, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })

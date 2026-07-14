@@ -14,9 +14,9 @@ const country = 'Tunisia',
 	city = 'Sfax'
 const drinaluza_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1783638507/uploads/cdyivmike6xfgfvmzcsx.png'
 const drayen_ellouza_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1783711900/uploads/uxu89f03yxmgsyhsuvrj.jpg'
-const ahmed_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779924971/uploads/uhkrbhape2mryaxzo3vt.jpg'
-const amin_chalbi_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779924971/uploads/uhkrbhape2mryaxzo3vt.jpg'
 const poissons_amin_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1784033131/uploads/wu3ockbj5omnaxiyoql0.jpg'
+const dar_el_hout_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1784042257/uploads/bhshf8c1eukslbfdnraa.jpg'
+
 const mahdi_phone = {
 	countryCode: '216',
 	localNumber: '95503160',
@@ -30,7 +30,7 @@ const ahmed_phone = {
 
 let manualBusinesses = [
 	{
-		owner: { slug: 'ahmed', media: { thumbnail: { url: ahmed_photo_url } } },
+		owner: { slug: 'ahmed' },
 		name: { en: 'Drinaluza' },
 		address: {
 			street: `ellouza, tri9 douar`,
@@ -63,18 +63,6 @@ let manualBusinesses = [
 		media: {
 			thumbnail: {
 				url: drinaluza_logo
-			}
-		},
-		rating: {
-			average: 0,
-			count: 0,
-			total: 0,
-			breakdown: {
-				1: 0,
-				2: 0,
-				3: 0,
-				4: 0,
-				5: 0
 			}
 		}
 	},
@@ -112,7 +100,46 @@ let manualBusinesses = [
 		}
 	},
 	{
-		owner: { slug: 'amin-chalbi', media: { thumbnail: { url: amin_chalbi_photo_url } } },
+		owner: {
+			slug: 'majed-akid'
+		},
+		name: { en: 'Dar El Hout Jbeniana' },
+		address: {
+			street: `jbeniana center`,
+			city: 'Jbeniana',
+			country: country
+		},
+		location: {
+			geo: {
+				type: 'Point',
+				coordinates: [10.18, 36.8]
+			}
+		},
+		state: { code: 'active' },
+		contact: {
+			phone: {
+				countryCode: '216',
+				localNumber: '99112619',
+				fullNumber: `+21699112619`
+			},
+			backupPhones: [
+				{
+					countryCode: '216',
+					localNumber: '99111222',
+					fullNumber: `+21699111222`
+				}
+			],
+			email: `drinaluza@gmail.com`,
+			whatsapp: `+21699112619`
+		},
+		media: {
+			thumbnail: {
+				url: dar_el_hout_logo
+			}
+		}
+	},
+	{
+		owner: { slug: 'amin-chalbi' },
 		name: { en: 'Poissons Amin' },
 		address: {
 			street: `ellouza, ba7dha dar echabeb`,

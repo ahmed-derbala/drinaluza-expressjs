@@ -7,7 +7,7 @@ import { flattenObject } from '../../core/helpers/filters.js'
 export const updateProductRepo = async ({ match, newData }) => {
 	const flattenedMatch = flattenObject(match)
 	match = { ...flattenedMatch }
-	log({ level: 'debug', message: 'updateProductRepo', data: { match, newData } })
+	//log({ level: 'debug', message: 'updateProductRepo', data: { match, newData } })
 	const updatedProduct = await ProductModel.findOneAndUpdate(match, newData, { returnDocument: 'after' })
 	return updatedProduct
 }

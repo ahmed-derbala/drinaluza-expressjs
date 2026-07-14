@@ -20,7 +20,7 @@ export const findBusinessesSrvc = async ({ match, select, page, limit, count }) 
 export const findOneBusinessSrvc = async ({ match, select }) => {
 	return await findOneBusinessRepo({ match, select })
 }
-export const updateMyBusinessSrvc = async ({ match, newData }) => {
+export const updateBusinessSrvc = async ({ match, newData }) => {
 	const updatedFeedCard = await updateOneCardFeedRepo({ match: { 'targetData.slug': match.slug }, newData })
 	return await updateBusinessRepo({ match, newData })
 }
@@ -55,8 +55,4 @@ export const patchRatingBusinessSrvc = async ({ businessId, stars, rating }) => 
 	breakdown[stars] = breakdown[stars] + 1
 	const newRating = { count, total, average, breakdown }
 	return updateBusinessRepo({ match: { _id: businessId }, newData: { rating: newRating } })
-}
-
-export const updateBusinessSrvc = async ({ match, newData }) => {
-	return updateBusinessRepo({ match, newData })
 }
