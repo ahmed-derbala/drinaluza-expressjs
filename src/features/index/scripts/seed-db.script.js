@@ -71,8 +71,8 @@ const scripts = [
 ;(async () => {
 	try {
 		console.clear()
-		await dropDatabase()
-		//await dropDatabase(['sessions', 'files'])
+		//await dropDatabase()
+		await dropDatabase(['sessions', 'files'])
 
 		for (const script of scripts) {
 			console.log(`\n▶ Running ${script}`)

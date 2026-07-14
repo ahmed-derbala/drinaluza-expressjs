@@ -14,7 +14,7 @@ const latitudeRange = [33.5, 37.5] // Approx. latitude range for Tunisia
 
 const ahmed_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779924971/uploads/uhkrbhape2mryaxzo3vt.jpg'
 const abir_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779925385/uploads/gxo01783ek77bxme9n4b.png'
-const amin_chalbi_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779924971/uploads/uhkrbhape2mryaxzo3vt.jpg'
+const amin_chalbi_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1784032760/uploads/n2usaat0i8gpyheomhkh.jpg'
 const majed_akid_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1784041793/uploads/pebjuyqjkorhxzy6hhtw.jpg'
 const mahdi_phone = {
 	countryCode: '216',
