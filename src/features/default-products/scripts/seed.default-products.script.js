@@ -47,7 +47,7 @@ const defaultProducts = [
 			total: { tnd: 10 }
 		},
 		unit: {
-			measure: 'kg',
+			measure: 'piece',
 			min: 1,
 			max: 10,
 			step: 1
