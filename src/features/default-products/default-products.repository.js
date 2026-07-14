@@ -14,6 +14,6 @@ export const findDefaultProductsRepo = async ({ page, limit }) => {
 	return paginateMongodb({ model: DefaultProductModel, page, limit })
 }
 
-export const createDefaultProductRepo = async ({ name, slug, media, searchKeywords, price, unit }) => {
-	return DefaultProductModel.create({ name, slug, media, searchKeywords, price, unit })
+export const createDefaultProductRepo = async ({ name, slug, media, searchKeywords, price, unit, specs }) => {
+	return DefaultProductModel.create({ name, slug, media, searchKeywords, price, unit, specs })
 }

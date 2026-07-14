@@ -18,7 +18,7 @@ export const findDefaultProductsSrvc = async ({ page, limit }) => {
 	}
 }
 
-export const createDefaultProductSrvc = async ({ name, slug, media, searchKeywords, price, unit }) => {
+export const createDefaultProductSrvc = async ({ name, slug, media, searchKeywords, price, unit, specs }) => {
 	if (!slug) {
 		slug = processSlug(name.en)
 	}
@@ -31,5 +31,5 @@ export const createDefaultProductSrvc = async ({ name, slug, media, searchKeywor
 			}
 		}
 	}
-	return createDefaultProductRepo({ name, slug, media, searchKeywords, price, unit })
+	return createDefaultProductRepo({ name, slug, media, searchKeywords, price, unit, specs })
 }

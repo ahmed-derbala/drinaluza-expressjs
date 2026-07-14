@@ -14,6 +14,7 @@ const latitudeRange = [33.5, 37.5] // Approx. latitude range for Tunisia
 
 const ahmed_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779924971/uploads/uhkrbhape2mryaxzo3vt.jpg'
 const abir_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779925385/uploads/gxo01783ek77bxme9n4b.png'
+const amin_chalbi_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779924971/uploads/uhkrbhape2mryaxzo3vt.jpg'
 const mahdi_phone = {
 	countryCode: '216',
 	localNumber: '95503160',
@@ -72,6 +73,29 @@ const users = [
 				url: ahmed_photo_url
 			}
 		}*/
+	},
+	{
+		slug: 'amin-chalbi',
+		password: '123',
+		role: 'business_owner',
+		name: { en: 'Amin Chalbi' },
+		address: {
+			street: `ellouza`,
+			city: 'Ellouza',
+			country: 'Tunisia',
+			region: 'Sfax'
+		},
+		contact: {
+			phone: ahmed_phone,
+			backupPhones: [ahmed_phone],
+			email: drinaluza_email,
+			whatsapp: ahmed_phone.fullNumber
+		},
+		media: {
+			thumbnail: {
+				url: amin_chalbi_photo_url
+			}
+		}
 	},
 	{
 		slug: 'serra',

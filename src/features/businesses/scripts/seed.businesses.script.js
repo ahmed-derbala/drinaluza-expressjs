@@ -15,7 +15,8 @@ const country = 'Tunisia',
 const drinaluza_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1783638507/uploads/cdyivmike6xfgfvmzcsx.png'
 const drayen_ellouza_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1783711900/uploads/uxu89f03yxmgsyhsuvrj.jpg'
 const ahmed_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779924971/uploads/uhkrbhape2mryaxzo3vt.jpg'
-
+const amin_chalbi_photo_url = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1779924971/uploads/uhkrbhape2mryaxzo3vt.jpg'
+const poissons_amin_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1784033131/uploads/wu3ockbj5omnaxiyoql0.jpg'
 const mahdi_phone = {
 	countryCode: '216',
 	localNumber: '95503160',
@@ -107,6 +108,55 @@ let manualBusinesses = [
 		media: {
 			thumbnail: {
 				url: drayen_ellouza_logo
+			}
+		}
+	},
+	{
+		owner: { slug: 'amin-chalbi', media: { thumbnail: { url: amin_chalbi_photo_url } } },
+		name: { en: 'Poissons Amin' },
+		address: {
+			street: `ellouza, ba7dha dar echabeb`,
+			city: 'Sfax',
+			country: country
+		},
+		location: {
+			geo: {
+				type: 'Point',
+				coordinates: [10.18, 36.8]
+			}
+		},
+		state: { code: 'active' },
+		contact: {
+			phone: {
+				countryCode: '216',
+				localNumber: '99112619',
+				fullNumber: `+21699112619`
+			},
+			backupPhones: [
+				{
+					countryCode: '216',
+					localNumber: '99111222',
+					fullNumber: `+21699111222`
+				}
+			],
+			email: `drinaluza@gmail.com`,
+			whatsapp: `+21699112619`
+		},
+		media: {
+			thumbnail: {
+				url: poissons_amin_logo
+			}
+		},
+		rating: {
+			average: 0,
+			count: 0,
+			total: 0,
+			breakdown: {
+				1: 0,
+				2: 0,
+				3: 0,
+				4: 0,
+				5: 0
 			}
 		}
 	}

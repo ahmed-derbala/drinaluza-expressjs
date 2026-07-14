@@ -7,6 +7,7 @@ import { flattenObject } from '../../core/helpers/filters.js'
 export const updateProductRepo = async ({ match, newData }) => {
 	const flattenedMatch = flattenObject(match)
 	match = { ...flattenedMatch }
+	log({ level: 'debug', message: 'updateProductRepo', data: { match, newData } })
 	const updatedProduct = await ProductModel.findOneAndUpdate(match, newData, { returnDocument: 'after' })
 	return updatedProduct
 }
@@ -25,8 +26,8 @@ export const findManyProductsRepo = async ({ match, select, page, limit }) => {
 	return paginateMongodb({ model: ProductModel, match: { ...flattenedMatch }, select, page, limit })
 }
 
-export const createdProductRepo = async ({ business, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating }) => {
-	return ProductModel.create({ business, name, slug, defaultProduct, price, unit, state, media, searchKeywords, rating })
+export const createdProductRepo = async ({ business, name, slug, defaultProduct, price, unit, state, media, searchKeywords, specs }) => {
+	return ProductModel.create({ business, name, slug, defaultProduct, price, unit, state, media, searchKeywords, specs })
 }
 
 export const findMyProductsRepo = async ({ match, select, page, limit, count }) => {

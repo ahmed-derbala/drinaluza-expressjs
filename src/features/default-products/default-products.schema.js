@@ -11,13 +11,6 @@ import { RatingSubschema } from '../reviews/subschemas/rating.subschema.js'
 import { SpecsSchema } from '#products/schemas/specs.schema.js'
 
 const DefaultProductSchema = new mongoose.Schema(
-	/*{
-		slug: { type: String, required: true },
-		name: { type: MultiLangSchema, required: true },
-		searchKeywords: searchKeywordsField,
-		media: MediaSchema,
-		state: StateSchema
-	},*/
 	{
 		slug: { type: String, required: true },
 		name: MultiLangSchema,

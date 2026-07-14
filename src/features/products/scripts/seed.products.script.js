@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { createProductSrvc } from '../products.service.js'
+import { createProductSrvc, updateProductSrvc } from '../products.service.js'
 import { findBusinessesSrvc } from '../../businesses/businesses.service.js'
 import { log } from '../../../core/log/index.js'
 import config from '../../../config/index.js'
@@ -10,6 +10,51 @@ const __filename = fileURLToPath(import.meta.url)
 const scriptFilename = path.basename(__filename)
 import { findDefaultProductsSrvc } from '../../default-products/default-products.service.js'
 import { UNITS } from '../schemas/unit.schema.js'
+
+function generateRandomRating() {
+	const count = Math.floor(Math.random() * 500) + 1 // 1-500 ratings
+
+	const breakdown = {
+		1: 0,
+		2: 0,
+		3: 0,
+		4: 0,
+		5: 0
+	}
+
+	// Weighted distribution (more 4★ and 5★ reviews)
+	const weights = [
+		{ star: 1, weight: 2 },
+		{ star: 2, weight: 4 },
+		{ star: 3, weight: 10 },
+		{ star: 4, weight: 30 },
+		{ star: 5, weight: 54 }
+	]
+
+	const totalWeight = weights.reduce((sum, w) => sum + w.weight, 0)
+
+	let total = 0
+
+	for (let i = 0; i < count; i++) {
+		let r = Math.random() * totalWeight
+
+		for (const { star, weight } of weights) {
+			r -= weight
+			if (r <= 0) {
+				breakdown[star]++
+				total += star
+				break
+			}
+		}
+	}
+
+	return {
+		average: Number((total / count).toFixed(1)),
+		count,
+		total,
+		breakdown
+	}
+}
 
 const processScript = async () => {
 	log({ message: `running ${scriptFilename}`, level: 'info' })
@@ -35,7 +80,9 @@ const processScript = async () => {
 			product.defaultProduct = { ...defaultProduct }
 			product.slug = `${business.slug}-${defaultProduct.slug}`
 			product.business = { ...business }
-			await createProductSrvc(product)
+			const createdProduct = await createProductSrvc(product)
+			const rating = generateRandomRating()
+			await updateProductSrvc({ match: { slug: createdProduct.slug }, newData: { rating } })
 		}
 	}
 	log({ message: `completed ${scriptFilename}`, level: 'info' })
