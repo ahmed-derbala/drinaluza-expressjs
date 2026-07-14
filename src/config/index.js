@@ -2,7 +2,7 @@ import fs from 'fs'
 
 let config,
 	configFileName = 'config/default.config.js'
-console.log(process.env.NODE_ENV)
+
 if (process.env.NODE_ENV) {
 	const envFilePath = `${process.cwd()}/src/config/${process.env.NODE_ENV}.config.js`
 
