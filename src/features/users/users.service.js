@@ -58,6 +58,9 @@ export const updateUserSrvc = async ({ match, newData }) => {
 
 export const createUserSrvc = async ({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos }) => {
 	if (!slug && !name) return null
+	if (!name) name = { en: slug }
+	if (!name.tn_latn) name.tn_latn = name.en
+	if (!name.tn_arab) name.tn_arab = name.en
 	if (!role) role = USER_ROLES.CUSTOMER
 	if (!settings) settings = {}
 	if (!media) media = {}

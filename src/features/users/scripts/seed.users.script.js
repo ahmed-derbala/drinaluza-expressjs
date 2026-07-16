@@ -76,6 +76,29 @@ const users = [
 		}*/
 	},
 	{
+		slug: 'ahmed-chalbi',
+		password: '123',
+		role: 'business_owner',
+		name: { en: 'Ahmed Chalbi' },
+		address: {
+			street: `ellouza`,
+			city: 'Ellouza',
+			country: 'Tunisia',
+			region: 'Sfax'
+		}
+		/*contact: {
+			phone: mahdi_phone,
+			backupPhones: [mahdi_phone],
+			//email: drinaluza_email,
+			whatsapp: mahdi_phone.fullNumber
+		}*/
+		/*media: {
+			thumbnail: {
+				url: ahmed_photo_url
+			}
+		}*/
+	},
+	{
 		slug: 'majed-akid',
 		password: '123',
 		role: 'business_owner',
