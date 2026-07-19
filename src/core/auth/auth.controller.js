@@ -49,7 +49,9 @@ router.post('/signin', validate(signinVld), async (req, res) => {
 router.post('/signout', authenticate(), async (req, res) => {
 	return SessionModel.deleteOne({ token: req.headers.token })
 		.then((deletedSession) => {
-			return res.status(200).json({ message: 'singedout', data: deletedSession })
+			return resp({ status: 200, message: 'singedout', data: deletedSession, req, res })
+
+			//return res.status(200).json({ message: 'singedout', data: deletedSession })
 		})
 		.catch((err) => errorHandler({ err, res }))
 })
