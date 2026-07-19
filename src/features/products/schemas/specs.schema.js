@@ -17,5 +17,10 @@ export const SpecsSchema = {
 		type: String,
 		enum: ['wild', 'farm'],
 		default: 'wild'
+	},
+	gear: {
+		type: String,
+		enum: ['trap', 'gillnet'],
+		default: 'trap'
 	}
 }

@@ -37,7 +37,8 @@ const defaultProducts = [
 		},
 		specs: {
 			caliber: 5,
-			harvest: 'wild'
+			harvest: 'farm',
+			gear: 'trap'
 		}
 	},
 	{
@@ -62,7 +63,8 @@ const defaultProducts = [
 		},
 		specs: {
 			caliber: 4,
-			harvest: 'wild'
+			harvest: 'wild',
+			gear: 'gillnet'
 		}
 	},
 	{
@@ -87,7 +89,8 @@ const defaultProducts = [
 		},
 		specs: {
 			caliber: 3,
-			harvest: 'wild'
+			harvest: 'farm',
+			gear: 'trap'
 		}
 	},
 	{
@@ -112,14 +115,15 @@ const defaultProducts = [
 		},
 		specs: {
 			caliber: 2,
-			harvest: 'wild'
+			harvest: 'wild',
+			gear: 'gillnet'
 		}
 	},
 	{
 		name: { en: 'Octopus', tn_latn: 'Garnit', tn_arab: 'قرنيط' },
 		searchKeywords: ['octopus', 'garnit', 'قرنيط', 'cephalopod', 'seafood'],
 		price: {
-			total: { tnd: 60 }
+			total: { tnd: 45 }
 		},
 		unit: {
 			measure: 'kg',
@@ -137,7 +141,8 @@ const defaultProducts = [
 		},
 		specs: {
 			caliber: 5,
-			harvest: 'wild'
+			harvest: 'farm',
+			gear: 'trap'
 		}
 	},
 	{
@@ -187,7 +192,7 @@ const defaultProducts = [
 		},
 		specs: {
 			caliber: 3,
-			harvest: 'wild'
+			harvest: 'farm'
 		}
 	}
 ]
