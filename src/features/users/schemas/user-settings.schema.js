@@ -21,5 +21,10 @@ export const UserSettingsSchema = {
 	//notifications: { type: String, required: true, default: config.notifications.default, enum: config.notifications.supported }
 	notifications: {
 		isEnabled: { type: Boolean, required: true, default: true }
+	},
+	purchases: {
+		confirmation: {
+			isEnabled: { type: Boolean, required: true, default: true }
+		}
 	}
 }

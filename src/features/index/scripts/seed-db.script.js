@@ -71,8 +71,9 @@ const scripts = [
 ;(async () => {
 	try {
 		console.clear()
-		//await dropDatabase()
-		await dropDatabase(['sessions', 'files'])
+		await dropDatabase()
+		//if users is preserved, auth must be preserved too
+		//await dropDatabase(['sessions', 'files','users','auth'])
 
 		for (const script of scripts) {
 			console.log(`\n▶ Running ${script}`)

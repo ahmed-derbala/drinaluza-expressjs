@@ -92,6 +92,5 @@ UserSchema.post('findOneAndUpdate', async function (doc, next) {
 	next()
 })
 
-UserSchema.index({ location: '2dsphere' })
 UserSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
 export const UserModel = mongoose.model(usersCollection, UserSchema)

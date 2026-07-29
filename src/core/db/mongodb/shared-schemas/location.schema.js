@@ -47,4 +47,4 @@ export const LocationSchema = new mongoose.Schema(
 )
 
 // Index the geo field for geospatial queries
-LocationSchema.index({ 'geo.coordinates': '2dsphere' }, { sparse: true })
+LocationSchema.index({ geo: '2dsphere' }, { sparse: true })

@@ -183,7 +183,7 @@ const defaultConfig = {
 	app,
 	backend,
 	frontend: {
-		url: 'https://drinaluza.vercel.app/'
+		url: process.env.FRONTEND_URL || 'https://drinaluza.vercel.app/'
 	},
 	auth: {
 		saltRounds: 10,
@@ -194,7 +194,7 @@ const defaultConfig = {
 	},
 	db,
 	log: {
-		kind: 'simple', //winston, simple
+		kind: 'winston', //winston, simple
 		reqDefaultLog: 'morgan_log',
 		isActive: true,
 		winston: {
