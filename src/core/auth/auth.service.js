@@ -4,8 +4,8 @@ import { createAuthRepo, findOneAuthRepo, destroySessionsRepo } from './auth.rep
 import config from '../../config/index.js'
 import { log } from '../log/index.js'
 
-export const findOneAuthSrvc = async ({ match, select }) => {
-	return await findOneAuthRepo({ match, select })
+export const findOneAuthSrvc = async ({ match, select, populate }) => {
+	return await findOneAuthRepo({ match, select, populate })
 }
 
 export const createAuthSrvc = async ({ user, password }) => {

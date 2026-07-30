@@ -25,7 +25,7 @@ export const updateOneCardFeedRepo = async ({ match, newData }) => {
 	for (const key in newData) {
 		updateFields[`targetData.${key}`] = newData[key]
 	}
-	log({ level: 'debug', message: 'updateOneCardFeedRepo', data: { match, newData } })
+	//log({ level: 'debug', message: 'updateOneCardFeedRepo', data: { match, newData } })
 	return FeedModel.findOneAndUpdate(match, { $set: updateFields }, { returnDocument: 'after' })
 }
 

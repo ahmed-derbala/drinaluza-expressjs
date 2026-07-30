@@ -12,13 +12,12 @@ export const createAuthRepo = async ({ user, password }) => {
 		errorHandler({ err })
 	}
 }
-export const findOneAuthRepo = async ({ match, select }) => {
-	try {
-		const fetchedAuth = await AuthModel.findOne({ 'user.slug': match.slug }).select(select).lean()
-		return fetchedAuth
-	} catch (err) {
-		errorHandler({ err })
+export const findOneAuthRepo = async ({ match, select, populate }) => {
+	let fetchedAuth = await AuthModel.findOne({ 'user.slug': match.slug }).select(select).populate(populate).lean()
+	if (populate) {
+		fetchedAuth.user = { ...fetchedAuth.user._id }
 	}
+	return fetchedAuth
 }
 
 export const destroySessionsRepo = async ({ user }) => {

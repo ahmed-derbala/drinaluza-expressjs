@@ -15,7 +15,7 @@ export const updateMyProfileSrvc = async ({ user, newData }) => {
 	const updatedProfile = await updateMyProfileRepo({ user, newData })
 	//sync with feed
 	const updatedFeedCard = await updateOneCardFeedRepo({ match: { targetId: user._id }, newData })
-	console.log({ level: 'debug', message: 'updateMyProfileSrvc updatedFeedCard', data: { updatedFeedCard } })
+	log({ level: 'debug', message: 'updateMyProfileSrvc updatedFeedCard', data: { updatedFeedCard } })
 	return updatedProfile
 }
 

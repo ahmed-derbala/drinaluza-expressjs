@@ -30,6 +30,8 @@ router.post('/signin', validate(signinVld), async (req, res) => {
 	try {
 		const { slug, password } = req.body
 		const fecthedAuth = await findOneAuthSrvc({ match: { slug }, select: '+password' })
+		//const fecthedAuth = await findOneAuthSrvc({ match: { slug }, select: '+password', populate: { path: 'user._id', select: '+contact +address +location' } })
+
 		if (!fecthedAuth) {
 			return resp({ status: 404, data: null, message: `no user found with slug=${slug}`, req, res })
 		}
