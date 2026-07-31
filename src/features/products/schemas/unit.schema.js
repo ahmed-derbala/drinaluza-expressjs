@@ -29,9 +29,57 @@ export const UnitSchema = {
 		min: 0.01
 	},
 	step: {
+		//the value by which the quantity can be increased or decreased
 		type: Number,
 		required: true,
 		default: 1,
 		min: 0.01
+	},
+	singlePiece: {
+		maxWeightKg: {
+			type: Number,
+			required: false,
+			min: 0.01,
+			validate: {
+				validator: function (v) {
+					// If max is set, avg must be <= max and >= min
+					if (!v) return true
+					if (this.minWeightKg && v < this.minWeightKg) return false
+					if (this.avgWeightKg && v < this.avgWeightKg) return false
+					return true
+				},
+				message: 'Maximum weight must be greater than or equal to average and minimum weight.'
+			}
+		},
+		avgWeightKg: {
+			type: Number,
+			required: false,
+			min: 0.01,
+			validate: {
+				validator: function (v) {
+					// If max is set, avg must be <= max and >= min
+					if (!v) return true
+					if (this.minWeightKg && v < this.minWeightKg) return false
+					if (this.maxWeightKg && v > this.maxWeightKg) return false
+					return true
+				},
+				message: 'Average weight must be between minimum and maximum weight.'
+			}
+		},
+		minWeightKg: {
+			type: Number,
+			required: false,
+			min: 0.01,
+			validate: {
+				validator: function (v) {
+					// If max is set, avg must be <= max and >= min
+					if (!v) return true
+					if (this.avgWeightKg && v > this.avgWeightKg) return false
+					if (this.maxWeightKg && v > this.maxWeightKg) return false
+					return true
+				},
+				message: 'Minimum weight must be less than or equal to average and maximum weight.'
+			}
+		}
 	}
 }

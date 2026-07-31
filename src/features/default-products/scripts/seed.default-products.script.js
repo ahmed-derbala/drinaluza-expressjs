@@ -77,7 +77,12 @@ const defaultProducts = [
 			measure: 'kg',
 			min: 1,
 			max: 10,
-			step: 1
+			step: 1,
+			singlePiece: {
+				maxWeightKg: 1,
+				avgWeightKg: 0.75,
+				minWeightKg: 0.5
+			}
 		},
 		state: { code: 'active' },
 		availability: {
@@ -129,7 +134,12 @@ const defaultProducts = [
 			measure: 'kg',
 			min: 1,
 			max: 10,
-			step: 1
+			step: 1,
+			singlePiece: {
+				maxWeightKg: 5,
+				avgWeightKg: 3.5,
+				minWeightKg: 2
+			}
 		},
 		state: { code: 'active' },
 		availability: {
