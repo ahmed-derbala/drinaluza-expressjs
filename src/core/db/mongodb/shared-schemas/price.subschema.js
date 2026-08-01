@@ -20,6 +20,7 @@ export const CurrenciesSubSchema = {
 }
 
 export const PriceSubSchema = {
+	_id: false,
 	subtotal: { type: CurrenciesSubSchema, required: false },
 	discount: Number,
 	tax: Number,

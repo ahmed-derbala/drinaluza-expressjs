@@ -8,6 +8,7 @@ export const ORDER_KINDS_ALL = () => Object.values(ORDER_KINDS)
 
 export const ORDER_STATUSES = {
 	PENDING_BUSINESS_CONFIRMATION: 'pending_business_confirmation',
+	PENDING_CUSTOMER_CONFIRMATION: 'pending_customer_confirmation',
 	CONFIRMED_BY_BUSINESS: 'confirmed_by_business',
 	READY_FOR_PICKUP_BY_CUSTOMER: 'ready_for_pickup_by_customer',
 	PREPARING: 'preparing',

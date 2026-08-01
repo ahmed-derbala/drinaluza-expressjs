@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findOrdersSrvc, createOrderSrvc, findOneOrderSrvc, patchOrderStatusSrvc } from './sales.service.js'
+import { findOrdersSrvc, createOrderSrvc, findOneOrderSrvc, patchSaleSrvc, patchSaleStatusSrvc } from './sales.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createOrderVld, patchOrderStatusVld, getSalesVld } from './sales.validator.js'
@@ -66,13 +66,20 @@ router
 router.route('/:orderId').patch(authenticate({ role: USER_ROLES.BUSINESS_OWNER }), validate(patchOrderStatusVld), async (req, res) => {
 	try {
 		const { orderId } = req.params
-		const { status } = req.body
+		const { status, products } = req.body
 		const match = { _id: orderId, business: { owner: { _id: req.user._id } } }
 		const sale = await findOneOrderSrvc({ match })
 		if (!sale) return resp({ status: 404, message: `sale not found ${JSON.stringify(match)}`, data: null, req, res })
-		const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: sale.status, newStatus: status })
-		if (!patchedOrder.data) return resp({ status: 409, message: patchedOrder.message, data: null, req, res })
-		return resp({ status: 200, message: patchedOrder.message, data: patchedOrder.data, req, res })
+
+		if (!products || !Array.isArray(products) || products.length === 0) {
+			const patchedSaleStatus = await patchSaleStatusSrvc({ match, oldStatus: sale.status, newStatus: status })
+			if (!patchedSaleStatus.data) return resp({ status: 409, message: patchedSaleStatus.message, data: null, req, res })
+			return resp({ status: 200, message: patchedSaleStatus.message, data: patchedSaleStatus.data, req, res })
+		}
+
+		const patchedSale = await patchSaleSrvc({ match, sale, newStatus: status, newProducts: products })
+		if (!patchedSale.data) return resp({ status: 409, message: patchedSale.message, data: null, req, res })
+		return resp({ status: 200, message: patchedSale.message, data: patchedSale.data, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}

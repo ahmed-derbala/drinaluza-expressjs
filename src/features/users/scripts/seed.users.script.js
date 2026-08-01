@@ -145,6 +145,29 @@ const users = [
 		}
 	},
 	{
+		slug: 'sahbi-aloui',
+		password: '123',
+		role: 'business_owner',
+		name: { en: 'Sahbi Aloui' },
+		address: {
+			street: `ellouza`,
+			city: 'Ellouza',
+			country: 'Tunisia',
+			region: 'Sfax'
+		}
+		/*contact: {
+			phone: ahmed_phone,
+			backupPhones: [ahmed_phone],
+			email: drinaluza_email,
+			whatsapp: ahmed_phone.fullNumber
+		},
+		media: {
+			thumbnail: {
+				url: ahmed_photo_url
+			}
+		}*/
+	},
+	{
 		slug: 'serra',
 		password: '123',
 		role: 'business_owner',

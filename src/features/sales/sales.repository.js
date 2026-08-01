@@ -32,14 +32,10 @@ export const createdOrderRepo = async ({ data }) => {
 	}
 }
 
-export const patchOrderStatusRepo = async ({ match, status }) => {
-	try {
-		const flattenedMatch = flattenObject(match)
-		const patchedOrder = await OrderModel.findOneAndUpdate({ ...flattenedMatch }, { status }, { returnDocument: 'after' })
-		return patchedOrder
-	} catch (err) {
-		throw errorHandler({ err })
-	}
+export const patchSaleStatusRepo = async ({ match, status }) => {
+	const flattenedMatch = flattenObject(match)
+	const patchedOrder = await OrderModel.findOneAndUpdate({ ...flattenedMatch }, { status }, { returnDocument: 'after' })
+	return patchedOrder
 }
 
 export const findMySalesRepo = async ({ match, page, limit, count, select }) => {
@@ -55,4 +51,25 @@ export const findMySalesRepo = async ({ match, page, limit, count, select }) => 
 	} catch (err) {
 		errorHandler({ err })
 	}
+}
+
+export const patchSaleRepo = async ({ match, newData }) => {
+	const { status, products } = newData
+	const flattenedMatch = flattenObject(match)
+	//_id is product row _id in products array, not product._id
+	let bulkOps = products.map(({ _id, quantity }) => ({
+		updateOne: {
+			filter: { ...flattenedMatch, 'products._id': _id },
+			update: { $set: { 'products.$.quantity': quantity } }
+		}
+	}))
+	//update status after updating products
+	bulkOps.push({
+		updateOne: {
+			filter: { ...flattenedMatch },
+			update: { $set: { status } }
+		}
+	})
+	console.log('bulkOps', JSON.stringify(bulkOps))
+	return OrderModel.bulkWrite(bulkOps)
 }

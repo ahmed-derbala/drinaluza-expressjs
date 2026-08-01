@@ -1,7 +1,7 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
 import config from '../../config/index.js'
-import { findOneOrderRepo, findOrdersRepo, createdOrderRepo, patchOrderStatusRepo, findMySalesRepo } from './sales.repository.js'
+import { findOneOrderRepo, findOrdersRepo, createdOrderRepo, findMySalesRepo, patchSaleRepo, patchSaleStatusRepo } from './sales.repository.js'
 import { validateSaleStatusTransition } from './sales.helper.js'
 
 export const findOneOrderSrvc = async ({ match, select }) => {
@@ -31,17 +31,13 @@ export const calculateFinalPriceSrvc = ({ price, quantity }) => {
 	}
 }
 
-export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus }) => {
-	try {
-		if (!validateSaleStatusTransition(oldStatus, newStatus)) {
-			log({ level: 'debug', message: 'invalid status transition', data: { oldStatus, newStatus } })
-			return { message: 'invalid status transition', data: null }
-		}
-		const patchedOrder = await patchOrderStatusRepo({ match, status: newStatus })
-		return { message: 'sale status patched successfully', data: patchedOrder }
-	} catch (err) {
-		throw errorHandler({ err })
+export const patchSaleStatusSrvc = async ({ match, oldStatus, newStatus }) => {
+	if (!validateSaleStatusTransition(oldStatus, newStatus)) {
+		log({ level: 'debug', message: 'invalid status transition', data: { oldStatus, newStatus } })
+		return { message: 'invalid status transition', data: null }
 	}
+	const patchedOrder = await patchSaleStatusRepo({ match, status: newStatus })
+	return { message: 'sale status patched successfully', data: patchedOrder }
 }
 
 export const findMySalesSrvc = async ({ match, page, limit, count, select }) => {
@@ -54,4 +50,17 @@ export const findMySalesSrvc = async ({ match, page, limit, count, select }) => 
 	} catch (err) {
 		errorHandler({ err })
 	}
+}
+
+export const patchSaleSrvc = async ({ match, sale, newStatus, newProducts }) => {
+	if (!validateSaleStatusTransition(sale.status, newStatus)) {
+		log({ level: 'debug', message: 'invalid status transition', data: { oldStatus: sale.status, newStatus } })
+		return { message: `invalid status transition from ${sale.status} to ${newStatus}`, data: null }
+	}
+
+	newProducts = newProducts.map((item) => {
+		return { ...item, quantity: parseInt(item.quantity, 10) }
+	})
+	const patchedSale = await patchSaleRepo({ match, newData: { status: newStatus, products: newProducts } })
+	return { message: 'sale patched successfully', data: patchedSale }
 }
