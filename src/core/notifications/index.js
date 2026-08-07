@@ -12,7 +12,8 @@ const expo = new Expo()
  * @param {*} param0
  * @returns
  */
-export const notify = async ({ user, screen = '/feed', template, data = {} }) => {
+export const notify = async ({ user, screen = '/notifications', template, data = {} }) => {
+	console.log('screen', screen)
 	const io = getIO() // Call the function to get the current live instance
 	//log({ level: 'debug', message: 'notify', data: { user, template, data } })
 	if (!template && !template.slug) {

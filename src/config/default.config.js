@@ -77,11 +77,7 @@ let port = parseInt(process.env.DATABASE_PORT, 10) || 27017
 const dbName = 'drinaluza'
 const maxPoolSize = 200 //number > 0 otherwise ignored, default 200, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
 const minPoolSize = 5 //number > 0 otherwise ignored, default 5, more infos: https://mongoosejs.com/docs/connections.html#connection_pools
-if (process.env.MONGO_URI && process.env.NODE_ENV !== 'production') {
-	throw `Using MONGO_URI from environment variables in non-production mode
-		  MONGO_URI: ${process.env.MONGO_URI}
-		  NODE_ENV: ${process.env.NODE_ENV}`
-}
+
 let uri = process.env.MONGO_URI || ``
 if (uri) {
 	user = null
@@ -264,8 +260,8 @@ const defaultConfig = {
 		morgan: {
 			isActive: true,
 			//more infos: https://www.npmjs.com/package/morgan
-			//tokenString: `{"status":":status","method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip","headers"::headers ,"responseTime":":response-time"}`,
-			tokenString: `{"status":":status","method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip", "headers"::headers ,"responseTime":":response-time","browser":":browser", "os":":os", "platform":":platform" ,"origin":":origin", "isBot":":isBot", "referrer":":referrer", "user-agent":":user-agent"}`,
+			tokenString: `{"status":":status","method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip"}`,
+			//tokenString: `{"status":":status","method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip", "headers"::headers ,"responseTime":":response-time","browser":":browser", "os":":os", "platform":":platform" ,"origin":":origin", "isBot":":isBot", "referrer":":referrer", "user-agent":":user-agent"}`,
 			hiddenBodyFields: ['password', 'user.password'] //[] for none, display these keys as *** in terminal
 		}
 	},
