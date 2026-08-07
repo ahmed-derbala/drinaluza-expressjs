@@ -51,11 +51,11 @@ morgan.token('originalUrl', (req) => {
 	return req.originalUrl
 })
 morgan.token('headers', (req) => {
-	if (!config.log.req.headers.isActive) return '{}'
+	/*if (!config.log.req.headers.isActive) return '{}'
 	let headers = {}
 	if (config.log.req.headers.token.isActive) headers.token = req.headers.token
-	if (config.log.req.headers.tid.isActive) headers.tid = req.headers.tid
-	return JSON.stringify(headers)
+	if (config.log.req.headers.tid.isActive) headers.tid = req.headers.tid*/
+	return JSON.stringify(req.headers)
 })
 const stream = {
 	write: function (req) {

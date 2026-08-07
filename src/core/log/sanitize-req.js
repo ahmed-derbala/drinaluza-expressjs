@@ -11,6 +11,12 @@ let sanitizeReq = (req) => {
 	}
 	if (!config.log.req.headers.isActive) return result
 	let headers = {}
+	console.log('req', req)
+	console.log('req', req.status)
+	console.log('req', req.host)
+	console.log('req', req['user-agent'])
+
+	console.log('req.headers', req.headers)
 	if (config.log.req.headers.token.isActive) headers.token = req.headers.token
 	if (config.log.req.headers.tid.isActive) headers.tid = req.headers.tid
 	result.headers = headers

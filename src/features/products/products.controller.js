@@ -73,11 +73,11 @@ router
 	.get(authenticate({ tokenRequired: false }), validate(findOneProductVld), async (req, res) => {
 		try {
 			const product = await findOneProductSrvc({ match: { slug: req.params.productSlug } })
+			if (!product) return resp({ status: 404, message: 'product not found', data: null, req, res })
 			let viewer = { canEdit: false, canCreate: false }
 			if (req.user && product.business.owner.slug == req.user.slug) {
 				viewer = { canEdit: true, canCreate: true }
 			}
-			console.log(viewer)
 			return resp({ status: 200, viewer, data: product, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })

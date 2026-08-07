@@ -17,14 +17,23 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerSpec from '../swagger/swagger.js'
 import { resp } from '../helpers/resp.js'
 import expressLayouts from 'express-ejs-layouts'
+import { log } from '#log'
 
 let app = express()
+app.set('trust proxy', 1) // Tell Express to trust the proxy header
+if (config.NODE_ENV !== 'production' && config.security.delay.isActive) {
+	log({ level: 'warn', message: `Delay middleware is active. All requests will be delayed by ${config.security.delay.ms} ms.` })
+	// Delay middleware factory
+	const delay = (ms) => (req, res, next) => setTimeout(next, ms)
+	// Apply to ALL routes (e.g., 2000 ms / 2 seconds)
+	app.use(delay(config.security.delay.ms))
+}
 //serve /public folder with express static middleware
 //make the public folder accessible at /public
 // i got 404 error when i try to access /public
 app.use('/public', express.static(`${process.cwd()}/public`))
 app.use(cors(config.app.corsOptions))
-app.use('/', rateLimit(config.security.apiLimiter))
+app.use(rateLimit(config.security.apiLimiter))
 app.use(compression())
 if (config.security.helmet.isActive) app.use(helmet(config.security.helmet.options))
 app.use(tidHandler)

@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.3.66",
+  "version": "1.3.67",
   "main": "src/main.js",
   "description": "Drinaluza, business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -73,7 +73,7 @@
     "i": "npm i",
     "i:prod": "NODE_ENV=production npm i --omit=dev",
     "rm:local": "rm -rf logs backups node_modules package-lock.json",
-		"rm:prod": "rm -rf backups node_modules package-lock.json",
+    "rm:prod": "rm -rf backups node_modules package-lock.json",
     "clean": "npm run rm:local && npm run i",
     "clean:prod": "npm run rm:prod && npm run i:prod",
     "code": "windsurf . && npm run start:local",

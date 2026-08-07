@@ -30,7 +30,11 @@ let app = {
 const security = {
 	apiLimiter: {
 		windowMs: 15 * 60 * 1000, // 15 minutes
-		limit: 100 // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+		limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+		keyGenerator: (req) => {
+			// Fallback logic if req.ip is undefined
+			return req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress
+		}
 	},
 	corsOptions: {
 		origin: '*',
@@ -43,7 +47,11 @@ const security = {
 			crossOriginResourcePolicy: false
 		}
 	},
-	allowScriptsInProdution: false
+	allowScriptsInProdution: false,
+	delay: {
+		isActive: false,
+		ms: 5000
+	}
 }
 const docs = {
 	swagger: {
@@ -256,8 +264,8 @@ const defaultConfig = {
 		morgan: {
 			isActive: true,
 			//more infos: https://www.npmjs.com/package/morgan
-			//tokenString: `{"status"::status,"method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip","headers"::headers ,"responseTime"::response-time}`,
-			tokenString: `{"status"::status,"method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip", "headers"::headers ,"responseTime"::response-time,"browser":":browser", "os":":os", "platform":":platform" ,"origin":":origin", "isBot":":isBot", "referrer":":referrer", "user-agent":":user-agent"}`,
+			//tokenString: `{"status":":status","method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip","headers"::headers ,"responseTime":":response-time"}`,
+			tokenString: `{"status":":status","method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip", "headers"::headers ,"responseTime":":response-time","browser":":browser", "os":":os", "platform":":platform" ,"origin":":origin", "isBot":":isBot", "referrer":":referrer", "user-agent":":user-agent"}`,
 			hiddenBodyFields: ['password', 'user.password'] //[] for none, display these keys as *** in terminal
 		}
 	},
