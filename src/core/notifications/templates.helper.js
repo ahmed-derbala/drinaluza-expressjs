@@ -41,7 +41,43 @@ const purchase_created = ({ user }) => {
 	}
 }
 
+const purchase_updated_by_business = ({ customer, business }) => {
+	return {
+		title: {
+			en: 'Purchase updated',
+			fr: 'Achat mis à jour',
+			tn_latn: 'Achra ttsajlet',
+			tn_arab: 'تم تحديث الشراء'
+		},
+		content: {
+			en: `${business.name.en} updated their purchase.`,
+			fr: `${business.name.fr} a mis à jour leur achat.`,
+			tn_latn: `${business.name.tn_latn} a mis à jour leur achat.`,
+			tn_arab: `${business.name.tn_arab} حدثت عملية الشراء.`
+		}
+	}
+}
+
+const purchase_updated_by_customer = ({ customer, business }) => {
+	return {
+		title: {
+			en: 'Purchase updated',
+			fr: 'Achat mis à jour',
+			tn_latn: 'Achra ttsajlet',
+			tn_arab: 'تم تحديث الشراء'
+		},
+		content: {
+			en: `${customer.name.en} updated their purchase.`,
+			fr: `${customer.name.fr} a mis à jour leur achat.`,
+			tn_latn: `${customer.name.tn_latn} a mis à jour leur achat.`,
+			tn_arab: `${customer.name.tn_arab} حدثت عملية الشراء.`
+		}
+	}
+}
+
 export const templateRegistry = {
 	purchase_request,
-	purchase_created
+	purchase_created,
+	purchase_updated_by_business,
+	purchase_updated_by_customer
 }

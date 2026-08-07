@@ -102,7 +102,7 @@ router.route('/:orderId/').patch(authenticate({ role: USER_ROLES.CUSTOMER }), va
 		const match = { _id: orderId, customer: { _id: req.user._id } }
 		const purchase = await findOneOrderSrvc({ match })
 		if (!purchase) return resp({ status: 202, message: `purchase not found ${JSON.stringify(match)}`, data: null, req, res })
-		const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: purchase.status, newStatus: status })
+		const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: purchase.status, newStatus: status, purchase })
 		if (!patchedOrder.data) return resp({ status: 409, message: patchedOrder.message, data: null, req, res })
 		return resp({ status: 200, message: patchedOrder.message, data: patchedOrder.data, req, res })
 	} catch (err) {

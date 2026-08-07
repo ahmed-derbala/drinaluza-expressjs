@@ -12,7 +12,7 @@ const expo = new Expo()
  * @param {*} param0
  * @returns
  */
-export const notify = async ({ user, kind = 'push', template, data = {} }) => {
+export const notify = async ({ user, screen = '/feed', template, data = {} }) => {
 	const io = getIO() // Call the function to get the current live instance
 	//log({ level: 'debug', message: 'notify', data: { user, template, data } })
 	if (!template && !template.slug) {
@@ -21,22 +21,24 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 
 	const templateFn = templateRegistry[template.slug]
 	const { title, content } = templateFn(data)
-	createNotificationSrvc({ user, title, content, template, kind })
+	createNotificationSrvc({ user, title, content, template, kind: 'push' })
 	if (io) {
 		io.to(user.slug).emit('new_notification', {
 			title: title.en,
 			content: content.en,
-			screen: `/business/sales`
+			screen
 		})
+		log({ level: 'info', label: 'notifications', message: 'Notification emitted via socket.io', data: { user, template, title, content, screen } })
 	}
 
+	const allowedNotificationKinds = ['push', 'email', 'sms']
 	// Handle Push Logic
-	if (kind === 'push') {
+	if (allowedNotificationKinds.includes('push')) {
 		//fecth sessions
 		const sessions = await findSessionsSrvc({ match: { 'user.slug': user.slug, expoPushToken: { $exists: true } }, select: '-_id expoPushToken' })
 
 		if (!sessions || sessions.length === 0) {
-			log({ level: 'debug', message: `No expoPushToken found for user ${user.slug}`, data: { user } })
+			log({ level: 'warn', label: 'notifications', message: `No expoPushToken found for user ${user.slug}`, data: { user } })
 			return
 		}
 		const messages = []
@@ -46,7 +48,7 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 			// Check that all your push tokens appear to be valid Expo push tokens
 			//console.log('Checking Expo push token:', s.expoPushToken)
 			if (!Expo.isExpoPushToken(s.expoPushToken)) {
-				console.error(`Push token ${s.expoPushToken} is not a valid Expo push token`)
+				log({ level: 'error', label: 'notifications', message: `Push token ${s.expoPushToken} is not a valid Expo push token` })
 				continue
 			}
 
@@ -55,7 +57,7 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 				sound: 'default',
 				title: title.en,
 				body: content.en,
-				data: { hi: 'hello' }, // Custom data for your frontend to handle
+				data, // Custom data for your frontend to handle
 				channelId: 'default',
 				priority: 'high'
 			})
@@ -69,7 +71,7 @@ export const notify = async ({ user, kind = 'push', template, data = {} }) => {
 				let ticket = await expo.sendPushNotificationsAsync(chunk)
 				//console.log('Push notification ticket:', ticket)
 			} catch (error) {
-				console.error('Error sending push notification chunk:', error)
+				log({ level: 'error', label: 'notifications', message: 'Error sending push notification chunk:', data: { error } })
 			}
 		}
 	}

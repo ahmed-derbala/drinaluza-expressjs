@@ -41,7 +41,7 @@ export const findBusinessesRepo = async ({ match, select, page, limit, count }) 
 
 export const findOneBusinessRepo = async ({ match, select }) => {
 	const flattenedMatch = flattenObject(match)
-	log({ level: 'debug', message: 'findOneBusinessRepo flattenedMatch', data: flattenedMatch })
+	//log({ level: 'debug', message: 'findOneBusinessRepo flattenedMatch', data: flattenedMatch })
 	const business = await BusinessModel.findOne({ ...flattenedMatch })
 		.select(select)
 		.lean()

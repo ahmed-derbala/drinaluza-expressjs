@@ -6,6 +6,13 @@ import path from 'path'
 import fs from 'fs'
 import { format, transports } from 'winston'
 import 'winston-mongodb'
+/** rate limiting */
+import { rateLimit, ipKeyGenerator } from 'express-rate-limit'
+const apiLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 100,
+	keyGenerator: (req) => ipKeyGenerator(req.ip)
+})
 
 const NODE_ENV = process.env.NODE_ENV || 'local'
 
@@ -28,14 +35,7 @@ let app = {
 }
 
 const security = {
-	apiLimiter: {
-		windowMs: 15 * 60 * 1000, // 15 minutes
-		limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-		keyGenerator: (req) => {
-			// Fallback logic if req.ip is undefined
-			return req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress
-		}
-	},
+	apiLimiter,
 	corsOptions: {
 		origin: '*',
 		//methods: "GET,PUT,POST,DELETE,PATCH",

@@ -4,7 +4,7 @@ import config from '../../config/index.js'
 import { findOneOrderRepo, patchOrderStatusRepo, appendProductsToOrderRepo } from './purchases.repository.js'
 import { ORDER_STATUSES } from '#orders/orders.constant.js'
 import { createdOrderRepo } from '../orders/orders.repository.js'
-import { notify } from '../../core/notifications/index.js'
+import { notify } from '#core/notifications/index.js'
 
 export const findOneOrderSrvc = async ({ match, select }) => {
 	const fetchedOrder = await findOneOrderRepo({ match, select })
@@ -22,17 +22,21 @@ export const processLineTotalSrvc = ({ price, quantity }) => {
 	return { tnd: price.total.tnd * quantity, usd: price.total.usd * quantity || null, eur: price.total.eur * quantity || null }
 }
 
-export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus }) => {
-	try {
-		if (!validateSaleStatusTransition(oldStatus, newStatus)) {
-			log({ level: 'debug', message: 'invalid status transition', data: { oldStatus, newStatus } })
-			return { message: 'invalid status transition', data: null }
-		}
-		const patchedOrder = await patchOrderStatusRepo({ match, status: newStatus })
-		return { message: 'purchase status patched successfully', data: patchedOrder }
-	} catch (err) {
-		throw errorHandler({ err })
+export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus, purchase }) => {
+	if (!validateSaleStatusTransition(oldStatus, newStatus)) {
+		log({ level: 'debug', message: 'invalid status transition', data: { oldStatus, newStatus } })
+		return { message: 'invalid status transition', data: null }
 	}
+	const patchedOrder = await patchOrderStatusRepo({ match, status: newStatus })
+	if (patchedOrder) {
+		notify({
+			user: purchase.business.owner,
+			screen: `/dashboard/${purchase.business.slug}/sales`,
+			template: { slug: 'purchase_updated_by_customer' },
+			data: { customer: purchase.customer, business: purchase.business }
+		})
+	}
+	return { message: 'purchase status patched successfully', data: patchedOrder }
 }
 
 export const appendProductsToOrderSrvc = async ({ orderId, products }) => {

@@ -30,6 +30,6 @@ export const updateOneNotificationSrvc = async ({ match, newData }) => {
 }
 
 export const createNotificationSrvc = async ({ user, template, kind, title, content }) => {
-	log({ level: 'debug', message: 'create notification', data: { user, template, kind, title, content } })
+	log({ level: 'info', label: 'notifications', message: 'create notification', data: { user, template, kind, title, content } })
 	return createNotificationRepo({ user, template, kind, title, content })
 }

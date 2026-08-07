@@ -1,5 +1,4 @@
 #env
-envs/
 .env
 .env.prod
 .env.dev

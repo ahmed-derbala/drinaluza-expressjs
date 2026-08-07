@@ -55,10 +55,13 @@ morgan.token('headers', (req) => {
 	let headers = {}
 	if (config.log.req.headers.token.isActive) headers.token = req.headers.token
 	if (config.log.req.headers.tid.isActive) headers.tid = req.headers.tid*/
+	return req.headers
 	return JSON.stringify(req.headers)
 })
 const stream = {
 	write: function (req) {
+		if (req.responseTime) req.responseTime = parseFloat(req.responseTime)
+		if (req.status) req.status = parseInt(req.status, 10)
 		try {
 			req = JSON.parse(req)
 		} catch (e) {

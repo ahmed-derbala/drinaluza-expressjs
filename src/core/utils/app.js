@@ -6,7 +6,6 @@ import expressWinston from 'express-winston'
 import winston from 'winston'
 import * as loaders from './loaders.js'
 import morganLogger from '../log/morgan.js'
-import rateLimit from 'express-rate-limit'
 import config from '../../config/index.js'
 import compression from 'compression'
 import cors from 'cors'
@@ -33,7 +32,7 @@ if (config.NODE_ENV !== 'production' && config.security.delay.isActive) {
 // i got 404 error when i try to access /public
 app.use('/public', express.static(`${process.cwd()}/public`))
 app.use(cors(config.app.corsOptions))
-app.use(rateLimit(config.security.apiLimiter))
+app.use(config.security.apiLimiter)
 app.use(compression())
 if (config.security.helmet.isActive) app.use(helmet(config.security.helmet.options))
 app.use(tidHandler)

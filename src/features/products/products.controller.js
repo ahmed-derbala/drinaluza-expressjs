@@ -5,7 +5,7 @@ import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { validate } from '../../core/validation/index.js'
 import { createProductVld, findOneProductVld } from './products.validator.js'
-import { findOneBusinessRepo } from '../businesses/businesses.repository.js'
+import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { log } from '../../core/log/index.js'
 import { findOneDefaultProductSrvc } from '../default-products/default-products.service.js'
 import { USER_ROLES } from '#users/users.enum.js'
@@ -29,7 +29,7 @@ router
 			let { business, defaultProduct, name } = req.body
 
 			defaultProduct = await findOneDefaultProductSrvc({ slug: defaultProduct.slug })
-			business = await findOneBusinessRepo({ match: { slug: business.slug }, select: '' })
+			business = await findOneBusinessSrvc({ match: { slug: business.slug }, select: '' })
 			if (!business) return resp({ status: 202, message: 'business not found', data: null, req, res })
 
 			const data = { business, name, defaultProduct, price, unit, media, searchTerms, availability }

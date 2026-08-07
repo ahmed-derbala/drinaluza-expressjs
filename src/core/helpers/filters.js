@@ -1,3 +1,5 @@
+import { Types } from 'mongoose'
+
 export const makeAuthKeyQuery = ({ key, kind }) => {
 	let authKeyQuery = {}
 	switch (kind) {
@@ -33,11 +35,8 @@ export const flattenObject = ({ obj, parentKey = '', result = {} }) => {
 }*/
 
 /**
- * Flattens a nested object into a single-level object
- * with keys representing the original nested paths using dot notation.
- *
- * This function handles nested objects but leaves primitive values and arrays as they are.
- * It's particularly useful for preparing data to be stored in a database or a flat structure.
+ * Flattens a nested object into a single-level object using dot notation,
+ * correctly preserving MongoDB ObjectIds, Dates, and primitive values.
  *
  * @param {object} obj - The object to flatten.
  * @returns {object} The flattened object.
@@ -45,39 +44,28 @@ export const flattenObject = ({ obj, parentKey = '', result = {} }) => {
 export const flattenObject = (obj) => {
 	const result = {}
 
-	/**
-	 * Recursive helper function to traverse the object.
-	 * @param {any} currentObject - The current part of the object being processed.
-	 * @param {string} [prefix=''] - The prefix for the new key (e.g., 'owner').
-	 */
 	function recurse(currentObject, prefix = '') {
-		// Check if the current value is an object and not null or an array.
 		if (currentObject !== null && typeof currentObject === 'object' && !Array.isArray(currentObject)) {
 			for (const key in currentObject) {
-				// Ensure the property is directly on the object and not from its prototype chain.
 				if (Object.prototype.hasOwnProperty.call(currentObject, key)) {
-					// Construct the new key path. Add a dot if a prefix already exists.
 					const newKey = prefix ? `${prefix}.${key}` : key
 					const value = currentObject[key]
 
-					// If the value is also an object, recurse deeper.
-					// Otherwise, it's a primitive value, so we add it to our result.
-					if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+					// Check if value is a plain object (exclude ObjectIds, Dates, etc.)
+					const isNestedObject =
+						value !== null && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date) && !(value instanceof Types.ObjectId) && value._bsontype !== 'ObjectID' // Fallback check if Mongoose/BSON versions differ
+
+					if (isNestedObject) {
 						recurse(value, newKey)
 					} else {
 						result[newKey] = value
 					}
 				}
 			}
-		} else {
-			// If the initial object is not an object, return an empty object or handle it differently.
-			// For this specific use case, we'll just handle valid objects.
 		}
 	}
 
-	// Start the recursion with the provided object and an empty prefix.
 	recurse(obj)
-
 	return result
 }
 

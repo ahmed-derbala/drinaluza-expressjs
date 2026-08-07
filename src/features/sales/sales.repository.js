@@ -70,6 +70,5 @@ export const patchSaleRepo = async ({ match, newData }) => {
 			update: { $set: { status } }
 		}
 	})
-	console.log('bulkOps', JSON.stringify(bulkOps))
 	return OrderModel.bulkWrite(bulkOps)
 }

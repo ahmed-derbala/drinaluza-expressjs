@@ -3,6 +3,7 @@ import { log } from '../../core/log/index.js'
 import config from '../../config/index.js'
 import { findOneOrderRepo, findOrdersRepo, createdOrderRepo, findMySalesRepo, patchSaleRepo, patchSaleStatusRepo } from './sales.repository.js'
 import { validateSaleStatusTransition } from './sales.helper.js'
+import { notify } from '#core/notifications/index.js'
 
 export const findOneOrderSrvc = async ({ match, select }) => {
 	const fetchedOrder = await findOneOrderRepo({ match, select })
@@ -62,5 +63,8 @@ export const patchSaleSrvc = async ({ match, sale, newStatus, newProducts }) => 
 		return { ...item, quantity: parseInt(item.quantity, 10) }
 	})
 	const patchedSale = await patchSaleRepo({ match, newData: { status: newStatus, products: newProducts } })
+	if (patchedSale) {
+		notify({ user: sale.customer, screen: '/purchases', template: { slug: 'purchase_updated_by_business' }, data: { customer: sale.customer, business: sale.business } })
+	}
 	return { message: 'sale patched successfully', data: patchedSale }
 }

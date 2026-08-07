@@ -18,7 +18,7 @@ export const findBusinessesSrvc = async ({ match, select, page, limit, count }) 
 	return await findBusinessesRepo({ match, select, page, limit, count })
 }
 export const findOneBusinessSrvc = async ({ match, select }) => {
-	return await findOneBusinessRepo({ match, select })
+	return findOneBusinessRepo({ match, select })
 }
 export const updateBusinessSrvc = async ({ match, newData }) => {
 	const updatedFeedCard = await updateOneCardFeedRepo({ match: { 'targetData.slug': match.slug }, newData })
@@ -27,7 +27,16 @@ export const updateBusinessSrvc = async ({ match, newData }) => {
 export const createBusinessSrvc = async ({ name, address, location, owner, media, contact, rating, kind }) => {
 	if (!media) media = config.defaults.businesses.media
 	if (!name) {
-		name = { en: `${owner.name.en} business` }
+		name = {}
+	}
+	if (!name.en) {
+		name.en = `${owner.name.en} business`
+	}
+	if (!name.tn_latn) {
+		name.tn_latn = name.en
+	}
+	if (!name.tn_arab) {
+		name.tn_arab = name.en
 	}
 	log({ level: 'debug', message: 'createBusinessSrvc', data: { name, address, location, owner, media } })
 	const business = await createBusinessRepo({ name, address, location, owner, media, contact, rating, kind })
