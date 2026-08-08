@@ -12,8 +12,8 @@ const expo = new Expo()
  * @param {*} param0
  * @returns
  */
-export const notify = async ({ user, screen = '/notifications', template, data = {} }) => {
-	console.log('screen', screen)
+export const notify = async ({ user, template, screen = '/notifications', data = {}, kind, priority = 'high' }) => {
+	data.screen = screen
 	const io = getIO() // Call the function to get the current live instance
 	//log({ level: 'debug', message: 'notify', data: { user, template, data } })
 	if (!template && !template.slug) {
@@ -22,7 +22,7 @@ export const notify = async ({ user, screen = '/notifications', template, data =
 
 	const templateFn = templateRegistry[template.slug]
 	const { title, content } = templateFn(data)
-	createNotificationSrvc({ user, title, content, template, kind: 'push' })
+	createNotificationSrvc({ user, template, screen, title, content, kind, priority })
 	if (io) {
 		io.to(user.slug).emit('new_notification', {
 			title: title.en,
@@ -60,7 +60,7 @@ export const notify = async ({ user, screen = '/notifications', template, data =
 				body: content.en,
 				data, // Custom data for your frontend to handle
 				channelId: 'default',
-				priority: 'high'
+				priority
 			})
 		}
 

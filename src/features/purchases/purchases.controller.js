@@ -37,7 +37,6 @@ router
 			business = await findOneBusinessSrvc({ match: { slug: business.slug } })
 			if (!business) return resp({ status: 404, message: 'business not found', data: null, req, res })
 			const customer = await findOneCustomerSrvc({ match: { slug: req.user.slug } })
-			log({ level: 'debug', message: 'create purchase', data: { customer, business } })
 			//business_owner cannot purchase from his businesses
 			if (customer.role === USER_ROLES.BUSINESS_OWNER) {
 				const ownedBusiness = await findOneBusinessSrvc({ match: { owner: { _id: customer._id }, slug: business.slug }, select: '_id' })
@@ -50,6 +49,7 @@ router
 				if (p.product._id) {
 					match._id = p.product._id
 				} else {
+					backend.url
 					match.slug = p.product.slug
 				}
 				p.product = await findOneProductSrvc({ match, select: '+media +defaultProduct' })

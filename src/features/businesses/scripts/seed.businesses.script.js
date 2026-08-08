@@ -16,6 +16,7 @@ const drinaluza_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v17836
 const drayen_ellouza_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1783711900/uploads/uxu89f03yxmgsyhsuvrj.jpg'
 const poissons_amin_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1784033131/uploads/wu3ockbj5omnaxiyoql0.jpg'
 const dar_el_hout_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1784042257/uploads/bhshf8c1eukslbfdnraa.jpg'
+const konouza_el_bahr_logo = 'https://res.cloudinary.com/dyhvqubig/image/upload/v1786223636/uploads/wsgvfsjajjiiiis0e4uq.jpg'
 
 const mahdi_phone = {
 	countryCode: '216',
@@ -63,6 +64,44 @@ let manualBusinesses = [
 		media: {
 			thumbnail: {
 				url: drinaluza_logo
+			}
+		}
+	},
+	{
+		owner: { slug: 'sirage-benhassen' },
+		slug: 'konouz-el-bahr',
+		name: { en: 'Konouz el bahr', tn_arab: 'كنوز البحر جبنيانة' },
+		address: {
+			street: `ellouza, tri9 douar`,
+			city: 'Sfax',
+			country: country
+		},
+		location: {
+			geo: {
+				type: 'Point',
+				coordinates: [10.18, 36.8]
+			}
+		},
+		state: { code: 'active' },
+		contact: {
+			phone: {
+				countryCode: '216',
+				localNumber: '99112619',
+				fullNumber: `+21699112619`
+			},
+			backupPhones: [
+				{
+					countryCode: '216',
+					localNumber: '99111222',
+					fullNumber: `+21699111222`
+				}
+			],
+			email: `drinaluza@gmail.com`,
+			whatsapp: `+21699112619`
+		},
+		media: {
+			thumbnail: {
+				url: konouza_el_bahr_logo
 			}
 		}
 	},

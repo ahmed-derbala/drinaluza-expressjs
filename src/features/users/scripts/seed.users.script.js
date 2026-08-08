@@ -53,6 +53,29 @@ const users = [
 		}
 	},
 	{
+		slug: 'sirage-benhassen',
+		password: '123',
+		role: 'business_owner',
+		name: { en: 'Sirage Benhassen' },
+		address: {
+			street: `ellouza`,
+			city: 'Ellouza',
+			country: 'Tunisia',
+			region: 'Sfax'
+		}
+		/*contact: {
+			phone: ahmed_phone,
+			backupPhones: [ahmed_phone],
+			email: drinaluza_email,
+			whatsapp: ahmed_phone.fullNumber
+		},
+		media: {
+			thumbnail: {
+				url: ahmed_photo_url
+			}
+		}*/
+	},
+	{
 		slug: 'mahdi-akid',
 		password: '123',
 		role: 'business_owner',

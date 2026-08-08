@@ -14,7 +14,7 @@ export const updateProductRepo = async ({ match, newData }) => {
 
 export const findOneProductRepo = async ({ match, select }) => {
 	const flattenedMatch = flattenObject(match)
-	log({ level: 'debug', message: 'findOneProductRepo', data: { flattenedMatch, select } })
+	//log({ level: 'debug', message: 'findOneProductRepo', data: { flattenedMatch, select } })
 	return ProductModel.findOne({ ...flattenedMatch })
 		.select(select)
 		.lean()

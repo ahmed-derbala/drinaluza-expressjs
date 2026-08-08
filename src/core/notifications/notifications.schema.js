@@ -9,12 +9,13 @@ const NotificationSchema = new mongoose.Schema(
 	{
 		user: UserRefSchema,
 		template: { slug: { type: String, required: true } },
+		screen: { type: String, default: '/notifications' },
 		title: MultiLangSchema,
 		content: MultiLangSchema,
 		seenAt: { type: Date },
 		kind: { type: String, enum: ['push', 'email', 'sms'], default: 'push', required: true, select: false },
 		state: StateSchema,
-		priority: { type: String, enum: ['low', 'medium', 'high'], default: 'medium', required: true }
+		priority: { type: String, enum: ['default', 'normal', 'high'], default: 'high', required: true }
 	},
 	{ collection: notificationsCollection, timestamps: true }
 )
