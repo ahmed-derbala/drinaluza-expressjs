@@ -13,7 +13,7 @@ const expo = new Expo()
  * @returns
  */
 export const notify = async ({ user, template, screen = '/notifications', data = {}, kind, priority = 'high' }) => {
-	data.screen = screen
+	data.screen = screen //so when tapping on push notification on device it opens the target screen
 	const io = getIO() // Call the function to get the current live instance
 	//log({ level: 'debug', message: 'notify', data: { user, template, data } })
 	if (!template && !template.slug) {
