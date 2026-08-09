@@ -13,8 +13,11 @@ export const findOneOrderSrvc = async ({ match, select }) => {
 
 export const createPurchaseSrvc = async ({ customer, business, products, status, price }) => {
 	log({ level: 'debug', message: 'createPurchaseSrvc', data: { customer, business, products, status, price } })
-	notify({ user: business.owner, screen: `/dashboard/${business.slug}/sales`, template: { slug: 'purchase_request' }, data: { customer, business, products, price } })
-	return createdOrderRepo({ customer, business, products, status, price })
+	const createdPurchase = await createdOrderRepo({ customer, business, products, status, price })
+	if (createdPurchase) {
+		notify({ user: business.owner, screen: `/dashboard/${business.slug}/sales/${createdPurchase._id}`, template: { slug: 'purchase_request' }, data: { customer, business, products, price } })
+	}
+	return createdPurchase
 }
 
 export const processLineTotalSrvc = ({ price, quantity }) => {

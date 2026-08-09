@@ -2,6 +2,14 @@ import { paginateMongodb, aggregatePaginate } from '../../core/db/mongodb/pagina
 import { flattenObject } from '../../core/helpers/filters.js'
 import { OrderModel } from '../orders/orders.schema.js'
 
+export const findOneOrderRepo = async ({ match, select }) => {
+	const flattenedMatch = flattenObject(match)
+	const fetchedOrder = await OrderModel.findOne({ ...flattenedMatch })
+		.select(select)
+		.lean()
+	return fetchedOrder
+}
+
 export const findOrdersRepo = async ({ match, select, page, limit }) => {
 	const flattenedMatch = flattenObject(match)
 	return paginateMongodb({ model: OrderModel, match: { ...flattenedMatch }, select, page, limit })

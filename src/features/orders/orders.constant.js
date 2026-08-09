@@ -1,7 +1,8 @@
 export const ORDER_KINDS = {
 	TABLE: 'table',
 	TAKEAWAY: 'takeaway',
-	PICKUP: 'pickup'
+	PICKUP: 'pickup',
+	DELIVERY: 'delivery'
 }
 
 export const ORDER_KINDS_ALL = () => Object.values(ORDER_KINDS)

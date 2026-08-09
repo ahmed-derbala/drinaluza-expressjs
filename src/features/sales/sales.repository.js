@@ -3,17 +3,7 @@ import { errorHandler } from '../../core/error/index.js'
 import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
 import { log } from '../../core/log/index.js'
 import { flattenObject } from '../../core/helpers/filters.js'
-export const findOneOrderRepo = async ({ match, select }) => {
-	try {
-		const flattenedMatch = flattenObject(match)
-		const fetchedOrder = await OrderModel.findOne({ ...flattenedMatch })
-			.select(select)
-			.lean()
-		return fetchedOrder
-	} catch (err) {
-		errorHandler({ err })
-	}
-}
+
 export const findOrdersRepo = async ({ match, page, limit }) => {
 	try {
 		const flattenedMatch = flattenObject(match)
