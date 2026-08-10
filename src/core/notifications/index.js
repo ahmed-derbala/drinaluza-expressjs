@@ -14,6 +14,12 @@ const expo = new Expo()
  */
 export const notify = async ({ user, template, screen = '/notifications', kind, priority = 'high', media, data = {} }) => {
 	const io = getIO() // Call the function to get the current live instance
+	if (!user.settings) {
+		if (!user.settings.language) {
+			user = await findOneUserSrvc({ match: { _id: user._id }, select: '+settings' })
+		}
+	}
+	console.log('notify called with:', { user })
 
 	if (!template && !template.slug) {
 		throw 'templateSlug is required'
@@ -60,8 +66,8 @@ export const notify = async ({ user, template, screen = '/notifications', kind, 
 			messages.push({
 				to: s.expoPushToken,
 				sound: 'default',
-				title: title.en,
-				body: content.en,
+				title: title[user.settings.language.content] || title['en'],
+				body: content[user.settings.language.content] || content['en'],
 				data, // Custom data for your frontend to handle
 				richContent,
 				channelId: 'default',

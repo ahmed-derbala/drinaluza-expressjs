@@ -161,7 +161,7 @@ const levelsNames = {
 	silly: 'silly'
 }
 
-const lang = {
+const language = {
 	default: 'en',
 	supported: ['en', 'tn_latn', 'tn_arab']
 }
@@ -287,15 +287,15 @@ const defaultConfig = {
 	docs,
 	views,
 	performance,
-	lang,
+	language,
 	currency,
 	notifications,
 	defaults: {
 		users: {
 			settings: {
-				lang: {
-					app: lang.default,
-					content: lang.default
+				language: {
+					app: language.default,
+					content: language.default
 				},
 				currency: currency.default,
 				notifications: notifications.default

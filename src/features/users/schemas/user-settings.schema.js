@@ -3,18 +3,18 @@ import config from '../../../config/default.config.js'
 
 export const UserSettingsSchema = {
 	_id: false,
-	lang: {
+	language: {
 		app: {
 			type: String,
 			required: false,
-			default: config.lang.default,
-			enum: config.lang.supported
+			default: config.language.default,
+			enum: config.language.supported
 		},
 		content: {
 			type: String,
 			required: false,
-			default: config.lang.supported[2],
-			enum: config.lang.supported
+			default: config.language.supported[2],
+			enum: config.language.supported
 		}
 	},
 	currency: { type: String, required: true, default: config.currency.default, enum: config.currency.supported },
