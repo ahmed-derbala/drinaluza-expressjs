@@ -1,7 +1,7 @@
 import { log } from '../log/index.js'
 
 // returns title/content as localized objects
-const purchase_request = ({ customer, business, products, price }) => {
+const purchase_request = ({ customer }) => {
 	return {
 		title: {
 			en: 'Purchase request',

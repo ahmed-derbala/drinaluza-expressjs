@@ -12,8 +12,7 @@ const expo = new Expo()
  * @param {*} param0
  * @returns
  */
-export const notify = async ({ user, template, screen = '/notifications', data = {}, kind, priority = 'high' }) => {
-	data.screen = screen //so when tapping on push notification on device it opens the target screen
+export const notify = async ({ user, template, screen = '/notifications', kind, priority = 'high', data = {} }) => {
 	const io = getIO() // Call the function to get the current live instance
 	//log({ level: 'debug', message: 'notify', data: { user, template, data } })
 	if (!template && !template.slug) {
@@ -22,7 +21,7 @@ export const notify = async ({ user, template, screen = '/notifications', data =
 
 	const templateFn = templateRegistry[template.slug]
 	const { title, content } = templateFn(data)
-	createNotificationSrvc({ user, template, screen, title, content, kind, priority })
+	createNotificationSrvc({ user, template, screen, title, content, kind, priority, ...data })
 	if (io) {
 		io.to(user.slug).emit('new_notification', {
 			title: title.en,
@@ -31,6 +30,8 @@ export const notify = async ({ user, template, screen = '/notifications', data =
 		})
 		log({ level: 'info', label: 'notifications', message: 'Notification emitted via socket.io', data: { user, template, title, content, screen } })
 	}
+
+	data.screen = screen //so when tapping on push notification on device it opens the target screen
 
 	const allowedNotificationKinds = ['push', 'email', 'sms']
 	// Handle Push Logic
@@ -57,7 +58,7 @@ export const notify = async ({ user, template, screen = '/notifications', data =
 				to: s.expoPushToken,
 				sound: 'default',
 				title: title.en,
-				body: content.en,
+				content: content.en,
 				data, // Custom data for your frontend to handle
 				channelId: 'default',
 				priority

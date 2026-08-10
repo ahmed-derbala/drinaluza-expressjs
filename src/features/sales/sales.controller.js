@@ -82,7 +82,7 @@ router
 			const { orderId } = req.params
 			const { status, products } = req.body
 			const match = { _id: orderId, business: { owner: { _id: req.user._id } } }
-			const sale = await findOneOrderSrvc({ match })
+			const sale = await findOneSaleSrvc({ match })
 			if (!sale) return resp({ status: 404, message: `sale not found ${JSON.stringify(match)}`, data: null, req, res })
 
 			if (!products || !Array.isArray(products) || products.length === 0) {

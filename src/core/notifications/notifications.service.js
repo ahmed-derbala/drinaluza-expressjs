@@ -29,8 +29,9 @@ export const updateOneNotificationSrvc = async ({ match, newData }) => {
 	}
 }
 
-export const createNotificationSrvc = async ({ user, template, screen, title, content, kind, priority }) => {
-	const createdNotification = await createNotificationRepo({ user, template, screen, title, content, kind, priority })
-	log({ level: 'info', label: 'notifications', message: 'createNotificationSrvc', data: createdNotification })
+export const createNotificationSrvc = async ({ user, template, screen, title, content, kind, priority, customer }) => {
+	log({ level: 'info', label: 'notifications', message: 'createNotificationSrvc', data: { user, template, screen, title, content, kind, priority, customer } })
+
+	const createdNotification = await createNotificationRepo({ user, template, screen, title, content, kind, priority, customer })
 	return createdNotification
 }

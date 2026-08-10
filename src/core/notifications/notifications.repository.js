@@ -3,8 +3,8 @@ import { errorHandler } from '../error/index.js'
 import { flattenObject } from '../helpers/filters.js'
 import { paginateMongodb } from '../db/mongodb/pagination.js'
 
-export const createNotificationRepo = async ({ user, template, screen, title, content, kind, priority }) => {
-	return NotificationModel.create({ user, screen, template, kind, title, content, priority })
+export const createNotificationRepo = async ({ user, template, screen, title, content, kind, priority, customer }) => {
+	return NotificationModel.create({ user, screen, template, kind, title, content, priority, customer })
 }
 
 export const findNotificationsRepo = async ({ match, page, limit }) => {
