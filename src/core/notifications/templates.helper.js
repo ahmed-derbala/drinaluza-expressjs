@@ -1,7 +1,7 @@
 import { log } from '../log/index.js'
 
 // returns title/content as localized objects
-const purchase_request = ({ customer }) => {
+const purchase_request = ({ customer, products, price }) => {
 	return {
 		title: {
 			en: 'Purchase request',
@@ -13,7 +13,8 @@ const purchase_request = ({ customer }) => {
 			en: `${customer.name.en} requested a purchase.`,
 			fr: `${customer.name.fr} a demandé un achat.`,
 			tn_latn: `${customer.name.tn_latn} a demandé un achat.`,
-			tn_arab: `${customer.name.tn_arab} طلب شراء.`
+			tn_arabl: `دينار ${price.total.tnd}  -  منتجات ${products.length} طلب شراء ${customer.name.tn_arab}`,
+			tn_arab: `${customer.name.tn_arab} ${products.length} منتجات - ${price.total.tnd} دينار`
 		}
 	}
 }

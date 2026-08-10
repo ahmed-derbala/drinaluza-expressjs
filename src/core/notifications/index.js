@@ -4,7 +4,7 @@ import { log } from '../log/index.js'
 import { findSessionsSrvc } from '../sessions/sessions.service.js'
 import { Expo } from 'expo-server-sdk'
 import { getIO } from '../socketio/index.js'
-
+import { findOneUserSrvc } from '#users/users.service.js'
 const expo = new Expo()
 
 /**
@@ -14,12 +14,13 @@ const expo = new Expo()
  */
 export const notify = async ({ user, template, screen = '/notifications', kind, priority = 'high', media, data = {} }) => {
 	const io = getIO() // Call the function to get the current live instance
+
 	if (!user.settings) {
+		user.settings = {}
 		if (!user.settings.language) {
 			user = await findOneUserSrvc({ match: { _id: user._id }, select: '+settings' })
 		}
 	}
-	console.log('notify called with:', { user })
 
 	if (!template && !template.slug) {
 		throw 'templateSlug is required'

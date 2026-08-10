@@ -15,7 +15,13 @@ export const createPurchaseSrvc = async ({ customer, business, products, status,
 	log({ level: 'debug', message: 'createPurchaseSrvc', data: { customer, business, products, status, price } })
 	const createdPurchase = await createdOrderRepo({ customer, business, products, status, price })
 	if (createdPurchase) {
-		notify({ user: business.owner, screen: `/dashboard/${business.slug}/sales/${createdPurchase._id}`, template: { slug: 'purchase_request' }, media: customer.media, data: { customer } })
+		notify({
+			user: business.owner,
+			screen: `/dashboard/${business.slug}/sales/${createdPurchase._id}`,
+			template: { slug: 'purchase_request' },
+			media: customer.media,
+			data: { customer, products, price }
+		})
 	}
 	return createdPurchase
 }
