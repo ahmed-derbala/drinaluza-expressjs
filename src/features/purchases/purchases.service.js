@@ -15,7 +15,7 @@ export const createPurchaseSrvc = async ({ customer, business, products, status,
 	log({ level: 'debug', message: 'createPurchaseSrvc', data: { customer, business, products, status, price } })
 	const createdPurchase = await createdOrderRepo({ customer, business, products, status, price })
 	if (createdPurchase) {
-		notify({ user: business.owner, screen: `/dashboard/${business.slug}/sales/${createdPurchase._id}`, template: { slug: 'purchase_request' }, data: { customer } })
+		notify({ user: business.owner, screen: `/dashboard/${business.slug}/sales/${createdPurchase._id}`, template: { slug: 'purchase_request' }, media: customer.media, data: { customer } })
 	}
 	return createdPurchase
 }
@@ -34,8 +34,9 @@ export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus, purcha
 	if (patchedOrder) {
 		notify({
 			user: purchase.business.owner,
-			screen: `/dashboard/${purchase.business.slug}/sales`,
+			screen: `/dashboard/${purchase.business.slug}/sales/${patchedOrder._id}`,
 			template: { slug: 'purchase_updated_by_customer' },
+			media: purchase.customer.media,
 			data: { customer: purchase.customer, business: purchase.business }
 		})
 	}

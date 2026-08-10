@@ -64,12 +64,12 @@ export const patchSaleSrvc = async ({ match, sale, newStatus, newProducts }) => 
 		return { ...item, quantity: parseInt(item.quantity, 10) }
 	})
 	const patchedSale = await patchSaleRepo({ match, newData: { status: newStatus, products: newProducts } })
-	console.log('patchedSale', patchedSale)
 	if (patchedSale) {
 		notify({
 			user: sale.customer,
-			screen: '/purchases?status=pending_customer_confirmation',
+			screen: `/purchases/${patchedSale._id}`,
 			template: { slug: 'purchase_updated_by_business' },
+			media: sale.business.media,
 			data: { customer: sale.customer, business: sale.business }
 		})
 	}

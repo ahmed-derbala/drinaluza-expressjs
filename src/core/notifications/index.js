@@ -12,26 +12,20 @@ const expo = new Expo()
  * @param {*} param0
  * @returns
  */
-export const notify = async ({ user, template, screen = '/notifications', kind, priority = 'high', data = {} }) => {
+export const notify = async ({ user, template, screen = '/notifications', kind, priority = 'high', media, data = {} }) => {
 	const io = getIO() // Call the function to get the current live instance
-	//log({ level: 'debug', message: 'notify', data: { user, template, data } })
+
 	if (!template && !template.slug) {
 		throw 'templateSlug is required'
 	}
 
 	const templateFn = templateRegistry[template.slug]
 	const { title, content } = templateFn(data)
-	createNotificationSrvc({ user, template, screen, title, content, kind, priority, ...data })
+	createNotificationSrvc({ user, template, screen, title, content, kind, priority, media, ...data })
 	if (io) {
-		io.to(user.slug).emit('new_notification', {
-			title: title.en,
-			content: content.en,
-			screen
-		})
-		log({ level: 'info', label: 'notifications', message: 'Notification emitted via socket.io', data: { user, template, title, content, screen } })
+		io.to(user.slug).emit('new_notification', { template, title, content, screen, media, priority })
+		//log({ level: 'info', label: 'notifications', message: 'Notification emitted via socket.io', data: { template,title, content, screen, media, priority } })
 	}
-
-	data.screen = screen //so when tapping on push notification on device it opens the target screen
 
 	const allowedNotificationKinds = ['push', 'email', 'sms']
 	// Handle Push Logic
@@ -44,6 +38,15 @@ export const notify = async ({ user, template, screen = '/notifications', kind, 
 			return
 		}
 		const messages = []
+		data.screen = screen //so when tapping on push notification on device it opens the target screen
+		let richContent = {} //for rich content like images, videos, etc.
+		if (media) {
+			if (media.thumbnail) {
+				if (media.thumbnail.url) {
+					richContent = { image: media.thumbnail.url }
+				}
+			}
+		}
 
 		for (let s of sessions) {
 			if (!s.expoPushToken) continue
@@ -53,13 +56,14 @@ export const notify = async ({ user, template, screen = '/notifications', kind, 
 				log({ level: 'error', label: 'notifications', message: `Push token ${s.expoPushToken} is not a valid Expo push token` })
 				continue
 			}
-
+			console.log(richContent, 'richContent')
 			messages.push({
 				to: s.expoPushToken,
 				sound: 'default',
 				title: title.en,
-				content: content.en,
+				body: content.en,
 				data, // Custom data for your frontend to handle
+				richContent,
 				channelId: 'default',
 				priority
 			})
