@@ -8,12 +8,9 @@ export const createNotificationRepo = async ({ user, template, screen, title, co
 }
 
 export const findNotificationsRepo = async ({ match, page, limit }) => {
-	try {
-		const flattenedMatch = flattenObject(match)
-		return paginateMongodb({ model: NotificationModel, match: flattenedMatch, page, limit })
-	} catch (err) {
-		errorHandler({ err })
-	}
+	const flattenedMatch = flattenObject(match)
+	console.log('findNotificationsRepo called with:', { flattenedMatch, page, limit })
+	return paginateMongodb({ model: NotificationModel, match: flattenedMatch, page, limit })
 }
 
 export const findOneNotificationRepo = async ({ match }) => {

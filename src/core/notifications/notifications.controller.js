@@ -24,6 +24,12 @@ router
 		}
 	})
 
+router.route('/unseen').get(authenticate(), async (req, res) => {
+	const { page = 1, limit = 10 } = req.query
+	const notifications = await findNotificationsSrvc({ match: { user: { _id: req.user._id }, seenAt: null }, page, limit })
+	return resp({ status: 200, data: notifications, req, res })
+})
+
 router
 	.route('/:notificationId')
 	.get(authenticate(), async (req, res) => {

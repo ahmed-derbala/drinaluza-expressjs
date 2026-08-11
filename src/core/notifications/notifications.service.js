@@ -3,12 +3,8 @@ import { findNotificationsRepo, findOneNotificationRepo, updateOneNotificationRe
 import { log } from '../log/index.js'
 
 export const findNotificationsSrvc = async ({ match, page, limit, select }) => {
-	try {
-		const fetchedNotifications = await findNotificationsRepo({ match, page, limit, select })
-		return fetchedNotifications
-	} catch (err) {
-		errorHandler({ err })
-	}
+	const fetchedNotifications = await findNotificationsRepo({ match, page, limit, select })
+	return fetchedNotifications
 }
 
 export const findOneNotificationSrvc = async ({ match }) => {
