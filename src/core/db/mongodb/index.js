@@ -14,7 +14,7 @@ const connectMongodb = async () => {
 		await mongoose.connect(config.db.mongodb.uri, config.db.mongodb.options)
 		log({
 			message: `db-conn-success | ${config.db.mongodb.uri}`,
-			level: 'info',
+			level: 'debug',
 			label: 'db-mongo'
 		})
 	} catch (err) {

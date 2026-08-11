@@ -18,7 +18,7 @@ export const findReviewsRepo = async ({ match, select, page, limit, count }) => 
 		const reviewsCount = await ReviewModel.countDocuments(match)
 		return reviewsCount
 	}
-	log({ level: 'debug', message: 'findReviewsRepo', data: flattenedMatch })
+	//log({ level: 'debug', message: 'findReviewsRepo', data: flattenedMatch })
 	return paginateMongodb({ model: ReviewModel, match: { ...flattenedMatch }, select, page, limit })
 }
 

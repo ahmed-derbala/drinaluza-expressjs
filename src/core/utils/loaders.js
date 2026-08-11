@@ -28,7 +28,7 @@ export const load = async ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = tr
 				}
 			}
 		}
-		log({ label: 'loader', level: 'info', message: `${loadedFilesCount} ${fileSuffix} routes loaded from ${rootDir}` })
+		log({ label: 'loader', level: 'debug', message: `${loadedFilesCount} ${fileSuffix} routes loaded from ${rootDir}` })
 		return
 	}
 	const baseDir = path.join(process.cwd(), 'src', rootDir)
@@ -49,7 +49,7 @@ export const load = async ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = tr
 			}
 		}
 	}
-	log({ label: 'loader', level: 'info', message: `${loadedFilesCount} ${fileSuffix} routes loaded from ${rootDir}` })
+	log({ label: 'loader', level: 'debug', message: `${loadedFilesCount} ${fileSuffix} routes loaded from ${rootDir}` })
 }
 
 /**
@@ -77,5 +77,5 @@ export const batchRequire = async ({ fileSuffix, rootDir, params, message }) => 
 	}
 
 	if (!message) message = `${loadedFilesCount} ${fileSuffix} files loaded`
-	log({ label: 'loader', level: 'info', message })
+	log({ label: 'loader', level: 'debug', message })
 }
