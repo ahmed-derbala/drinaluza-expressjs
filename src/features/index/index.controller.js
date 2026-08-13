@@ -12,4 +12,12 @@ router.get('/', function (req, res, next) {
 	return resp({ status: 200, label: 'success', message: 'success', data, req, res })
 })
 
+router.get('/health', function (req, res, next) {
+	const { NODE_ENV, app } = config
+	const NODE_VERSION = process.version
+	const uptime = formatUptime(process.uptime())
+	const data = { NODE_ENV, app, NODE_VERSION, uptime }
+	return resp({ status: 200, label: 'success', message: 'success', data, req, res })
+})
+
 export default router

@@ -29,7 +29,7 @@ const formatUser = (user) => {
 	return user.email || user.id || user.username || 'unknown-user'
 }
 
-export const simplelogger = ({ level, label, error, message, req, data, user }) => {
+export const simplelogger = ({ level, status, label, error, message, req, data, user }) => {
 	if (!config.log.isActive || !config.log.levels.allowed.includes(level)) return
 
 	const style = THEME[level] || THEME.default
@@ -38,6 +38,7 @@ export const simplelogger = ({ level, label, error, message, req, data, user }) 
 
 	// 1. Prepare Header Components
 	const badge = style.bg(` ${level.toUpperCase()} `)
+	const statusTag = status ? clc.blackBright(` [${status}]`) : ''
 	const tag = label ? clc.blackBright(`[${label}]`) : ''
 
 	// User Component: Displayed as @username in a distinct color
@@ -45,7 +46,7 @@ export const simplelogger = ({ level, label, error, message, req, data, user }) 
 	const userTag = userIdentifier ? clc.magentaBright(` @${userIdentifier} `) : ''
 
 	// 2. Build the Header Line
-	const header = `${style.symbol} ${badge} ${timestamp}${userTag} ${tag}`
+	const header = `${style.symbol} ${badge} ${statusTag} ${timestamp}${userTag} ${tag}`
 
 	// 3. Build the Body (Message, Error, Request, Data)
 	const bodyParts = [message, error, req, data]

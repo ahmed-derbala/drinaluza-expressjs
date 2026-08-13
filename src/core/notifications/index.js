@@ -64,7 +64,6 @@ export const notify = async ({ user, template, screen = '/notifications', kind, 
 				log({ level: 'error', label: 'notifications', message: `Push token ${s.expoPushToken} is not a valid Expo push token` })
 				continue
 			}
-			console.log(richContent, 'richContent')
 			messages.push({
 				to: s.expoPushToken,
 				sound: 'default',

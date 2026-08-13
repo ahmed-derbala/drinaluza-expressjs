@@ -55,13 +55,12 @@ morgan.token('headers', (req) => {
 	let headers = {}
 	if (config.log.req.headers.token.isActive) headers.token = req.headers.token
 	if (config.log.req.headers.tid.isActive) headers.tid = req.headers.tid*/
-	return req.headers
 	return JSON.stringify(req.headers)
 })
 const stream = {
 	write: function (req) {
 		if (req.responseTime) req.responseTime = parseFloat(req.responseTime)
-		if (req.status) req.status = parseInt(req.status, 10)
+		const status = req.status ? parseInt(req.status, 10) : null
 		try {
 			req = JSON.parse(req)
 		} catch (e) {
@@ -74,7 +73,7 @@ const stream = {
 		let level = 'error'
 		if (inRange(req.status, 200, 399)) level = 'verbose'
 		if (inRange(req.status, 400, 499)) level = 'warn'
-		if (level != 'error') log({ req, level, label: 'req', message: config.log.reqDefaultLog }) //we only need to log non error requests cause they will be logged in errorHandler
+		if (level != 'error') log({ status, req, level, label: 'req', message: config.log.reqDefaultLog }) //we only need to log non error requests cause they will be logged in errorHandler
 	}
 }
 let morganLogger = () => {

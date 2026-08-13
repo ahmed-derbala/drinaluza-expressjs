@@ -8,8 +8,10 @@ export const createNotificationRepo = async ({ user, template, screen, title, co
 }
 
 export const findNotificationsRepo = async ({ match, page, limit }) => {
-	const flattenedMatch = flattenObject(match)
-	return paginateMongodb({ model: NotificationModel, match: flattenedMatch, page, limit })
+	const userId = match.user._id
+	delete match.user
+	match['user._id'] = userId
+	return paginateMongodb({ model: NotificationModel, match, page, limit })
 }
 
 export const findOneNotificationRepo = async ({ match }) => {

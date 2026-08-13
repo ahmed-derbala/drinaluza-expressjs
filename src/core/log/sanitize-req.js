@@ -1,6 +1,7 @@
 import config from '../../config/index.js'
 import { removeEmptyKeys } from '../helpers/removeEmptyKeys.js'
 let sanitizeReq = (req) => {
+	//console.log(req, 'req')
 	let result = {
 		status: req.status,
 		method: req.method,

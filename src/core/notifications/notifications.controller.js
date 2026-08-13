@@ -4,14 +4,25 @@ import { resp } from '../helpers/resp.js'
 import { findNotificationsSrvc, createNotificationSrvc, updateOneNotificationSrvc, findOneNotificationSrvc } from './notifications.service.js'
 import { authenticate } from '../auth/index.js'
 import { errorHandler } from '../error/index.js'
-import { patchNotificationVld } from './notifications.validator.js'
+import { patchNotificationVld, getNotificationVld } from './notifications.validator.js'
 const router = express.Router()
 
 router
 	.route('/')
 	.get(authenticate(), async (req, res) => {
-		const { page = 1, limit = 10 } = req.query
-		const notifications = await findNotificationsSrvc({ match: { user: { _id: req.user._id } }, page, limit })
+		const { page = 1, limit = 10, filter = 'all' } = req.query
+		let match = { user: { _id: req.user._id } }
+		switch (filter) {
+			case 'unseen':
+				match.seenAt = null
+				break
+			case 'seen':
+				match.seenAt = { $ne: null }
+				break
+			default:
+				break
+		}
+		const notifications = await findNotificationsSrvc({ match, page, limit })
 		return resp({ status: 200, data: notifications, req, res })
 	})
 	.post(authenticate(), async (req, res) => {
@@ -24,15 +35,9 @@ router
 		}
 	})
 
-router.route('/unseen').get(authenticate(), async (req, res) => {
-	const { page = 1, limit = 10 } = req.query
-	const notifications = await findNotificationsSrvc({ match: { user: { _id: req.user._id }, seenAt: null }, page, limit })
-	return resp({ status: 200, data: notifications, req, res })
-})
-
 router
 	.route('/:notificationId')
-	.get(authenticate(), async (req, res) => {
+	.get(authenticate(), validate(getNotificationVld), async (req, res) => {
 		const notification = await findOneNotificationSrvc({ match: { user: { _id: req.user._id }, _id: req.params.notificationId } })
 		return resp({ status: 200, data: notification, req, res })
 	})
