@@ -1,28 +1,23 @@
 import { log } from '../log/index.js'
 import { sanitizeReq } from '../log/sanitize-req.js'
+import multer from 'multer'
 const noLogStatuses = [401]
 
-export const errorHandler = ({ err, req, res, next, error }) => {
+export const errorHandler = ({ err, req, res, next, error, status = 500, label = 'internal_error', message = error, level = 'error' }) => {
 	if (!err && error) err = error
-	let status = 500,
-		errObject = {},
-		label = 'internal_error'
-	if (err.status) status = err.status
-	const stack = new Error().stack
-	let caller = null
-	if (stack) {
-		caller = stack.split('\n')[2].trim()
-	}
-	errObject.caller = caller
-	errObject.level = 'error'
+	let errObject = {}
+
+	if (err.status) errObject.status = err.status
+
+	errObject.level = level ? level : 'error'
 	if (err) {
 		if (typeof err == 'object') {
 			if (err.errors) {
 				errObject.error = err.errors
-				status = 422
+				errObject.status = 422
 				errObject.message = 'validation error'
 				errObject.level = 'warn'
-				label = 'validation_error'
+				errObject.label = 'validation_error'
 			}
 			if (err.message) {
 				errObject.message = err.message
@@ -33,11 +28,17 @@ export const errorHandler = ({ err, req, res, next, error }) => {
 			}
 			if (err.name) {
 				if (err.name == 'ValidationError' || err.code == 11000) {
-					status = 409
-					label = 'validation_error_db'
+					errObject.status = 409
+					errObject.label = 'validation_error_db'
 				}
 				if (['JsonWebTokenError', 'TokenExpiredError'].includes(err.name)) {
-					status = 401
+					errObject.status = 401
+				}
+				if (err.name == 'MulterError') {
+					errObject.status = 422
+					errObject.label = 'file_upload_error'
+					errObject.message = err.message
+					errObject.error = err
 				}
 			}
 			if (err.error) {
@@ -49,11 +50,11 @@ export const errorHandler = ({ err, req, res, next, error }) => {
 			errObject.error = err
 		}
 	}
-	errObject.status = status
-	errObject.label = label
-	//console.error(errObject.error);
 
-	if (!errObject.message) errObject.message = 'error'
+	const stack = new Error().stack
+	if (stack) {
+		errObject.caller = stack.split('\n')[2].trim()
+	}
 	if (req) {
 		errObject.req = sanitizeReq(req)
 	}

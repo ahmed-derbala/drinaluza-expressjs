@@ -3,8 +3,9 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary'
 import config from '#config'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { ALLOWED_EXTENSIONS } from './files.constant.js'
+import { ALLOWED_EXTENSIONS_ALL, MAX_FILE_COUNT, MAX_FILE_SIZE } from './files.constant.js'
 import { v2 as cloudinary } from 'cloudinary'
+import { errorHandler } from '#core/error/index.js'
 cloudinary.config(config.cloudinary)
 
 const storage = new CloudinaryStorage({
@@ -17,25 +18,17 @@ const storage = new CloudinaryStorage({
 })
 
 export const uploadMW = multer({
-	storage,
 	fileFilter: (req, file, cb) => {
-		const fileType = req.query.fileType
-
-		if (!fileType) {
-			return cb(new Error('fileType query is required'))
-		}
-
-		const allowedExtensions = ALLOWED_EXTENSIONS[fileType]
-
-		if (!allowedExtensions) {
-			return cb(new Error('Invalid fileType'))
-		}
-
 		const ext = path.extname(file.originalname).toLowerCase()
 
-		if (!allowedExtensions.includes(ext)) {
-			return cb(new Error(`Only ${allowedExtensions.join(', ')} files are allowed`))
+		if (!ALLOWED_EXTENSIONS_ALL.includes(ext)) {
+			return cb(errorHandler({ err: `${ext} extension is not allowed`, status: 422 }))
 		}
 		cb(null, true)
-	}
-}).array('files', 5)
+	},
+	storage,
+	limits: { fileSize: MAX_FILE_SIZE }
+}).fields([
+	{ name: 'thumnail', maxCount: 1 },
+	{ name: 'gallery', maxCount: MAX_FILE_COUNT }
+])
