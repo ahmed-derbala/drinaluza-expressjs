@@ -14,18 +14,24 @@ export const FilesSchema = new mongoose.Schema(
 		encoding: { type: String, required: false },
 		mimetype: String,
 		size: Number, // in bytes, 1 million ~ 1 mb
-		linkedData: [
-			{
-				kind: String, //name of the associated collection, schema name
-				kindId: {
-					type: mongoose.Schema.Types.ObjectId,
-					refPath: 'linkedData.kind'
-				},
-				kindTag: {
-					type: String
+		targetModels: {
+			_id: false,
+			type: [
+				{
+					targetModelName: String, //name of the associated collection, schema name
+					targetModelId: {
+						type: mongoose.Schema.Types.ObjectId,
+						refPath: 'targetModels.targetModelName'
+					},
+					targetModelMediaField: {
+						type: String,
+						enum: ['thumbnail', 'gallery'],
+						default: 'thumbnail'
+					}
 				}
-			}
-		] //if the file is associated to multiple models , kind refers to collections. makes it so easy to share the same file between multiple collections
+			], //if the file is associated to multiple models , kind refers to collections. makes it so easy to share the same file between multiple collections
+			select: false
+		}
 	},
 	{ timestamps: true }
 )

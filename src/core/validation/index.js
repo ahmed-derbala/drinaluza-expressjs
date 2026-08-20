@@ -7,7 +7,7 @@ export const validate = (validator) => {
 		await Promise.all(validator.map((schema) => schema.run(req)))
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {
-			return errorHandler({ err: errors, req, res })
+			return errorHandler({ err: errors, req, res, status: 422, label: 'validation_error', level: 'warn' })
 		}
 		return next()
 	}

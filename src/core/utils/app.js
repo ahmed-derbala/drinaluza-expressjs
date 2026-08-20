@@ -72,11 +72,21 @@ await loaders.load({ app, rootDir: '/core/files', urlPrefix: '/api/', fileSuffix
 app.use((req, res, next) => {
 	return resp({ status: 404, label: 'route_not_found', message: `${req.method} ${req.originalUrl} does not exist`, data: null, req, res })
 })
-//when error occurs
+
+/**
+ * must be the last middleware to catch errors
+ * if res.headersSent is true, it means that the response has already been sent to the client, and we cannot send another response. In this case, we call next(err) to delegate to the default Express error handler, which will close the connection.
+ * if res.headersSent is false, it means that the response has not been sent yet, and we can safely call our custom errorHandler middleware to handle the error and send a response to the client.
+ * This approach ensures that we do not attempt to send multiple responses for the same request, which would result in an error.
+ * Note: The errorHandler middleware should be designed to handle errors gracefully and send appropriate responses to the client based on the error type and status code.
+ * This is a common pattern in Express applications to ensure that errors are handled consistently and that clients receive meaningful error responses.
+ *
+ */
 app.use((err, req, res, next) => {
+	console.error('express error catcher', err)
 	if (res.headersSent) {
-		return next(err) // Avoid sending response if one was already sent
+		return next(err) // Avoid sending response if one was already sent. Delegates to default Express error handler to close connection
 	}
-	return errorHandler({ err, req, res })
+	return res.status(err.status || 500).json(err)
 })
 export default app

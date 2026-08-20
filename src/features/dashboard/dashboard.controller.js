@@ -1,7 +1,7 @@
 import express from 'express'
 import { errorHandler, authenticate, resp } from '#core'
 import { findMyBusinessesSrvc } from '#businesses/businesses.service.js'
-import { findOneDashboard } from './dashboard.service.js'
+import { findOneDashboard, findDashboardProfilesByUserSrvc } from './dashboard.service.js'
 import { USER_ROLES } from '#users/users.enum.js'
 const router = express.Router()
 
@@ -16,16 +16,17 @@ router.route('/').get(authenticate(), async (req, res) => {
 	}
 })
 
-router.route('/profiles').get(authenticate({ roles: [USER_ROLES.BUSINESS_OWNER] }), async (req, res) => {
+router.route('/profiles').get(authenticate(/*{ roles: [USER_ROLES.BUSINESS_OWNER] }*/), async (req, res) => {
 	try {
-		let profiles = []
+		/*let profiles = []
 		if (req.user.role == 'business_owner') {
 			let businesses = await findMyBusinessesSrvc({ match: { 'owner._id': req.user._id }, owner: req.user, select: '_id slug name media' })
 			businesses = businesses.docs.map((bus) => ({ ...bus, kind: 'business' }))
 			profiles.push(...businesses)
-		}
+		}*/
+		const dashboardProfiles = await findDashboardProfilesByUserSrvc({ match: { user: req.user } })
 
-		return resp({ status: 200, data: profiles, req, res })
+		return resp({ status: 200, data: dashboardProfiles, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
 	}

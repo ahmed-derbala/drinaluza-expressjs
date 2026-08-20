@@ -5,12 +5,10 @@ export const FileRefSchema = new mongoose.Schema({
 	_id: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: filesCollection,
-		required: false // needs to be true after testing
+		required: false //make it required after testing
 	},
-	name: { type: String, required: false }, // name without extension
-	extension: { type: String, required: false }, // the extension prefixed with a dot
+	originalname: { type: String, required: false }, // name + . + extension, make it required after testing
 	url: { type: String, required: true }, //download or display file
-	encoding: { type: String, required: false },
 	mimetype: String,
 	size: Number, // in bytes, 1 million ~ 1 mb
 	updatedAt: { type: Date, required: false },

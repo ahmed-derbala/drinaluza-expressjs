@@ -1,4 +1,4 @@
-import { createDashboardRepo, findOneDashboardRepo } from './dashboard.repository.js'
+import { createDashboardRepo, findOneDashboardRepo, findDashboardProfilesByUserRepo } from './dashboard.repository.js'
 
 export const createPersonalDashboardSrvc = async ({ user, expenses, purchases }) => {
 	try {
@@ -22,4 +22,8 @@ export const createBusinessDashboardSrvc = async ({ user, business, sales, custo
 
 export const findOneDashboard = async ({ match = { user, kind } }) => {
 	return await findOneDashboardRepo({ match })
+}
+
+export const findDashboardProfilesByUserSrvc = async ({ match }) => {
+	return findDashboardProfilesByUserRepo({ match })
 }

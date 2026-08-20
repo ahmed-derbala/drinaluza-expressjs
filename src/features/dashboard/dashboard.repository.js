@@ -11,3 +11,12 @@ export const findOneDashboardRepo = async ({ match, select }) => {
 		.select(select)
 		.lean()
 }
+
+export const findDashboardProfilesByUserRepo = async ({ match, select }) => {
+	//const flattenedMatch = flattenObject(match)
+	return (
+		DashboardModel.find({ 'user._id': match.user._id })
+			//.select(select)
+			.lean()
+	)
+}

@@ -1416,22 +1416,36 @@
               "mode": "formdata",
               "formdata": [
                 {
-                  "key": "files",
+                  "key": "thumbnail",
                   "type": "file",
-                  "uuid": "3f265b03-b976-4396-847f-21a6416cc00a",
-                  "src": "/home/ahmed/Pictures/abir.png"
+                  "uuid": "8c90b181-747d-4093-8aab-fcdae8d983f1",
+                  "src": "/home/ahmed/Pictures/crab.jpg"
                 },
                 {
-                  "key": "files",
+                  "key": "targetModelId",
+                  "value": "6a7a5cd985c06243ab2e3e42",
+                  "type": "text",
+                  "uuid": "78a5c003-96d5-4b4e-b6f7-c30af56b311b"
+                },
+                {
+                  "key": "targetModelName",
+                  "value": "users",
+                  "type": "text",
+                  "uuid": "6b9c10b0-a91d-483e-b064-f36cdbc63892"
+                },
+                {
+                  "key": "gallery",
                   "type": "file",
-                  "uuid": "434e8b83-9ded-4624-90c3-12568128f0d9",
-                  "src": "/home/ahmed/Pictures/plate_1.jpg",
-                  "disabled": true
+                  "uuid": "d27460d0-1531-428a-9bb8-06dc4b330fb9",
+                  "src": [
+                    "/home/ahmed/Pictures/dar_lhout_jbeniana.jpg",
+                    "/home/ahmed/Pictures/drayen_ellouza_logo.jpg"
+                  ]
                 }
               ]
             },
             "url": {
-              "raw": "{{drinaluza_url}}/api/files/upload?fileType=image",
+              "raw": "{{drinaluza_url}}/api/files/upload",
               "host": [
                 "{{drinaluza_url}}"
               ],
@@ -1439,12 +1453,6 @@
                 "api",
                 "files",
                 "upload"
-              ],
-              "query": [
-                {
-                  "key": "fileType",
-                  "value": "image"
-                }
               ]
             }
           },
@@ -1657,14 +1665,6 @@
           "response": []
         }
       ]
-    },
-    {
-      "name": "New Request",
-      "request": {
-        "method": "GET",
-        "header": []
-      },
-      "response": []
     }
   ]
 }
