@@ -25,7 +25,6 @@ router.route('/profiles').get(authenticate(/*{ roles: [USER_ROLES.BUSINESS_OWNER
 			profiles.push(...businesses)
 		}*/
 		const dashboardProfiles = await findDashboardProfilesByUserSrvc({ match: { user: req.user } })
-
 		return resp({ status: 200, data: dashboardProfiles, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
