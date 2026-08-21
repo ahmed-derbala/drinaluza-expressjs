@@ -12,7 +12,7 @@ export const SpecsSchema = {
 		min: 1,
 		max: 5
 	},
-	origin: AddressSchema,
+	origin: { type: AddressSchema, required: false },
 	harvest: {
 		type: String,
 		enum: ['wild', 'farm'],

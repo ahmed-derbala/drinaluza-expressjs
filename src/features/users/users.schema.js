@@ -41,7 +41,8 @@ const UserSchema = new mongoose.Schema({
 	},
 	address: {
 		type: AddressSchema,
-		select: false
+		select: false,
+		required: false
 	},
 	location: {
 		type: LocationSchema,

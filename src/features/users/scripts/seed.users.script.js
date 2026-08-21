@@ -35,7 +35,11 @@ const users = [
 		role: 'business_owner',
 		name: { en: 'Ahmed Derbala' },
 		address: {
-			street: `ellouza`,
+			street: {
+				en: `ellouza`,
+				tn_latn: `ellouza`,
+				tn_arab: `ellouza`
+			},
 			city: 'Ellouza',
 			country: 'Tunisia',
 			region: 'Sfax'
@@ -58,7 +62,11 @@ const users = [
 		role: 'business_owner',
 		name: { en: 'Sirage Benhassen' },
 		address: {
-			street: `ellouza`,
+			street: {
+				en: `ellouza`,
+				tn_latn: `ellouza`,
+				tn_arab: `ellouza`
+			},
 			city: 'Ellouza',
 			country: 'Tunisia',
 			region: 'Sfax'
@@ -81,7 +89,11 @@ const users = [
 		role: 'business_owner',
 		name: { en: 'Mahdi Akid' },
 		address: {
-			street: `ellouza`,
+			street: {
+				en: `ellouza`,
+				tn_latn: `ellouza`,
+				tn_arab: `ellouza`
+			},
 			city: 'Ellouza',
 			country: 'Tunisia',
 			region: 'Sfax'
@@ -104,7 +116,11 @@ const users = [
 		role: 'business_owner',
 		name: { en: 'Ahmed Chalbi' },
 		address: {
-			street: `ellouza`,
+			street: {
+				en: `ellouza`,
+				tn_latn: `ellouza`,
+				tn_arab: `ellouza`
+			},
 			city: 'Ellouza',
 			country: 'Tunisia',
 			region: 'Sfax'
@@ -127,7 +143,11 @@ const users = [
 		role: 'business_owner',
 		name: { en: 'Majed Akid' },
 		address: {
-			street: `ellouza`,
+			street: {
+				en: `ellouza`,
+				tn_latn: `ellouza`,
+				tn_arab: `ellouza`
+			},
 			city: 'Ellouza',
 			country: 'Tunisia',
 			region: 'Sfax'
@@ -150,7 +170,11 @@ const users = [
 		role: 'business_owner',
 		name: { en: 'Amin Chalbi' },
 		address: {
-			street: `ellouza`,
+			street: {
+				en: `ellouza`,
+				tn_latn: `ellouza`,
+				tn_arab: `ellouza`
+			},
 			city: 'Ellouza',
 			country: 'Tunisia',
 			region: 'Sfax'
@@ -173,7 +197,11 @@ const users = [
 		role: 'business_owner',
 		name: { en: 'Sahbi Aloui' },
 		address: {
-			street: `ellouza`,
+			street: {
+				en: `ellouza`,
+				tn_latn: `ellouza`,
+				tn_arab: `ellouza`
+			},
 			city: 'Ellouza',
 			country: 'Tunisia',
 			region: 'Sfax'
@@ -195,35 +223,37 @@ const users = [
 		password: '123',
 		role: 'business_owner',
 		name: { en: 'Serra Aloui' }
+		/*address: {
+			street: {
+				en: `ellouza`,
+				tn_latn: `ellouza`,
+				tn_arab: `ellouza`
+			},
+			city: 'Ellouza',
+			country: 'Tunisia',
+			region: 'Sfax'
+		}*/
 	},
 	{
 		slug: 'abir',
 		password: '123',
 		role: 'customer',
 		name: { en: 'Abir Othmen' },
+		/*address: {
+			street: {
+				en: `ellouza`,
+				tn_latn: `ellouza`,
+				tn_arab: `ellouza`
+			},
+			city: 'Ellouza',
+			country: 'Tunisia',
+			region: 'Sfax'
+		},*/
 		media: {
 			thumbnail: {
 				url: abir_photo_url
 			}
 		}
-	},
-	{
-		slug: 'souha',
-		password: '123',
-		role: 'customer',
-		name: { en: 'Souha Derbala' }
-	},
-	{
-		slug: 'rached',
-		password: '123',
-		role: 'customer',
-		name: { en: 'Rached Fourati' }
-	},
-	{
-		slug: 'brahim',
-		password: '123',
-		role: 'customer',
-		name: { en: 'Brahim Haj Mohamed' }
 	}
 ]
 

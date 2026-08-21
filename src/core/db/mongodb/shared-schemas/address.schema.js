@@ -1,15 +1,11 @@
-import mongoose from 'mongoose'
+import { MultiLangSchema } from './multi-lang.schema.js'
 
 export const AddressSchema = {
 	_id: false,
-	street: {
-		type: String,
-		required: false,
-		trim: true
-	},
+	street: { type: MultiLangSchema, required: false },
 	city: {
 		type: String,
-		required: false,
+		required: true,
 		trim: true,
 		default: 'Ellouza'
 	},
@@ -24,10 +20,5 @@ export const AddressSchema = {
 		required: true,
 		trim: true,
 		default: 'Tunisia'
-	},
-	postalCode: {
-		type: String,
-		trim: true,
-		default: '3016'
 	}
 }

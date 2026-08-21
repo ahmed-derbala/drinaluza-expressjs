@@ -17,7 +17,7 @@ export const CustomerSchema = {
 	role: { type: String, required: true },
 	slug: { type: String, required: true },
 	name: MultiLangSchema,
-	address: AddressSchema,
+	address: { type: AddressSchema, required: false },
 	location: LocationSchema,
 	contact: ContactSchema,
 	media: MediaSchema

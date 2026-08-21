@@ -32,9 +32,18 @@ const ahmed_phone = {
 let manualBusinesses = [
 	{
 		owner: { slug: 'ahmed' },
+		street: {
+			en: `ellouza, tri9 douar`,
+			tn_latn: `ellouza, tri9 douar`,
+			tn_arab: `ellouza, tri9 douar`
+		},
 		name: { en: 'Drinaluza' },
 		address: {
-			street: `ellouza, tri9 douar`,
+			street: {
+				en: `ellouza, tri9 douar`,
+				tn_latn: `ellouza, tri9 douar`,
+				tn_arab: `ellouza, tri9 douar`
+			},
 			city: 'Sfax',
 			country: country
 		},
@@ -73,6 +82,11 @@ let manualBusinesses = [
 		name: { en: 'Konouz el bahr', tn_arab: 'كنوز البحر جبنيانة' },
 		address: {
 			street: `ellouza, tri9 douar`,
+			street: {
+				en: `ellouza, tri9 douar`,
+				tn_latn: `ellouza, tri9 douar`,
+				tn_arab: `ellouza, tri9 douar`
+			},
 			city: 'Sfax',
 			country: country
 		},
@@ -109,7 +123,11 @@ let manualBusinesses = [
 		owner: { slug: 'mahdi-akid' },
 		name: { en: 'Drayen Ellouza' },
 		address: {
-			street: `ellouza, tri9 douar`,
+			street: {
+				en: `ellouza, tri9 douar`,
+				tn_latn: `ellouza, tri9 douar`,
+				tn_arab: `ellouza, tri9 douar`
+			},
 			city: 'Sfax',
 			country: country
 		},
@@ -144,7 +162,11 @@ let manualBusinesses = [
 		},
 		name: { en: 'Dar El Hout Jbeniana' },
 		address: {
-			street: `jbeniana center`,
+			street: {
+				en: `jbeniana center`,
+				tn_latn: `jbeniana center`,
+				tn_arab: `jbeniana center`
+			},
 			city: 'Jbeniana',
 			country: country
 		},
@@ -181,7 +203,11 @@ let manualBusinesses = [
 		owner: { slug: 'amin-chalbi' },
 		name: { en: 'Poissons Amin' },
 		address: {
-			street: `ellouza, ba7dha dar echabeb`,
+			street: {
+				en: `ellouza, ba7dha dar echabeb`,
+				tn_latn: `ellouza, ba7dha dar echabeb`,
+				tn_arab: `ellouza, ba7dha dar echabeb`
+			},
 			city: 'Sfax',
 			country: country
 		},

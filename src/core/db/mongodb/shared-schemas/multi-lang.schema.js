@@ -1,4 +1,5 @@
 export const MultiLangSchema = {
+	_id: false,
 	en: {
 		type: String,
 		trim: true,
@@ -8,13 +9,12 @@ export const MultiLangSchema = {
 		//tunisian with latin alphabet
 		type: String,
 		trim: true,
-		required: false
+		required: true
 	},
 	tn_arab: {
 		//tunisian with arabic alphabet
 		type: String,
 		trim: true,
-		required: false
-	},
-	_id: false
+		required: true
+	}
 }
