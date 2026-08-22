@@ -9,6 +9,7 @@ export const FilesSchema = new mongoose.Schema(
 		mimetype: String,
 		size: Number, // in bytes, 1 million ~ 1 mb
 		asset_id: String,
+		public_id: String,
 		width: Number,
 		height: Number,
 		format: String, //extension without dot
