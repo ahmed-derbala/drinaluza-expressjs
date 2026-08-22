@@ -96,7 +96,6 @@ drinaluza-expressjs/
 │   └── main.js          # Application entry point
 ├── docs/                # Documentation and Postman collection
 ├── public/              # Static files
-├── backups/             # Package backups
 └── package.json         # Dependencies and scripts
 ```
 
@@ -144,11 +143,9 @@ npm run monit                    # Open PM2 monitor
 
 ```bash
 npm run update        # Update all packages to latest version
-npm run restore       # Restore packages from /backups
 npm run clean         # Delete and reinstall packages
 npm run clean:only    # Only clean node_modules
 npm run clean:prod    # Clean for production
-npm run backup        # Backup current packages to /backups
 ```
 
 ### Code Quality

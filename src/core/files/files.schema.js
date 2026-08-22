@@ -5,20 +5,23 @@ import { filesCollection } from './files.constant.js'
 export const FilesSchema = new mongoose.Schema(
 	{
 		user: { type: UserRefSchema, required: true },
-		name: { type: String, required: true }, // name without extension
 		originalname: { type: String, required: false }, // name + . + extension
-		filename: { type: String, required: false }, // name + . + extension
-		extension: { type: String, required: false }, // the extension prefixed with a dot
-		url: { type: String, required: true }, //download or display file
-		path: { type: String, required: false }, //local file path
-		encoding: { type: String, required: false },
 		mimetype: String,
 		size: Number, // in bytes, 1 million ~ 1 mb
+		asset_id: String,
+		width: Number,
+		height: Number,
+		format: String, //extension without dot
+		resource_type: String, //image
+		url: { type: String, required: true }, //download or display file
+		secure_url: { type: String, required: true }, //download or display file over https
+		asset_folder: String,
+		access_mode: String,
 		targetModels: {
 			_id: false,
 			type: [
 				{
-					targetModelName: String, //name of the associated collection, schema name
+					targetModelName: String, //name of the associated collection
 					targetModelId: {
 						type: mongoose.Schema.Types.ObjectId,
 						refPath: 'targetModels.targetModelName'
@@ -29,7 +32,7 @@ export const FilesSchema = new mongoose.Schema(
 						default: 'thumbnail'
 					}
 				}
-			], //if the file is associated to multiple models , kind refers to collections. makes it so easy to share the same file between multiple collections
+			],
 			select: false
 		}
 	},

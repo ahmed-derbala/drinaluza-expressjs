@@ -1,5 +1,5 @@
 export const ALLOWED_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'heic', 'heif']
-export const ALLOWED_IMAGE_MIME_TYPES = ['image/jpg', 'image/jpeg', 'image/webp', 'image/png', 'image/heic', 'image/heif']
+export const ALLOWED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/webp', 'image/png', 'image/heic', 'image/heif']
 
 export const ALLOWED_VIDEO_EXTENSIONS = ['mp4', 'webm', 'mov']
 export const ALLOWED_VIDEO_MIME_TYPES = ['video/mp4', 'video/webm', 'video/quicktime']

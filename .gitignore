@@ -7,9 +7,6 @@
 #uploaded files
 uploads/
 
-# backups
-backups/
-
 #config files
 src/config/production.config.js
 src/config/development.config.js

@@ -1,10 +1,8 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import packagejson from '../../package.json' with { type: 'json' }
-import ip from 'ip'
-import path from 'path'
-import fs from 'fs'
 import { format, transports } from 'winston'
+import { getLocalIp } from '#core/helpers/ip.js'
 import 'winston-mongodb'
 /** rate limiting */
 import { rateLimit, ipKeyGenerator } from 'express-rate-limit'
@@ -18,7 +16,7 @@ const NODE_ENV = process.env.NODE_ENV || 'local'
 
 const backend = {
 	port: process.env.PORT || 5001,
-	host: `${ip.address()}`,
+	host: getLocalIp(),
 	protocol: 'http://',
 	get url() {
 		return process.env.BACKEND_URL || `${this.protocol}${this.host}:${this.port}`
