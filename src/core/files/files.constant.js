@@ -8,5 +8,5 @@ export const ALLOWED_EXTENSIONS = [...ALLOWED_IMAGE_EXTENSIONS, ...ALLOWED_VIDEO
 export const ALLOWED_MIME_TYPES = [...ALLOWED_IMAGE_MIME_TYPES, ...ALLOWED_VIDEO_MIME_TYPES]
 
 export const filesCollection = 'files'
-export const MAX_FILE_SIZE = 20 * 1024 * 1024 // 20MB
+export const MAX_FILE_SIZE = 100 * 1024 * 1024 // 100MB
 export const MAX_FILE_COUNT = 5

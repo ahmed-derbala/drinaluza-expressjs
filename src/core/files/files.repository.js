@@ -1,7 +1,9 @@
 import mongoose from 'mongoose'
 import { FileModel } from './files.schema.js'
+import { log } from '#core/log/index.js'
 
 export const createFileRepo = async ({ file }) => {
+	log({ level: 'debug', label: 'createFileRepo', data: { file } })
 	return FileModel.create(file)
 }
 

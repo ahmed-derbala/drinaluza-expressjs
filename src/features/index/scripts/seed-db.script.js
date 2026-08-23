@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb'
 import { spawn } from 'node:child_process'
 import config from '../../../config/index.js'
-console.clear()
+//console.clear()
 
 if (process.env.NODE_ENV === 'production' && !config.security.allowScriptsInProdution) {
 	console.error('❌ Refusing to run: destructive script in production')
@@ -70,7 +70,7 @@ const scripts = [
 
 ;(async () => {
 	try {
-		console.clear()
+		//console.clear()
 		await dropDatabase()
 		//if users is preserved, auth must be preserved too
 		//await dropDatabase(['sessions', 'files','users','auth'])

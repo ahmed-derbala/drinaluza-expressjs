@@ -4,6 +4,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import config from '#config'
 import { ALLOWED_EXTENSIONS, ALLOWED_MIME_TYPES, MAX_FILE_COUNT, MAX_FILE_SIZE } from './files.constant.js'
 import { errorHandler } from '#core/error/index.js'
+import { log } from '#core/log/index.js'
 
 cloudinary.config(config.cloudinary)
 
@@ -19,9 +20,11 @@ const storage = {
 				if (error) {
 					return cb(error)
 				}
-
+				log({ level: 'debug', label: '_handleFile', data: { multerData: file, cloudinaryData } })
 				// Keep only the data your application needs
-				delete cloudinaryData.bytes
+				delete file.fieldname
+				delete file.encoding
+
 				delete cloudinaryData.version
 				delete cloudinaryData.version_id
 				delete cloudinaryData.signature
@@ -33,11 +36,17 @@ const storage = {
 				delete cloudinaryData.display_name
 				delete cloudinaryData.original_filename
 				delete cloudinaryData.api_key
+				delete cloudinaryData.pages
+				delete cloudinaryData.audio
+				delete cloudinaryData.video
+				delete cloudinaryData.is_audio
+				delete cloudinaryData.frame_rate
+				delete cloudinaryData.bit_rate
+				delete cloudinaryData.rotation
 
 				cb(null, {
-					...cloudinaryData,
-					originalname: file.originalname,
-					mimetype: file.mimetype
+					...file,
+					...cloudinaryData
 				})
 			}
 		)
