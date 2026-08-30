@@ -10,11 +10,34 @@ cloudinary.config(config.cloudinary)
 
 const storage = {
 	_handleFile(req, file, cb) {
+		const isVideo = file.mimetype.startsWith('video/')
 		const uploadStream = cloudinary.uploader.upload_stream(
 			{
 				folder: 'uploads',
 				resource_type: 'auto',
-				access_mode: 'public'
+				access_mode: 'public',
+				...(isVideo && {
+					// Incoming transformation: permanently modifies the file on disk (original is discarded)
+					transformation: [
+						{
+							// Scale down max resolution (480p width, auto-scaled height)
+							width: 480,
+							crop: 'limit',
+
+							// Format & Universal Expo Codec
+							fetch_format: 'mp4',
+							video_codec: 'h264',
+
+							// Audio: retain audio, but compress with AAC for minimal size
+							audio_codec: 'aac',
+							audio_frequency: 22050, // Downsample audio sample rate to 22.05 kHz
+							audio_bitrate: '64k',
+
+							// Aggressive visual compression targeted for low-bandwidth streaming
+							quality: 'auto:low'
+						}
+					]
+				})
 			},
 			(error, cloudinaryData) => {
 				if (error) {
