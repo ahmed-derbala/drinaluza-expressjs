@@ -20,19 +20,17 @@ const storage = {
 					// Incoming transformation: permanently modifies the file on disk (original is discarded)
 					transformation: [
 						{
-							// Scale down max resolution (480p width, auto-scaled height)
-							width: 480,
+							// Scale down max resolution
+							width: 1920,
+							height: 1080,
 							crop: 'limit',
-
 							// Format & Universal Expo Codec
 							fetch_format: 'mp4',
 							video_codec: 'h264',
-
 							// Audio: retain audio, but compress with AAC for minimal size
 							audio_codec: 'aac',
 							audio_frequency: 22050, // Downsample audio sample rate to 22.05 kHz
 							audio_bitrate: '64k',
-
 							// Aggressive visual compression targeted for low-bandwidth streaming
 							quality: 'auto:low'
 						}
