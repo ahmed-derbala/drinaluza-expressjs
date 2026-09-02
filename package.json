@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "main": "src/main.js",
   "description": "Drinaluza, business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -45,7 +45,7 @@
     "env:prod": "cp -n .env.prod .env",
     "env:prod-reset": "cp .env.prod .env",
     "env:local": "cp .env.local .env",
-    "env:reset":"cp .env.sample .env",
+    "env:reset": "cp .env.sample .env",
     "config:prod": "cp -n src/config/default.config.js src/config/production.config.js",
     "config:prod-reset": "cp src/config/default.config.js src/config/production.config.js",
     "config:local": "cp src/config/default.config.js src/config/local.config.js",
