@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.3.95",
+  "version": "1.4.0",
   "main": "src/main.js",
   "description": "Drinaluza, business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -42,27 +42,28 @@
     "#core/*": "./src/core/*"
   },
   "scripts": {
-    "env:prod": "cp .env.prod .env",
+    "env:prod": "cp -n .env.prod .env",
+    "env:prod-reset": "cp .env.prod .env",
     "env:local": "cp .env.local .env",
+    "config:prod": "cp -n src/config/default.config.js src/config/production.config.js",
+    "config:prod-reset": "cp src/config/default.config.js src/config/production.config.js",
+    "config:local": "cp src/config/default.config.js src/config/local.config.js",
+    "build:prod": "npm run config:prod-reset && npm run clean:prod",
+    "build:prod-run": "npm run build:prod && npm run start:prod",
+    "build:local": "npm run config:local && npm run clean",
+    "bootstrap:local": "npm run env:local && npm run build:local && npm run dev",
+    "bootstrap:prod": "npm run env:prod-reset && npm run build:prod",
     "smenu": "npm run env:local && NODE_ENV=local node src/core/scripts/smenu.js",
     "smenu:prod": "npm run env:prod && NODE_ENV=production node src/core/scripts/smenu.js",
-    "config:new-prod": "cp src/config/default.config.js src/config/production.config.js",
-    "config:prod": "cp -n src/config/default.config.js src/config/production.config.js",
-    "ver": "npm version patch --no-git-tag-version",
-    "build:prod": "npm run config:new-prod && npm run clean:prod",
-    "build:run": "npm run build && npm run start:prod",
-    "frl": "cp src/config/default.config.js src/config/local.config.js && npm run i && npm run start:local",
-    "frp": "npm run config:new-prod && npm run clean:prod && npm run start:prod-pm2-monit",
     "start": "node src/main.js",
-    "start:prod": "NODE_ENV=production node src/main.js",
+    "start:prod": "npm run env:prod && NODE_ENV=production node src/main.js",
     "start:prod-pm2": "npm run i:prod && NODE_ENV=production pm2 start --name drinaluza src/main.js -i max --node-args='--max-old-space-size=8192' -f",
     "start:prod-pm2-monit": "npm run start:prod-pm2 && pm2 monit",
-    "start:local": "NODE_ENV=local node --watch-path=./src src/main.js",
-    "dev": "npm run env:local && npm run start:local",
-    "dev:prod": "npm run env:prod && NODE_ENV=production node --watch-path=./src src/main.js",
-    "debug": "NODE_ENV=local NODE_DEBUG=module node --trace-warnings --stack-trace-limit=100 --watch-path=./src src/main.js",
+    "start:local": "npm run env:local && NODE_ENV=local node src/main.js",
     "start:local-pm2": "pm2 start src/config/pm2.config.js --env local && pm2 monit",
-    "start:dev": "NODE_ENV=development node --watch-path=./src --max-old-space-size=8192 src/main.js",
+    "dev": "npm run env:local && NODE_ENV=local node --watch-path=./src src/main.js",
+    "dev:prod": "npm run env:prod && NODE_ENV=production node --watch-path=./src src/main.js",
+    "dev:debug": "npm run env:local && NODE_ENV=local NODE_DEBUG=module node --trace-warnings --stack-trace-limit=100 --watch-path=./src src/main.js",
     "reload": "pm2 reload drinaluza",
     "stop": "pm2 stop all",
     "delete": "pm2 delete all",
@@ -71,7 +72,7 @@
     "push": "npm run format && git add . && git commit -m",
     "postpush": "git push && npm run ver",
     "pushd": "npm run push",
-    "pull": "git pull origin main && npm run i && npm run start:local",
+    "pull": "git pull origin main && npm run i && npm run dev",
     "i": "npm i -g npm-check-updates && npm i",
     "i:prod": "NODE_ENV=production npm i --omit=dev",
     "fix": "npm audit fix --force",
@@ -79,9 +80,9 @@
     "rm:prod": "rm -rf node_modules package-lock.json",
     "clean": "npm run rm:local && npm run i",
     "clean:prod": "npm run rm:prod && npm run i:prod",
-    "code": "windsurf . && npm run start:local",
     "update": "npm run ncu && npm run clean",
-    "ncu": "npm-check-updates --peer -u"
+    "ncu": "npm-check-updates --peer -u",
+    "ver": "npm version patch --no-git-tag-version"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -115,6 +116,6 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.9.1",
-    "globals": "^17.11.0"
+    "globals": "^17.12.0"
   }
 }
