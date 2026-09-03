@@ -12,4 +12,3 @@ if (config.db.mongodb.isActive) {
 process.on('warning', (err) => log({ message: err.stack, level: 'warn', label: 'process' })) //print out memory leak errors
 process.on('uncaughtException', (err) => log({ message: err.stack, level: 'warn', label: 'process' }))
 process.on('unhandledRejection', (err) => log({ message: err.stack, level: 'warn', label: 'process' }))
-console.log(process.env.aaa)

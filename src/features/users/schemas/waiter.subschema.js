@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { usersCollection } from '../users.constant.js'
-import { MultiLangSchema } from '#multilang'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 
 export const WaiterSchema = {
 	_id: {

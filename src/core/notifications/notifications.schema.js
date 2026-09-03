@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 import { UserRefSchema } from '../../features/users/schemas/user-ref.schema.js'
-import { StateSchema } from '../db/mongodb/shared-schemas/state.schema.js'
-import { MultiLangSchema } from '../db/mongodb/shared-schemas/multi-lang.schema.js'
+import { StateSchema } from '#schemas/state.schema.js'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 import { NOTIFICATIONS_TEMPLATES_ALL } from './notifications.constant.js'
-import { MediaSchema } from '#mongodb/shared-schemas/media.schema.js'
+import { MediaSchema } from '#schemas/media.schema.js'
 import { CustomerSchema } from '#users/schemas/customer.schema.js'
 import { BusinessRefSchema } from '#businesses/schemas/business-ref.schema.js'
 

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { AddressSchema } from '#core'
+import { AddressSchema } from '#schemas/address.schema.js'
 
 export const SpecsSchema = {
 	_id: false,

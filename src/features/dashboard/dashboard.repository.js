@@ -1,5 +1,5 @@
 import { DashboardModel } from './dashboard.schema.js'
-import { flattenObject } from '#core'
+import { flattenObject } from '#helpers/filters.js'
 
 export const createDashboardRepo = async ({ user, business, kind, purchases, sales, customers, products, revenues, expenses }) => {
 	return await DashboardModel.create({ user, business, kind, purchases, sales, customers, products, revenues, expenses })

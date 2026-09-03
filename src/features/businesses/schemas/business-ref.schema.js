@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
-import { AddressSchema } from '../../../core/db/mongodb/shared-schemas/address.schema.js'
-import { LocationSchema } from '../../../core/db/mongodb/shared-schemas/location.schema.js'
+import { AddressSchema } from '#schemas/address.schema.js'
+import { LocationSchema } from '#schemas/location.schema.js'
 import { businessesCollection } from '../businesses.constant.js'
-import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 import { OwnerSchema } from '../../users/schemas/owner.schema.js'
-import { MediaSchema } from '../../../core/db/mongodb/shared-schemas/media.schema.js'
-import { ContactSchema } from '#core/db/mongodb/shared-schemas/contact.schema.js'
+import { MediaSchema } from '#schemas/media.schema.js'
+import { ContactSchema } from '#schemas/contact.schema.js'
 
 export const BusinessRefSchema = {
 	_id: {

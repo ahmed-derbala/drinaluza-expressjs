@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { RestaurantRefSchema } from './restaurant-ref.schema.js'
 import { WaiterSchema } from '#users/schemas/waiter.subschema.js'
-import { MultiLangSchema } from '#multilang'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 import { slugPlugin } from '#slug'
 
 const tablesCollection = 'tables'

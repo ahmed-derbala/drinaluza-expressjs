@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { PriceSubSchema } from '#core'
+import { PriceSubSchema } from '#schemas/price.subschema.js'
 
 export const PricePeriodSchema = new mongoose.Schema(
 	{

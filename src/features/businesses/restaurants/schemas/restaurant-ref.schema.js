@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
-import { AddressSchema } from '#address'
-import { LocationSchema } from '#location'
+import { AddressSchema } from '#schemas/address.schema.js'
+import { LocationSchema } from '#schemas/location.schema.js'
 import { businessesCollection } from '#businesses/businesses.constant.js'
-import { MultiLangSchema } from '#multilang'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 import { OwnerSchema } from '#users/schemas/owner.schema.js'
 
 export const RestaurantRefSchema = {

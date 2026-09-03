@@ -1,5 +1,8 @@
 import express from 'express'
-import { errorHandler, authenticate, resp } from '#core'
+import { errorHandler } from '#error'
+import { authenticate } from '#auth'
+import { resp } from '#helpers/resp.js'
+
 import { findMyBusinessesSrvc } from '#businesses/businesses.service.js'
 import { findOneDashboard, findDashboardProfilesByUserSrvc } from './dashboard.service.js'
 import { USER_ROLES } from '#users/users.enum.js'

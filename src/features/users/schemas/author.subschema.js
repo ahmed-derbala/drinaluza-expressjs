@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 
 export const AuthorSubschema = {
 	_id: {

@@ -1,16 +1,16 @@
 import mongoose from 'mongoose'
-import { AddressSchema } from '../../core/db/mongodb/shared-schemas/address.schema.js'
+import { AddressSchema } from '#schemas/address.schema.js'
 import { usersCollection } from './users.constant.js'
 import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
 import { USER_ROLES } from './users.enum.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
-import { StateSchema } from '../../core/db/mongodb/shared-schemas/state.schema.js'
-import { MultiLangSchema } from '../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
-import { SocialMediaSchema } from '../../core/db/mongodb/shared-schemas/social-media.schema.js'
-import { MediaSchema } from '../../core/db/mongodb/shared-schemas/media.schema.js'
-import { ContactSchema } from '../../core/db/mongodb/shared-schemas/contact.schema.js'
-import { LocationSchema } from '../../core/db/mongodb/shared-schemas/location.schema.js'
+import { StateSchema } from '#schemas/state.schema.js'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
+import { SocialMediaSchema } from '#schemas/social-media.schema.js'
+import { MediaSchema } from '#schemas/media.schema.js'
+import { ContactSchema } from '#schemas/contact.schema.js'
+import { LocationSchema } from '#schemas/location.schema.js'
 
 export const UserBasicInfosSchema = new mongoose.Schema(
 	{

@@ -1,10 +1,10 @@
 import mongoose from 'mongoose'
 import { usersCollection } from '../users.constant.js'
-import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
-import { AddressSchema } from '../../../core/db/mongodb/shared-schemas/address.schema.js'
-import { LocationSchema } from '../../../core/db/mongodb/shared-schemas/location.schema.js'
-import { ContactSchema } from '../../../core/db/mongodb/shared-schemas/contact.schema.js'
-import { MediaSchema } from '../../../core/db/mongodb/shared-schemas/media.schema.js'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
+import { AddressSchema } from '#schemas/address.schema.js'
+import { LocationSchema } from '#schemas/location.schema.js'
+import { ContactSchema } from '#schemas/contact.schema.js'
+import { MediaSchema } from '#schemas/media.schema.js'
 
 export const customerSelect = '+slug +name +address +location +contact +media +role'
 

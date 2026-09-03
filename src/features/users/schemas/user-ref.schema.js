@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { usersCollection } from '../users.constant.js'
 import { USER_ROLES } from '../users.enum.js'
-import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 
 export const UserRefSchema = {
 	_id: {

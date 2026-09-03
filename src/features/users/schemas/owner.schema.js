@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { usersCollection } from '../users.constant.js'
-import { MultiLangSchema } from '../../../core/db/mongodb/shared-schemas/multi-lang.schema.js'
-import { MediaSchema } from '#core'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
+import { MediaSchema } from '#schemas/media.schema.js'
 export const OwnerSchema = {
 	_id: {
 		type: mongoose.Schema.Types.ObjectId,

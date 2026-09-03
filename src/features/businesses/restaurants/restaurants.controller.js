@@ -9,7 +9,7 @@ import { BUSINESS_KINDS } from '../businesses.constant.js'
 import { findOneBusinessSrvc } from '#businesses/businesses.service.js'
 import { findOneRestaurantSrvc } from './restaurants.service.js'
 import { findRestaurantTablesSrvc, createRestaurantTableSrvc } from './restaurants-tables.service.js'
-import { STATES } from '../../../core/db/mongodb/shared-schemas/state.schema.js'
+import { STATES } from '#schemas/state.schema.js'
 const router = express.Router()
 
 router

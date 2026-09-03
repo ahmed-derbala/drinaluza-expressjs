@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { dashboardCollection } from '#dashboard/dashboard.constant.js'
 import { UserRefSchema } from '#users/schemas/user-ref.schema.js'
-import { PriceSubSchema } from '#core'
+import { PriceSubSchema } from '#schemas/price.subschema.js'
 import { PersonalDashboardSchema } from './schemas/personal-dashboard.schema.js'
 import { BusinessDashboardSchema } from './schemas/business-dashboard.schema.js'
 

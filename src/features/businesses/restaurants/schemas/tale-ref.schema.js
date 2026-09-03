@@ -1,5 +1,5 @@
 import { OwnerSchema } from '#users/schemas/owner.schema.js'
-import { MultiLangSchema } from '#multilang'
+import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 import { WaiterSchema } from '#users/schemas/waiter.subschema.js'
 import { RestaurantRefSchema } from './restaurant-ref.schema.js'
 
