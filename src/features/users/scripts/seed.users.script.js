@@ -30,10 +30,10 @@ const drinaluza_email = 'drinaluza@gmail.com'
 // Sample owner data
 const users = [
 	{
-		slug: 'ahmed',
+		slug: 'gachar',
 		password: '123',
 		role: 'business_owner',
-		name: { en: 'Ahmed Derbala' },
+		name: { en: 'gachar louzi' },
 		address: {
 			street: {
 				en: `ellouza`,
@@ -218,10 +218,27 @@ const users = [
 			}
 		}*/
 	},
+	// customers
+	{
+		slug: 'client',
+		password: '123',
+		role: 'customer',
+		name: { en: 'client sfaxi' },
+		address: {
+			street: {
+				en: `beb jebli`,
+				tn_latn: `beb jebli`,
+				tn_arab: `beb jebli`
+			},
+			city: 'sfax',
+			country: 'Tunisia',
+			region: 'Sfax'
+		}
+	},
 	{
 		slug: 'serra',
 		password: '123',
-		role: 'business_owner',
+		role: 'customer',
 		name: { en: 'Serra Aloui' }
 		/*address: {
 			street: {

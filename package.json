@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "main": "src/main.js",
   "description": "Drinaluza, business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -98,7 +98,7 @@
     "express-winston": "^4.2.0",
     "glob": "^13.0.6",
     "helmet": "^8.3.0",
-    "inquirer": "^14.2.0",
+    "inquirer": "^14.2.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.4",
     "mongoose-unique-validator": "^6.1.1",
