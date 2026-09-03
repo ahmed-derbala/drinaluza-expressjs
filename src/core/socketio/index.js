@@ -46,12 +46,12 @@ export const initSocketio = async (server) => {
 
 export const getPublicSocketio = () => {
 	if (!publicNs) throw new Error('Socket.io not initialized!')
-	return publicNs
+	return { publicNs, clientsCount: publicNs.sockets.size }
 }
 
 export const getPrivateSocketio = () => {
 	if (!privateNs) throw new Error('Socket.io not initialized!')
-	return privateNs
+	return { privateNs, clientsCount: privateNs.sockets.size }
 }
 
 export const getSocketio = () => {

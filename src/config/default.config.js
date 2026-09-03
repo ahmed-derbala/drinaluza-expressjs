@@ -12,7 +12,7 @@ const apiLimiter = rateLimit({
 	keyGenerator: (req) => ipKeyGenerator(req.ip)
 })
 
-const NODE_ENV = process.env.NODE_ENV || 'local'
+const node = { env: process.env.NODE_ENV || 'local', version: process.version }
 
 const backend = {
 	port: process.env.PORT || 5001,
@@ -28,8 +28,8 @@ const backend = {
 let app = {
 	name: packagejson.name,
 	version: packagejson.version,
-	description: packagejson.description,
-	author: packagejson.author
+	description: packagejson.description
+	//author: packagejson.author
 }
 
 const security = {
@@ -181,7 +181,7 @@ const cloudinary = {
 	api_secret: process.env.CLOUDINARY_API_SECRET
 }
 const defaultConfig = {
-	NODE_ENV,
+	node,
 	app,
 	backend,
 	frontend: {

@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "main": "src/main.js",
   "description": "Drinaluza, business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -20,6 +20,7 @@
     "#config": "./src/config/index.js",
     "#core/*": "./src/core/*",
     "#error": "./src/core/error/index.js",
+    "#socketio": "./src/core/socketio/index.js",
     "#log": "./src/core/log/index.js",
     "#helpers/*": "./src/core/helpers/index.js",
     "#mongodb/*": "./src/core/db/mongodb/*",
