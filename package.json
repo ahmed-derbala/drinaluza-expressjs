@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "main": "src/main.js",
   "description": "Drinaluza, business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
