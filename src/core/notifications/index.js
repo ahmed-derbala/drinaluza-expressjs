@@ -3,7 +3,7 @@ import { templateRegistry } from './templates.helper.js'
 import { log } from '../log/index.js'
 import { findSessionsSrvc } from '../sessions/sessions.service.js'
 import { Expo } from 'expo-server-sdk'
-import { getPrivateSocketio } from '../socketio/index.js'
+import { getPrivateSocket } from '#socketio'
 import { findOneUserSrvc } from '#users/users.service.js'
 import { USER_NOTIFICATION_ROOM_PREFIX } from '#core/socketio/socketio.constant.js'
 const expo = new Expo()
@@ -14,7 +14,7 @@ const expo = new Expo()
  * @returns
  */
 export const notify = async ({ user, template, screen = '/notifications', kind, priority = 'high', media, data = {} }) => {
-	const privateSio = getPrivateSocketio() // Call the function to get the current live instance
+	const privateSio = getPrivateSocket().io // Call the function to get the current live instance
 
 	if (!user.settings) {
 		user.settings = {}
