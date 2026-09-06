@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findManyProductsSrvc, createProductSrvc, findOneProductSrvc, updateProductSrvc } from './products.service.js'
+import { findProductsSrvc, createProductSrvc, findOneProductSrvc, updateProductSrvc } from './products.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { validate } from '../../core/validation/index.js'
@@ -17,8 +17,8 @@ router
 		try {
 			const { match, select } = req.body || {}
 			let { page = 1, limit = 10 } = req.query
-			const fetchedManyProducts = await findManyProductsSrvc({ match, select, page, limit })
-			return resp({ status: 200, data: fetchedManyProducts, req, res })
+			const fetchedProducts = await findProductsSrvc({ match, select, page, limit })
+			return resp({ status: 200, data: fetchedProducts, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}
@@ -49,8 +49,8 @@ router
 			match.business = { owner: { _id: req.user._id } }
 			const select = ''
 			let { page = 1, limit = 10 } = req.query
-			const fetchedManyProducts = await findManyProductsSrvc({ match, select, page, limit })
-			return resp({ status: 200, data: fetchedManyProducts, req, res })
+			const fetchedProducts = await findProductsSrvc({ match, select, page, limit })
+			return resp({ status: 200, data: fetchedProducts, req, res })
 		} catch (err) {
 			errorHandler({ err, req, res })
 		}

@@ -3,7 +3,7 @@ import { resp } from '../../core/helpers/resp.js'
 import { findMyBusinessesSrvc, createBusinessSrvc, findMyBusinessSrvc, findOneBusinessSrvc, findBusinessesSrvc, updateBusinessSrvc } from './businesses.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
-import { createProductSrvc, findManyProductsSrvc } from '../products/products.service.js'
+import { createProductSrvc, findProductsSrvc } from '#products/products.service.js'
 import { createBusinessVld } from './businesses.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { log } from '../../core/log/index.js'
@@ -126,7 +126,7 @@ router.route('/my-businesses/:businessSlug/products').get(authenticate(), async 
 		match.business = {}
 		match.business.slug = businessSlug
 		match.business.owner = { _id: req.user._id }
-		const myBusinessProducts = await findManyProductsSrvc({ match, select, page, limit })
+		const myBusinessProducts = await findProductsSrvc({ match, select, page, limit })
 		return resp({ status: 200, data: myBusinessProducts, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })
@@ -184,7 +184,7 @@ router.route('/:businessSlug/products').get(async (req, res) => {
 		const businessSlug = req.params.businessSlug
 		match.business = {}
 		match.business.slug = businessSlug
-		const businessProducts = await findManyProductsSrvc({ match, select, page, limit })
+		const businessProducts = await findProductsSrvc({ match, select, page, limit })
 		return resp({ status: 200, data: businessProducts, req, res })
 	} catch (err) {
 		errorHandler({ err, req, res })

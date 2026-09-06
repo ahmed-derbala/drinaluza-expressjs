@@ -1,3 +1,4 @@
+/*
 import mongoose from 'mongoose'
 import { StateSchema } from '#schemas/state.schema.js'
 import { usersCollection } from '../users/users.constant.js'
@@ -29,3 +30,4 @@ const FeedSchema = new mongoose.Schema(
 	{ collection: feedCollection, timestamps: true }
 )
 export const FeedModel = mongoose.model(feedCollection, FeedSchema)
+*/

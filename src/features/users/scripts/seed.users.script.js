@@ -30,10 +30,10 @@ const drinaluza_email = 'drinaluza@gmail.com'
 // Sample owner data
 const users = [
 	{
-		slug: 'gachar',
+		slug: 'ahmed',
 		password: '123',
 		role: 'business_owner',
-		name: { en: 'gachar louzi' },
+		name: { en: 'ahmed' },
 		address: {
 			street: {
 				en: `ellouza`,

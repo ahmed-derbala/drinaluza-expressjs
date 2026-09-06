@@ -31,7 +31,7 @@ const ahmed_phone = {
 
 let manualBusinesses = [
 	{
-		owner: { slug: 'gachar' },
+		owner: { slug: 'ahmed' },
 		street: {
 			en: `ellouza, tri9 douar`,
 			tn_latn: `ellouza, tri9 douar`,

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
+import { slugPlugin } from '#slug'
 import { defaultProductsCollection } from './default-products.constant.js'
 import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 import { StateSchema } from '#schemas/state.schema.js'

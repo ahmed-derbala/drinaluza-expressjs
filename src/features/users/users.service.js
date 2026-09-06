@@ -4,7 +4,6 @@ import { createUserRepo, findOneUserRepo, updateUserRepo, addBusinessToUserRepo,
 import { createBusinessSrvc, findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { customerSelect } from './schemas/customer.schema.js'
 import { usersCollection } from './users.constant.js'
-import { updateOneCardFeedRepo } from '../feed/feed.repository.js'
 import { createPersonalDashboardSrvc } from '../dashboard/dashboard.service.js'
 import { USER_ROLES } from './users.enum.js'
 
@@ -14,7 +13,7 @@ export const updateMyProfileSrvc = async ({ user, newData }) => {
 	}
 	const updatedProfile = await updateMyProfileRepo({ user, newData })
 	//sync with feed
-	const updatedFeedCard = await updateOneCardFeedRepo({ match: { targetId: user._id }, newData })
+	//const updatedFeedCard = await updateOneCardFeedRepo({ match: { targetId: user._id }, newData })
 	log({ level: 'debug', message: 'updateMyProfileSrvc updatedFeedCard', data: { updatedFeedCard } })
 	return updatedProfile
 }

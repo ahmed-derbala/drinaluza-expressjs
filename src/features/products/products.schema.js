@@ -9,7 +9,6 @@ import { UnitSchema } from './schemas/unit.schema.js'
 import { MediaSchema } from '#schemas/media.schema.js'
 import { searchKeywordsField } from '../../core/db/mongodb/search-keywords.field.js'
 import { RatingSubschema } from '../reviews/subschemas/rating.subschema.js'
-import { FeedModel } from '../feed/feed.schema.js'
 import { productsCollection } from './products.constant.js'
 import { FileRefSchema } from '#core/files/schemas/files-ref.schema.js'
 import { SpecsSchema } from './schemas/specs.schema.js'
@@ -58,7 +57,7 @@ const ProductSchema = new mongoose.Schema(
 )
 
 ProductSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: false })
-
+/*
 ProductSchema.post('findOneAndUpdate', async function (doc) {
 	if (!doc) return
 	try {
@@ -68,9 +67,7 @@ ProductSchema.post('findOneAndUpdate', async function (doc) {
 				targetResource: productsCollection
 			},
 			{
-				/*$set: {
-					'targetData.rating': doc.rating
-				}*/
+			
 				$set: {
 					targetData: doc.toObject()
 				}
@@ -80,4 +77,5 @@ ProductSchema.post('findOneAndUpdate', async function (doc) {
 		console.error('Failed to sync Business rating to Feed:', error)
 	}
 })
+*/
 export const ProductModel = mongoose.model(productsCollection, ProductSchema)

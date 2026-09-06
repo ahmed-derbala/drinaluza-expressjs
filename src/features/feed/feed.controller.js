@@ -14,8 +14,7 @@ router
 			const filterArray = filter ? filter.split(',') : []
 			const match = filterArray.length > 0 ? { targetResource: { $in: filterArray } } : {}
 			let feed = await findFeedSrvc({ match, select, page, limit })
-			//console.log(JSON.stringify(feed, null, 2))
-			feed.docs = feed.docs.map((f) => {
+			/*feed.docs = feed.docs.map((f) => {
 				if (f.card.kind == 'product') {
 					//user conencted
 					if (req.user) {
@@ -25,6 +24,20 @@ router
 						}
 					}
 				}
+				return f
+			})*/
+			feed.docs = feed.docs.map((f) => {
+				f.card = {}
+				f.card.purchase = {}
+				f.card.purchase.allowed = true
+				//user conencted
+				if (req.user) {
+					//if user is owner of the business
+					if (f.business.owner._id.toString() === req.user._id.toString()) {
+						f.card.purchase = { allowed: false }
+					}
+				}
+
 				return f
 			})
 			return resp({ status: 200, data: feed, req, res })

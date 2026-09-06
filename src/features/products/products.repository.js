@@ -20,7 +20,7 @@ export const findOneProductRepo = async ({ match, select }) => {
 		.lean()
 }
 
-export const findManyProductsRepo = async ({ match, select, page, limit }) => {
+export const findProductsRepo = async ({ match, select, page, limit }) => {
 	const flattenedMatch = flattenObject(match)
 	log({ level: 'debug', message: 'findManyProductsRepo', data: flattenedMatch })
 	return paginateMongodb({ model: ProductModel, match: { ...flattenedMatch }, select, page, limit })

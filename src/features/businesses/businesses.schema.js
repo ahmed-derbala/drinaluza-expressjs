@@ -8,7 +8,6 @@ import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 import { MediaSchema } from '#schemas/media.schema.js'
 import { ContactSchema } from '#schemas/contact.schema.js'
 import { RatingSubschema } from '../reviews/subschemas/rating.subschema.js'
-import { FeedModel } from '../feed/feed.schema.js'
 import { BUSINESS_KINDS, businessesCollection } from './businesses.constant.js'
 import { RestaurantSchema } from './restaurants/restaurants.schema.js'
 import { FileRefSchema } from '#core/files/schemas/files-ref.schema.js'
@@ -42,7 +41,7 @@ businessSchema.discriminator(
 )
 
 businessSchema.plugin(slugPlugin, { source: 'name', target: 'slug', sub: 'en', unique: true })
-
+/*
 // Post-hook for findOneAndUpdate
 businessSchema.post('findOneAndUpdate', async function (doc) {
 	// doc is the updated business because you use returnDocument: 'after'
@@ -67,4 +66,5 @@ businessSchema.post('findOneAndUpdate', async function (doc) {
 		console.error('Failed to sync Business rating to Feed:', error)
 	}
 })
+*/
 export const BusinessModel = mongoose.model(businessesCollection, businessSchema)
