@@ -13,10 +13,5 @@ export const findOneDashboardRepo = async ({ match, select }) => {
 }
 
 export const findDashboardProfilesByUserRepo = async ({ match, select }) => {
-	//const flattenedMatch = flattenObject(match)
-	return (
-		DashboardModel.find({ 'user._id': match.user._id })
-			//.select(select)
-			.lean()
-	)
+	return DashboardModel.find({ 'user._id': match.user._id }).lean()
 }

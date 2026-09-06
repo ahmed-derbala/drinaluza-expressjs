@@ -11,13 +11,8 @@ export const createPersonalDashboardSrvc = async ({ user, expenses, purchases })
 }
 
 export const createBusinessDashboardSrvc = async ({ user, business, sales, customers, products, revenues, expenses }) => {
-	try {
-		const kind = 'business'
-		return await createDashboardRepo({ user, business, kind, sales, customers, products, revenues, expenses })
-	} catch (error) {
-		console.error(error)
-		return null
-	}
+	const kind = 'business'
+	return await createDashboardRepo({ user, business, kind, sales, customers, products, revenues, expenses })
 }
 
 export const findOneDashboard = async ({ match = { user, kind } }) => {

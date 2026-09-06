@@ -11,7 +11,6 @@ import { USER_ROLES } from '../users/users.enum.js'
 import config from '#config'
 import { updateUserSrvc, findOneUserSrvc } from '../users/users.service.js'
 import { destroyUserSessionsSrvc } from '../../core/auth/auth.service.js'
-import { createBusinessDashboardSrvc } from '#dashboard/dashboard.service.js'
 import { findBusinessCustomersSrvc } from '#orders/orders.service.js'
 
 const router = express.Router()
@@ -26,11 +25,10 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
-	.post(authenticate({ roles: [USER_ROLES.CUSTOMER, USER_ROLES.BUSINESS_OWNER] }), validate(createBusinessVld), async (req, res) => {
+	//.post(authenticate({ roles: [USER_ROLES.CUSTOMER, USER_ROLES.BUSINESS_OWNER] }), validate(createBusinessVld), async (req, res) => {
+	.post(authenticate({ roles: [USER_ROLES.CUSTOMER] }), validate(createBusinessVld), async (req, res) => {
 		try {
 			const owner = req.user
-			//const fetchedBusiness = await findOneBusinessSrvc({ match: { owner: { _id: owner._id } }, select: '' })
-			//if (fetchedBusiness) return resp({ status: 409, message: 'Business already exists for this owner', req, res })
 			const { name } = req.body
 			let business = await createBusinessSrvc({ owner, name })
 			if (config.businesses.autoApprove) {
@@ -38,7 +36,6 @@ router
 				if (state && state.code === 'active') {
 					updateUserSrvc({ match: { _id: business.owner._id }, newData: { role: USER_ROLES.BUSINESS_OWNER } })
 					destroyUserSessionsSrvc({ user: business.owner })
-					createBusinessDashboardSrvc({ user: business.owner, business, kind: 'business' })
 				}
 				business = await updateBusinessSrvc({ match: { _id: business._id }, newData: { state } })
 			}
