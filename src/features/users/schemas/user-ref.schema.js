@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
-import { usersCollection } from '../users.constant.js'
-import { USER_ROLES } from '../users.enum.js'
+import { usersCollection, USER_ROLES, USER_ROLES_ALL } from '../users.constant.js'
 import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 
 export const UserRefSchema = {
@@ -11,9 +10,10 @@ export const UserRefSchema = {
 	},
 	slug: { type: String, required: true },
 	name: MultiLangSchema,
-	role: {
-		type: String,
-		enum: USER_ROLES.ALL,
-		default: USER_ROLES.CUSTOMER
+	roles: {
+		type: [String],
+		enum: USER_ROLES_ALL,
+		default: USER_ROLES.customer,
+		required: true
 	}
 }

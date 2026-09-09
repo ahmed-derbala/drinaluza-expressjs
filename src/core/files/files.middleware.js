@@ -1,7 +1,7 @@
 import multer from 'multer'
 import path from 'path'
 import { v2 as cloudinary } from 'cloudinary'
-import config from '#config'
+import { config } from '#config'
 import { ALLOWED_EXTENSIONS, ALLOWED_MIME_TYPES, MAX_FILE_COUNT, MAX_FILE_SIZE } from './files.constant.js'
 import { errorHandler } from '#core/error/index.js'
 import { log } from '#core/log/index.js'

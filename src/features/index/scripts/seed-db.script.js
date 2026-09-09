@@ -1,7 +1,9 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { MongoClient } from 'mongodb'
 import { spawn } from 'node:child_process'
-import config from '../../../config/index.js'
-//console.clear()
+import { config } from '#config'
 
 if (process.env.NODE_ENV === 'production' && !config.security.allowScriptsInProdution) {
 	console.error('❌ Refusing to run: destructive script in production')
@@ -19,7 +21,7 @@ if (!MONGO_URI?.includes('/drinaluza')) {
  * Drops all collections in the database except for the specified ones.
  * @param {string[]} preservedCollections - Array of collection names to keep (e.g., ['users', 'roles'])
  */
-async function dropDatabase(preservedCollections = []) {
+export async function dropAndSeedDatabase(preservedCollections = []) {
 	console.log('⚠ Cleaning MongoDB database "drinaluza" (preserving specific collections)...')
 
 	const client = new MongoClient(MONGO_URI)
@@ -46,6 +48,7 @@ async function dropDatabase(preservedCollections = []) {
 		console.log('✔ Database cleanup complete!')
 	} catch (error) {
 		console.error('❌ Error during database cleanup:', error)
+		throw error
 	} finally {
 		await client.close()
 	}
@@ -68,12 +71,9 @@ const scripts = [
 	'src/features/products/scripts/seed.products.script.js'
 ]
 
-;(async () => {
+export async function runAllSeeds() {
 	try {
-		//console.clear()
-		await dropDatabase()
-		//if users is preserved, auth must be preserved too
-		//await dropDatabase(['sessions', 'files','users','auth'])
+		await dropAndSeedDatabase()
 
 		for (const script of scripts) {
 			console.log(`\n▶ Running ${script}`)
@@ -85,4 +85,12 @@ const scripts = [
 		console.error('\n✖ Execution stopped:', err.message)
 		process.exit(1)
 	}
-})()
+}
+
+// Check if file was executed directly from CLI (e.g. node script.js or npm run)
+const currentFilePath = fileURLToPath(import.meta.url)
+const executedFilePath = fs.realpathSync(process.argv[1])
+
+if (currentFilePath === executedFilePath) {
+	runAllSeeds()
+}

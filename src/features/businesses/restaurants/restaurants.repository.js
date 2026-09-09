@@ -1,6 +1,6 @@
 import { BusinessModel } from '#businesses/businesses.schema.js'
 import { errorHandler } from '#core/error/index.js'
-import { paginateMongodb } from '#core/db/mongodb/pagination.js'
+import { paginateMongodb } from '#mongodb'
 import { log } from '#core/log/index.js'
 import { flattenObject } from '#core/helpers/filters.js'
 import { BUSINESS_KINDS } from '#businesses/businesses.constant.js'

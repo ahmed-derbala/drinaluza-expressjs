@@ -34,38 +34,17 @@ export const flattenObject = ({ obj, parentKey = '', result = {} }) => {
 	return result
 }*/
 
-/**
- * Flattens a nested object into a single-level object using dot notation,
- * correctly preserving MongoDB ObjectIds, Dates, and primitive values.
- *
- * @param {object} obj - The object to flatten.
- * @returns {object} The flattened object.
- */
-export const flattenObject = (obj) => {
-	const result = {}
+export const flattenObject = (obj, prefix = '', result = {}) => {
+	for (const [key, value] of Object.entries(obj)) {
+		const path = prefix ? `${prefix}.${key}` : key
 
-	function recurse(currentObject, prefix = '') {
-		if (currentObject !== null && typeof currentObject === 'object' && !Array.isArray(currentObject)) {
-			for (const key in currentObject) {
-				if (Object.prototype.hasOwnProperty.call(currentObject, key)) {
-					const newKey = prefix ? `${prefix}.${key}` : key
-					const value = currentObject[key]
-
-					// Check if value is a plain object (exclude ObjectIds, Dates, etc.)
-					const isNestedObject =
-						value !== null && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date) && !(value instanceof Types.ObjectId) && value._bsontype !== 'ObjectID' // Fallback check if Mongoose/BSON versions differ
-
-					if (isNestedObject) {
-						recurse(value, newKey)
-					} else {
-						result[newKey] = value
-					}
-				}
-			}
+		if (value !== null && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
+			flattenObject(value, path, result)
+		} else {
+			result[path] = value
 		}
 	}
 
-	recurse(obj)
 	return result
 }
 

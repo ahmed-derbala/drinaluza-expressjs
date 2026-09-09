@@ -1,19 +1,17 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
-import config from '../../config/index.js'
+import { config } from '#config'
 import { findOrdersRepo, createdOrderRepo, findMySalesRepo, patchSaleRepo, patchSaleStatusRepo } from './sales.repository.js'
 import { findOneOrderRepo } from '#orders/orders.repository.js'
-import { validateSaleStatusTransition } from './sales.helper.js'
-import { notify } from '#core/notifications/index.js'
+import { isValidStatusTransitionSrvc } from '#orders'
+import { notify, NOTIFICATIONS_TEMPLATES } from '#notifications'
+import { USER_ROLES } from '#users'
 
 export const findOneSaleSrvc = async ({ match, select }) => {
 	const fetchedSale = await findOneOrderRepo({ match, select })
 	return fetchedSale
 }
-export const findOrdersSrvc = async ({ match, page, limit }) => {
-	const fetchedOrders = await findOrdersRepo({ match, page, limit })
-	return fetchedOrders
-}
+
 export const createOrderSrvc = async ({ data }) => {
 	try {
 		const createdOrder = await createdOrderRepo({ data })
@@ -33,15 +31,6 @@ export const calculateFinalPriceSrvc = ({ price, quantity }) => {
 	}
 }
 
-export const patchSaleStatusSrvc = async ({ match, oldStatus, newStatus }) => {
-	if (!validateSaleStatusTransition(oldStatus, newStatus)) {
-		log({ level: 'debug', message: 'invalid status transition', data: { oldStatus, newStatus } })
-		return { message: 'invalid status transition', data: null }
-	}
-	const patchedOrder = await patchSaleStatusRepo({ match, status: newStatus })
-	return { message: 'sale status patched successfully', data: patchedOrder }
-}
-
 export const findMySalesSrvc = async ({ match, page, limit, count, select }) => {
 	try {
 		page = parseInt(page, 10)
@@ -55,7 +44,8 @@ export const findMySalesSrvc = async ({ match, page, limit, count, select }) => 
 }
 
 export const patchSaleSrvc = async ({ match, sale, newStatus, newProducts }) => {
-	if (!validateSaleStatusTransition(sale.status, newStatus)) {
+	const role = USER_ROLES.business_owner
+	if (!isValidStatusTransitionSrvc({ oldStatus: sale.status, newStatus, role })) {
 		log({ level: 'debug', message: 'invalid status transition', data: { oldStatus: sale.status, newStatus } })
 		return { message: `invalid status transition from ${sale.status} to ${newStatus}`, data: null }
 	}
@@ -66,12 +56,29 @@ export const patchSaleSrvc = async ({ match, sale, newStatus, newProducts }) => 
 	const patchedSale = await patchSaleRepo({ match, newData: { status: newStatus, products: newProducts } })
 	if (patchedSale) {
 		notify({
-			user: sale.customer,
+			user: patchedSale.customer,
 			screen: `/purchases/${patchedSale._id}`,
-			template: { slug: 'purchase_updated_by_business' },
-			media: sale.business.media,
-			data: { customer: sale.customer, business: sale.business }
+			template: { slug: NOTIFICATIONS_TEMPLATES[patchedSale.status], data: { customer: patchedSale.customer, business: patchedSale.business } },
+			media: patchedSale.business.media
 		})
 	}
 	return { message: 'sale patched successfully', data: patchedSale }
+}
+
+export const patchSaleStatusSrvc = async ({ match, sale, newStatus }) => {
+	const role = USER_ROLES.business_owner
+	if (!isValidStatusTransitionSrvc({ oldStatus: sale.status, newStatus, role })) {
+		log({ level: 'debug', message: 'invalid status transition', data: { oldStatus: sale.status, newStatus, role } })
+		return { message: 'invalid status transition', data: null }
+	}
+	const patchedSale = await patchSaleStatusRepo({ match, status: newStatus })
+	if (patchedSale) {
+		notify({
+			user: patchedSale.customer,
+			screen: `/purchases/${patchedSale._id}`,
+			template: { slug: NOTIFICATIONS_TEMPLATES[patchedSale.status], data: { customer: patchedSale.customer, business: patchedSale.business } },
+			media: patchedSale.business.media
+		})
+	}
+	return { message: 'sale status patched successfully', data: patchedSale }
 }

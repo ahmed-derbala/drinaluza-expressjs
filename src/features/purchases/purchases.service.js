@@ -1,26 +1,27 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
-import config from '../../config/index.js'
+import { config } from '#config'
 import { findOneOrderRepo, patchOrderStatusRepo, appendProductsToOrderRepo } from './purchases.repository.js'
 import { ORDER_STATUSES } from '#orders/orders.constant.js'
-import { createdOrderRepo } from '../orders/orders.repository.js'
-import { notify } from '#core/notifications/index.js'
+import { isValidStatusTransitionSrvc } from '#orders/orders.service.js'
+import { createdOrderRepo } from '#orders/orders.repository.js'
+import { notify, NOTIFICATIONS_TEMPLATES } from '#notifications'
+import { USER_ROLES } from '#users'
 
-export const findOneOrderSrvc = async ({ match, select }) => {
+export const findOnePurchaseSrvc = async ({ match, select }) => {
 	const fetchedOrder = await findOneOrderRepo({ match, select })
 	return fetchedOrder
 }
 
-export const createPurchaseSrvc = async ({ customer, business, products, status, price }) => {
-	log({ level: 'debug', message: 'createPurchaseSrvc', data: { customer, business, products, status, price } })
-	const createdPurchase = await createdOrderRepo({ customer, business, products, status, price })
+export const createPurchaseSrvc = async ({ customer, business, products, price }) => {
+	log({ level: 'debug', message: 'createPurchaseSrvc', data: { customer, business, products, price } })
+	const createdPurchase = await createdOrderRepo({ customer, business, products, status: ORDER_STATUSES.pending, price })
 	if (createdPurchase) {
 		notify({
 			user: business.owner,
 			screen: `/dashboard/${business.slug}/sales/${createdPurchase._id}`,
-			template: { slug: 'purchase_request' },
-			media: customer.media,
-			data: { customer, products, price }
+			template: { slug: NOTIFICATIONS_TEMPLATES[createdPurchase.status], data: { customer, products, price } },
+			media: customer.media
 		})
 	}
 	return createdPurchase
@@ -32,7 +33,8 @@ export const processLineTotalSrvc = ({ price, quantity }) => {
 }
 
 export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus, purchase }) => {
-	if (!validateSaleStatusTransition(oldStatus, newStatus)) {
+	const role = USER_ROLES.customer
+	if (!isValidStatusTransitionSrvc({ oldStatus: oldStatus.status, newStatus, role })) {
 		log({ level: 'debug', message: 'invalid status transition', data: { oldStatus, newStatus } })
 		return { message: 'invalid status transition', data: null }
 	}
@@ -51,41 +53,4 @@ export const patchOrderStatusSrvc = async ({ match, oldStatus, newStatus, purcha
 
 export const appendProductsToOrderSrvc = async ({ orderId, products }) => {
 	return appendProductsToOrderRepo({ orderId, products })
-}
-
-/**
- * Validates a status transition for a purchase.
- * @param {string} oldStatus The current status of the purchase.
- * @param {string} newStatus The new status to transition to.
- * @returns {boolean} True if the transition is valid, false otherwise.
- */
-export function validateSaleStatusTransition(oldStatus, newStatus) {
-	const allowedTransitions = {
-		[ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION]: [ORDER_STATUSES.CONFIRMED_BY_BUSINESS, ORDER_STATUSES.CANCELLED_BY_BUSINESS, ORDER_STATUSES.CANCELLED_BY_CUSTOMER],
-		[ORDER_STATUSES.CONFIRMED_BY_BUSINESS]: [
-			ORDER_STATUSES.READY_FOR_PICKUP_BY_CUSTOMER,
-			ORDER_STATUSES.DELIVERING_TO_CUSTOMER,
-			ORDER_STATUSES.CANCELLED_BY_BUSINESS,
-			ORDER_STATUSES.CANCELLED_BY_CUSTOMER // <--- Added this line
-		],
-		[ORDER_STATUSES.READY_FOR_PICKUP_BY_CUSTOMER]: [
-			ORDER_STATUSES.RECEIVED_BY_CUSTOMER,
-			ORDER_STATUSES.RESERVATION_EXPIRED,
-			ORDER_STATUSES.CANCELLED_BY_CUSTOMER // Often allowed if they haven't picked it up yet
-		],
-		[ORDER_STATUSES.DELIVERING_TO_CUSTOMER]: [ORDER_STATUSES.DELIVERED_TO_CUSTOMER, ORDER_STATUSES.CANCELLED_BY_BUSINESS],
-		[ORDER_STATUSES.DELIVERED_TO_CUSTOMER]: [ORDER_STATUSES.RECEIVED_BY_CUSTOMER],
-		[ORDER_STATUSES.RECEIVED_BY_CUSTOMER]: [],
-		[ORDER_STATUSES.RESERVATION_EXPIRED]: [],
-		[ORDER_STATUSES.CANCELLED_BY_CUSTOMER]: [],
-		[ORDER_STATUSES.CANCELLED_BY_BUSINESS]: []
-	}
-
-	const validNextSteps = allowedTransitions[oldStatus]
-
-	if (!validNextSteps) {
-		return false
-	}
-
-	return validNextSteps.includes(newStatus)
 }

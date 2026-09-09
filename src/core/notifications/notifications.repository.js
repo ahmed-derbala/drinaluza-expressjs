@@ -1,7 +1,7 @@
 import { NotificationModel } from './notifications.schema.js'
 import { errorHandler } from '../error/index.js'
 import { flattenObject } from '../helpers/filters.js'
-import { paginateMongodb } from '../db/mongodb/pagination.js'
+import { paginateMongodb } from '#mongodb'
 
 export const createNotificationRepo = async ({ user, template, screen, title, content, kind, priority, media }) => {
 	return NotificationModel.create({ user, screen, template, kind, title, content, priority, media })

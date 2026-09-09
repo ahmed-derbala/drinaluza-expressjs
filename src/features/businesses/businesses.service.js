@@ -1,7 +1,7 @@
 import { errorHandler } from '../../core/error/index.js'
 import { log } from '../../core/log/index.js'
 import { findMyBusinessesRepo, findBusinessesRepo, createBusinessRepo, findMyBusinessProductsRepo, findMyBusinessRepo, findOneBusinessRepo, updateBusinessRepo } from './businesses.repository.js'
-import config from '../../config/index.js'
+import { config } from '#config'
 import { businessesCollection } from './businesses.constant.js'
 import { createBusinessDashboardSrvc } from '../dashboard/dashboard.service.js'
 

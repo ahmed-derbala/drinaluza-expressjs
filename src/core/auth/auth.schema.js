@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserRefSchema } from '#users/schemas/user-ref.schema.js'
+import { UserRefSchema } from '#users'
 
 const authCollection = 'auth'
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import packagejson from '../../../package.json' with { type: 'json' }
 import fs from 'fs'
-import config from '../../config/index.js'
+import { config } from '#config'
 import path from 'path'
 import { pathToFileURL } from 'url'
 

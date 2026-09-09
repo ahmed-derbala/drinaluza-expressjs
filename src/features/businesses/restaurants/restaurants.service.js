@@ -1,7 +1,7 @@
 import { errorHandler } from '#error'
 import { log } from '#log'
 import { findMyBusinessesRepo, findRestaurantsRepo, createBusinessRepo, findOneRestaurantRepo } from './restaurants.repository.js'
-import config from '#config'
+import { config } from '#config'
 import { BUSINESS_KINDS } from '../businesses.constant.js'
 
 export const findMyBusinessesSrvc = async ({ match, select, page, limit, count }) => {

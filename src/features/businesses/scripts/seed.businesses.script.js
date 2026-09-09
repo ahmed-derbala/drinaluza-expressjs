@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import config from '../../../config/index.js'
+import { config } from '#config'
 import { findUsersSrvc } from '../../users/users.service.js'
-import { log } from '../../../core/log/index.js'
+import { log } from '#log'
 import { createBusinessSrvc } from '../businesses.service.js'
 import { errorHandler } from '../../../core/error/index.js'
 
@@ -305,7 +305,7 @@ let manualBusinesses = [
 
 const processScript = async () => {
 	log({ message: `running ${scriptFilename}`, level: 'info' })
-	const businessOwners = await findUsersSrvc({ match: { role: 'business_owner' }, select: 'slug _id name business' })
+	const businessOwners = await findUsersSrvc({ match: { roles: 'business_owner' }, select: 'slug _id name business' })
 	if (businessOwners.docs.length === 0) {
 		console.error('No owners found in the database. Please run the users seed script first.')
 		return

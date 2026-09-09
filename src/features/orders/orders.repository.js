@@ -1,5 +1,5 @@
-import { paginateMongodb, aggregatePaginate } from '../../core/db/mongodb/pagination.js'
-import { flattenObject } from '../../core/helpers/filters.js'
+import { paginateMongodb, aggregatePaginate, formatMongoQuery } from '#mongodb'
+import { flattenObject } from '#helpers/filters.js'
 import { OrderModel } from '../orders/orders.schema.js'
 
 export const findOneOrderRepo = async ({ match, select }) => {
@@ -11,8 +11,7 @@ export const findOneOrderRepo = async ({ match, select }) => {
 }
 
 export const findOrdersRepo = async ({ match, select, page, limit }) => {
-	const flattenedMatch = flattenObject(match)
-	return paginateMongodb({ model: OrderModel, match: { ...flattenedMatch }, select, page, limit })
+	return paginateMongodb({ model: OrderModel, match: { ...formatMongoQuery(match) }, select, page, limit })
 }
 
 export const createdOrderRepo = async ({ customer, business, products, status, price }) => {

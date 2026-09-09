@@ -1,6 +1,6 @@
 import { UserModel } from './users.schema.js'
 import { errorHandler } from '../../core/error/index.js'
-import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
+import { paginateMongodb } from '#mongodb'
 import { log } from '../../core/log/index.js'
 
 export const updateMyProfileRepo = async ({ user, newData }) => {
@@ -29,14 +29,14 @@ export const findUsersRepo = async ({ match, select, page, limit, count }) => {
 	return paginateMongodb({ model: UserModel, match, select, page, limit })
 }
 
-export const createUserRepo = async ({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos }) => {
+export const createUserRepo = async ({ slug, name, roles, contact, address, location, settings, media, socialMedia, basicInfos }) => {
 	let updateData = {}
 	if (!name) {
 		name = {}
 		name.en = slug
 		updateData.name = name
 	}
-	let singedupUser = await UserModel.create({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos })
+	let singedupUser = await UserModel.create({ slug, name, roles, contact, address, location, settings, media, socialMedia, basicInfos })
 	if (!slug) {
 		slug = singedupUser._id
 		updateData.slug = slug

@@ -6,7 +6,7 @@ const router = express.Router()
 import { validate } from '../../core/validation/index.js'
 import { createDefaultProductVld } from './default-products.validator.js'
 import { authenticate } from '../../core/auth/index.js'
-import config from '../../config/index.js'
+import { config } from '#config'
 
 router
 	.route('/')

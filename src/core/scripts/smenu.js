@@ -1,7 +1,7 @@
 import { globSync } from 'glob'
 import inquirer from 'inquirer'
 import { execSync } from 'child_process'
-import config from '#config'
+import { config } from '#config'
 
 async function startMenu() {
 	console.warn(`SELECTED_MONGO_DB=${config.db.mongodb.uri}`)

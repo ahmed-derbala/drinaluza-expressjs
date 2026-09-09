@@ -1,5 +1,5 @@
 import express from 'express'
-import config from '../../config/index.js'
+import { config } from '#config'
 import { validate } from '../validation/index.js'
 import { expoPushTokenVld } from './sessions.validator.js'
 import { errorHandler } from '../error/index.js'

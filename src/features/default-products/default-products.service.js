@@ -1,7 +1,7 @@
 import { errorHandler } from '../../core/error/index.js'
 import { findOneDefaultProductRepo, findDefaultProductsRepo, createDefaultProductRepo } from './default-products.repository.js'
-import { processSlug } from '../../core/db/mongodb/slug-plugin.js'
-import config from '../../config/index.js'
+import { processSlug } from '#slug'
+import { config } from '#config'
 export const findOneDefaultProductSrvc = async ({ slug }) => {
 	const fetchedDefaultProduct = await findOneDefaultProductRepo({ match: { slug }, select: '' })
 	return fetchedDefaultProduct

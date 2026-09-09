@@ -1,6 +1,6 @@
 import { ReviewModel } from './reviews.schema.js'
 import { flattenObject } from '../../core/helpers/filters.js'
-import { paginateMongodb } from '../../core/db/mongodb/pagination.js'
+import { paginateMongodb } from '#mongodb'
 import { log } from '../../core/log/index.js'
 
 export const createReviewRepo = async ({ stars, comment, author, targetId, targetResource, targetData }) => {

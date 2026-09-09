@@ -7,8 +7,8 @@ import { createProductSrvc, findProductsSrvc } from '#products/products.service.
 import { createBusinessVld } from './businesses.validator.js'
 import { validate } from '../../core/validation/index.js'
 import { log } from '../../core/log/index.js'
-import { USER_ROLES } from '../users/users.enum.js'
-import config from '#config'
+import { USER_ROLES } from '#users'
+import { config } from '#config'
 import { updateUserSrvc, findOneUserSrvc } from '../users/users.service.js'
 import { destroyUserSessionsSrvc } from '../../core/auth/auth.service.js'
 import { findBusinessCustomersSrvc } from '#orders/orders.service.js'
@@ -17,7 +17,7 @@ const router = express.Router()
 
 router
 	.route('/requests')
-	.get(authenticate({ role: USER_ROLES.SUPER }), async (req, res) => {
+	.get(authenticate({ roles: USER_ROLES.SUPER }), async (req, res) => {
 		try {
 			const requests = await findManyBusinessesSrvc({ match: { state: { code: 'pending' } }, select: '' })
 			return resp({ status: 200, data: requests, req, res })
@@ -34,7 +34,7 @@ router
 			if (config.businesses.autoApprove) {
 				const state = { code: 'active' }
 				if (state && state.code === 'active') {
-					updateUserSrvc({ match: { _id: business.owner._id }, newData: { role: USER_ROLES.BUSINESS_OWNER } })
+					updateUserSrvc({ match: { _id: business.owner._id }, newData: { roles: USER_ROLES.BUSINESS_OWNER } })
 					destroyUserSessionsSrvc({ user: business.owner })
 				}
 				business = await updateBusinessSrvc({ match: { _id: business._id }, newData: { state } })
@@ -47,7 +47,7 @@ router
 
 router
 	.route('/')
-	.post(authenticate({ role: 'business_owner' }), validate(createBusinessVld), async (req, res) => {
+	.post(authenticate({ roles: 'business_owner' }), validate(createBusinessVld), async (req, res) => {
 		try {
 			const { name, address, location, kind } = req.body
 			const owner = await findOneUserSrvc({ match: { _id: req.user._id }, select: 'slug name media' })
@@ -78,7 +78,7 @@ router
 		}
 	})
 
-router.route('/my-businesses').get(authenticate({ role: 'business_owner' }), async (req, res) => {
+router.route('/my-businesses').get(authenticate({ roles: 'business_owner' }), async (req, res) => {
 	try {
 		let match = {}
 		match.owner = { _id: req.user._id }
@@ -104,7 +104,7 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
-	.patch(authenticate({ role: 'business_owner' }), async (req, res) => {
+	.patch(authenticate({ roles: 'business_owner' }), async (req, res) => {
 		try {
 			const business = await updateBusinessSrvc({ match: { owner: { _id: req.user._id } }, newData: req.body })
 			return resp({ status: 200, data: business, req, res })
@@ -147,7 +147,7 @@ router.route('/my-businesses/:businessId/products/create').post(authenticate(), 
 
 router
 	.route('/my-businesses/:businessSlug/')
-	.get(authenticate({ role: 'business_owner' }), async (req, res) => {
+	.get(authenticate({ roles: 'business_owner' }), async (req, res) => {
 		try {
 			let match = {}
 			match.owner = { _id: req.user._id }
@@ -160,7 +160,7 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
-	.patch(authenticate({ role: 'business_owner' }), async (req, res) => {
+	.patch(authenticate({ roles: 'business_owner' }), async (req, res) => {
 		try {
 			let match = {}
 			match.owner = { _id: req.user._id }

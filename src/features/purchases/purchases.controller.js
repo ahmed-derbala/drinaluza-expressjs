@@ -1,6 +1,6 @@
 import express from 'express'
 import { resp } from '../../core/helpers/resp.js'
-import { findOneOrderSrvc, patchOrderStatusSrvc } from './purchases.service.js'
+import { patchOrderStatusSrvc, findOnePurchaseSrvc, processLineTotalSrvc, createPurchaseSrvc } from './purchases.service.js'
 import { errorHandler } from '../../core/error/index.js'
 import { authenticate } from '../../core/auth/index.js'
 import { createPurchaseVld, patchOrderStatusVld } from './purchases.validator.js'
@@ -8,21 +8,24 @@ import { validate } from '../../core/validation/index.js'
 import { findOneProductSrvc } from '../products/products.service.js'
 import { ORDER_STATUSES } from '#orders/orders.constant.js'
 import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
-import { processLineTotalSrvc, createPurchaseSrvc } from './purchases.service.js'
-import { log } from '../../core/log/index.js'
-import { USER_ROLES } from '../users/users.enum.js'
+import { log } from '#log'
+import { USER_ROLES } from '#users'
 import { findOrdersSrvc } from '../orders/orders.service.js'
 import { findOneCustomerSrvc } from '../users/users.service.js'
-
+import { PURCHASES_TAB_STATUSES } from './purchases.constant.js'
 const router = express.Router()
 router
 	.route('/')
 	.get(authenticate(), async (req, res) => {
 		try {
 			let match = { customer: { _id: req.user._id } }
-			let { page = 1, limit = 10, status } = req.query
+			let { page = 1, limit = 10, status, tab } = req.query
 			if (status) {
 				match.status = status
+			}
+
+			if (tab) {
+				match.status = { $in: PURCHASES_TAB_STATUSES[tab] }
 			}
 			const fetchedOrders = await findOrdersSrvc({ match, page, limit })
 			return resp({ status: 200, data: fetchedOrders, req, res })
@@ -34,11 +37,13 @@ router
 		try {
 			let { products, business } = req.body
 			//check business
-			business = await findOneBusinessSrvc({ match: { slug: business.slug } })
+			const fetchedBusiness = await findOneBusinessSrvc({ match: { slug: business.slug } })
+			business = { ...fetchedBusiness }
+			business.owner.roles = [USER_ROLES.customer, USER_ROLES.business_owner]
 			if (!business) return resp({ status: 404, message: 'business not found', data: null, req, res })
 			const customer = await findOneCustomerSrvc({ match: { slug: req.user.slug } })
 			//business_owner cannot purchase from his businesses
-			if (customer.role === USER_ROLES.BUSINESS_OWNER) {
+			if (customer.roles === USER_ROLES.BUSINESS_OWNER) {
 				const ownedBusiness = await findOneBusinessSrvc({ match: { owner: { _id: customer._id }, slug: business.slug }, select: '_id' })
 				if (ownedBusiness) return resp({ status: 409, message: 'business owners cannot purchase from their own businesses', data: null, req, res })
 			}
@@ -83,30 +88,32 @@ router
 		}
 	})
 
-router.route('/sales').get(authenticate({ role: 'business_owner' }), async (req, res) => {
-	try {
-		const match = { business: { owner: { _id: req.user._id } } }
-		const select = ''
-		let { page = 1, limit = 10 } = req.query
-		const fetchedOrders = await findOrdersSrvc({ match, select, page, limit })
-		return resp({ status: 200, data: fetchedOrders, req, res })
-	} catch (err) {
-		errorHandler({ err, req, res })
-	}
-})
-
-router.route('/:orderId/').patch(authenticate({ role: USER_ROLES.CUSTOMER }), validate(patchOrderStatusVld), async (req, res) => {
-	try {
-		const { orderId } = req.params
-		const { status } = req.body
-		const match = { _id: orderId, customer: { _id: req.user._id } }
-		const purchase = await findOneOrderSrvc({ match })
-		if (!purchase) return resp({ status: 202, message: `purchase not found ${JSON.stringify(match)}`, data: null, req, res })
-		const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: purchase.status, newStatus: status, purchase })
-		if (!patchedOrder.data) return resp({ status: 409, message: patchedOrder.message, data: null, req, res })
-		return resp({ status: 200, message: patchedOrder.message, data: patchedOrder.data, req, res })
-	} catch (err) {
-		errorHandler({ err, req, res })
-	}
-})
+router
+	.route('/:orderId/')
+	.get(
+		authenticate({ roles: [USER_ROLES.customer] }),
+		/*validate(getSalesVld),*/ async (req, res) => {
+			try {
+				const match = { _id: req.params.orderId, customer: { _id: req.user._id } }
+				const fetchedPurchase = await findOnePurchaseSrvc({ match })
+				return resp({ status: 200, data: fetchedPurchase, req, res })
+			} catch (err) {
+				errorHandler({ err, req, res })
+			}
+		}
+	)
+	.patch(authenticate({ roles: USER_ROLES.CUSTOMER }), validate(patchOrderStatusVld), async (req, res) => {
+		try {
+			const { orderId } = req.params
+			const { status } = req.body
+			const match = { _id: orderId, customer: { _id: req.user._id } }
+			const purchase = await findOneOrderSrvc({ match })
+			if (!purchase) return resp({ status: 202, message: `purchase not found ${JSON.stringify(match)}`, data: null, req, res })
+			const patchedOrder = await patchOrderStatusSrvc({ match, oldStatus: purchase.status, newStatus: status, purchase })
+			if (!patchedOrder.data) return resp({ status: 409, message: patchedOrder.message, data: null, req, res })
+			return resp({ status: 200, message: patchedOrder.message, data: patchedOrder.data, req, res })
+		} catch (err) {
+			errorHandler({ err, req, res })
+		}
+	})
 export default router

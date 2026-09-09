@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { UserRefSchema } from '../../features/users/schemas/user-ref.schema.js'
 import { StateSchema } from '#schemas/state.schema.js'
 import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
-import { NOTIFICATIONS_TEMPLATES_ALL } from './notifications.constant.js'
+import { NOTIFICATIONS_TEMPLATES_ALL } from './notifications-templates.service.js'
 import { MediaSchema } from '#schemas/media.schema.js'
 import { CustomerSchema } from '#users/schemas/customer.schema.js'
 import { BusinessRefSchema } from '#businesses/schemas/business-ref.schema.js'
@@ -13,9 +13,13 @@ const NotificationSchema = new mongoose.Schema(
 	{
 		user: UserRefSchema,
 		media: MediaSchema,
-		customer: { type: CustomerSchema, required: false },
-		business: { type: BusinessRefSchema, required: false },
-		template: { slug: { type: String, required: true, enum: NOTIFICATIONS_TEMPLATES_ALL() } },
+		template: {
+			slug: { type: String, required: true, enum: NOTIFICATIONS_TEMPLATES_ALL },
+			data: {
+				customer: { type: CustomerSchema, required: false },
+				business: { type: BusinessRefSchema, required: false }
+			}
+		},
 		screen: { type: String, default: '/notifications' },
 		title: MultiLangSchema,
 		content: MultiLangSchema,

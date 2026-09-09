@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import config from '../../../config/default.config.js'
+import { config } from '#config'
 
 export const UserSettingsSchema = {
 	_id: false,

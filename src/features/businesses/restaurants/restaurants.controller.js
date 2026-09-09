@@ -24,7 +24,7 @@ router
 			errorHandler({ err, req, res })
 		}
 	})
-	.post(validate(createRestaurantVld), authenticate({ role: 'business_owner' }), async (req, res) => {
+	.post(validate(createRestaurantVld), authenticate({ roles: 'business_owner' }), async (req, res) => {
 		try {
 			const business = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id } } })
 			if (!business) return resp({ status: 202, message: 'Business not found', data: null, req, res })
@@ -52,7 +52,7 @@ router
 	})
 	.post(
 		//validate(createRestaurantVld),
-		authenticate({ role: 'business_owner' }),
+		authenticate({ roles: 'business_owner' }),
 		async (req, res) => {
 			try {
 				const business = await findOneBusinessSrvc({ match: { owner: { _id: req.user._id } } })

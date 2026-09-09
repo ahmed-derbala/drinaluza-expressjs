@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { usersCollection } from '../users.constant.js'
 import { MultiLangSchema } from '#schemas/multi-lang.schema.js'
 import { MediaSchema } from '#schemas/media.schema.js'
+
 export const OwnerSchema = {
 	_id: {
 		type: mongoose.Schema.Types.ObjectId,

@@ -1,16 +1,18 @@
+// src/features/default-products/scripts/seed.default-products.script.js
 /**
  * this script seeds default seafood products into the database
  */
 
-import mongoose from 'mongoose'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { connectMongodb, disconnectMongodb } from '#mongodb'
+import { config } from '#config'
+import { log } from '#log'
 import { DefaultProductModel } from '../default-products.schema.js'
 import { defaultProductsCollection } from '../default-products.constant.js'
-import { log } from '../../../core/log/index.js'
-import config from '../../../config/index.js'
 import { createDefaultProductSrvc } from '../default-products.service.js'
 
-import { fileURLToPath } from 'node:url'
-import path from 'node:path'
 const __filename = fileURLToPath(import.meta.url)
 const scriptFilename = path.basename(__filename)
 
@@ -209,7 +211,7 @@ const defaultProducts = [
 
 const processScript = async () => {
 	log({ message: `running ${scriptFilename}`, level: 'info' })
-	for (let dp of defaultProducts) {
+	for (const dp of defaultProducts) {
 		await createDefaultProductSrvc(dp)
 	}
 	const count = await DefaultProductModel.countDocuments()
@@ -218,17 +220,25 @@ const processScript = async () => {
 	return true
 }
 
-async function run() {
+export async function seedDefaultProducts() {
 	try {
-		if (!config.security.allowScriptsInProdution && config.NODE_ENV === 'production') throw new Error('script is not allowed to run in production environment')
-		await mongoose.connect(config.db.mongodb.uri, {})
-		console.log(`Connected to MongoDB: ${config.db.mongodb.uri}`)
+		if (!config.security.allowScriptsInProdution && config.NODE_ENV === 'production') {
+			throw new Error('script is not allowed to run in production environment')
+		}
+		await connectMongodb()
 		await processScript()
 	} catch (error) {
-		console.error('script error:', error)
+		log({ message: `seedDefaultProducts error: ${error.message}`, level: 'error' })
+		throw error
 	} finally {
-		await mongoose.connection.close()
-		console.log('MongoDB connection closed')
+		await disconnectMongodb()
 	}
 }
-run()
+
+// Only execute directly when triggered via CLI / NPM script
+const currentFilePath = fileURLToPath(import.meta.url)
+const executedFilePath = fs.realpathSync(process.argv[1])
+
+if (currentFilePath === executedFilePath) {
+	seedDefaultProducts()
+}

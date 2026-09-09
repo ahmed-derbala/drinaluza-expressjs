@@ -1,6 +1,6 @@
 import { AuthModel } from './auth.schema.js'
 import { errorHandler } from '../error/index.js'
-import { paginateMongodb } from '../db/mongodb/pagination.js'
+import { paginateMongodb } from '#mongodb'
 import { log } from '../log/index.js'
 import { SessionModel } from '../sessions/sessions.schema.js'
 

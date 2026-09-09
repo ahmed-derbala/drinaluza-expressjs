@@ -8,7 +8,7 @@ import { createProductVld, findOneProductVld } from './products.validator.js'
 import { findOneBusinessSrvc } from '../businesses/businesses.service.js'
 import { log } from '../../core/log/index.js'
 import { findOneDefaultProductSrvc } from '../default-products/default-products.service.js'
-import { USER_ROLES } from '#users/users.enum.js'
+import { USER_ROLES } from '#users'
 const router = express.Router()
 
 router

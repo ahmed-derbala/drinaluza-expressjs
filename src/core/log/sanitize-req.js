@@ -1,4 +1,4 @@
-import config from '../../config/index.js'
+import { config } from '#config'
 import { removeEmptyKeys } from '../helpers/removeEmptyKeys.js'
 let sanitizeReq = (req) => {
 	//console.log(req, 'req')

@@ -1,6 +1,11 @@
+// BARREL
 export * from './address.schema.js'
+export * from './contact.schema.js'
 export * from './location.schema.js'
 export * from './media.schema.js'
 export * from './multi-lang.schema.js'
-export * from './state.schema.js'
+export * from './phone.schema.js'
 export * from './price.subschema.js'
+export * from './search-keywords.field.js'
+export * from './social-media.schema.js'
+export * from './state.schema.js'

@@ -1,103 +1,93 @@
-import config from '../../config/index.js'
+import { config } from '#config'
 import { log } from '../log/index.js'
 import app from './app.js'
 import http from 'http'
 import cluster from 'cluster'
 import { initSocketio } from '../socketio/index.js'
 
-/**
- * Get port from environment
- */
 app.set('port', config.backend.port)
-/**
- * Create HTTP server.
- */
+
 export const server = http.createServer(app)
 initSocketio(server)
-/**
- * Listen on provided port, on all network interfaces.
- */
-if (config.app.cluster > 0) {
-	if (cluster.isMaster) {
-		log({
-			message: `cluster is enabled. ${config.app.cluster} cpus are in use`,
-			level: 'debug',
-			label: 'server'
-		})
-		// Create a worker for each CPU
-		for (let c = 1; c <= config.app.cluster; c++) {
-			cluster.fork()
-		}
-		// Listen for dying workers
-		cluster.on('exit', function () {
-			console.log(`cluster exited`)
-			cluster.fork()
-		})
-	} else {
-		//launching the server
-		server.listen(
-			config.backend.port,
-			log({
-				message: `${config.app.name} ${config.app.version} ${config.backend.url} NODE_ENV=${config.NODE_ENV} fork ${cluster.worker.id} pid ${cluster.worker.process.pid}`,
-				level: 'debug',
-				label: 'server'
-			})
-		)
-		server.on('error', onError)
-		server.on('listening', onListening)
-	}
-} else {
-	//launching the server without cluster
-	server.listen(
-		config.backend.port,
-		log({
-			message: `${config.app.name} ${config.app.version} ${config.backend.url} NODE_ENV=${config.NODE_ENV}`,
-			level: 'debug',
-			label: 'server'
-		})
-	)
-	server.on('error', onError)
-	server.on('listening', onListening)
-}
-server.setTimeout(0) //make sure timeout is disabled , wait forever
+
+server.setTimeout(0) // Disable timeout
+
+// Handle server errors and listening events
+server.on('error', onError)
+server.on('listening', onListening)
+
+// Graceful shutdown handling
 process.once('SIGINT', () => {
 	log({ level: 'info', message: 'Received SIGINT signal. Gracefully shutting down...', label: 'server' })
-	// Close server connections
 	server.close(() => {
 		log({ level: 'info', message: 'Server closed. Exiting...', label: 'server' })
 		process.exit(0)
 	})
 })
+
 /**
- * Event listener for HTTP server "error" event.
+ * Start function explicitly called from main.js AFTER DB connects
  */
-function onError(error) {
-	if (error.syscall !== 'listen') {
-		throw error
+export const startHttpServer = () => {
+	const isPrimary = cluster.isPrimary ?? cluster.isMaster // Fallback for older Node versions
+
+	if (config.app.cluster > 0) {
+		if (isPrimary) {
+			log({
+				message: `Cluster enabled. Forking ${config.app.cluster} workers...`,
+				level: 'debug',
+				label: 'server'
+			})
+			for (let c = 1; c <= config.app.cluster; c++) {
+				cluster.fork()
+			}
+			cluster.on('exit', (worker, code, signal) => {
+				log({
+					message: `Worker ${worker.process.pid} exited with code ${code}. Forking new worker...`,
+					level: 'warn',
+					label: 'server'
+				})
+				cluster.fork()
+			})
+		} else {
+			// Worker process listens on port
+			listenServer(`fork ${cluster.worker.id} pid ${cluster.worker.process.pid}`)
+		}
+	} else {
+		// Single process mode
+		listenServer('standalone')
 	}
+}
+
+function listenServer(mode) {
+	server.listen(config.backend.port, () => {
+		log({
+			message: `${config.app.name} ${config.app.version} ${config.backend.url} NODE_ENV=${config.NODE_ENV} [${mode}]`,
+			level: 'debug',
+			label: 'server'
+		})
+	})
+}
+
+function onError(error) {
+	if (error.syscall !== 'listen') throw error
 	const bind = typeof config.backend.port === 'string' ? 'Pipe ' + config.backend.port : 'Port ' + config.backend.port
-	// handle specific listen errors with friendly messages
 	switch (error.code) {
 		case 'EACCES':
 			log({ level: 'error', message: `${bind} requires elevated privileges`, label: 'server' })
 			process.exit(1)
 			break
 		case 'EADDRINUSE':
-			log({
-				level: 'error',
-				message: `${bind} is already in use. If you used pm2, try npm run delete`,
-				label: 'server'
-			})
+			log({ level: 'error', message: `${bind} is already in use`, label: 'server' })
 			process.exit(1)
 			break
 		default:
 			throw error
 	}
 }
-/**
- * Event listener for HTTP server "listening" event.
- */
+
 function onListening() {
 	const addr = server.address()
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port
+	log({ level: 'info', message: `Server bound to ${bind}`, label: 'server' })
 }

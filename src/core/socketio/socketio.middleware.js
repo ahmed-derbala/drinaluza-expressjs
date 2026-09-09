@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
-import config from '#config'
-import { findOneSessionSrvc } from '#core/sessions/sessions.service.js'
-import { log } from '#core/log/index.js'
+import { config } from '#config'
+import { findOneSessionSrvc } from '#sessions'
+import { log } from '#log'
 
 export const authenticateSocketio = () => {
 	return async (socket, next) => {

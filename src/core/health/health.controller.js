@@ -1,5 +1,5 @@
 import express from 'express'
-import config from '#config'
+import { config } from '#config'
 import { errorHandler } from '#error'
 import { resp } from '#helpers/resp.js'
 import { formatUptime } from '#helpers/filters.js'

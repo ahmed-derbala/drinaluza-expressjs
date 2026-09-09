@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 import { AddressSchema } from '#schemas/address.schema.js'
 import { usersCollection } from './users.constant.js'
-import { slugPlugin } from '../../core/db/mongodb/slug-plugin.js'
-import { USER_ROLES } from './users.enum.js'
+import { slugPlugin } from '#slug'
+import { USER_ROLES, USER_ROLES_ALL } from '#users/users.constant.js'
 import { AuthModel } from '../../core/auth/auth.schema.js'
 import { UserSettingsSchema } from './schemas/user-settings.schema.js'
 import { StateSchema } from '#schemas/state.schema.js'
@@ -29,10 +29,11 @@ export const UserBasicInfosSchema = new mongoose.Schema(
 const UserSchema = new mongoose.Schema({
 	slug: { type: String, required: true },
 	name: { type: MultiLangSchema, required: true },
-	role: {
-		type: String,
-		enum: USER_ROLES.ALL,
-		default: USER_ROLES.CUSTOMER
+	roles: {
+		type: [String],
+		enum: USER_ROLES_ALL,
+		default: USER_ROLES.customer,
+		required: true
 	},
 	contact: {
 		type: ContactSchema,
@@ -71,23 +72,23 @@ UserSchema.post('findOneAndUpdate', async function (doc, next) {
 	// 'this' refers to the Mongoose Query object here.
 	const update = this.getUpdate()
 
-	// 2. Determine if the 'role' field was part of the update operation.
+	// 2. Determine if the 'roles' field was part of the update operation.
 	// It could be:
-	// a) Directly set: { role: 'NEW_ROLE' }
-	// b) Set using $set: { $set: { role: 'NEW_ROLE' } }
-	const roleWasUpdated = update && (update.role || (update.$set && update.$set.role))
+	// a) Directly set: { roles: 'NEW_ROLE' }
+	// b) Set using $set: { $set: { roles: 'NEW_ROLE' } }
+	const rolesWasUpdated = update && (update.roles || (update.$set && update.$set.roles))
 
-	if (roleWasUpdated) {
+	if (rolesWasUpdated) {
 		try {
 			// 'doc' is the updated User document returned by findOneAndUpdate.
-			const newRole = doc.role
+			const newRole = doc.roles
 
-			// Update the denormalized role in the Auth collection
-			await AuthModel.updateOne({ 'user._id': doc._id }, { $set: { 'user.role': newRole } })
+			// Update the denormalized roles in the Auth collection
+			await AuthModel.updateOne({ 'user._id': doc._id }, { $set: { 'user.roles': newRole } })
 
-			console.log(`✅ Auth role synchronized for user ${doc._id} after findOneAndUpdate.`)
+			console.log(`✅ Auth roles synchronized for user ${doc._id} after findOneAndUpdate.`)
 		} catch (error) {
-			console.error(`❌ Error synchronizing Auth role:`, error)
+			console.error(`❌ Error synchronizing Auth roles:`, error)
 		}
 	}
 	next()

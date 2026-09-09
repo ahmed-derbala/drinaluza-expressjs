@@ -23,7 +23,7 @@ const OrderSchema = new mongoose.Schema(
 		products: OrderProductsSchema,
 		status: {
 			type: String,
-			enum: ORDER_STATUSES_ALL(),
+			enum: ORDER_STATUSES_ALL,
 			default: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION,
 			required: true
 		},

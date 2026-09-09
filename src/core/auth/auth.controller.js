@@ -1,5 +1,5 @@
 import express from 'express'
-import config from '../../config/index.js'
+import { config } from '#config'
 import { validate } from '../validation/index.js'
 import { signinVld, signupVld } from './auth.validator.js'
 import { authenticate, createNewSession } from './index.js'
@@ -14,12 +14,12 @@ import bcrypt from 'bcrypt'
 const router = express.Router()
 
 router.post('/signup', validate(signupVld), async (req, res) => {
-	const { slug, password, role } = req.body
+	const { slug, password, roles } = req.body
 	const existedUser = await findOneUserSrvc({ match: { slug }, select: '_id' })
 	if (existedUser) {
 		return resp({ status: 409, message: 'user already exist', data: null, req, res })
 	}
-	const user = await createUserSrvc({ slug, role })
+	const user = await createUserSrvc({ slug, roles })
 	if (!user) return resp({ status: 400, data: null, message: 'no user was created', req, res })
 	await createAuthSrvc({ user, password })
 	const token = createNewSession({ user, req })

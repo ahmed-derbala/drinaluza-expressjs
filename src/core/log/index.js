@@ -1,4 +1,4 @@
-import config from '../../config/index.js'
+import { config } from '../../config/config.constant.js'
 import { winstonLogger } from './winston.logger.js'
 import { simplelogger } from './simple.logger.js'
 import { removeEmptyKeys } from '../helpers/removeEmptyKeys.js'

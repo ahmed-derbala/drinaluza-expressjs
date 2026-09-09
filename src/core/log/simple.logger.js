@@ -1,5 +1,5 @@
 import clc from 'cli-color'
-import config from '../../config/index.js'
+import { config } from '#config'
 
 const THEME = {
 	error: { primary: clc.red.bold, bg: clc.bgRed.white.bold, symbol: '✖' },

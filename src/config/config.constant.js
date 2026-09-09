@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import packagejson from '../../package.json' with { type: 'json' }
 import { format, transports } from 'winston'
-import { getLocalIp } from '#core/helpers/ip.js'
+import { getLocalIp } from '#helpers'
 import 'winston-mongodb'
 /** rate limiting */
 import { rateLimit, ipKeyGenerator } from 'express-rate-limit'
@@ -180,7 +180,7 @@ const cloudinary = {
 	api_key: process.env.CLOUDINARY_API_KEY,
 	api_secret: process.env.CLOUDINARY_API_SECRET
 }
-const defaultConfig = {
+export const config = {
 	node,
 	app,
 	backend,
@@ -305,7 +305,4 @@ const defaultConfig = {
 		autoApprove: true
 	},
 	cloudinary
-}
-export default {
-	...defaultConfig
 }

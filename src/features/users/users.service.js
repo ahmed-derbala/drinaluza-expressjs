@@ -5,16 +5,13 @@ import { createBusinessSrvc, findOneBusinessSrvc } from '../businesses/businesse
 import { customerSelect } from './schemas/customer.schema.js'
 import { usersCollection } from './users.constant.js'
 import { createPersonalDashboardSrvc } from '../dashboard/dashboard.service.js'
-import { USER_ROLES } from './users.enum.js'
+import { USER_ROLES, USER_ROLES_ALL } from '#users'
 
 export const updateMyProfileSrvc = async ({ user, newData }) => {
 	if (newData.location && newData.location.sharingEnabled == false) {
 		newData.location = {}
 	}
 	const updatedProfile = await updateMyProfileRepo({ user, newData })
-	//sync with feed
-	//const updatedFeedCard = await updateOneCardFeedRepo({ match: { targetId: user._id }, newData })
-	log({ level: 'debug', message: 'updateMyProfileSrvc updatedFeedCard', data: { updatedFeedCard } })
 	return updatedProfile
 }
 
@@ -55,19 +52,19 @@ export const updateUserSrvc = async ({ match, newData }) => {
 	return await updateUserRepo({ match, newData })
 }
 
-export const createUserSrvc = async ({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos }) => {
+export const createUserSrvc = async ({ slug, name, roles, contact, address, location, settings, media, socialMedia, basicInfos }) => {
 	if (!slug && !name) return null
 	if (!name) name = { en: slug }
 	if (!name.tn_latn) name.tn_latn = name.en
 	if (!name.tn_arab) name.tn_arab = name.en
-	if (!role) role = USER_ROLES.CUSTOMER
+	if (!roles) roles = [USER_ROLES.customer]
 	if (!settings) settings = {}
 	if (!media) media = {}
 	if (!socialMedia) socialMedia = {}
 	if (!basicInfos) basicInfos = {}
 	if (!contact) contact = {}
 	if (!address) address = {}
-	const user = await createUserRepo({ slug, name, role, contact, address, location, settings, media, socialMedia, basicInfos })
+	const user = await createUserRepo({ slug, name, roles, contact, address, location, settings, media, socialMedia, basicInfos })
 	if (!user) return null
 	await createPersonalDashboardSrvc({ user, kind: 'personal' })
 	return user

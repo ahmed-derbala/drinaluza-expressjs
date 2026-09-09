@@ -1,5 +1,5 @@
 import morgan from 'morgan'
-import config from '../../config/index.js'
+import { config } from '#config'
 import { log } from './index.js'
 import { inRange } from '../helpers/randoms.js'
 import { errorHandler } from '../error/index.js'

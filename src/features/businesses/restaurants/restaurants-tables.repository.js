@@ -1,5 +1,5 @@
 import { TableModel } from './schemas/tables.schema.js'
-import { paginateMongodb } from '#core/db/mongodb/pagination.js'
+import { paginateMongodb } from '#mongodb'
 import { flattenObject } from '#core/helpers/filters.js'
 import { errorHandler } from '#core/error/index.js'
 import { log } from '#core/log/index.js'
