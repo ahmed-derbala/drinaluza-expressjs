@@ -85,7 +85,7 @@ router
 	})
 	.patch(
 		//validate(findOneProductVld),
-		authenticate({ roles: [USER_ROLES.BUSINESS_OWNER] }),
+		authenticate({ roles: [USER_ROLES.business_owner] }),
 		async (req, res) => {
 			try {
 				let statusCode = 200

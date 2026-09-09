@@ -24,7 +24,7 @@ const OrderSchema = new mongoose.Schema(
 		status: {
 			type: String,
 			enum: ORDER_STATUSES_ALL,
-			default: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION,
+			default: ORDER_STATUSES.pending,
 			required: true
 		},
 		price: PriceSubSchema,

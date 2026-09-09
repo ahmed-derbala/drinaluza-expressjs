@@ -45,27 +45,6 @@ router.route('/').get(authenticate({ roles: [USER_ROLES.business_owner] }), vali
 		errorHandler({ err, req, res })
 	}
 })
-/*
-.post(authenticate(), validate(createOrderVld), async (req, res) => {
-	try {
-		const customer = req.user
-		let { products, business } = req.body
-		//process products
-		for (let p of products) {
-			p.product = await findOneProductSrvc({ match: { slug: p.product.slug } })
-			p.finalPrice = calculateFinalPriceSrvc({ price: p.product.price, quantity: p.quantity })
-			log({ level: 'debug', message: 'process products', data: p })
-		}
-		business = await findOneBusinessSrvc({ match: { slug: business.slug }, select: '' })
-		if (!business) return resp({ status: 202, message: 'business not found', data: null, req, res })
-		const data = { customer, business, products, status: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION }
-		const createdOrder = await createOrderSrvc({ data })
-		return resp({ status: 201, data: createdOrder, req, res })
-	} catch (err) {
-		errorHandler({ err, req, res })
-	}
-})
-*/
 
 router
 	.route('/:orderId')

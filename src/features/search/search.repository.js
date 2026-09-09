@@ -1,8 +1,7 @@
 import { ProductModel } from '../products/products.schema.js'
 import { errorHandler } from '../../core/error/index.js'
-import { paginateMongodb } from '#mongodb'
+import { paginateMongodb, formatMongoQuery } from '#mongodb'
 import { log } from '../../core/log/index.js'
-import { flattenObject } from '../../core/helpers/filters.js'
 
 export const searchProductsRepo = async ({ text, select, page, limit }) => {
 	try {

@@ -1,11 +1,11 @@
 import { OrderModel } from '../orders/orders.schema.js'
 import { errorHandler } from '../../core/error/index.js'
-import { paginateMongodb } from '#mongodb'
+import { paginateMongodb, formatMongoQuery } from '#mongodb'
 import { log } from '../../core/log/index.js'
-import { flattenObject } from '../../core/helpers/filters.js'
+
 export const findOneOrderRepo = async ({ match, select }) => {
 	try {
-		const flattenedMatch = flattenObject(match)
+		const flattenedMatch = formatMongoQuery(match)
 		const fetchedOrder = await OrderModel.findOne({ ...flattenedMatch })
 			.select(select)
 			.lean()
@@ -17,7 +17,7 @@ export const findOneOrderRepo = async ({ match, select }) => {
 
 export const patchOrderStatusRepo = async ({ match, status }) => {
 	try {
-		const flattenedMatch = flattenObject(match)
+		const flattenedMatch = formatMongoQuery(match)
 		const patchedOrder = await OrderModel.findOneAndUpdate({ ...flattenedMatch }, { status }, { returnDocument: 'after' })
 		return patchedOrder
 	} catch (err) {

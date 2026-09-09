@@ -1,11 +1,10 @@
 import { ProductModel } from './products.schema.js'
 import { errorHandler } from '../../core/error/index.js'
-import { paginateMongodb } from '#mongodb'
+import { paginateMongodb, formatMongoQuery } from '#mongodb'
 import { log } from '../../core/log/index.js'
-import { flattenObject } from '../../core/helpers/filters.js'
 
 export const updateProductRepo = async ({ match, newData }) => {
-	const flattenedMatch = flattenObject(match)
+	const flattenedMatch = formatMongoQuery(match)
 	match = { ...flattenedMatch }
 	//log({ level: 'debug', message: 'updateProductRepo', data: { match, newData } })
 	const updatedProduct = await ProductModel.findOneAndUpdate(match, newData, { returnDocument: 'after' })
@@ -13,7 +12,7 @@ export const updateProductRepo = async ({ match, newData }) => {
 }
 
 export const findOneProductRepo = async ({ match, select }) => {
-	const flattenedMatch = flattenObject(match)
+	const flattenedMatch = formatMongoQuery(match)
 	//log({ level: 'debug', message: 'findOneProductRepo', data: { flattenedMatch, select } })
 	return ProductModel.findOne({ ...flattenedMatch })
 		.select(select)
@@ -21,7 +20,7 @@ export const findOneProductRepo = async ({ match, select }) => {
 }
 
 export const findProductsRepo = async ({ match, select, page, limit }) => {
-	const flattenedMatch = flattenObject(match)
+	const flattenedMatch = formatMongoQuery(match)
 	log({ level: 'debug', message: 'findManyProductsRepo', data: flattenedMatch })
 	return paginateMongodb({ model: ProductModel, match: { ...flattenedMatch }, select, page, limit })
 }
@@ -32,7 +31,7 @@ export const createdProductRepo = async ({ business, name, slug, defaultProduct,
 
 export const findMyProductsRepo = async ({ match, select, page, limit, count }) => {
 	try {
-		const flattenedMatch = flattenObject(match)
+		const flattenedMatch = formatMongoQuery(match)
 		match = { ...flattenedMatch }
 		if (count) {
 			const productsCount = await ProductModel.countDocuments(match)

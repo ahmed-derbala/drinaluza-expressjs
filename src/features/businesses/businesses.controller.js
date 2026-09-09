@@ -17,7 +17,7 @@ const router = express.Router()
 
 router
 	.route('/requests')
-	.get(authenticate({ roles: USER_ROLES.SUPER }), async (req, res) => {
+	.get(authenticate({ roles: USER_ROLES.super }), async (req, res) => {
 		try {
 			const requests = await findManyBusinessesSrvc({ match: { state: { code: 'pending' } }, select: '' })
 			return resp({ status: 200, data: requests, req, res })
@@ -26,7 +26,7 @@ router
 		}
 	})
 	//.post(authenticate({ roles: [USER_ROLES.CUSTOMER, USER_ROLES.BUSINESS_OWNER] }), validate(createBusinessVld), async (req, res) => {
-	.post(authenticate({ roles: [USER_ROLES.CUSTOMER] }), validate(createBusinessVld), async (req, res) => {
+	.post(authenticate({ roles: [USER_ROLES.customer] }), validate(createBusinessVld), async (req, res) => {
 		try {
 			const owner = req.user
 			const { name } = req.body
@@ -34,7 +34,7 @@ router
 			if (config.businesses.autoApprove) {
 				const state = { code: 'active' }
 				if (state && state.code === 'active') {
-					updateUserSrvc({ match: { _id: business.owner._id }, newData: { roles: USER_ROLES.BUSINESS_OWNER } })
+					updateUserSrvc({ match: { _id: business.owner._id }, newData: { roles: USER_ROLES.business_owner } })
 					destroyUserSessionsSrvc({ user: business.owner })
 				}
 				business = await updateBusinessSrvc({ match: { _id: business._id }, newData: { state } })

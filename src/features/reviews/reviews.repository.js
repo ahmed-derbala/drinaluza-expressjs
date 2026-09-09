@@ -1,6 +1,5 @@
 import { ReviewModel } from './reviews.schema.js'
-import { flattenObject } from '../../core/helpers/filters.js'
-import { paginateMongodb } from '#mongodb'
+import { paginateMongodb, formatMongoQuery } from '#mongodb'
 import { log } from '../../core/log/index.js'
 
 export const createReviewRepo = async ({ stars, comment, author, targetId, targetResource, targetData }) => {
@@ -12,7 +11,7 @@ export const findOneReviewRepo = async ({ match, select }) => {
 }
 
 export const findReviewsRepo = async ({ match, select, page, limit, count }) => {
-	const flattenedMatch = flattenObject(match)
+	const flattenedMatch = formatMongoQuery(match)
 	match = { ...flattenedMatch }
 	if (count) {
 		const reviewsCount = await ReviewModel.countDocuments(match)

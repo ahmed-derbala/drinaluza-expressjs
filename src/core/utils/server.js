@@ -7,7 +7,7 @@ import { initSocketio } from '../socketio/index.js'
 
 app.set('port', config.backend.port)
 
-export const server = http.createServer(app)
+const server = http.createServer(app)
 initSocketio(server)
 
 server.setTimeout(0) // Disable timeout
@@ -28,7 +28,7 @@ process.once('SIGINT', () => {
 /**
  * Start function explicitly called from main.js AFTER DB connects
  */
-export const startHttpServer = () => {
+export const startServer = () => {
 	const isPrimary = cluster.isPrimary ?? cluster.isMaster // Fallback for older Node versions
 
 	if (config.app.cluster > 0) {

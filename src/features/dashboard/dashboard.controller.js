@@ -18,7 +18,6 @@ router.route('/').get(authenticate(), async (req, res) => {
 	}
 })
 
-//router.route('/profiles').get(authenticate(/*{ roles: [USER_ROLES.BUSINESS_OWNER] }*/), async (req, res) => {
 router.route('/profiles').get(authenticate(), async (req, res) => {
 	try {
 		/*let profiles = []

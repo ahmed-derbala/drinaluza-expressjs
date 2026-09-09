@@ -43,7 +43,7 @@ router
 			if (!business) return resp({ status: 404, message: 'business not found', data: null, req, res })
 			const customer = await findOneCustomerSrvc({ match: { slug: req.user.slug } })
 			//business_owner cannot purchase from his businesses
-			if (customer.roles === USER_ROLES.BUSINESS_OWNER) {
+			if (customer.roles === USER_ROLES.business_owner) {
 				const ownedBusiness = await findOneBusinessSrvc({ match: { owner: { _id: customer._id }, slug: business.slug }, select: '_id' })
 				if (ownedBusiness) return resp({ status: 409, message: 'business owners cannot purchase from their own businesses', data: null, req, res })
 			}
@@ -68,7 +68,7 @@ router
 			}
 
 			//check if there is alreay pending purchases from that business
-			const purchases = await findOrdersSrvc({ match: { customer: { _id: customer._id }, business: { _id: business._id }, status: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION } })
+			const purchases = await findOrdersSrvc({ match: { customer: { _id: customer._id }, business: { _id: business._id }, status: ORDER_STATUSES.pending } })
 			if (purchases.docs.length > 0) {
 				//TODO: check each product has the still the same price as in db
 				//if yes just add quantity
@@ -80,7 +80,7 @@ router
 				//const updatedOrder = await updateOrderSrvc({ orderId: purchase._id, data: { products } })
 				//return resp({ status: 200, data: updatedOrder, req, res })
 			}
-			const data = { customer, business, products, price, status: ORDER_STATUSES.PENDING_BUSINESS_CONFIRMATION }
+			const data = { customer, business, products, price, status: ORDER_STATUSES.pending }
 			const createPurchase = await createPurchaseSrvc(data)
 			return resp({ status: 201, data: createPurchase, req, res })
 		} catch (err) {
@@ -102,7 +102,7 @@ router
 			}
 		}
 	)
-	.patch(authenticate({ roles: USER_ROLES.CUSTOMER }), validate(patchOrderStatusVld), async (req, res) => {
+	.patch(authenticate({ roles: USER_ROLES.customer }), validate(patchOrderStatusVld), async (req, res) => {
 		try {
 			const { orderId } = req.params
 			const { status } = req.body

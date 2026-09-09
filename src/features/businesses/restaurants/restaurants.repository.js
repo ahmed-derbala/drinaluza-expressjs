@@ -1,8 +1,7 @@
 import { BusinessModel } from '#businesses/businesses.schema.js'
 import { errorHandler } from '#core/error/index.js'
-import { paginateMongodb } from '#mongodb'
+import { paginateMongodb, formatMongoQuery } from '#mongodb'
 import { log } from '#core/log/index.js'
-import { flattenObject } from '#core/helpers/filters.js'
 import { BUSINESS_KINDS } from '#businesses/businesses.constant.js'
 
 export const updateBusinessRepo = async ({ match, newData }) => {
@@ -11,7 +10,7 @@ export const updateBusinessRepo = async ({ match, newData }) => {
 
 export const findMyBusinessesRepo = async ({ match, select, page, limit, count }) => {
 	try {
-		const flattenedMatch = flattenObject(match)
+		const flattenedMatch = formatMongoQuery(match)
 		match = { ...flattenedMatch }
 		if (count) {
 			const businessesCount = await BusinessModel.countDocuments(match)
@@ -29,7 +28,7 @@ export const findMyBusinessesRepo = async ({ match, select, page, limit, count }
 export const findRestaurantsRepo = async ({ match, select, page, limit, count }) => {
 	if (!match) match = {}
 	match.kind = BUSINESS_KINDS.RESTAURANT
-	const flattenedMatch = flattenObject(match)
+	const flattenedMatch = formatMongoQuery(match)
 	match = { ...flattenedMatch }
 	if (count) {
 		const businessesCount = await BusinessModel.countDocuments(match)
@@ -40,7 +39,7 @@ export const findRestaurantsRepo = async ({ match, select, page, limit, count })
 }
 
 export const findOneRestaurantRepo = async ({ match, select }) => {
-	const flattenedMatch = flattenObject(match)
+	const flattenedMatch = formatMongoQuery(match)
 	log({ level: 'debug', message: 'findOneRestaurantRepo flattenedMatch', data: flattenedMatch })
 	const restaurant = await BusinessModel.findOne({ ...flattenedMatch })
 		.select(select)
@@ -57,7 +56,7 @@ export const createBusinessRepo = async ({ name, address, location, owner, media
 
 export const findMyBusinessProductsRepo = async ({ match, select, page, limit }) => {
 	try {
-		const flattenedMatch = flattenObject(match)
+		const flattenedMatch = formatMongoQuery(match)
 		log({ level: 'debug', message: 'findMyBusinessProductsRepo flattenedMatch', data: flattenedMatch })
 
 		const myBusinessProducts = paginateMongodb({ model: BusinessModel, match: { ...flattenedMatch }, select, page, limit })
@@ -70,7 +69,7 @@ export const findMyBusinessProductsRepo = async ({ match, select, page, limit })
 
 export const findMyBusinessRepo = async ({ match, select }) => {
 	try {
-		const flattenedMatch = flattenObject(match)
+		const flattenedMatch = formatMongoQuery(match)
 		log({ level: 'debug', message: 'findMyBusinessRepo flattenedMatch', data: flattenedMatch })
 
 		const myBusiness = await BusinessModel.findOne({ ...flattenedMatch })

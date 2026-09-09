@@ -1,7 +1,7 @@
 import { log } from './core/log/index.js'
 import { config } from '#config'
 import { connectMongodb } from '#mongodb'
-import { startHttpServer } from './core/utils/server.js'
+import { startServer } from './core/utils/server.js'
 
 ;('use strict')
 
@@ -13,7 +13,7 @@ async function bootstrap() {
 		}
 
 		// 2. Start HTTP Server & Cluster ONLY after DB connection is ready
-		startHttpServer()
+		startServer()
 	} catch (err) {
 		log({ message: `Fatal startup error: ${err.stack}`, level: 'error', label: 'process' })
 		process.exit(1)

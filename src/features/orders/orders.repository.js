@@ -1,9 +1,8 @@
 import { paginateMongodb, aggregatePaginate, formatMongoQuery } from '#mongodb'
-import { flattenObject } from '#helpers/filters.js'
 import { OrderModel } from '../orders/orders.schema.js'
 
 export const findOneOrderRepo = async ({ match, select }) => {
-	const flattenedMatch = flattenObject(match)
+	const flattenedMatch = formatMongoQuery(match)
 	const fetchedOrder = await OrderModel.findOne({ ...flattenedMatch })
 		.select(select)
 		.lean()
@@ -19,7 +18,7 @@ export const createdOrderRepo = async ({ customer, business, products, status, p
 }
 
 export const findBusinessCustomersRepo = async ({ match, select, page, limit }) => {
-	const flattenedMatch = flattenObject(match)
+	const flattenedMatch = formatMongoQuery(match)
 	const pipeline = [
 		// 1. Filter orders for this specific business
 		{

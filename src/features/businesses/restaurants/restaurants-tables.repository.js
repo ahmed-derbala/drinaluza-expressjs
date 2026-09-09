@@ -1,12 +1,11 @@
 import { TableModel } from './schemas/tables.schema.js'
-import { paginateMongodb } from '#mongodb'
-import { flattenObject } from '#core/helpers/filters.js'
+import { paginateMongodb, formatMongoQuery } from '#mongodb'
 import { errorHandler } from '#core/error/index.js'
 import { log } from '#core/log/index.js'
 import { BUSINESS_KINDS } from '#businesses/businesses.constant.js'
 
 export const findRestaurantTablesRepo = async ({ match, select, page, limit, count }) => {
-	const flattenedMatch = flattenObject(match)
+	const flattenedMatch = formatMongoQuery(match)
 	match = { ...flattenedMatch }
 	if (count) {
 		const tablesCount = await TableModel.countDocuments(match)

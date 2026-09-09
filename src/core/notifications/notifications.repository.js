@@ -1,7 +1,6 @@
 import { NotificationModel } from './notifications.schema.js'
 import { errorHandler } from '../error/index.js'
-import { flattenObject } from '../helpers/filters.js'
-import { paginateMongodb } from '#mongodb'
+import { paginateMongodb, formatMongoQuery } from '#mongodb'
 
 export const createNotificationRepo = async ({ user, template, screen, title, content, kind, priority, media }) => {
 	return NotificationModel.create({ user, screen, template, kind, title, content, priority, media })
@@ -16,7 +15,7 @@ export const findNotificationsRepo = async ({ match, page, limit }) => {
 
 export const findOneNotificationRepo = async ({ match }) => {
 	try {
-		const flattenedMatch = flattenObject(match)
+		const flattenedMatch = formatMongoQuery(match)
 		return await NotificationModel.findOne(flattenedMatch).lean()
 	} catch (err) {
 		return errorHandler({ err })
@@ -25,7 +24,7 @@ export const findOneNotificationRepo = async ({ match }) => {
 
 export const updateOneNotificationRepo = async ({ match, newData }) => {
 	try {
-		const flattenedMatch = flattenObject(match)
+		const flattenedMatch = formatMongoQuery(match)
 		return await NotificationModel.findOneAndUpdate(flattenedMatch, { $set: newData }, { returnDocument: 'after' })
 	} catch (err) {
 		errorHandler({ err })
