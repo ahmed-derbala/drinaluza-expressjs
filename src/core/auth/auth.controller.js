@@ -41,7 +41,6 @@ router.post('/signin', validate(signinVld), async (req, res) => {
 			return resp({ status: 409, message: 'password incorrect', data: null, req, res })
 		}
 		const token = createNewSession({ user: fetchedAuth.user, req })
-		log({ level: 'debug', label: 'auth', data: { fetchedAuth: fetchedAuth.user, token } })
 		return resp({ status: 200, data: { user: fetchedAuth.user, token }, req, res })
 	} catch (err) {
 		return errorHandler({ err, req, res })
