@@ -61,7 +61,7 @@ export const authenticate = (params) => {
 					return resp({ message: `token must be used in one device`, status: 401, data, req, res })
 				}
 				req.user = decoded.user
-
+				log({ level: 'debug', label: 'auth', data: { user: req.user } })
 				// Check roles-based access if roles is specified
 				if (params.roles && params.roles.length > 0) {
 					// Check if user has AT LEAST ONE matching role
