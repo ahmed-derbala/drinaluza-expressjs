@@ -14,7 +14,6 @@ export const authenticate = (params) => {
 			//check params
 			if (params == null) params = {}
 			if (params.tokenRequired == null) params.tokenRequired = true
-			//if (params.roles == null) params.roles = []
 			//search for token
 			let token = checkStringForContent(req.headers.token)
 			if (token == null) {
@@ -119,14 +118,10 @@ export const findOneAuthSrvc = async ({ match, select, populate }) => {
 }
 
 export const createAuthSrvc = async ({ user, password }) => {
-	try {
-		const salt = bcrypt.genSaltSync(config.auth.saltRounds)
-		password = bcrypt.hashSync(password, salt)
-		const createdAuth = await createAuthRepo({ user, password })
-		return createdAuth
-	} catch (err) {
-		errorHandler({ err })
-	}
+	const salt = bcrypt.genSaltSync(config.auth.saltRounds)
+	password = bcrypt.hashSync(password, salt)
+	const createdAuth = await createAuthRepo({ user, password })
+	return createdAuth
 }
 
 export const destroyUserSessionsSrvc = async ({ user }) => {

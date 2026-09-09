@@ -5,12 +5,7 @@ import { log } from '../log/index.js'
 import { SessionModel } from '../sessions/sessions.schema.js'
 
 export const createAuthRepo = async ({ user, password }) => {
-	try {
-		const createdAuth = await AuthModel.create({ user, password })
-		return createdAuth
-	} catch (err) {
-		errorHandler({ err })
-	}
+	return AuthModel.create({ user, password })
 }
 export const findOneAuthRepo = async ({ match, select, populate }) => {
 	let fetchedAuth = await AuthModel.findOne({ 'user.slug': match.slug }).select(select).populate(populate).lean()

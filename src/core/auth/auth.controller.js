@@ -29,19 +29,20 @@ router.post('/signup', validate(signupVld), async (req, res) => {
 router.post('/signin', validate(signinVld), async (req, res) => {
 	try {
 		const { slug, password } = req.body
-		const fecthedAuth = await findOneAuthSrvc({ match: { slug }, select: '+password' })
-		//const fecthedAuth = await findOneAuthSrvc({ match: { slug }, select: '+password', populate: { path: 'user._id', select: '+contact +address +location' } })
+		const fetchedAuth = await findOneAuthSrvc({ match: { slug }, select: '+password' })
+		//const fetchedAuth = await findOneAuthSrvc({ match: { slug }, select: '+password', populate: { path: 'user._id', select: '+contact +address +location' } })
 
-		if (!fecthedAuth) {
+		if (!fetchedAuth) {
 			return resp({ status: 404, data: null, message: `no user found with slug=${slug}`, req, res })
 		}
-		const passwordCompare = bcrypt.compareSync(password, fecthedAuth.password)
+		const passwordCompare = bcrypt.compareSync(password, fetchedAuth.password)
 		if (passwordCompare == false) {
 			if (config.NODE_ENV === 'production') return resp({ status: 409, message: 'loginId or password is not correct', data: null, req, res })
 			return resp({ status: 409, message: 'password incorrect', data: null, req, res })
 		}
-		const token = createNewSession({ user: fecthedAuth.user, req })
-		return resp({ status: 200, data: { user: fecthedAuth.user, token }, req, res })
+		const token = createNewSession({ user: fetchedAuth.user, req })
+		log({ level: 'debug', label: 'auth', data: { fetchedAuth: fetchedAuth.user, token } })
+		return resp({ status: 200, data: { user: fetchedAuth.user, token }, req, res })
 	} catch (err) {
 		return errorHandler({ err, req, res })
 	}
