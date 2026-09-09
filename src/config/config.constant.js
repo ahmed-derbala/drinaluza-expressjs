@@ -45,7 +45,7 @@ const security = {
 			crossOriginResourcePolicy: false
 		}
 	},
-	allowScriptsInProdution: false,
+	allowScriptsInProdution: true,
 	delay: {
 		isActive: false,
 		ms: 5000
