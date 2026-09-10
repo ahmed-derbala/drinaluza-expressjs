@@ -5,7 +5,7 @@ import { MongoClient } from 'mongodb'
 import { spawn } from 'node:child_process'
 import { config } from '#config'
 
-if (process.env.NODE_ENV === 'production' && !config.security.allowScriptsInProdution) {
+if (config.node.env === 'production' && !config.security.allowScriptsInProdution) {
 	console.error('❌ Refusing to run: destructive script in production')
 	process.exit(1)
 }

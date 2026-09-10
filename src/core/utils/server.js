@@ -6,6 +6,7 @@ import cluster from 'cluster'
 import { initSocketio } from '../socketio/index.js'
 
 app.set('port', config.backend.port)
+const logData = { app: config.app, node: config.node, backend: config.backend }
 
 const server = http.createServer(app)
 initSocketio(server)
@@ -62,9 +63,10 @@ export const startServer = () => {
 function listenServer(mode) {
 	server.listen(config.backend.port, () => {
 		log({
-			message: `${config.app.name} ${config.app.version} ${config.backend.url} NODE_ENV=${config.NODE_ENV} [${mode}]`,
+			message: `${config.app.name} ${config.app.version} [${mode}]`,
 			level: 'debug',
-			label: 'server'
+			label: 'server',
+			data: logData
 		})
 	})
 }

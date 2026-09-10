@@ -7,38 +7,38 @@ import { errorHandler } from '#error'
 mongoose.connection
 	.on('error', (err) => {
 		log({
-			message: `db-conn-error | ${config.db.mongodb.name} | ${config.db.mongodb.host}:${config.db.mongodb.port}`,
+			message: `mongodb-connection-error | ${config.db.mongodb.name} | ${config.db.mongodb.host}:${config.db.mongodb.port}`,
 			level: 'error',
-			label: 'db-mongo',
+			label: 'mongodb',
 			data: err
 		})
 	})
 	.on('close', () => {
-		log({ label: 'db-mongo', message: 'db-conn-close', level: config.log.levels.names.verbose })
+		log({ label: 'mongodb', message: 'mongodb-connection-close', level: config.log.levels.names.verbose })
 	})
 	.on('disconnected', () => {
 		log({
-			message: 'db-conn-disconnected',
+			message: 'mongodb-connection-disconnected',
 			level: config.log.levels.names.warn,
-			label: 'db-mongo'
+			label: 'mongodb'
 		})
 	})
 	.on('reconnected', () => {
 		log({
-			message: 'db-conn-reconnected',
+			message: 'mongodb-connection-reconnected',
 			level: config.log.levels.names.verbose,
-			label: 'db-mongo'
+			label: 'mongodb'
 		})
 	})
 	.on('fullsetup', () => {
 		log({
-			message: 'db-conn-fullsetup',
+			message: 'mongodb-connection-fullsetup',
 			level: config.log.levels.names.verbose,
-			label: 'db-mongo'
+			label: 'mongodb'
 		})
 	})
 	.on('all', () => {
-		log({ message: 'db-conn-all', level: config.log.levels.names.verbose, label: 'db-mongo' })
+		log({ message: 'mongodb-connection-all', level: config.log.levels.names.verbose, label: 'mongodb' })
 	})
 
 export const connectMongodb = async () => {
@@ -51,16 +51,16 @@ export const connectMongodb = async () => {
 		log({
 			message: `mongodb-connecting`,
 			level: 'debug',
-			label: 'db-mongo',
+			label: 'mongodb',
 			data: config.db.mongodb
 		})
 
 		await mongoose.connect(config.db.mongodb.uri, config.db.mongodb.options)
 
 		log({
-			message: `db-conn-success | ${config.db.mongodb.uri}`,
+			message: `mongodb-connection-success | ${config.db.mongodb.uri}`,
 			level: 'debug',
-			label: 'db-mongo'
+			label: 'mongodb'
 		})
 	} catch (err) {
 		errorHandler({ err })
@@ -78,7 +78,7 @@ export const disconnectMongodb = async () => {
 		log({
 			message: 'mongodb-disconnecting',
 			level: 'debug',
-			label: 'db-mongo'
+			label: 'mongodb'
 		})
 
 		await mongoose.disconnect()
@@ -86,7 +86,7 @@ export const disconnectMongodb = async () => {
 		log({
 			message: 'db-disc-success',
 			level: 'debug',
-			label: 'db-mongo'
+			label: 'mongodb'
 		})
 	} catch (err) {
 		errorHandler({ err })

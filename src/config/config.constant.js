@@ -14,14 +14,13 @@ const apiLimiter = rateLimit({
 
 const node = { env: process.env.NODE_ENV || 'local', version: process.version }
 
-const backend = {
+let backend = {
 	port: process.env.PORT || 5001,
 	host: getLocalIp(),
-	protocol: 'http://',
-	get url() {
-		return process.env.BACKEND_URL || `${this.protocol}${this.host}:${this.port}`
-	}
+	protocol: 'http://'
 }
+const backendUrl = process.env.BACKEND_URL || `${backend.protocol}${backend.host}:${backend.port}`
+backend.url = backendUrl
 /**
  * app
  */
