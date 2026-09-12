@@ -2,6 +2,7 @@
 export * from './enum.js'
 export * from './filters.js'
 export * from './ip.js'
+export * from './pickKeysFromObject.js'
 export * from './randoms.js'
 export * from './removeEmptyKeys.js'
 export * from './resp.js'

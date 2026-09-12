@@ -1,31 +1,24 @@
-import { log } from '../log/index.js'
-import { errorHandler } from '../error/index.js'
-import { inRange } from './randoms.js'
+import { errorHandler } from '#error'
 
-export const resp = ({ level, status, label, message, req, viewer = { canEdit: false, canCreate: false, canDelete: false }, data, res }) => {
+export const resp = ({ status, message, req, res, viewer = { canEdit: false, canCreate: false, canDelete: false }, data }) => {
 	if (!res) return errorHandler({ label: 'res_object_null', req, res, err: 'res is required' })
-	if (!level) {
-		if (inRange(status, 200, 399)) level = 'verbose'
-		if (inRange(status, 400, 499)) level = 'warn'
-		if (inRange(status, 500, 599)) level = 'error'
+
+	if (typeof status === 'number') {
+		status = {
+			code: status,
+			message
+		}
 	}
 	if (data) {
 		delete data.password //just for safety
 		if (data.user) delete data.user.password //just for safety
 		if (data.auth) delete data.auth.password
 	}
-	/*log({
-		level,
-		label,
-		message
-	})*/
-	return res.status(status).json({
-		level,
+
+	return res.status(status.code).json({
 		status,
-		label,
-		message,
+		tid: req.headers.tid,
 		viewer,
 		data
-		//req: {  headers: { tid: req.headers.tid } }
 	})
 }

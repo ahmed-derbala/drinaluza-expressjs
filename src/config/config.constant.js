@@ -195,8 +195,8 @@ export const config = {
 	},
 	db,
 	log: {
-		kind: 'winston', //winston, simple
-		reqDefaultLog: 'morgan_log',
+		kind: 'simple', //winston, simple
+		reqDefaultLog: 'req_default_log',
 		isActive: true,
 		winston: {
 			createLoggerOptions: {
@@ -229,15 +229,30 @@ export const config = {
 		label: {
 			isActive: true
 		},
-		req: {
-			isActive: true,
+		request: {
+			isEnabled: true,
 			headers: {
-				isActive: true,
+				isEnabled: false,
 				tid: {
-					isActive: true
+					isEnabled: false
 				},
 				token: {
-					isActive: false
+					isEnabled: false
+				}
+			},
+			user: {
+				isEnabled: true
+			},
+			useragent: {
+				isEnabled: false
+			}
+		},
+		response: {
+			isEnabled: true,
+			body: {
+				isEnabled: true,
+				data: {
+					isEnabled: false
 				}
 			}
 		},
@@ -253,13 +268,6 @@ export const config = {
 		},
 		data: {
 			isActive: true
-		},
-		morgan: {
-			isActive: true,
-			//more infos: https://www.npmjs.com/package/morgan
-			tokenString: `{"status":":status","method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip"}`,
-			//tokenString: `{"status":":status","method":":method", "originalUrl":":originalUrl", "user"::user ,"body"::body, "ip":":ip", "headers"::headers ,"responseTime":":response-time","browser":":browser", "os":":os", "platform":":platform" ,"origin":":origin", "isBot":":isBot", "referrer":":referrer", "user-agent":":user-agent"}`,
-			hiddenBodyFields: ['password', 'user.password'] //[] for none, display these keys as *** in terminal
 		}
 	},
 	pagination: {

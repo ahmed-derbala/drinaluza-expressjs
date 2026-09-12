@@ -1,62 +1,37 @@
-import clc from 'cli-color'
-import { config } from '#config'
-
-const THEME = {
-	error: { primary: clc.red.bold, bg: clc.bgRed.white.bold, symbol: '✖' },
-	warn: { primary: clc.yellow, bg: clc.bgYellow.black, symbol: '⚠' },
-	info: { primary: clc.cyan, bg: clc.bgCyan.black, symbol: 'ℹ' },
-	verbose: { primary: clc.magenta, bg: clc.bgMagenta.black, symbol: '💬' },
-	debug: { primary: clc.blackBright, bg: clc.bgWhite.black, symbol: '⚙' },
-	default: { primary: clc.blue, bg: clc.bgBlue.white, symbol: '•' }
+const LOG_COLORS = {
+	error: '\x1b[30m\x1b[41m', // black text, red BG
+	warn: '\x1b[30m\x1b[43m', // black text, yellow BG
+	info: '\x1b[30m\x1b[44m', // black text, blue BG
+	verbose: '\x1b[30m\x1b[42m', // black text, green BG
+	debug: '\x1b[37m', // white text
+	silly: '\x1b[32m' // green text
 }
 
-const stringify = (val) => {
-	if (!val || (typeof val === 'object' && Object.keys(val).length === 0)) return null
-	const str = typeof val === 'string' ? val : JSON.stringify(val, null, 2)
-	return str
-		.split('\n')
-		.map((line) => `  ${line}`)
-		.join('\n')
-}
+const RESET = '\x1b[0m'
+const DIM = '\x1b[2m'
 
-/**
- * Helper to extract a display name from a user object or string
- */
-const formatUser = (user) => {
-	if (!user) return null
-	if (typeof user === 'string') return user
-	// Try to find a common identifier in the user object
-	return user.email || user.id || user.username || 'unknown-user'
-}
+export const simplelogger = ({ level = 'info', label, error, message, request, response, data }) => {
+	console.log()
+	const color = LOG_COLORS[level] || RESET
+	const timestamp = new Date().toISOString()
 
-export const simplelogger = ({ level, status, label, error, message, req, data, user }) => {
-	if (!config.log.isActive || !config.log.levels.allowed.includes(level)) return
+	// Header: [TIMESTAMP] LEVEL (LABEL)
+	const levelBadge = `${color} ${level.toUpperCase()} ${RESET}`
+	const labelText = label ? `${DIM}[${label}]${RESET} ` : ''
 
-	const style = THEME[level] || THEME.default
-	const now = new Date()
-	const timestamp = clc.blackBright(`${now.toLocaleDateString()} ${now.toLocaleTimeString()}`)
+	console.log(`${DIM}${timestamp}${RESET} ${levelBadge} ${labelText}${message || ''}`)
 
-	// 1. Prepare Header Components
-	const badge = style.bg(` ${level.toUpperCase()} `)
-	const statusTag = status ? clc.blackBright(` [${status}]`) : ''
-	const tag = label ? clc.blackBright(`[${label}]`) : ''
-
-	// User Component: Displayed as @username in a distinct color
-	const userIdentifier = formatUser(user)
-	const userTag = userIdentifier ? clc.magentaBright(` @${userIdentifier} `) : ''
-
-	// 2. Build the Header Line
-	const header = `${style.symbol} ${badge} ${statusTag} ${timestamp}${userTag} ${tag}`
-
-	// 3. Build the Body (Message, Error, Request, Data)
-	const bodyParts = [message, error, req, data]
-		.map(stringify)
-		.filter(Boolean)
-		.join(`\n${clc.blackBright('  ---')}\n`)
-
-	// 4. Final Output
-	console.log(`\n${header}`)
-	if (bodyParts) {
-		console.log(bodyParts)
+	// Formatted detail sections
+	if (error) {
+		console.error(`  ${LOG_COLORS.error} ERROR ${RESET}`, error.stack || error)
+	}
+	if (request) {
+		console.log(`  ${DIM}Request:${RESET}`, request)
+	}
+	if (response) {
+		console.log(`  ${DIM}Response:${RESET}`, response)
+	}
+	if (data) {
+		console.log(`  ${DIM}Data:${RESET}`, data)
 	}
 }

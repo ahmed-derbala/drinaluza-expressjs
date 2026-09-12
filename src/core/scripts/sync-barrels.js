@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { log } from '#log'
+import { log } from '#log/log.service.js'
 
 export function syncBarrels(rootDir = path.resolve('src')) {
 	const packageJsonPath = path.resolve('package.json')

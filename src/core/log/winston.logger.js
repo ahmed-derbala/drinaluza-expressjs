@@ -13,6 +13,7 @@ function getLogger() {
 }
 
 export const winstonLogger = (logObject) => {
+	if (!logObject.message) logObject.message = 'no_message'
 	const logger = getLogger()
 	logger[logObject.level](logObject)
 }

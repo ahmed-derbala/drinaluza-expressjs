@@ -5,7 +5,6 @@ import { express as useragent } from 'express-useragent'
 import expressWinston from 'express-winston'
 import winston from 'winston'
 import * as loaders from './loaders.js'
-import morganLogger from '../log/morgan.js'
 import { config } from '#config'
 import compression from 'compression'
 import cors from 'cors'
@@ -16,7 +15,8 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerSpec from '../swagger/swagger.js'
 import { resp } from '../helpers/resp.js'
 import expressLayouts from 'express-ejs-layouts'
-import { log } from '#log'
+import { log, formatReqRes } from '#log'
+import { pickKeysFromObject } from '#helpers'
 
 let app = express()
 app.set('trust proxy', 1) // Tell Express to trust the proxy header
@@ -42,7 +42,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.disable('x-powered-by')
 app.disable('etag')
-if (config.log.morgan.isActive) app.use(morganLogger())
+app.use(formatReqRes())
+
 //save logs to db
 app.use(
 	expressWinston.logger({
