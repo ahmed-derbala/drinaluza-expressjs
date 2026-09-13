@@ -13,14 +13,14 @@ export const initSocketio = async (server) => {
 
 	publicNs = io.of('/public')
 	publicNs.on('connection', (socket) => {
-		const publicClients = publicNs.sockets.size
-		log({ level: 'info', label: 'socketio_public_connection', message: `socket connected`, data: { socketId: socket.id, publicClients } })
+		log({ level: 'info', label: 'socketio_public_connection', message: `socket connected`, data: { socketId: socket.id, publicClients: publicNs.sockets.size } })
 
 		socket.on('disconnect', (reason) => {
-			log({ level: 'warn', label: 'socketio_public_disconnect', message: `socket disconnected`, data: { socketId: socket.id, publicClients, reason } })
+			log({ level: 'warn', label: 'socketio_public_disconnect', message: `socket disconnected`, data: { socketId: socket.id, publicClients: publicNs.sockets.size, reason } })
 		})
+
 		socket.on('error', (error) => {
-			log({ level: 'error', label: 'socketio_public_error', message: `socket error`, data: { socketId: socket.id, publicClients, error }, error })
+			log({ level: 'error', label: 'socketio_public_error', message: `socket error`, data: { socketId: socket.id, publicClients: publicNs.sockets.size, error }, error })
 		})
 	})
 
@@ -28,16 +28,18 @@ export const initSocketio = async (server) => {
 	privateNs.use(authenticateSocketio())
 	privateNs.on('connection', (socket) => {
 		// const clients = io.engine.clientsCount
-		const privateClients = privateNs.sockets.size
 		const connSlug = socket.user.slug
 		const room = `${USER_NOTIFICATION_ROOM_PREFIX}${connSlug}`
 		socket.join(room)
-		log({ level: 'info', label: 'socketio_private_connection', message: `socket joined room`, data: { socketId: socket.id, privateClients, room } })
+
+		log({ level: 'info', label: 'socketio_private_connection', message: `socket joined room`, data: { socketId: socket.id, privateClients: privateNs.sockets.size, room } })
+
 		socket.on('disconnect', (reason) => {
-			log({ level: 'warn', label: 'socketio_private_disconnect', message: `socket disconnected`, data: { socketId: socket.id, privateClients, reason } })
+			log({ level: 'warn', label: 'socketio_private_disconnect', message: `socket disconnected`, data: { socketId: socket.id, privateClients: privateNs.sockets.size, reason } })
 		})
+
 		socket.on('error', (error) => {
-			log({ level: 'error', label: 'socketio_private_error', message: `socket error`, data: { socketId: socket.id, privateClients, error }, error })
+			log({ level: 'error', label: 'socketio_private_error', message: `socket error`, data: { socketId: socket.id, privateClients: privateNs.sockets.size, error }, error })
 		})
 	})
 
@@ -58,5 +60,5 @@ export const getSocket = () => {
 	if (!io) {
 		throw new Error('Socket.io not initialized!')
 	}
-	return { io }
+	return { io, clientsCount: io.engine.clientsCount }
 }
