@@ -14,13 +14,13 @@ export const initSocketio = async (server) => {
 	publicNs = io.of('/public')
 	publicNs.on('connection', (socket) => {
 		const publicClients = publicNs.sockets.size
-		log({ level: 'info', label: 'socketio_public_connection', message: `socketId=${socket.id} connected | publicClients=${publicClients}` })
+		log({ level: 'info', label: 'socketio_public_connection', message: `socket connected`, data: { socketId: socket.id, publicClients } })
 
 		socket.on('disconnect', (reason) => {
-			log({ level: 'warn', label: 'socketio_public_disconnect', message: `socketId=${socket.id} | ${reason} | publicClients=${publicClients}` })
+			log({ level: 'warn', label: 'socketio_public_disconnect', message: `socket disconnected`, data: { socketId: socket.id, publicClients, reason } })
 		})
 		socket.on('error', (error) => {
-			log({ level: 'error', label: 'socketio_public_error', message: `socketId=${socket.id} | ${error} | publicClients=${publicClients}` })
+			log({ level: 'error', label: 'socketio_public_error', message: `socket error`, data: { socketId: socket.id, publicClients, error }, error })
 		})
 	})
 
@@ -32,12 +32,12 @@ export const initSocketio = async (server) => {
 		const connSlug = socket.user.slug
 		const room = `${USER_NOTIFICATION_ROOM_PREFIX}${connSlug}`
 		socket.join(room)
-		log({ level: 'info', label: 'socketio_private_connection', message: `socketId=${socket.id} joined room=${room} | privateClients=${privateClients}` })
+		log({ level: 'info', label: 'socketio_private_connection', message: `socket joined room`, data: { socketId: socket.id, privateClients, room } })
 		socket.on('disconnect', (reason) => {
-			log({ level: 'warn', label: 'socketio_private_disconnect', message: `socketId=${socket.id} | ${reason} | privateClients=${privateClients}` })
+			log({ level: 'warn', label: 'socketio_private_disconnect', message: `socket disconnected`, data: { socketId: socket.id, privateClients, reason } })
 		})
 		socket.on('error', (error) => {
-			log({ level: 'error', label: 'socketio_private_error', message: `socketId=${socket.id} | ${error} | privateClients=${privateClients}` })
+			log({ level: 'error', label: 'socketio_private_error', message: `socket error`, data: { socketId: socket.id, privateClients, error }, error })
 		})
 	})
 

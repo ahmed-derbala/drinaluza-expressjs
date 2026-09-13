@@ -1,6 +1,6 @@
 import { config } from '#config'
-import { log } from '../log/index.js'
-import app from './app.js'
+import { log } from '#log'
+import { app } from '#app'
 import http from 'http'
 import cluster from 'cluster'
 import { initSocketio } from '../socketio/index.js'

@@ -37,7 +37,7 @@ router.post('/signin', validate(signinVld), async (req, res) => {
 		}
 		const passwordCompare = bcrypt.compareSync(password, fetchedAuth.password)
 		if (passwordCompare == false) {
-			if (config.NODE_ENV === 'production') return resp({ status: 409, message: 'loginId or password is not correct', data: null, req, res })
+			if (config.node.env === 'production') return resp({ status: 409, message: 'loginId or password is not correct', data: null, req, res })
 			return resp({ status: 409, message: 'password incorrect', data: null, req, res })
 		}
 		const token = createNewSession({ user: fetchedAuth.user, req })

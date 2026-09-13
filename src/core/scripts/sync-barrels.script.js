@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { log } from '#log/log.service.js'
+import { log } from '#log/log.module.js'
 
 export function syncBarrels(rootDir = path.resolve('src')) {
 	const packageJsonPath = path.resolve('package.json')
@@ -21,7 +21,8 @@ export function syncBarrels(rootDir = path.resolve('src')) {
 		createdBarrels: [],
 		recreatedBarrels: [],
 		skippedFolders: [],
-		addedImports: []
+		addedImports: [],
+		removedImports: []
 	}
 
 	function scan(dir) {
@@ -107,6 +108,23 @@ export function syncBarrels(rootDir = path.resolve('src')) {
 		}
 	}
 
+	// Remove obsolete entries pointing to missing files or folders
+	function pruneObsoleteImports() {
+		for (const [key, val] of Object.entries(pkg.imports)) {
+			const rawPath = getPathString(val)
+
+			// Normalize path (convert wildcard patterns to folder references for verification)
+			const targetPath = rawPath.replace(/\/\*\.js$/, '').replace(/\/\*$/, '')
+			const resolvedPath = path.resolve(targetPath)
+
+			if (!fs.existsSync(resolvedPath)) {
+				delete pkg.imports[key]
+				summary.removedImports.push(key)
+				packageModified = true
+			}
+		}
+	}
+
 	// Extract string target path even if value is an object
 	function getPathString(val) {
 		if (typeof val === 'string') return val
@@ -128,6 +146,9 @@ export function syncBarrels(rootDir = path.resolve('src')) {
 	if (fs.existsSync(rootDir)) {
 		scan(rootDir)
 	}
+
+	// Clean obsolete subpaths before sorting
+	pruneObsoleteImports()
 
 	// Always sort imports and check if order changed
 	if (pkg.imports && Object.keys(pkg.imports).length > 0) {
@@ -153,12 +174,13 @@ export function syncBarrels(rootDir = path.resolve('src')) {
 			`- Created barrels: ${summary.createdBarrels.length}`,
 			`- Recreated barrels: ${summary.recreatedBarrels.length}`,
 			`- Skipped folders: ${summary.skippedFolders.length}`,
-			`- Package imports added: ${summary.addedImports.length}`
+			`- Package imports added: ${summary.addedImports.length}`,
+			`- Package imports removed: ${summary.removedImports.length}`
 		].join('\n')
 	})
 }
 
 // Auto-run if executed directly via terminal / npm script
-if (process.argv[1] && process.argv[1].endsWith('sync-barrels.js')) {
+if (process.argv[1] && process.argv[1].endsWith('sync-barrels.script.js')) {
 	syncBarrels()
 }

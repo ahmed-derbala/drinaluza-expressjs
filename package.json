@@ -1,6 +1,6 @@
 {
   "name": "drinaluza-server",
-  "version": "1.6.21",
+  "version": "1.6.22",
   "main": "src/main.js",
   "description": "Drinaluza, business manager (backend server)",
   "author": "Ahmed Derbala <derbala.ahmed531992@gmail.com>",
@@ -20,6 +20,8 @@
     "#config/*": "./src/config/*.js",
     "#config": "./src/config/index.js",
     "#core/*": "./src/core/*",
+    "#app/*": "./src/core/app/*.js",
+    "#app": "./src/core/app/index.js",
     "#auth/*": "./src/core/auth/*.js",
     "#auth": "./src/core/auth/index.js",
     "#error/*": "./src/core/error/*",
@@ -43,6 +45,8 @@
     "#schemas": "./src/core/schemas/index.js",
     "#scripts/*": "./src/core/scripts/*",
     "#scripts": "./src/core/scripts/index.js",
+    "#server/*": "./src/core/server/*.js",
+    "#server": "./src/core/server/index.js",
     "#sessions/*": "./src/core/sessions/*",
     "#sessions": "./src/core/sessions/index.js",
     "#shared/*": "./src/core/shared/*",
@@ -51,10 +55,7 @@
     "#json": "./src/core/shared/json/index.js",
     "#socketio/*": "./src/core/socketio/*",
     "#socketio": "./src/core/socketio/index.js",
-    "#swagger/*": "./src/core/swagger/*",
-    "#swagger": "./src/core/swagger/index.js",
-    "#utils/*": "./src/core/utils/*",
-    "#utils": "./src/core/utils/index.js",
+    "#validation/*": "./src/core/validation/*.js",
     "#validation": "./src/core/validation/index.js",
     "#features/*": "./src/features/*",
     "#businesses/*": "./src/features/businesses/*",
@@ -99,8 +100,8 @@
     "build:local": "npm run clean",
     "bootstrap:local": "npm run env:reset && npm run env:local && npm run build:local && npm run dev",
     "bootstrap:prod": "npm run env:reset && npm run env:prod-reset && npm run build:prod",
-    "smenu": "npm run env:local && NODE_ENV=local node src/core/scripts/smenu.js",
-    "smenu:prod": "npm run env:prod-reset && NODE_ENV=production node src/core/scripts/smenu.js",
+    "smenu": "npm run env:local && NODE_ENV=local node src/core/scripts/smenu.script.js",
+    "smenu:prod": "npm run env:prod-reset && NODE_ENV=production node src/core/scripts/smenu.script.js",
     "start": "node src/main.js",
     "start:prod": "NODE_ENV=production node src/main.js",
     "start:prod-pm2": "npm run i:prod && NODE_ENV=production pm2 start --name drinaluza src/main.js -i max --node-args='--max-old-space-size=8192' -f",
@@ -129,7 +130,7 @@
     "update": "npm i -g npm-check-updates && npm run ncu && npm run clean",
     "ncu": "npm-check-updates --peer -u",
     "ver": "npm version patch --no-git-tag-version",
-    "sync:barrels": "npm run env:local && NODE_ENV=local node src/core/scripts/sync-barrels.js"
+    "sync:barrels": "npm run env:local && NODE_ENV=local node src/core/scripts/sync-barrels.script.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -141,7 +142,6 @@
     "dotenv": "^17.4.2",
     "expo-server-sdk": "^7.2.0",
     "express": "^5.2.1",
-    "express-ejs-layouts": "^2.5.1",
     "express-rate-limit": "^8.7.0",
     "express-useragent": "^2.2.3",
     "express-validator": "^7.3.2",
@@ -155,13 +155,7 @@
     "multer": "^2.3.0",
     "prettier": "^3.9.6",
     "socket.io": "^4.8.3",
-    "swagger-ui-express": "^5.0.1",
     "winston": "^3.19.0",
     "winston-mongodb": "^7.0.1"
-  },
-  "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.10.0",
-    "globals": "^17.12.0"
   }
 }

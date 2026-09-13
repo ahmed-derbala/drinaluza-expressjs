@@ -1,2 +1,2 @@
 // BARREL
-export * from './error.service.js'
+export * from './error.module.js'

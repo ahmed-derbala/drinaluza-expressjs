@@ -1,40 +1,33 @@
-/* eslint-disable no-undef */
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import { express as useragent } from 'express-useragent'
 import expressWinston from 'express-winston'
 import winston from 'winston'
-import * as loaders from './loaders.js'
+import { loadController } from './app.helper.js'
 import { config } from '#config'
 import compression from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
-import { tidHandler } from '../helpers/tid.js'
 import { errorHandler } from '../error/index.js'
-import swaggerUi from 'swagger-ui-express'
-import swaggerSpec from '../swagger/swagger.js'
-import { resp } from '../helpers/resp.js'
-import expressLayouts from 'express-ejs-layouts'
-import { log, formatReqRes } from '#log'
-import { pickKeysFromObject } from '#helpers'
+import { log } from '#log'
+import { pickKeysFromObject, tidHandler, resp } from '#helpers'
+import { formatReqRes } from './app.middleware.js'
 
-let app = express()
+export let app = express()
 app.set('trust proxy', 1) // Tell Express to trust the proxy header
-if (config.NODE_ENV !== 'production' && config.security.delay.isActive) {
+if (config.node.env !== 'production' && config.security.delay.isEnabled) {
 	log({ level: 'warn', message: `Delay middleware is active. All requests will be delayed by ${config.security.delay.ms} ms.` })
 	// Delay middleware factory
 	const delay = (ms) => (req, res, next) => setTimeout(next, ms)
 	// Apply to ALL routes (e.g., 2000 ms / 2 seconds)
 	app.use(delay(config.security.delay.ms))
 }
-//serve /public folder with express static middleware
 //make the public folder accessible at /public
-// i got 404 error when i try to access /public
 app.use('/public', express.static(`${process.cwd()}/public`))
 app.use(cors(config.app.corsOptions))
 app.use(config.security.apiLimiter)
 app.use(compression())
-if (config.security.helmet.isActive) app.use(helmet(config.security.helmet.options))
+if (config.security.helmet.isEnabled) app.use(helmet(config.security.helmet.options))
 app.use(tidHandler)
 app.use(useragent())
 app.use(express.json())
@@ -51,27 +44,26 @@ app.use(
 		expressFormat: true
 	})
 )
-app.use(config.docs.swagger.endpoint, swaggerUi.serve, swaggerUi.setup(swaggerSpec.mainDef))
-if (config.app.views) {
-	app.use(expressLayouts)
-	app.set('layout', './index/views/layout', { author: 'app' })
-	app.set('views', `${process.cwd()}/src/features`)
-	app.set('view engine', 'ejs')
-	//app.use(express.static(`public`))
-	loaders.load({ app, rootDir: '/features', urlPrefix: '/', fileSuffix: '.render.js' }) //load views
-}
-await loaders.load({ app, rootDir: '/features', urlPrefix: '/api/', fileSuffix: '.controller.js' }) //load api
-await loaders.load({ app, rootDir: '/features/index', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load "/"
-await loaders.load({ app, rootDir: '/features/businesses/restaurants', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
-await loaders.load({ app, rootDir: '/core/auth', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
-await loaders.load({ app, rootDir: '/core/health', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false })
-await loaders.load({ app, rootDir: '/core/notifications', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
-await loaders.load({ app, rootDir: '/core/sessions', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
-await loaders.load({ app, rootDir: '/core/files', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
+
+await loadController({ app, rootDir: '/features', urlPrefix: '/api/', fileSuffix: '.controller.js' }) //load api
+await loadController({ app, rootDir: '/features/index', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false }) //load "/"
+await loadController({ app, rootDir: '/features/businesses/restaurants', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
+await loadController({ app, rootDir: '/core/auth', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false }) //load auth
+await loadController({ app, rootDir: '/core/health', urlPrefix: '/', fileSuffix: '.controller.js', hasSubDir: false })
+await loadController({ app, rootDir: '/core/notifications', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
+await loadController({ app, rootDir: '/core/sessions', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
+await loadController({ app, rootDir: '/core/files', urlPrefix: '/api/', fileSuffix: '.controller.js', hasSubDir: false })
 
 //when no api route matched
 app.use((req, res, next) => {
-	return resp({ status: 404, label: 'route_not_found', message: `${req.method} ${req.originalUrl} does not exist`, data: null, req, res })
+	let { method, originalUrl } = req
+	return resp({
+		status: 404,
+		label: 'route_not_found',
+		message: `${method} ${originalUrl} does not exist`,
+		req,
+		res
+	})
 })
 
 /**
@@ -90,4 +82,4 @@ app.use((err, req, res, next) => {
 	}
 	return res.status(err.status || 500).json(err)
 })
-export default app
+//export default app

@@ -31,7 +31,7 @@ async function startMenu() {
     • Press CTRL+C to quit.
     `)
 		let message = 'Select a script to run:'
-		if (config.NODE_ENV === 'production') message = '***** RUNNING ON PRODUCTION ***** \n Select a script to run:'
+		if (config.node.env === 'production') message = '***** RUNNING ON PRODUCTION ***** \n Select a script to run:'
 
 		const { selectedFile } = await inquirer.prompt([
 			{

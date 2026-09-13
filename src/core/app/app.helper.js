@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
 import fs from 'fs'
-import { log } from '../log/index.js'
+import { log } from '#log'
 import path from 'path'
 /**
  *
@@ -8,7 +7,7 @@ import path from 'path'
  * @param {string} urlPrefix starts with / and ends with /
  * @param {string} filesSuffix starts with . and ends with .extension
  */
-export const load = async ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }) => {
+export const loadController = async ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = true }) => {
 	let endpoint_root,
 		files,
 		loadedFilesCount = 0
@@ -50,32 +49,4 @@ export const load = async ({ app, rootDir, urlPrefix, fileSuffix, hasSubDir = tr
 		}
 	}
 	log({ label: 'loader', level: 'debug', message: `${loadedFilesCount} ${fileSuffix} routes loaded from ${rootDir}` })
-}
-
-/**
- * require multiple files based on file name suffix
- * @param {*} param0
- */
-export const batchRequire = async ({ fileSuffix, rootDir, params, message }) => {
-	let loadedFilesCount = 0,
-		files
-	let directories = fs.readdirSync(`${process.cwd()}/src${rootDir}/`)
-	for (const dir of directories) {
-		files = fs.readdirSync(`${process.cwd()}/src${rootDir}/${dir}`)
-		if (files.length > 0) {
-			for (const file of files) {
-				if (file.includes(fileSuffix)) {
-					loadedFilesCount++
-					if (params) {
-						;(await import(`${process.cwd()}/src${rootDir}/${dir}/${file}`)).default(params)
-					} else {
-						await import(`${process.cwd()}/src${rootDir}/${dir}/${file}`)
-					}
-				}
-			}
-		}
-	}
-
-	if (!message) message = `${loadedFilesCount} ${fileSuffix} files loaded`
-	log({ label: 'loader', level: 'debug', message })
 }

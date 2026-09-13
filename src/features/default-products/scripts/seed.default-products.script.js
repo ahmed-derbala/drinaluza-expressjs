@@ -222,7 +222,7 @@ const processScript = async () => {
 
 export async function seedDefaultProducts() {
 	try {
-		if (!config.security.allowScriptsInProdution && config.NODE_ENV === 'production') {
+		if (!config.security.allowScriptsInProdution && config.node.env === 'production') {
 			throw new Error('script is not allowed to run in production environment')
 		}
 		await connectMongodb()

@@ -39,26 +39,18 @@ const security = {
 		credentials: true
 	},
 	helmet: {
-		isActive: false,
+		isEnabled: true,
 		options: {
 			crossOriginResourcePolicy: false
 		}
 	},
 	allowScriptsInProdution: true,
 	delay: {
-		isActive: false,
+		isEnabled: false,
 		ms: 5000
 	}
 }
-const docs = {
-	swagger: {
-		endpoint: '/swagger',
-		get url() {
-			return `${backend.url}${this.endpoint}`
-		}
-	}
-}
-const views = false
+
 const performance = {
 	cluster: 0, //os.cpus().length,//a number, 0 to disable
 	responseTimeAlert: 20000 //time in ms before considering a request timeout
@@ -88,7 +80,6 @@ if (uri) {
 let db = {
 	primary: 'mongodb',
 	mongodb: {
-		isActive: true,
 		host,
 		port,
 		name: dbName,
@@ -195,9 +186,9 @@ export const config = {
 	},
 	db,
 	log: {
-		kind: 'simple', //winston, simple
+		kind: 'winston', //winston, simple
 		reqDefaultLog: 'req_default_log',
-		isActive: true,
+		isEnabled: true,
 		winston: {
 			createLoggerOptions: {
 				transports: [
@@ -213,7 +204,7 @@ export const config = {
 			transportsOptions
 		},
 		levels: {
-			isActive: true, //level item
+			isEnabled: true, //level item
 			priority: levelsPriority,
 			colors: {
 				error: 'black redBG',
@@ -227,7 +218,7 @@ export const config = {
 			allowed: [levelsNames.error, levelsNames.warn, levelsNames.info, levelsNames.verbose, levelsNames.debug, levelsNames.silly]
 		},
 		label: {
-			isActive: true
+			isEnabled: true
 		},
 		request: {
 			isEnabled: true,
@@ -257,17 +248,17 @@ export const config = {
 			}
 		},
 		memory: {
-			isActive: true,
+			isEnabled: false,
 			unit: 1000000000 //1000000000=GB,1000000=MB
 		},
 		error: {
-			isActive: true
+			isEnabled: true
 		},
 		caller: {
-			isActive: true
+			isEnabled: false
 		},
 		data: {
-			isActive: true
+			isEnabled: true
 		}
 	},
 	pagination: {
@@ -289,8 +280,6 @@ export const config = {
 		}
 	},
 	security,
-	docs,
-	views,
 	performance,
 	language,
 	currency,

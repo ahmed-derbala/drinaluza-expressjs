@@ -1,16 +1,13 @@
-import { log } from './core/log/index.js'
-import { config } from '#config'
+import { log } from '#log'
 import { connectMongodb } from '#mongodb'
-import { startServer } from './core/utils/server.js'
+import { startServer } from './core/server/server.module.js'
 
 ;('use strict')
 
 async function bootstrap() {
 	try {
 		// 1. Connect to MongoDB FIRST
-		if (config.db.mongodb.isActive) {
-			await connectMongodb()
-		}
+		await connectMongodb()
 
 		// 2. Start HTTP Server & Cluster ONLY after DB connection is ready
 		startServer()

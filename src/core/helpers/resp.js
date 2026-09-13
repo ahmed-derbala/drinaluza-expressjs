@@ -1,4 +1,4 @@
-import { errorHandler } from '#error'
+import { errorHandler } from '#error/error.module.js'
 
 export const resp = ({ status, message, req, res, viewer = { canEdit: false, canCreate: false, canDelete: false }, data }) => {
 	if (!res) return errorHandler({ label: 'res_object_null', req, res, err: 'res is required' })

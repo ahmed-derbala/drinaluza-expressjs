@@ -23,7 +23,7 @@ export const authenticate = (params) => {
 				else if (req.query.token != null) token = req.query.token
 			}
 			if (token == null && params.tokenRequired == true) {
-				if (config.NODE_ENV === 'production') return res.status(401).json({ message: 'Please signin' })
+				if (config.node.env === 'production') return res.status(401).json({ message: 'Please signin' })
 				return resp({ message: 'No token found on headers, cookies or query', status: 401, data: null, req, res })
 			}
 			token = token?.replace('Bearer ', '')
@@ -56,7 +56,7 @@ export const authenticate = (params) => {
 				}
 				if (req.headers['user-agent'] !== decoded.req.headers['user-agent']) {
 					let data = null
-					if (config.NODE_ENV !== 'production') data = { reqUserAgent: req.headers['user-agent'], decodedUserAgent: decoded.req.headers['user-agent'] }
+					if (config.node.env !== 'production') data = { reqUserAgent: req.headers['user-agent'], decodedUserAgent: decoded.req.headers['user-agent'] }
 					return resp({ message: `token must be used in one device`, status: 401, data, req, res })
 				}
 				req.user = decoded.user

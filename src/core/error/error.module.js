@@ -1,8 +1,9 @@
-import { log, sanitizeReq } from '#log'
+import { log } from '#log/log.module.js'
+import { sanitizeReq } from '#helpers/sanitize.js'
 import multer from 'multer'
 const noLogStatuses = [401]
 
-export const errorHandler = ({ err, req, res, next, error, status = 500, label = 'internal_error', message = error, level = 'error' }) => {
+export const errorHandler = ({ err, req, res, next, error, status = 500, label = 'internal_error', message = error, level = 'error', caller }) => {
 	err = err || error || errors || req?.error || message || 'Unknown error'
 	let errObject = {}
 
@@ -47,10 +48,13 @@ export const errorHandler = ({ err, req, res, next, error, status = 500, label =
 		errObject.error = err
 	}
 
-	const stack = new Error().stack
-	if (stack) {
-		errObject.caller = stack.split('\n')[2].trim()
+	if (!caller) {
+		const stack = new Error().stack
+		if (stack) {
+			errObject.caller = stack.split('\n')[2].trim()
+		}
 	}
+
 	if (req) {
 		errObject.req = sanitizeReq(req)
 	}

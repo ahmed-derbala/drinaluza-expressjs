@@ -1,14 +1,2 @@
-import expressValidator from 'express-validator'
-import { errorHandler } from '../error/index.js'
-const { validationResult } = expressValidator
-
-export const validate = (validator) => {
-	return async (req, res, next) => {
-		await Promise.all(validator.map((schema) => schema.run(req)))
-		const errors = validationResult(req)
-		if (!errors.isEmpty()) {
-			return errorHandler({ err: errors, req, res, status: 422, label: 'validation_error', level: 'warn' })
-		}
-		return next()
-	}
-}
+// BARREL
+export * from './validation.module.js'

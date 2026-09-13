@@ -1,3 +1,3 @@
 // BARREL
-export * from './smenu.js'
-export * from './sync-barrels.js'
+export * from './smenu.script.js'
+export * from './sync-barrels.script.js'
